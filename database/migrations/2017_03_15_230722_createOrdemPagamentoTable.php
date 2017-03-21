@@ -19,7 +19,7 @@ class CreateOrdemPagamentoTable extends Migration
             $table->foreign('id_mensalidade')->references('id')->on('mensalidade')->onDelete('cascade');
             $table->integer('id_abertura_empresa')->unsigned()->nullable();
             $table->foreign('id_abertura_empresa')->references('id')->on('abertura_empresa')->onDelete('cascade');
-            $table->string('status')->default('pendente');
+            $table->string('status')->default('Pendente');
             $table->dateTime('vencimento');
             $table->double('valor');
             $table->string('tipo')->default('mensalidade');

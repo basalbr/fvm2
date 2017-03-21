@@ -11,13 +11,14 @@ namespace App\Models;
 use App\Validation\ValidatesAberturaEmpresa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class AberturaEmpresa extends Model
 {
     /**
      * Use Soft Deletes trait
      */
-    use SoftDeletes, ValidatesAberturaEmpresa;
+    use SoftDeletes, ValidatesRequests;
 
     /**
      * The database table used by the model.
@@ -54,6 +55,7 @@ class AberturaEmpresa extends Model
         'status',
     ];
 
+
     public function isSimplesNacional()
     {
         if ($this->cnaes()->where('id_tabela_simples_nacional', '=', null)->count()) {
@@ -63,21 +65,6 @@ class AberturaEmpresa extends Model
 
     }
 
-    /**
-     * Validate and save a new model and return the instance.
-     *
-     * @param  array $attributes
-     * @return AberturaEmpresa | bool
-     */
-    public static function create(array $attributes = [])
-    {
-        $model = new static($attributes);
-        if ($model->validate($attributes)) {
-            $model->save();
-            return $model;
-        }
-        return false;
-    }
 
     public function cnaes()
     {

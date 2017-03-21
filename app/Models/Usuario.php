@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Overrides\Notification\Notifiable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -12,16 +13,18 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class Usuario extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
+class Usuario extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
+{
 
     use Authenticatable,
         Authorizable,
         CanResetPassword,
+        Notifiable,
         SoftDeletes;
 
-    protected $rules = ['nome' => 'required', 'email' => 'required|unique:usuario,email','senha'=>'required|confirmed'];
+    protected $rules = ['nome' => 'required', 'email' => 'required|unique:usuario,email', 'senha' => 'required|confirmed'];
     protected $errors;
-    protected $niceNames = ['nome' => 'Nome', 'email' => 'E-mail', 'senha'=>'Senha','senha_confirmed'=>'Confirmar Senha'];
+    protected $niceNames = ['nome' => 'Nome', 'email' => 'E-mail', 'senha' => 'Senha', 'senha_confirmed' => 'Confirmar Senha'];
 
     /**
      * The database table used by the model.
@@ -44,12 +47,16 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
      */
     protected $hidden = ['senha', 'remember_token'];
 
-    
-      public function validate($data, $update = false) {
+    public static function admins(){
+        return static::where('admin','=', true)->get();
+    }
+
+    public function validate($data, $update = false)
+    {
         // make a new validator object
-        if($update){
+        if ($update) {
             $this->rules['senha'] = 'confirmed';
-            $this->rules['email'] = 'required|unique:usuario,email,'.$data['id'];
+            $this->rules['email'] = 'required|unique:usuario,email,' . $data['id'];
         }
         $v = Validator::make($data, $this->rules);
         $v->setAttributeNames($this->niceNames);
@@ -63,21 +70,30 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         // validation pass
         return true;
     }
-    
-     public function errors() {
+
+    public function errors()
+    {
         return $this->errors;
     }
-    
-    public function getAuthPassword() {
+
+    public function getAuthPassword()
+    {
         return $this->attributes['senha']; //change the 'passwordFieldinYourTable' with the name of your field in the table
     }
 
-    public function chamados() {
+    public function chamados()
+    {
         return $this->hasMany('App\Chamado', 'id_chamado');
     }
 
-    public function pessoas() {
+    public function pessoas()
+    {
         return $this->hasMany('App\Pessoa', 'id_usuario');
+    }
+
+    public function ordensPagamento()
+    {
+        return $this->hasMany('App\OrdemPagamento', 'id_usuario');
     }
 
 }

@@ -9,7 +9,9 @@
 namespace Observers;
 
 
+use App\Mail\AberturaEmpresaCreated;
 use App\Models\AberturaEmpresa;
+use App\Models\OrdemPagamento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use League\Flysystem\Exception;
@@ -27,22 +29,14 @@ class AberturaEmpresaObserver
         $usuario = $aberturaEmpresa->usuario;
         DB::beginTransaction();
         try {
-            //Creates Notification to the user
-            $notificacao = new Notificacao;
-            $notificacao->mensagem = 'Você abriu uma solicitação de abertura de empresa.';
-            $notificacao->id_usuario = $usuario->id;
-            $notificacao->save();
-
+            $this->createOrdemPagamento($aberturaEmpresa);
             //Sends e-mail to admin informing the event
             Mail::send('emails.nova-abertura-empresa-admin', ['nome' => $usuario->nome, 'id_empresa' => $this->id], function ($m) {
                 $m->from('site@webcontabilidade.com', 'WEBContabilidade');
                 $m->to('admin@webcontabilidade.com')->subject('Nova Solicitação de Abertura de Empresa');
             });
             //Sends e-mail to the user to confirm the event
-            Mail::send('emails.nova-abertura-empresa', ['nome' => $usuario->nome, 'id_empresa' => $this->id], function ($m) use ($usuario) {
-                $m->from('site@webcontabilidade.com', 'WEBContabilidade');
-                $m->to($usuario->email)->subject('Solicitação de Abertura de Empresa');
-            });
+            Mail::send(new AberturaEmpresaCreated($aberturaEmpresa));
 
             DB::commit();
         } catch (\Exception $ex) {
@@ -68,5 +62,20 @@ class AberturaEmpresaObserver
             DB::rollback();
         }
     }
+
+    private function createOrdemPagamento(AberturaEmpresa $aberturaEmpresa)
+    {
+        try {
+            $pagamento = new OrdemPagamento;
+            $pagamento->tipo = $aberturaEmpresa->getTable();
+            $pagamento->id_abertura_empresa = $aberturaEmpresa->id;
+            $pagamento->valor = WebContabilidade::getValorAberturaEmpresa();
+            $pagamento->vencimento = WebContabilidade::getVencimentoPagamentoAberturaEmpresa();
+            $pagamento->save();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
 
 }

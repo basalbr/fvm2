@@ -21,7 +21,7 @@ class CreatePessoaTable extends Migration
             $table->foreign('id_natureza_juridica')->references('id')->on('natureza_juridica')->onDelete('cascade');
             $table->integer('id_tipo_tributacao')->unsigned();
             $table->foreign('id_tipo_tributacao')->references('id')->on('tipo_tributacao')->onDelete('cascade');
-            $table->string('tipo');
+            $table->string('tipo')->default('J');
             $table->string('cpf_cnpj');
             $table->bigInteger('inscricao_estadual');
             $table->bigInteger('inscricao_municipal');

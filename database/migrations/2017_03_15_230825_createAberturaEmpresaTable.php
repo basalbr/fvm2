@@ -22,7 +22,7 @@ class CreateAberturaEmpresaTable extends Migration
             $table->string('nome_empresarial3');
             $table->string('enquadramento');
             $table->text('capital_social');
-            $table->integer('id_natureza_juridica')->unsigned();
+            $table->integer('id_natureza_juridica')->unsigned()->default(1);
             $table->foreign('id_natureza_juridica')->references('id')->on('natureza_juridica')->onDelete('cascade');
             $table->integer('id_tipo_tributacao')->unsigned();
             $table->foreign('id_tipo_tributacao')->references('id')->on('tipo_tributacao')->onDelete('cascade');
@@ -39,8 +39,8 @@ class CreateAberturaEmpresaTable extends Migration
             $table->integer('area_ocupada');
             $table->string('cpf_cnpj_proprietario');
             $table->text('cnae_duvida')->nullable();
-            $table->string('status_pagamento')->default('aguardando');
-            $table->string('status')->default('aberto');
+            $table->string('status_pagamento')->default('pendente');
+            $table->string('status')->default('novo');
             $table->timestamps();
             $table->softDeletes();
         });

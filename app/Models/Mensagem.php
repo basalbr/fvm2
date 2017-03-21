@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class ChamadoResposta extends Model {
+class Mensagem extends Model {
 
     use SoftDeletes;
 
@@ -21,7 +21,7 @@ class ChamadoResposta extends Model {
      *
      * @var string
      */
-    protected $table = 'chamado_resposta';
+    protected $table = 'mensagem';
 
     /**
      * The attributes that are mass assignable.

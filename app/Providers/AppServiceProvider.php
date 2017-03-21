@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\AberturaEmpresa;
+use App\Models\Mensagem;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use Observers\AberturaEmpresaObserver;
+use Observers\MensagemObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AberturaEmpresa::observe(AberturaEmpresaObserver::class);
+        AberturaEmpresa::observe(MensagemObserver::class);
+        Mensagem::observe(MensagemObserver::class);
+
+        /**
+         * Publica bootstrap da pasta vendor para public
+         */
+        $this->publishes([
+            __DIR__ . '/../../vendor/twbs/bootstrap/dist' => public_path('/vendor'),
+        ], 'public');
     }
 
     /**
@@ -25,6 +35,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(IdeHelperServiceProvider::class);
+            $this->app->bind('path.public', function () {
+                return '/public/';
+            });
+        } else {
+            $this->app->bind('path.public', function () {
+                return '/';
+            });
+        }
     }
 }
