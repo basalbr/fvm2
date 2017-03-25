@@ -1,6 +1,5 @@
 html, body {
-    height: 100%;
-    transform: translate3d(0, 0, 0) !important;
+    min-height: 100%;
 }
 
 .btn {
@@ -884,9 +883,7 @@ button, a, p {
 #nav-menu {
     z-index: 150;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
     height: 65px;
     /*background-color: rgba(33, 50, 199, 0.2);*/
 }
@@ -937,7 +934,7 @@ button, a, p {
     max-height: 100%;
 }
 
-#main-banner img {
+.background-img {
     min-width: 100%;
     min-height: 100%;
     z-index: 0;
@@ -992,7 +989,11 @@ button, a, p {
     position: relative;
 }
 
-.how-list li{
+.container{
+    margin-bottom: 25px;
+}
+
+.how-list li {
     list-style: none;
     position: relative;
     display: block;
@@ -1012,9 +1013,14 @@ button, a, p {
     border-radius: 50px;
     text-align: center;
     float: left;
+    transition: transform .8s ease-in-out;
 }
 
-.how-list li .text{
+.how-list li:hover .fa-4x {
+    transform: rotate(360deg);
+}
+
+.how-list li .text {
     display: inline-block;
     float: left;
     width: calc(100% - 90px);
@@ -1022,12 +1028,12 @@ button, a, p {
     color: #01579B;
 }
 
-.how-list li .text p{
+.how-list li .text p {
     font-size: 15px;
     font-family: 'Raleway', sans-serif;
 }
 
-.how-list li .text h2{
+.how-list li .text h2 {
     font-family: 'Raleway', sans-serif;
     font-size: 16px;
     text-transform: uppercase;
@@ -1035,7 +1041,7 @@ button, a, p {
     color: #48b0f7;
 }
 
-.section h1{
+.section h1 {
     font-family: 'Muli', sans-serif;
     text-align: center;
     padding: 25px;
@@ -1043,18 +1049,132 @@ button, a, p {
     color: #48b0f7;
 }
 
-.section h1:after{
-    background-image: linear-gradient(to left,rgba(0,0,0,0),rgba(0,0,0,.2),rgba(0,0,0,0))!important;
+.section h1:after {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) !important;
     height: 1px;
     border: 0;
 
 }
 
-#como-funciona img{
+#como-funciona img {
     max-height: 100%;
     display: table-cell;
 }
 
-.how-list .fa-circle{
+.how-list .fa-circle {
     margin-right: 15px;
+}
+
+#mensalidade {
+    min-height: 835px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#mensalidade .background-img {
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#mensalidade h1 {
+    color: #fff;
+}
+
+#mensalidade h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 65px;
+}
+
+#mensalidade form {
+    border: #48b0f7 1px solid;
+    color: #fff;
+    padding: 15px;
+    border-radius: 25px;
+    font-family: 'Muli', sans-serif;
+    background-color: transparent;
+}
+
+#mensalidade form label {
+    font-size: 15px;
+    padding: 0 10px 10px;
+}
+
+#mensalidade form label span {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #4FC3F7;
+}
+
+#mensalidade form input {
+    color: #B3E5FC;
+    background-color: transparent;
+    padding: 20px 10px;
+    border: 1px solid #B3E5FC;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all ease-in 0.32s;
+}
+
+
+#mensalidade form hr{
+    background-image: linear-gradient(to left,rgba(0,0,0,0),rgba(79,195,247,0.5),rgba(0,0,0,0))!important;
+    border: 0;
+    height: 1px;
+    margin: 22px 0;
+}
+
+#mensalidade form input:focus, #mensalidade form input:active {
+    border-color: #4FC3F7;
+    background-color: transparent;
+    color: #4FC3F7;
+
+}
+
+#mensalidade-box {
+    border: #48b0f7 1px solid;
+    color: #01579B;
+    padding: 15px;
+    border-radius: 25px;
+    font-family: 'Raleway', sans-serif;
+    background-color: transparent;
+}
+
+#mensalidade-box h2 {
+    font-family: 'Muli', sans-serif;
+    font-size: 26px;
+    color: #48b0f7;
+}
+
+#valor-mensalidade, #valor-economia {
+    line-height: 0.7;
+    font-weight: bold;
+    font-size: 42px;
+    font-family: 'Raleway', sans-serif;
+}
+
+#valor-mensalidade {
+    margin-bottom: 35px;
+    color: #fff;
+}
+
+#valor-economia{
+    color:#00E676;
+}
+
+#valor-mensalidade span, #valor-economia span {
+    font-size: 75px;
+    font-weight: normal;
+}
+
+#mensalidade-box .by-year {
+    color: #00E676;
+    font-weight: bold;
+    margin-left: 60%;
+    margin-bottom: 15px;
 }
