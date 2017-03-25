@@ -1,7 +1,7 @@
 html, body {
     height: 100%;
+    transform: translate3d(0, 0, 0) !important;
 }
-
 
 .btn {
     font-family: "Open Sans", sans-serif;
@@ -575,7 +575,6 @@ button:focus {
     border-radius: 17px;
 }
 
-
 label, input, button, select, textarea {
     font-size: 14px;
     font-weight: normal;
@@ -932,16 +931,19 @@ button, a, p {
 }
 
 #main-banner {
-    overflow: hidden;
-    position: relative;
+    position: relative; /* needed for footer positioning*/
+    height: auto !important; /* real browsers */
+    min-height: 100%; /* real browsers */
     max-height: 100%;
 }
 
 #main-banner img {
-    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 0;
 }
 
-#banner-content {
+.banner-content {
     position: absolute;
     left: 0;
     right: 0;
@@ -949,11 +951,11 @@ button, a, p {
     text-align: center;
 }
 
-#banner-buttons a:first-child {
+.banner-buttons a:first-child {
     margin-right: 15px;
 }
 
-#banner-text p.callout {
+.banner-text p.callout {
     font-size: 40px;
     color: #fff;
     margin-bottom: 50px;
@@ -973,7 +975,86 @@ button, a, p {
     border-width: 3px;
 }
 
-
-.btn-lg:hover, .btn-lg:active, .btn-lg:focus{
+.btn-lg:hover, .btn-lg:active, .btn-lg:focus {
     border-width: 3px;
+}
+
+.section {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+#como-funciona {
+    height: auto;
+    background-color: #fff;
+    position: relative;
+}
+
+.how-list li{
+    list-style: none;
+    position: relative;
+    display: block;
+}
+
+.how-list .fa-4x {
+    margin-top: 51px;
+    display: inline-block;
+    background-color: #48b0f7;
+    border-color: #48b0f7;
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    color: #fff;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    text-align: center;
+    float: left;
+}
+
+.how-list li .text{
+    display: inline-block;
+    float: left;
+    width: calc(100% - 90px);
+    padding-right: 15px;
+    color: #01579B;
+}
+
+.how-list li .text p{
+    font-size: 15px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.how-list li .text h2{
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #48b0f7;
+}
+
+.section h1{
+    font-family: 'Muli', sans-serif;
+    text-align: center;
+    padding: 25px;
+    margin: 25px;
+    color: #48b0f7;
+}
+
+.section h1:after{
+    background-image: linear-gradient(to left,rgba(0,0,0,0),rgba(0,0,0,.2),rgba(0,0,0,0))!important;
+    height: 1px;
+    border: 0;
+
+}
+
+#como-funciona img{
+    max-height: 100%;
+    display: table-cell;
+}
+
+.how-list .fa-circle{
+    margin-right: 15px;
 }
