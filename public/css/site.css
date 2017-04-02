@@ -1343,39 +1343,49 @@ button, a, p {
     background-color: rgba(251, 252, 254, 0.5);
 }
 
-form {
+.form {
     color: #01579B;
     padding: 15px;
     font-family: 'Muli', sans-serif;
     background-color: transparent;
 }
 
-form label {
-    font-size: 15px;
-    padding: 10px 10px 0px;
-}
-
-form input.form-control, form textarea.form-control {
-    color: #4FC3F7;
-    background-color: transparent;
-    padding: 20px 10px;
+.form .form-group{
     border: 1px solid #4FC3F7;
     border-radius: 5px;
+    transition: ease 0.3s;
+}
+
+.form label {
+    font-size: 15px;
+    padding: 5px 10px 0px;
     font-weight: bold;
+}
+
+.form input.form-control, form textarea.form-control {
+    color: #4FC3F7;
+    background-color: transparent;
+    padding: 0px 10px 10px;
+    border: none;
+    border-radius: 5px;
     transition: all ease-in 0.32s;
 }
 
-form textarea.form-control {
+.form textarea.form-control {
     padding: 10px;
     height: 80px;
 }
 
+.form .form-control:focus {
+    background: transparent;
+}
+.form .form-group.focused{
+    border-color: #01579B;
+}
 
-form input.form-control:focus, form input.form-control:active, form textarea.form-control:focus, form textarea.form-control:active {
+.form .form-group:focus, .form .form-group:active, .form .form-group:focus, .form .form-group:active {
     border-color: #01579B;
     background-color: transparent;
-    color: #01579B;
-
 }
 
 #contato h3 {
@@ -1453,7 +1463,12 @@ a {
 .modal-header{
     text-align: center;
     border: none;
-    padding: 25px 0 0 0;
+    padding: 25px 0 5px;
+
+}
+
+h4.modal-title{
+    font-size:22px!important;
 }
 
 .modal-body{

@@ -7,7 +7,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="form">
                     <div class='form-group'>
                         <label for="nome">Nome completo *</label>
                         <input type='text' class='form-control' name="nome"/>

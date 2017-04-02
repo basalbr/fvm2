@@ -7,7 +7,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="form">
                     <div class='form-group'>
                         <label for="email">E-mail *</label>
                         <input type='text' class='form-control' name='email'/>

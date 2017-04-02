@@ -8,7 +8,7 @@
 
     <div class="row row-eq-height">
         <div class="col-sm-6">
-            <form>
+            <form class="form">
                 <div class='form-group'>
                     <label for="nome">Seu nome *</label>
                     <input type='text' class='form-control' name="nome"/>
@@ -23,7 +23,7 @@
                     <textarea class='form-control' name='mensagem'></textarea>
                 </div>
                 <div class="clearfix"></div>
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-complete"><span class="fa fa-send"></span> Enviar mensagem</button>
                 </div>
             </form>
