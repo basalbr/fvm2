@@ -18,7 +18,7 @@ class CreateCnaeTable extends Migration
             $table->integer('id_tabela_simples_nacional')->unsigned()->nullable();
             $table->foreign('id_tabela_simples_nacional')->references('id')->on('tabela_simples_nacional')->onDelete('cascade');
             $table->string('descricao');
-            $table->string('codigo');
+            $table->string('codigo',9);
             $table->timestamps();
             $table->softDeletes();
         });

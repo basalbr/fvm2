@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChamadoMensagemTable extends Migration
+class CreateMensagemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateChamadoMensagemTable extends Migration
      */
     public function up()
     {
-        Schema::create('chamado_mensagem', function (Blueprint $table) {
+        Schema::create('mensagem', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_usuario')->unsigned();
             $table->foreign('id_usuario')->references('id')->on('usuario')->onDelete('cascade');
-            $table->integer('id_chamado')->unsigned();
-            $table->foreign('id_chamado')->references('id')->on('chamado')->onDelete('cascade');
-            $table->string('anexo')->nullable();
+            $table->string('referencia');
+            $table->integer('id_referencia')->unsigned();
+            $table->boolean('from_admin')->default(false);
+            $table->boolean('lida')->default(false);
             $table->text('mensagem');
             $table->timestamps();
             $table->softDeletes();

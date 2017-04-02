@@ -20,8 +20,8 @@ class CreateFuncionarioDependenteTable extends Migration
             $table->string('nome');
             $table->date('data_nascimento');
             $table->string('local_nascimento')->nullable();
-            $table->string('cpf')->nullable();
-            $table->string('rg')->nullable();
+            $table->string('cpf', 14)->nullable();
+            $table->string('rg', 14)->nullable();
             $table->string('orgao_rg')->nullable();
             $table->string('tipo_dependencia')->nullable();
             $table->string('matricula')->nullable();

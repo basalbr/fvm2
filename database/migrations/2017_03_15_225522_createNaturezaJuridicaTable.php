@@ -18,7 +18,7 @@ class CreateNaturezaJuridicaTable extends Migration
             $table->string('descricao');
             $table->string('representante');
             $table->string('qualificacao');
-            $table->string('codigo');
+            $table->string('codigo',5);
             $table->timestamps();
             $table->softDeletes();
         });

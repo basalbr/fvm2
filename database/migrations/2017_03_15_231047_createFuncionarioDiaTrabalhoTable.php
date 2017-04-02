@@ -15,8 +15,8 @@ class CreateFuncionarioDiaTrabalhoTable extends Migration
     {
         Schema::create('funcionario_dia_trabalho', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_contrato_trabalho')->unsigned();
-            $table->foreign('id_contrato_trabalho')->references('id')->on('contrato_trabalho')->onDelete('cascade');
+            $table->integer('id_funcionario_contrato')->unsigned();
+            $table->foreign('id_funcionario_contrato')->references('id')->on('funcionario_contrato')->onDelete('cascade');
             $table->string('hora1')->nullable();
             $table->string('hora2')->nullable();
             $table->string('hora3')->nullable();

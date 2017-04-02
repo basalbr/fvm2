@@ -22,12 +22,7 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+
 
     /**
      * Create a new controller instance.
@@ -47,11 +42,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        Reg
+    }
+
+    /**
+     * Where to redirect users after registration.
+     *
+     */
+    protected function redirectTo()
+    {
+        return route('dashboard');
     }
 
     /**

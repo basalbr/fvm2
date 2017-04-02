@@ -18,7 +18,7 @@ class CreateAberturaEmpresaCnaeTable extends Migration
             $table->integer('id_abertura_empresa')->unsigned();
             $table->foreign('id_abertura_empresa')->references('id')->on('abertura_empresa')->onDelete('cascade');
             $table->integer('id_cnae')->unsigned();
-            $table->foreign('id_cnae')->references('id')->on('cnae');
+            $table->foreign('id_cnae')->references('id')->on('cnae')->onDelete('cascade');
             $table->timestamps();
         });
     }

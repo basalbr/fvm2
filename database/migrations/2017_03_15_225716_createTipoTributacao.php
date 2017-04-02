@@ -16,7 +16,7 @@ class CreateTipoTributacao extends Migration
         Schema::create('tipo_tributacao', function (Blueprint $table) {
             $table->increments('id');
             $table->string('descricao');
-            $table->boolean('has_tabela');
+            $table->boolean('has_tabela')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

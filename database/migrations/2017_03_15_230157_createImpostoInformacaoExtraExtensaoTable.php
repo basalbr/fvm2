@@ -16,7 +16,7 @@ class CreateImpostoInformacaoExtraExtensaoTable extends Migration
         Schema::create('imposto_informacao_extra_extensao', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_informacao_extra')->unsigned();
-            $table->foreign('id_informacao_extra')->references('id')->on('informacao_extra')->onDelete('cascade');
+            $table->foreign('id_informacao_extra','fk_id_info_extra')->references('id')->on('imposto_informacao_extra')->onDelete('cascade');
             $table->string('extensao');
             $table->timestamps();
         });

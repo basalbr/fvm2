@@ -15,24 +15,25 @@ class CreateSocioTable extends Migration
     {
         Schema::create('socio', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pessoa')->unsigned();
-            $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');
+            $table->integer('id_empresa')->unsigned();
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->string('nome');
             $table->boolean('principal');
-            $table->string('cpf');
-            $table->string('rg');
-            $table->string('titulo_eleitor');
+            $table->string('cpf',14);
+            $table->string('rg',14);
+            $table->string('titulo_eleitor',20);
             $table->string('recibo_ir')->nullable();
             $table->string('endereco');
             $table->string('bairro');
             $table->string('cidade');
+            $table->integer('numero');
             $table->integer('id_uf')->unsigned();
             $table->foreign('id_uf')->references('id')->on('uf')->onDelete('cascade');
-            $table->string('cep');
-            $table->string('pis');
+            $table->string('cep', 9);
+            $table->string('pis', 25);
             $table->float('pro_labore')->nullable();
             $table->string('orgao_expedidor');
-            $table->date('data_nascimento')->nullable();
+            $table->date('data_nascimento');
             $table->softDeletes();
             $table->timestamps();
         });

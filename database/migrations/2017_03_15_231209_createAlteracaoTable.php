@@ -15,8 +15,8 @@ class CreateAlteracaoTable extends Migration
     {
         Schema::create('alteracao', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pessoa')->unsigned();
-            $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');
+            $table->integer('id_empresa')->unsigned();
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->integer('id_tipo_alteracao')->unsigned();
             $table->foreign('id_tipo_alteracao')->references('id')->on('tipo_alteracao')->onDelete('cascade');
             $table->string('status')->default('Pendente');

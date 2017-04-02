@@ -18,11 +18,11 @@ class CreateUsuarioTable extends Migration
             $table->string('nome');
             $table->string('email')->unique();
             $table->string('senha', 60);
-            $table->boolean('admin')->nullable();
+            $table->boolean('admin')->default(false);
+            $table->string('telefone', 15);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            $table->string('telefone');
         });
     }
 

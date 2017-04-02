@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AberturaEmpresa;
 use App\Models\Mensagem;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Observers\MensagemObserver;
 
@@ -19,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         AberturaEmpresa::observe(MensagemObserver::class);
         Mensagem::observe(MensagemObserver::class);
-
+        Schema::defaultStringLength(191);
         /**
          * Publica bootstrap da pasta vendor para public
          */

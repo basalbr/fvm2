@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class Usuario extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
@@ -47,8 +48,9 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
      */
     protected $hidden = ['senha', 'remember_token'];
 
-    public static function admins(){
-        return static::where('admin','=', true)->get();
+    public static function admins()
+    {
+        return static::where('admin', '=', true)->get();
     }
 
     public function validate($data, $update = false)
@@ -94,6 +96,11 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
     public function ordensPagamento()
     {
         return $this->hasMany('App\OrdemPagamento', 'id_usuario');
+    }
+
+    public function setSenhaAttribute($senha)
+    {
+        $this->attributes['senha'] = Hash::make($senha);
     }
 
 }

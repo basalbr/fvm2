@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProcessoTable extends Migration
+class CreateApuracaoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateProcessoTable extends Migration
      */
     public function up()
     {
-        Schema::create('processo', function (Blueprint $table) {
+        Schema::create('apuracao', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_imposto')->unsigned();
             $table->foreign('id_imposto')->references('id')->on('imposto')->onDelete('cascade');
-            $table->integer('id_pessoa')->unsigned();
-            $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');
+            $table->integer('id_empresa')->unsigned();
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->string('status');
             $table->date('competencia');
             $table->date('vencimento');

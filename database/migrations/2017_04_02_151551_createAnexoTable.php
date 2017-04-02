@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHistoricoPagamentoTable extends Migration
+class CreateAnexoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateHistoricoPagamentoTable extends Migration
      */
     public function up()
     {
-        Schema::create('historico_pagamento', function (Blueprint $table) {
+        Schema::create('anexo', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pagamento')->unsigned();
-            $table->foreign('id_pagamento')->references('id')->on('ordem_pagamento')->onDelete('cascade');
-            $table->string('transaction_id');
-            $table->string('status');
-            $table->string('forma_pagamento');
+            $table->string('referencia');
+            $table->integer('id_referencia')->unsigned();
+            $table->string('descricao');
+            $table->string('arquivo');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +31,6 @@ class CreateHistoricoPagamentoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historico_pagamento');
+        Schema::dropIfExists('anexo');
     }
 }

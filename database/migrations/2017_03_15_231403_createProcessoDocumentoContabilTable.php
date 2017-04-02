@@ -15,8 +15,8 @@ class CreateProcessoDocumentoContabilTable extends Migration
     {
         Schema::create('processo_documento_contabil', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pessoa')->unsigned();
-            $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');
+            $table->integer('id_empresa')->unsigned();
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->date('periodo');
             $table->string('status');
             $table->timestamps();

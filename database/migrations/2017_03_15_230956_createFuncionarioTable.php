@@ -15,8 +15,8 @@ class CreateFuncionarioTable extends Migration
     {
         Schema::create('funcionario', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_pessoa')->unsigned();
-            $table->foreign('id_pessoa')->references('id')->on('pessoa')->onDelete('cascade');
+            $table->integer('id_empresa')->unsigned();
+            $table->foreign('id_empresa')->references('id')->on('empresa')->onDelete('cascade');
             $table->integer('id_uf_ctps')->unsigned();
             $table->foreign('id_uf_ctps')->references('id')->on('uf')->onDelete('cascade');
             $table->integer('id_uf')->unsigned();
@@ -30,21 +30,21 @@ class CreateFuncionarioTable extends Migration
             $table->string('grau_instrucao');
             $table->string('grupo_sanguineo');
             $table->string('raca_cor');
-            $table->string('sexo');
+            $table->char('sexo', 1);
             $table->date('data_nascimento');
-            $table->string('cpf');
-            $table->string('rg');
+            $table->string('cpf', 14);
+            $table->string('rg', 14);
             $table->string('orgao_expeditor_rg');
             $table->date('data_emissao_rg');
-            $table->string('numero_titulo_eleitoral');
+            $table->string('titulo_eleitoral');
             $table->string('zona_secao_eleitoral');
-            $table->string('numero_carteira_reservista')->nullable();
+            $table->string('carteira_reservista')->nullable();
             $table->string('categoria_carteira_reservista')->nullable();
-            $table->string('numero_carteira_motorista')->nullable();
-            $table->string('categoria_carteira_motorista')->nullable();
-            $table->string('vencimento_carteira_motorista')->nullable();
+            $table->string('cnh')->nullable();
+            $table->string('categoria_cnh')->nullable();
+            $table->string('vencimento_cnh')->nullable();
             $table->string('email');
-            $table->string('telefone');
+            $table->string('telefone', 15);
             $table->string('data_chegada_estrangeiro')->nullable();
             $table->string('condicao_trabalhador_estrangeiro')->nullable();
             $table->string('numero_processo_mte')->nullable();
@@ -56,19 +56,17 @@ class CreateFuncionarioTable extends Migration
             $table->string('data_validade_rne')->nullable();
             $table->string('cep');
             $table->string('bairro');
-
             $table->string('endereco');
-            $table->string('numero');
+            $table->integer('numero')->nullable();
             $table->string('cidade');
             $table->string('complemento')->nullable();
             $table->boolean('residente_exterior')->nullable();
             $table->boolean('residencia_propria')->nullable();
             $table->boolean('imovel_recurso_fgts')->nullable();
             $table->string('pis');
-            $table->string('data_cadastro_pis');
+            $table->date('data_cadastro_pis');
             $table->string('ctps');
-            $table->string('data_expedicao_ctps');
-
+            $table->date('data_expedicao_ctps');
             $table->timestamps();
             $table->softDeletes();
         });

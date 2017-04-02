@@ -15,8 +15,8 @@ class CreateUfTable extends Migration
     {
         Schema::create('uf', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('sigla')->nullable();
-            $table->string('nome')->nullable();
+            $table->char('sigla', 2);
+            $table->string('nome', 25);
         });
     }
 
