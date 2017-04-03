@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Usuario;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,51 +12,53 @@ class UsuarioRegistered extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $usuario;
+    private $url;
+
+    public function __construct(Usuario $usuario)
     {
-        //
+        $this->usuario = $usuario;
+        $this->url = route('dashboard');
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome)
+            ->line('Seu pagamento no valor de R$'.$this->ordemPagamento->valor.' foi efetuado com sucesso!')
+            ->line('A equipe WEBContabilidade agradece sua preferência :)')
+            ->subject('Pagamento recebido')
+            ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
+            'mensagem' => 'Seu pagamento no valor de R$'.$this->ordemPagamento->valor.' foi efetuado com sucesso!',
+            'url' => $this->url
         ];
     }
 }

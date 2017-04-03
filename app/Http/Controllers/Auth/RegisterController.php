@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\RegisterUsuario;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Validation\UsuarioValidation;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -19,30 +25,23 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
-
+    use RegistersUsers, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * RegisterController constructor.
      */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    protected function validateAjax(Request $request)
     {
-        Reg
+        /*
+        * Valida a requisição, retorna json com erro de validação caso falhe
+        */
+        $this->validate($request, UsuarioValidation::getRules(), [], UsuarioValidation::getNiceNames());
     }
 
     /**
@@ -54,18 +53,14 @@ class RegisterController extends Controller
         return route('dashboard');
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
+
+    protected function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $this->validate($request, UsuarioValidation::getRules(), [], UsuarioValidation::getNiceNames());
+        if ($usuario = RegisterUsuario::handle($request->all())) {
+            $this->guard()->login($usuario);
+            redirect($this->redirectPath());
+        }
+
     }
 }
