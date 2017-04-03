@@ -14,4 +14,10 @@
 Route::get('/', function () {
     return view('index');
 });
+Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function () {
+    Route::post('ajax/validate/user-registration', ['as' => 'validateUserRegistration', 'uses' => 'RegisterController@validateAjax']);
+    Route::post('user/register', ['as' => 'registerUser', 'uses' => 'RegisterController@register']);
+});
+Route::get('dashboard', ['as' => 'dashboard', 'uses' => function(){return 'hello ' . Auth::user()->nome;}]);
+
 

@@ -1,5 +1,21 @@
 $(function () {
 
+    $("#modal-register button.btn-complete").on('click', function (e) {
+        e.preventDefault();
+        $.post($('#register-form').data('validation-url'), $('#register-form').serializeArray())
+            .done(function (data, textStatus, jqXHR) {
+                console.log('a');
+                $('#register-form').submit();
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 422) {
+                    //noinspection JSUnresolvedVariable
+                    showFormValidationError($('#register-form'), jqXHR.responseJSON);
+                    console.log(jqXHR)
+                }
+            });
+    });
+
     setTimeout(function () {
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -82,10 +98,10 @@ $(function () {
         scrollHorizontal: false // Set to true if your website scrolls horizontal instead of vertical.
     });
 
-    $('.form .form-control').on('focus', function(){
-       $(this).parent().addClass('focused');
+    $('.form .form-control').on('focus', function () {
+        $(this).parent().addClass('focused');
     });
-    $('.form .form-control').on('blur', function(){
+    $('.form .form-control').on('blur', function () {
         $(this).parent().removeClass('focused');
     });
 

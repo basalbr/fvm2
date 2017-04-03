@@ -25,7 +25,7 @@ class RegisterUsuario
     {
         DB::beginTransaction();
         try {
-            $usuario = new Usuario($data);
+            $usuario = Usuario::create($data);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

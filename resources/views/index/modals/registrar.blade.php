@@ -3,11 +3,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Complete os campos e clique em <strong>cadastrar</strong>.
+                <h4 class="modal-title" >Complete os campos e clique em <strong>cadastrar</strong>.
                 </h4>
             </div>
             <div class="modal-body">
-                <form class="form">
+
+                <form class="form" method="POST" action="{{route('registerUser')}}" id="register-form" data-validation-url="{{route('validateUserRegistration')}}">
+                    @include('index.components.form-alert')
+                    {{ csrf_field() }}
                     <div class='form-group'>
                         <label for="nome">Nome completo *</label>
                         <input type='text' class='form-control' name="nome"/>

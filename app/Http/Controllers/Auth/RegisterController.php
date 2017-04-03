@@ -53,14 +53,19 @@ class RegisterController extends Controller
         return route('dashboard');
     }
 
-
+    /**
+     * Registers users
+     * @param Request $request
+     */
     protected function register(Request $request)
     {
         $this->validate($request, UsuarioValidation::getRules(), [], UsuarioValidation::getNiceNames());
         if ($usuario = RegisterUsuario::handle($request->all())) {
             $this->guard()->login($usuario);
-            redirect($this->redirectPath());
+            return redirect($this->redirectPath());
+
         }
 
+        return redirect(url('/'));
     }
 }

@@ -1479,3 +1479,8 @@ h4.modal-title{
     border: none;
     padding: 0px 25px 10px;
 }
+
+form .alert{
+    display: none;
+}
+

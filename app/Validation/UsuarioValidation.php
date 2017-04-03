@@ -11,11 +11,19 @@ namespace App\Validation;
 class UsuarioValidation extends Validation
 {
     protected static $rules = [
-        'nome' => 'required', 'email' => 'required|unique:usuario,email', 'senha' => 'required|confirmed'
+        'nome' => 'required',
+        'email' => 'required|unique:usuario,email|email',
+        'telefone' => 'required|min:13|max:15',
+        'senha' => 'required|confirmed',
+        'senha_confirmed' => 'sometimes|required'
     ];
 
     protected static $niceNames = [
-        'nome' => 'Nome', 'email' => 'E-mail', 'senha' => 'Senha', 'senha_confirmed' => 'Confirmar Senha'
+        'nome' => 'Nome completo',
+        'email' => 'E-mail',
+        'senha' => 'Senha',
+        'senha_confirmed' => 'Confirmar sua senha',
+        'telefone' => 'Telefone ou celular'
     ];
 
 
