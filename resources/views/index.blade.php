@@ -39,6 +39,7 @@
 
 <div id="modal-content">
     @include('index.modals.acessar')
+    @include('index.modals.esqueci')
     @include('index.modals.registrar')
 </div>
 <div class="clearfix"></div>

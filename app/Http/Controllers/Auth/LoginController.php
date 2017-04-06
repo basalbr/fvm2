@@ -36,4 +36,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    protected function validateAjax(Request $request)
+    {
+        /*
+        * Valida a requisição, retorna json com erro de validação caso falhe
+        */
+        $rules = ['email' => 'required|email', 'senha' => 'required'];
+        $niceNames = ['email' => 'E-mail', 'senha' => 'Senha'];
+        $this->validate($request, $rules, [], $niceNames);
+        
+    }
 }

@@ -1,21 +1,57 @@
 $(function () {
 
+    //Validar registro de novo usuário
     $("#modal-register button.btn-complete").on('click', function (e) {
         e.preventDefault();
         $.post($('#register-form').data('validation-url'), $('#register-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
-                console.log('a');
                 $('#register-form').submit();
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 422) {
                     //noinspection JSUnresolvedVariable
                     showFormValidationError($('#register-form'), jqXHR.responseJSON);
-                    console.log(jqXHR)
+                } else {
+                    showFormValidationError($('#register-form'));
                 }
             });
     });
 
+    //Validar login
+    $("#modal-access button.btn-complete").on('click', function (e) {
+        e.preventDefault();
+        $.post($('#access-form').data('validation-url'), $('#register-form').serializeArray())
+            .done(function (data, textStatus, jqXHR) {
+                // $('#access-form').submit();
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 422) {
+                    //noinspection JSUnresolvedVariable
+                    showFormValidationError($('#access-form'), jqXHR.responseJSON);
+                } else {
+                    showFormValidationError($('#access-form'));
+                }
+            });
+    });
+
+    //Recuperar senha
+    $("#modal-forgot button.btn-complete").on('click', function (e) {
+        e.preventDefault();
+        $.post($('#forgot-form').data('validation-url'), $('#forgot-form').serializeArray())
+            .done(function (data, textStatus, jqXHR) {
+                $('#forgot-form').submit();
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 422) {
+                    //noinspection JSUnresolvedVariable
+                    showFormValidationError($('#forgot-form'), jqXHR.responseJSON);
+                } else {
+                    showFormValidationError($('#forgot-form'));
+                }
+            });
+    });
+
+    //Fix para lentidão nas animações causadas pelo plugin do facebook
     setTimeout(function () {
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -27,6 +63,7 @@ $(function () {
         }(document, 'script', 'facebook-jssdk'));
     }, 1200);
 
+    //Adicionar background no navbar
     if ($("body").scrollTop() > 0) {
         $('#nav-menu').removeClass('transparent');
     }
@@ -38,6 +75,7 @@ $(function () {
         }
     });
 
+    //Efeitos nos itens da página
     $('div.panel').addClass('invisible').viewportChecker({
         classToAdd: 'slideInRight animated', // Class to add to the elements when they are visible,
         classToAddForFullView: 'full-visible', // Class to add when an item is completely visible in the viewport
@@ -106,3 +144,4 @@ $(function () {
     });
 
 });
+

@@ -13,7 +13,7 @@ class UsuarioValidation extends Validation
     protected static $rules = [
         'nome' => 'required',
         'email' => 'required|unique:usuario,email|email',
-        'telefone' => 'required|min:13|max:15',
+        'telefone' => 'required|min:13|max:16',
         'senha' => 'required|confirmed',
         'senha_confirmed' => 'sometimes|required'
     ];
