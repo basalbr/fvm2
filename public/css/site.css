@@ -1362,6 +1362,12 @@ button, a, p {
     font-weight: bold;
 }
 
+.form [type="checkbox"] + label{
+    padding: 0;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
 .form input.form-control, form textarea.form-control {
     color: #4FC3F7;
     background-color: transparent;
@@ -1484,3 +1490,68 @@ form .alert{
     display: none;
 }
 
+.checkbox label, .radio label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.radio label:before, .checkbox label:before {
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0px;
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+}
+
+.checkbox label:before {
+    top: 1.4px;
+    border-radius: 3px;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+.checkbox.checkbox-circle label:before {
+    border-radius: 99px;
+}
+
+.checkbox input[type=checkbox]:checked+label:before {
+    border-width: 8.5px;
+}
+
+.checkbox.check-primary input[type=checkbox]:checked+label:before {
+    border-color: #6d5cae;
+}
+
+.checkbox label::after {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 3.2px;
+    top: 0px;
+    font-size: 11px;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+.checkbox label:after {
+    border-radius: 3px;
+}
+
+.checkbox.checkbox-circle label:after {
+    border-radius: 99px;
+}
+
+.checkbox input[type=checkbox]:checked+label::after {
+    font-family: 'FontAwesome';
+    content: "\F00C";
+    color: #fff;
+}
+
+.checkbox.check-success input[type=checkbox]:checked+label::after, .checkbox.check-primary input[type=checkbox]:checked+label::after, .checkbox.check-complete input[type=checkbox]:checked+label::after, .checkbox.check-warning input[type=checkbox]:checked+label::after, .checkbox.check-danger input[type=checkbox]:checked+label::after, .checkbox.check-info input[type=checkbox]:checked+label::after {
+    color: #ffffff;
+}

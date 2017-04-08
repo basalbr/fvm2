@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Overrides\Notification\Notifiable;
+use App\Overrides\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;

@@ -20,16 +20,16 @@ $(function () {
     //Validar login
     $("#modal-access button.btn-complete").on('click', function (e) {
         e.preventDefault();
-        $.post($('#access-form').data('validation-url'), $('#register-form').serializeArray())
+        $.post($('#login-form').data('validation-url'), $('#login-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
-                // $('#access-form').submit();
+                $('#login-form').submit();
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 422) {
                     //noinspection JSUnresolvedVariable
-                    showFormValidationError($('#access-form'), jqXHR.responseJSON);
+                    showFormValidationError($('#login-form'), jqXHR.responseJSON);
                 } else {
-                    showFormValidationError($('#access-form'));
+                    showFormValidationError($('#login-form'));
                 }
             });
     });

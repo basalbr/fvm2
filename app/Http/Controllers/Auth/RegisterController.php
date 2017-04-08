@@ -36,7 +36,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    protected function validateAjax(Request $request)
+    public function validateAjax(Request $request)
     {
         /*
         * Valida a requisição, retorna json com erro de validação caso falhe

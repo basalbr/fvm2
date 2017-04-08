@@ -6,7 +6,7 @@
  * Time: 22:00
  */
 
-namespace App\Overrides\Notification;
+namespace App\Overrides\Notifications;
 
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Notifications\Dispatcher;

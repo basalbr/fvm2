@@ -9,7 +9,11 @@ function showFormValidationError(form, errors) {
     alertDiv.empty()
     form.find('.form-group.alert-warning').removeClass('alert-warning');
     for (var i in errors) {
-        alertDiv.append('<p>' + errors[i][0] + '</p>');
+        if (typeof errors[i] === Array) {
+            alertDiv.append('<p>' + errors[i][0] + '</p>');
+        } else {
+            alertDiv.append('<p>' + errors[i] + '</p>');
+        }
         form.find('[name="' + i + '"]').parent().addClass('alert-warning');
     }
     alertDiv.show().addClass('animated shake');
@@ -24,11 +28,11 @@ var SPMaskBehavior = function (val) {
             field.mask(SPMaskBehavior.apply({}, arguments), options);
         },
         clearIfNotMatch: true,
-        placeholder:"(__)____-____"
+        placeholder: "(__)____-____"
     };
 
 
-$(function(){
+$(function () {
     $('.phone').mask(SPMaskBehavior, spOptions);
     $('.date').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
     $('.time').mask('00:00:00', {clearIfNotMatch: true});

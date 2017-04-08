@@ -6,7 +6,7 @@
  * Time: 21:59
  */
 
-namespace App\Overrides\Notification;
+namespace App\Overrides\Notifications;
 
 
 use App\Models\Notificacao;

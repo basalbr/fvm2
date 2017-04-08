@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -18,14 +22,8 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers,ValidatesRequests;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -37,7 +35,28 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-    protected function validateAjax(Request $request)
+    /**
+     * Where to redirect users after registration.
+     *
+     */
+    protected function redirectTo()
+    {
+        return route('dashboard');
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return ['email' => $request->get('email'), 'password' => $request->get('senha')];
+    }
+
+
+    protected function validateLogin(Request $request)
     {
         /*
         * Valida a requisição, retorna json com erro de validação caso falhe
@@ -45,6 +64,6 @@ class LoginController extends Controller
         $rules = ['email' => 'required|email', 'senha' => 'required'];
         $niceNames = ['email' => 'E-mail', 'senha' => 'Senha'];
         $this->validate($request, $rules, [], $niceNames);
-        
     }
+
 }
