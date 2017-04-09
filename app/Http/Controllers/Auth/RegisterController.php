@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -56,6 +57,7 @@ class RegisterController extends Controller
     /**
      * Registers users
      * @param Request $request
+     * @return Redirect
      */
     protected function register(Request $request)
     {
@@ -66,6 +68,6 @@ class RegisterController extends Controller
 
         }
 
-        return redirect(url('/'));
+        return redirect(route('home'));
     }
 }

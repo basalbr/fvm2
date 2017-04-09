@@ -10,10 +10,12 @@ namespace App\Services;
 
 use App\Models\OrdemPagamento;
 use App\Models\Usuario;
+use App\Notifications\NewUsuario;
 use App\Notifications\OrdemPagamentoCreated;
 use App\Notifications\UsuarioRegistered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RegisterUsuario
 {
@@ -25,12 +27,21 @@ class RegisterUsuario
     {
         DB::beginTransaction();
         try {
+            /** @var Usuario $usuario */
             $usuario = Usuario::create($data);
+            $admins = Usuario::where('admin', '=', 1)->get();
+            $usuario->notify(new UsuarioRegistered($usuario));
+            foreach ($admins as $admin) {
+                /** @var Usuario $admin */
+                $admin->notify(new NewUsuario($usuario));
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            Log::critical($e->getMessage());
             return false;
         }
+
         return $usuario;
     }
 

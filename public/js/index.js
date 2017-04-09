@@ -39,7 +39,8 @@ $(function () {
         e.preventDefault();
         $.post($('#forgot-form').data('validation-url'), $('#forgot-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
-                $('#forgot-form').submit();
+                $('#modal-forgot .form').hide();
+                $("#modal-forgot .success").show();
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 422) {

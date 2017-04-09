@@ -1486,7 +1486,7 @@ h4.modal-title{
     padding: 0px 25px 10px;
 }
 
-form .alert{
+form .alert[role=alert]{
     display: none;
 }
 
@@ -1554,4 +1554,21 @@ form .alert{
 
 .checkbox.check-success input[type=checkbox]:checked+label::after, .checkbox.check-primary input[type=checkbox]:checked+label::after, .checkbox.check-complete input[type=checkbox]:checked+label::after, .checkbox.check-warning input[type=checkbox]:checked+label::after, .checkbox.check-danger input[type=checkbox]:checked+label::after, .checkbox.check-info input[type=checkbox]:checked+label::after {
     color: #ffffff;
+}
+
+#modal-forgot .success{
+    display: none;
+}
+
+section#password{
+    padding-top: 80px;
+    background-color: #2b669a;
+}
+
+section#password h1 {
+    color: #fff;
+}
+
+section#password .form-group{
+    background-color: #fff;
 }

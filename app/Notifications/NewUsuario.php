@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UsuarioRegistered extends Notification implements ShouldQueue
+class NewUsuario extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -29,7 +29,7 @@ class UsuarioRegistered extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -41,12 +41,10 @@ class UsuarioRegistered extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->usuario->nome)
-            ->line('Seja bem vindo à WEBContabilidade!')
-            ->line('Você pode acessar nosso sistema através do link abaixo:')
-            ->action('Acesse o sistema', $this->url)
-            ->line('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Seja bem vindo')
+            ->greeting('Temos um novo usuário cadastrado: ' . $this->usuario->nome)
+            ->line('Para visualizar as informações desse usuário clique no botão abaixo:')
+            ->action('Visualizar usuário', $this->url)
+            ->subject('Novo usuário')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -59,6 +57,8 @@ class UsuarioRegistered extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'mensagem' => $this->usuario->nome.' se cadastrou no sistema!',
+            'url' => $this->url
         ];
     }
 }
