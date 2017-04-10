@@ -1558,6 +1558,7 @@ form .alert[role=alert]{
 
 #modal-forgot .success{
     display: none;
+    padding: 10px;
 }
 
 section#password{
@@ -1571,4 +1572,8 @@ section#password h1 {
 
 section#password .form-group{
     background-color: #fff;
+}
+
+#modal-forgot .success .alert{
+    margin: 15px;
 }

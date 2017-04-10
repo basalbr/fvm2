@@ -16,7 +16,7 @@ trait RoutesNotifications
     /**
      * Send the given notification.
      *
-     * @param  mixed  $instance
+     * @param  mixed $instance
      * @return void
      */
     public function notify($instance)
@@ -27,12 +27,12 @@ trait RoutesNotifications
     /**
      * Get the notification routing information for the given driver.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      */
     public function routeNotificationFor($driver)
     {
-        if (method_exists($this, $method = 'routeNotificationFor'.Str::studly($driver))) {
+        if (method_exists($this, $method = 'routeNotificationFor' . Str::studly($driver))) {
             return $this->{$method}();
         }
 
@@ -41,7 +41,8 @@ trait RoutesNotifications
                 return $this->notifications();
             case 'mail':
                 return $this->email;
-            case 'nexmo':
+            case
+                'nexmo':
                 return $this->celular;
         }
     }

@@ -103,4 +103,12 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         $this->attributes['senha'] = Hash::make($senha);
     }
 
+    public function setNomeAttribute($nome){
+        $this->attributes['nome'] = ucwords($nome);
+    }
+
+    public function getFirstName(){
+        return array_first(explode(' ', $this->nome));
+    }
+
 }

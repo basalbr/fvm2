@@ -30,7 +30,8 @@
                 <div class="modal-body">
 
                     <div class="alert alert-success">
-                        <p>Enviamos um e-mail para que você possa alterar sua senha. Não esqueça de olhar sua caixa
+                        <p>Enviamos um e-mail para que você possa alterar sua senha.</p>
+                        <p> Não esqueça de olhar sua caixa
                             de
                             SPAM!</p>
                         <p>Caso não tenha recebido o e-mail, entre em contato conosco.</p>
