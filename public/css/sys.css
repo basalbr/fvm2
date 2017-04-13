@@ -1,5 +1,6 @@
 body {
     font-family: 'Muli', sans-serif;
+    background-color: #F5F5F5;
 }
 
 #top-menu {
@@ -94,40 +95,142 @@ body {
     height: 60px;
 }
 
-#left-menu .profile .profile-settings{
+#left-menu .profile .profile-settings {
     font-style: italic;
     font-size: 13px;
 }
 
-#left-menu ul{
+#left-menu ul {
     list-style: none;
     padding: 0;
     background-color: #2b303b;
 }
 
-#left-menu ul li a{
+#left-menu ul li a {
     padding: 15px;
     display: block;
     color: #ccc;
     transition: ease 0.3s all;
 }
 
-#left-menu ul li a:hover,#left-menu ul li a:active,#left-menu ul li a:focus{
-    color:#fff;
+#left-menu ul li a:hover, #left-menu ul li a:active {
+    color: #fff;
     text-decoration: none;
-    background-color: #01579B;
 }
 
-#left-menu ul li a i{
+#left-menu ul li a i {
     font-size: 15px;
     margin-top: 2px;
     float: right;
 }
 
-#left-menu ul li > ul{
-    /*display: none;*/
+#left-menu ul li > ul {
+    display: none;
     background: #21252d !important;
-    border: 1px solid;
+    transition: all ease 0.3s;
 }
 
+#left-menu ul li > ul.open {
+    display: block;
+}
 
+#left-menu ul li > ul li a {
+    padding-left: 30px;
+}
+
+#left-menu ul a.active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #01579B;
+}
+
+#left-menu ul li a:focus {
+    text-decoration: none;
+}
+
+#left-menu ul a.open {
+    color: #fff;
+    text-decoration: none;
+}
+
+#content {
+    position: absolute;
+    z-index: 2;
+    left: 250px;
+    top: 50px;
+    overflow: auto;
+}
+
+a.shortcut {
+    color: #0aa89e;
+    margin-bottom: 15px;
+    display: block;
+    transition: all ease-in 0.1s;
+}
+
+a.shortcut h3 {
+    font-size: 18px;
+}
+
+a.shortcut:hover, a.shortcut:focus {
+    color: #2196f3;
+    text-decoration: none;
+    outline: none;
+}
+
+a.shortcut.blue:hover {
+    color: #0097bc;
+}
+
+a.shortcut.green:hover {
+    color: #00bf86;
+}
+
+a.shortcut.mint:hover {
+    color: #0fb0c0;
+}
+
+a.shortcut.orange:hover {
+    color: #ffa000;
+}
+
+a.shortcut.orange:hover .contador {
+    border-color: #ffa000;
+    color: #ffa000;
+}
+
+a.shortcut .contador {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 40px;
+    left: 55%;
+    background: #f7f7f7;
+    border-radius: 25px;
+    text-align: center;
+    border: solid 2px #0aa89e;
+    font-weight: bold;
+    line-height: 22px;
+}
+
+a.shortcut.blue:hover .contador {
+    border-color: #0097bc;
+    color: #0097bc;
+}
+
+a.shortcut.mint:hover .contador {
+    border-color: #0fb0c0;
+    color: #0fb0c0;
+}
+
+.big-icon {
+    font-size: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+a.shortcut h3.text-center {
+    padding: 5px !important;
+    margin: 0 5px !important;
+    border: 0;
+}

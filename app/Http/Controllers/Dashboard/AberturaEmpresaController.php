@@ -6,7 +6,7 @@
  * Time: 20:48
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\AberturaEmpresa;
 use App\Services\CreateAberturaEmpresa;
@@ -24,6 +24,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class AberturaEmpresaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function new(){
+        return view('dashboard.abertura_empresa.new.index');
+    }
 
     /**
      * Salva um novo processo de abertura de empresa no sistema

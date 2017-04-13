@@ -10,7 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', ['as' => 'home', 'uses' => function(){return view('index');}]);
+//Home
+Route::get('/', ['as' => 'home', 'uses' => function () {
+    return view('index');
+}]);
+
+//Registro e login de usuários
 Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function () {
     Route::post('ajax/validate/user/registration', ['as' => 'validateUserRegistration', 'uses' => 'RegisterController@validateAjax']);
     Route::post('ajax/validate/user/recover-password', ['as' => 'validateUserEmail', 'uses' => 'LoginController@validateAjax']);
@@ -24,6 +29,19 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function () {
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
     Route::get('user/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 });
-Route::get('dashboard', ['as' => 'dashboard', 'uses' => function(){return view('dashboard.index');}]);
+
+//Dashboard - Home
+Route::get('dashboard', ['as' => 'dashboard', 'uses' => function () {
+    return view('dashboard.index');
+}]);
+
+//Dashboard - Abertura de Empresa
+Route::group(['prefix' => 'dashboard/abertura_empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresa@index']);
+    Route::get('/new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
+    Route::get('/view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresa@view']);
+});
+
+
 
 
