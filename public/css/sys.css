@@ -1,6 +1,6 @@
 body {
     font-family: 'Muli', sans-serif;
-    background-color: #F5F5F5;
+    background-color: #fafafa;
 }
 
 #top-menu {
@@ -156,9 +156,12 @@ body {
 #content {
     position: absolute;
     z-index: 2;
-    left: 250px;
+    left: 260px;
     top: 50px;
     overflow: auto;
+    right: 10px;
+    bottom: 0;
+    padding: 0 10px;
 }
 
 a.shortcut {
@@ -233,4 +236,102 @@ a.shortcut h3.text-center {
     padding: 5px !important;
     margin: 0 5px !important;
     border: 0;
+}
+
+
+.nav-tabs > li.active > a:after, .nav-tabs > li.active > a:before {
+    border: medium solid transparent;
+    content: "";
+    height: 0;
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    z-index: 1;
+    top: 100%;
+}
+
+.nav-tabs > li.active > a:after {
+    border-top-color: #1E88E5;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.nav-tabs > li.active > a:before {
+    border-top-color: rgba(0, 0, 0, 0.2);
+    border-width: 11px;
+    margin-left: -11px;
+}
+
+.nav-tabs>li>a {
+    border-radius: 0;
+    padding: 15px 20px;
+    margin-right: 0;
+    color: rgba(98,98,98,0.7);
+    font-size: 14px;
+    min-width: 70px;
+    border-color: transparent;
+}
+
+
+.nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
+    overflow: visible;
+    -webkit-transition: color 0.2s ease 0s;
+    transition: color 0.2s ease 0s;
+}
+
+.nav-tabs>li>a>i{
+    margin-right: 5px;
+}
+
+.nav-tabs>li.active>a {
+    background: #1E88E5;
+    box-shadow: none;
+    color: #fff;
+    border-color: transparent;
+}
+.nav-tabs > li {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.nav-tabs > li > a:hover {
+    background-color: rgba(176, 190, 197, 0.3);
+    border-color: transparent;
+    color: #555;
+}
+
+
+.nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
+    background: transparent;
+    border-color: transparent;
+    color: #626262;
+}
+
+.nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:active {
+    background: #1E88E5;
+    box-shadow: none;
+    color: #fff;
+    border-color: transparent;
+}
+
+
+.tab-content {
+    background-color: #fff;
+}
+
+.nav-tabs:after {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+.nav-tabs ~ .tab-content {
+    overflow: hidden;
+    padding: 15px;
+}
+
+.nav-tabs {
+    border-bottom: 0;
 }

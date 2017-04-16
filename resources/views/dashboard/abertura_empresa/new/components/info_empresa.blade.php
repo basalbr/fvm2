@@ -1,4 +1,8 @@
-<h3>Informações da empresa</h3>
+<div class="col-xs-12">
+    <h3>Informações da empresa</h3>
+    <hr>
+
+</div>
 <div class="col-xs-6">
     <div class="form-group">
         <label>Nome preferencial *</label>
@@ -30,7 +34,7 @@
 <div class="col-xs-12">
     <div class="form-group">
         <label>Capital social *</label>
-        <input type="text" class="form-control" value=""/>
+        <textarea class="form-control"></textarea>
     </div>
 </div>
 <div class="col-xs-12 text-right">

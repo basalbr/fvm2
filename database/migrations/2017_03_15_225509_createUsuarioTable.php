@@ -19,7 +19,7 @@ class CreateUsuarioTable extends Migration
             $table->string('email')->unique();
             $table->string('senha', 60);
             $table->boolean('admin')->default(false);
-            $table->string('telefone', 15);
+            $table->string('telefone', 16);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
