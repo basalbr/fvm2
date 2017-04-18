@@ -1,4 +1,7 @@
-<h3>Sócios</h3>
+<div class="col-xs-12">
+    <h3>Sócios</h3>
+    <hr>
+</div>
 <div class="col-xs-12">
     <table class="table table-hover table-striped">
         <thead>
@@ -17,10 +20,11 @@
     </table>
 </div>
 <div class="col-xs-12">
-    <button class="btn btn-primary">Cadastrar sócio <span class="fa fa-plus"></span>
-    </button>
+    <button class="btn btn-primary"><i class="fa fa-plus"></i> Cadastrar sócio</button>
 </div>
 <div class="col-xs-12 text-right">
-    <button class="btn btn-primary next">Avançar - CNAEs <span class="fa fa-angle-right"></span>
+    <hr>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Endereço</button>
+    <button class="btn btn-primary next">Avançar - CNAEs <i class="fa fa-angle-right"></i>
     </button>
 </div>

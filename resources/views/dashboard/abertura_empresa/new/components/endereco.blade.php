@@ -1,4 +1,7 @@
-<h3>Endereço</h3>
+<div class="col-xs-12">
+    <h3>Endereço</h3>
+    <hr>
+</div>
 <div class="col-xs-6">
     <div class="form-group">
         <label>CEP *</label>
@@ -68,6 +71,7 @@
     </div>
 </div>
 <div class="col-xs-12 text-right">
-    <button class="btn btn-primary next">Avançar - Sócios <span class="fa fa-angle-right"></span>
-    </button>
+    <hr>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Informações da empresa</button>
+    <button class="btn btn-primary next">Avançar - Sócios <i class="fa fa-angle-right"></i></button>
 </div>

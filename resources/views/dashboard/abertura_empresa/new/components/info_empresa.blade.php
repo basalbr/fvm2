@@ -1,7 +1,6 @@
 <div class="col-xs-12">
     <h3>Informações da empresa</h3>
     <hr>
-
 </div>
 <div class="col-xs-6">
     <div class="form-group">
@@ -38,6 +37,7 @@
     </div>
 </div>
 <div class="col-xs-12 text-right">
+    <hr>
     <button class="btn btn-primary next">Avançar - Endereço <span class="fa fa-angle-right"></span>
     </button>
 </div>
