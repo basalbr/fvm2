@@ -12,6 +12,7 @@ use App\Models\AberturaEmpresa;
 use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
+use App\Validation\AberturaEmpresaSocioValidation;
 use App\Validation\AberturaEmpresaValidation;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
@@ -84,6 +85,18 @@ class AberturaEmpresaController extends Controller
     public function validateAjax(Request $request)
     {
         $this->validate($request, AberturaEmpresaValidation::getRules(), [], AberturaEmpresaValidation::getNiceNames());
+        return response()->json('success', 200);
+    }
+
+    /**
+     * Valida uma request vinda de uma chamada json
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function validateSocio(Request $request)
+    {
+        $this->validate($request, AberturaEmpresaSocioValidation::getRules(), [], AberturaEmpresaSocioValidation::getNiceNames());
         return response()->json('success', 200);
     }
 }

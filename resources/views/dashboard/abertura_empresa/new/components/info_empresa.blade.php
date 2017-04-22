@@ -4,36 +4,36 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Nome preferencial *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="nome_preferencial1">Nome preferencial *</label>
+        <input type="text" class="form-control" name="nome_empresarial1" value=""/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Nome alternativo *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="nome_empresarial2">Nome alternativo *</label>
+        <input type="text" class="form-control" value="" name="nome_empresarial2"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Natureza Jurídica *</label>
-        <select class="form-control">
+        <label for="id_natureza_juridica">Natureza Jurídica *</label>
+        <select class="form-control" name="id_natureza_juridica">
             <option value="">Selecione uma opção</option>
         </select>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Enquadramento da empresa *</label>
-        <select class="form-control">
+        <label for="enquadramento">Enquadramento da empresa *</label>
+        <select class="form-control" name="enquadramento">
             <option value="">Selecione uma opção</option>
         </select>
     </div>
 </div>
 <div class="col-xs-12">
     <div class="form-group">
-        <label>Capital social *</label>
-        <textarea class="form-control"></textarea>
+        <label for="capital_social">Capital social *</label>
+        <textarea class="form-control" name="capital_social"></textarea>
     </div>
 </div>
 <div class="col-xs-12 text-right">

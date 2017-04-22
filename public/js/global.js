@@ -17,6 +17,10 @@ function showFormValidationError(form, errors) {
         form.find('[name="' + i + '"]').parent().addClass('alert-warning');
     }
     alertDiv.show().addClass('animated shake');
+    $('.modal, html, body').animate({
+        scrollTop: alertDiv.offset().top - 50
+    }, 500);
+
 }
 
 // masks
@@ -41,4 +45,11 @@ $(function () {
     $('.cpf').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "__/__/____"});
     $('.cnpj').mask('00.000.000/0000-00', {reverse: true}, {clearIfNotMatch: true});
     $('.money').mask("#.##0,00", {reverse: true});
+
+    ///////////////abrir modal////////////////////////
+    $('.open-modal').on('click', function (e) {
+        e.preventDefault();
+        $($(this).data('modal')).modal('show');
+    });
 });
+

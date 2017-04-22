@@ -20,7 +20,8 @@
     </table>
 </div>
 <div class="col-xs-12">
-    <button class="btn btn-primary"><i class="fa fa-plus"></i> Adicionar CNAE</button>
+    <button type="button" class="btn btn-primary open-modal" data-modal="#modal-cnae"><i class="fa fa-plus"></i> Adicionar CNAE
+    </button>
 </div>
 <div class="col-xs-12 text-right">
     <hr>

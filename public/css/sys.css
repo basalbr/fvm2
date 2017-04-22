@@ -8,10 +8,11 @@ body {
     -moz-border-radius: 15px;
     border-radius: 15px;
     padding: 8px 14px;
+    transition: all ease-in 0.2s;
 }
 
-.btn:focus, .btn:active{
-    outline: none!important;
+.btn:focus, .btn:active {
+    outline: none !important;
 }
 
 .form-group {
@@ -34,10 +35,11 @@ body {
 
 .form-group textarea.form-control {
     height: 50px;
-    padding-top:2px;
+    padding-top: 2px;
 }
 
 .form-group .form-control {
+    background: transparent;
     border: none;
     outline: none;
     box-shadow: none;
@@ -357,9 +359,9 @@ a.shortcut h3.text-center {
 
 .tab-content {
     background-color: #fff;
-    border-left:  1px solid rgba(0, 0, 0, 0.1);
-    border-right:  1px solid rgba(0, 0, 0, 0.1);
-    border-bottom:  1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .nav-tabs:after {
@@ -378,6 +380,67 @@ a.shortcut h3.text-center {
     border-bottom: 0;
 }
 
-.alert{
+.alert {
     display: none;
+    border-radius: 0;
+}
+
+.modal-header {
+    border-bottom: 1px solid #2F3A49 !important;
+    background: #2b303b !important;
+    color: #fff;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold !important;
+}
+
+.alert-warning, .btn-warning {
+    background-color: #FFB74D;
+    border-color: #FFA726;
+}
+
+.alert-danger, .btn-danger {
+    background-color: #FF8A80;
+    border-color: #FF5252;
+    color: #fff;
+}
+
+.alert-success, .btn-success {
+    background-color: #8BC34A;
+    border-color: #7CB342;
+}
+
+.btn-primary {
+    background-color: #42A5F5;
+    border-color: #1E88E5;
+    box-shadow: none;
+}
+
+
+.btn:hover{
+    border-radius: 0px;
+}
+
+.btn-warning:hover, .btn-warning.active, .btn-warning:focus, .btn-warning:active{
+    background-color: #FFA726!important;;
+    border-color: #FF9800!important;;
+    box-shadow: none!important;;
+}
+
+.btn-danger:hover, .btn-danger.active, .btn-danger:focus, .btn-danger:active{
+    background-color: #FF5252!important;;
+    border-color: #EF5350!important;;
+    box-shadow: none!important;;
+}
+
+.btn-success:hover, .btn-success.active, .btn-success:focus, .btn-success:active{
+    background-color: #7CB342!important;;
+    border-color: #689F38!important;;
+    box-shadow: none!important;;
+}
+
+.btn-primary:hover, .btn-primary.active, .btn-primary:focus, .btn-primary:active{
+    background-color: #1E88E5!important;
+    border-color: #1976D2!important;;
+    box-shadow: none!important;;
 }

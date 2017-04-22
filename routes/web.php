@@ -38,8 +38,9 @@ Route::get('dashboard', ['as' => 'dashboard', 'uses' => function () {
 //Dashboard - Abertura de Empresa
 Route::group(['prefix' => 'dashboard/abertura_empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresa@index']);
-    Route::get('/new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
-    Route::get('/view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresa@view']);
+    Route::get('new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
+    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresa@view']);
+    Route::post('validate/socio', ['as' => 'validateAberturaEmpresaSocio', 'uses' => 'AberturaEmpresaController@validateSocio']);
 });
 
 

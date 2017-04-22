@@ -4,70 +4,70 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>CEP *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="cep">CEP *</label>
+        <input type="text" class="form-control" value="" name="cep"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Estado *</label>
-        <select class="form-control">
+        <label for="id_uf">Estado *</label>
+        <select class="form-control" name="id_uf">
             <option value="">Selecione uma opção</option>
         </select>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Cidade *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="cidade">Cidade *</label>
+        <input type="text" class="form-control" value="" name="cidade"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Bairro *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="bairro">Bairro *</label>
+        <input type="text" class="form-control" value="" name="bairro"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Endereço *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="endereco">Endereço *</label>
+        <input type="text" class="form-control" value="" name="endereco"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Número *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="numero">Número *</label>
+        <input type="text" class="form-control" value="" name="numero"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Complemento</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="complemento">Complemento</label>
+        <input type="text" class="form-control" value="" name="complemento"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Inscrição IPTU *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="inscricao_iptu">Inscrição IPTU *</label>
+        <input type="text" class="form-control" value="" name="inscricao_iptu"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Área total ocupada em m² *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="area_total_ocupada">Área total ocupada em m² *</label>
+        <input type="text" class="form-control" value="" name="area_total_ocupada"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>Área total do imóvel m² *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="area_total_imovel">Área total do imóvel m² *</label>
+        <input type="text" class="form-control" value="" name="area_total_imovel"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label>CPF ou CNPJ do proprietário do imóvel *</label>
-        <input type="text" class="form-control" value=""/>
+        <label for="cpf_cnpj_proprietario">CPF ou CNPJ do proprietário do imóvel *</label>
+        <input type="text" class="form-control" value="" name="cpf_cnpj_proprietario"/>
     </div>
 </div>
 <div class="col-xs-12 text-right">
