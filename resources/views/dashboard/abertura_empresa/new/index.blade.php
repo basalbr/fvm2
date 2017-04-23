@@ -5,6 +5,11 @@
         var socioId = 0;
 
         $(function () {
+            $('#cnae-code-add').on('click', function () {
+                var code = $('#cnae-code').val();
+                searchCnaeByCode(code);
+            });
+
             //Ao clicar em adicionar ou salvar sócio
             $('#modal-socio').find('.btn-success').on('click', function () {
                 var socioData = $('#modal-socio').find('form').serializeArray();
@@ -13,6 +18,7 @@
                 validateSocio(socioData);
             });
 
+            //editar sócio
             $('#list-socios').on('click', '.edit-socio', function (e) {
                 e.preventDefault();
                 var id = parseInt($(this).data('id'));
@@ -25,6 +31,7 @@
                 $('#modal-remove-socio').modal('show');
             });
 
+            //remover sócio
             $('#modal-remove-socio').find('.btn-danger').on('click', function (e) {
                 e.preventDefault();
                 $('#modal-remove-socio').modal('hide');
@@ -36,6 +43,22 @@
             })
 
         });
+
+        //Buscar CNAE por código
+        function searchCnaeByCode(code) {
+            $.post($('#cnae-code').data('search-code-url'), code)
+                .done(function (data, textStatus, jqXHR) {
+                    addCnae(data.codigo, data.descricao);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 422) {
+                        //noinspection JSUnresolvedVariable
+                        showFormValidationError($('#modal-socio').find('form'), jqXHR.responseJSON);
+                    } else {
+                        showFormValidationError($('#modal-socio').find('form'));
+                    }
+                });
+        }
 
         //editar informações de um sócio
         function editSocio(id) {

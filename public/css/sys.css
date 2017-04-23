@@ -418,7 +418,7 @@ a.shortcut h3.text-center {
 
 
 .btn:hover{
-    border-radius: 0px;
+    border-radius: 0px!important;
 }
 
 .btn-warning:hover, .btn-warning.active, .btn-warning:focus, .btn-warning:active{
@@ -443,4 +443,9 @@ a.shortcut h3.text-center {
     background-color: #1E88E5!important;
     border-color: #1976D2!important;;
     box-shadow: none!important;;
+}
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child>.btn-group:not(:first-child)>.btn, .input-group-btn:first-child>.btn:not(:first-child), .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group>.btn, .input-group-btn:last-child>.dropdown-toggle {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
