@@ -37,14 +37,14 @@ var SPMaskBehavior = function (val) {
 
 
 $(function () {
-    $('.phone').mask(SPMaskBehavior, spOptions);
-    $('.date').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
-    $('.time').mask('00:00:00', {clearIfNotMatch: true});
-    $('.date_time').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});
-    $('.cep').mask('00000-000', {clearIfNotMatch: true});
-    $('.cpf').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "__/__/____"});
-    $('.cnpj').mask('00.000.000/0000-00', {reverse: true}, {clearIfNotMatch: true});
-    $('.money').mask("#.##0,00", {reverse: true});
+    $('.phone-mask').mask(SPMaskBehavior, spOptions);
+    $('.date-mask').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
+    $('.time-mask').mask('00:00:00', {clearIfNotMatch: true});
+    $('.date_time-mask').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});
+    $('.cep-mask').mask('00000-000', {clearIfNotMatch: true});
+    $('.cpf-mask').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "__/__/____"});
+    $('.cnpj-mask').mask('00.000.000/0000-00', {reverse: true}, {clearIfNotMatch: true});
+    $('.money-mask').mask("#.##0,00", {reverse: true});
     $('.cnae-mask').mask('0000-0/00',{clearIfNotMatch: true, placeholder: '____-_/__'});
 
     ///////////////abrir modal////////////////////////

@@ -30,7 +30,7 @@
         <thead>
         <tr>
             <th>Descrição</th>
-            <th>Código</th>
+            <th class="cnae-code">Código</th>
             <th>Opções</th>
         </tr>
 

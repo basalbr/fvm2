@@ -50,7 +50,7 @@ class AjaxController extends Controller
     {
         $rules = ['description' => 'required'];
         $this->validate($request, $rules, []);
-        $cnaes = Cnae::where('descricao', 'like', '%' . $request->get('code') . '%')->select('codigo', 'descricao', 'id_tabela_simples_nacional')->get();
+        $cnaes = Cnae::where('descricao', 'like', '%' . $request->get('description') . '%')->select('codigo', 'descricao')->limit(5)->get();
         if ($cnaes->count()) {
             return response()->json($cnaes, 200);
         }
