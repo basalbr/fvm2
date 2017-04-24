@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @property integer id
+ * @property mixed id_tabela_simples_nacional
+ * @property string descricao
+ * @property string codigo
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
+ * @property \DateTime deleted_at
+ */
 class Cnae extends Model {
 
     use SoftDeletes;
@@ -45,6 +54,10 @@ class Cnae extends Model {
 
     public function errors() {
         return $this->errors;
+    }
+
+    public function isSimplesNacional(){
+        return $this->id_tabela_simples_nacional ? true : false;
     }
 
     public function tabela_simples_nacional() {

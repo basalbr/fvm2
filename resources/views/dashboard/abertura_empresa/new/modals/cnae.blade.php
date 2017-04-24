@@ -3,7 +3,7 @@
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Adicionar CNAE.</h3>
+                <h3 class="modal-title">Adicionar CNAE</h3>
             </div>
 
             <div class="modal-body">
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-hover table-striped">
                             <thead>
                             <tr>
                                 <th>Código</th>

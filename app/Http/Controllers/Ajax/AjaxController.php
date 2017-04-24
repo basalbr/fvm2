@@ -1,0 +1,61 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Junior
+ * Date: 17/03/2017
+ * Time: 20:48
+ */
+
+namespace App\Http\Controllers\Ajax;
+
+use App\Models\Cnae;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
+class AjaxController extends Controller
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Buscar um CNAE através do código
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchCnaeByCode(Request $request)
+    {
+        $rules = ['code' => 'required'];
+        $this->validate($request, $rules, []);
+        try {
+            $cnae = Cnae::where('codigo', '=', $request->get('code'))->select('codigo', 'descricao', 'id_tabela_simples_nacional')->firstOrFail();
+            /** @var Cnae $cnae */
+            if ($cnae->isSimplesNacional()) {
+                return response()->json($cnae, 200);
+            }
+            return response()->json(['message' => 'Este CNAE não é do simples nacional'], 403)->setStatusCode(403);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'CNAE não encontrado'], 404)->setStatusCode(404);
+        }
+    }
+
+    /**
+     * Buscar um CNAE através da descrição
+     * @param Request $request
+     * @return $this|\Illuminate\Http\JsonResponse
+     */
+    public function searchCnaeByDescription(Request $request)
+    {
+        $rules = ['description' => 'required'];
+        $this->validate($request, $rules, []);
+        $cnaes = Cnae::where('descricao', 'like', '%' . $request->get('code') . '%')->select('codigo', 'descricao', 'id_tabela_simples_nacional')->get();
+        if ($cnaes->count()) {
+            return response()->json($cnaes, 200);
+        }
+        return response()->json(['message' => 'Nenhum CNAE encontrado'], 404);
+    }
+
+
+}

@@ -21,5 +21,6 @@
     </div>
 </div>
 @yield('modals')
+@include('dashboard.modals.alert')
 </body>
 </html>

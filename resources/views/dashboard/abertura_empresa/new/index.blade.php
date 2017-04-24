@@ -5,9 +5,19 @@
         var socioId = 0;
 
         $(function () {
-            $('#cnae-code-add').on('click', function () {
+            $('#cnae-add-code').on('click', function () {
                 var code = $('#cnae-code').val();
-                searchCnaeByCode(code);
+                if($('#list-cnaes').has('tr[data-code="'+code+'"]').length){
+                    showModalAlert('Este CNAE já foi adicionado');
+                }else{
+                    searchCnaeByCode(code);
+                }
+            });
+
+            $('#cnae-code').on('keypress', function (e) {
+                if (e.keyCode === 13) {
+                    $('#cnae-add-code').click();
+                }
             });
 
             //Ao clicar em adicionar ou salvar sócio
@@ -44,20 +54,53 @@
 
         });
 
+        //Buscar CNAE por descrição
+        function searchCnaeByDescription(description) {
+            $.post($('#cnae-code').data('search-code-url'), {"description": description})
+                .done(function (data, textStatus, jqXHR) {
+                    console.log(data);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, errorThrown);
+                    //noinspection JSUnresolvedVariable
+                    if (jqXHR.responseJSON.code !== undefined) {
+                        showModalAlert(jqXHR.responseJSON.code[0]);
+                    } else {
+                        showModalAlert(jqXHR.responseJSON.message);
+                    }
+
+                });
+        }
+
         //Buscar CNAE por código
         function searchCnaeByCode(code) {
-            $.post($('#cnae-code').data('search-code-url'), code)
+            $.post($('#cnae-code').data('search-code-url'), {"code": code})
                 .done(function (data, textStatus, jqXHR) {
                     addCnae(data.codigo, data.descricao);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status === 422) {
-                        //noinspection JSUnresolvedVariable
-                        showFormValidationError($('#modal-socio').find('form'), jqXHR.responseJSON);
+                    console.log(jqXHR, errorThrown);
+                    //noinspection JSUnresolvedVariable
+                    if (jqXHR.responseJSON.code !== undefined) {
+                        showModalAlert(jqXHR.responseJSON.code[0]);
                     } else {
-                        showFormValidationError($('#modal-socio').find('form'));
+                        showModalAlert(jqXHR.responseJSON.message);
                     }
+
                 });
+        }
+
+        //Adicionar CNAE
+        function addCnae(code, description) {
+            var cnaeTr = $('<tr>').attr('data-code', code);
+            var cnaeRemoveButton = $('<button>').addClass('btn btn-danger remove-cnae').attr('data-code', code).text(' Remover').prepend($('<i>').addClass('fa fa-remove'));
+            var cnaeButtons = $('<td>');
+            cnaeButtons.append(cnaeRemoveButton);
+            cnaeTr.append($('<td>').text(description));
+            cnaeTr.append($('<td>').text(code));
+            cnaeTr.append($('<td>').append(cnaeButtons));
+            $('#list-cnaes').append(cnaeTr).find('.none').hide();
+            $('#cnae-code').val(null).focus();
         }
 
         //editar informações de um sócio

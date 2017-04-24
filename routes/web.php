@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function () {
     Route::get('user/reset-password/{email}/{token}', ['as' => 'resetPassword', 'uses' => 'ResetPasswordController@showResetForm']);
     Route::post('user/reset-password', ['as' => 'doResetPassword', 'uses' => 'ResetPasswordController@reset']);
 });
+
 Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
     Route::get('user/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 });
@@ -43,6 +44,9 @@ Route::group(['prefix' => 'dashboard/abertura_empresa', 'namespace' => 'Dashboar
     Route::post('validate/socio', ['as' => 'validateAberturaEmpresaSocio', 'uses' => 'AberturaEmpresaController@validateSocio']);
 });
 
-
-
+//Ajax
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth'], function () {
+    Route::post('cnae/search/code', ['as' => 'searchCnaeByCode', 'uses' => 'AjaxController@searchCnaeByCode']);
+    Route::post('cnae/search/description', ['as' => 'searchCnaeByDescription', 'uses' => 'AjaxController@searchCnaeByDescription']);
+});
 

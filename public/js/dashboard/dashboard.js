@@ -23,3 +23,8 @@ $(function () {
     });
 });
 
+function showModalAlert(message){
+    $('#modal-alert').find('.message').text(message);
+    $('#modal-alert').modal('show');
+}
+
