@@ -2,24 +2,23 @@
     <h3>Mensalidade após abertura da empresa</h3>
     <hr>
 </div>
-<div class="col-xs-12 summary">
-    <h3>Mensalidade</h3>
-    <p>Por favor, confirme os dados abaixo se estão corretos:</p>
-    <div>Quantidade de funcionários</div>
-    <div id="qtde-funcionarios"></div>
-    <div>Quantidade de sócios que retiram pró-labore</div>
-    <div id="qtde-pro-labores"></div>
-    <div>Quantidade de documentos contábeis emitidos mensalmente</div>
-    <div id="qtde-documentos-contabeis"></div>
-    <div>Quantidade de documentos fiscais recebidos e emitidos mensalmente</div>
-    <div id="qtde-documentos-fiscais"></div>
-    <h3>Taxa de abertura de empresa</h3>
-    <div>Valor para iniciarmos o processo de abertura de empresa</div>
-    <div>R$79,90</div>
+<div class="col-xs-6 summary">
+    <h3>Resumo da solicitação</h3>
+    <p>Abaixo está um resumo da sua solicitação de abertura de empresa.</p>
+
+    <div class="description">Taxa de abertura de empresa: <span class="price">R$79,90</span></div>
+    <div class="description">Mensalidade após conclusão do processo <span class="price" id="mensalidade">R$79,90</span></div>
+    <ul class="items">
+        <li>Quantidade de funcionários: <span id="qtde-funcionarios"></span></li>
+        <li>Quantidade de sócios que retiram pró-labore: <span id="qtde-pro-labores"></span></li>
+        <li>Quantidade de documentos contábeis emitidos mensalmente: <span id="qtde-documentos-contabeis"></span></li>
+        <li>Quantidade de documentos fiscais recebidos e emitidos mensalmente: <span id="qtde-documentos-fiscais"></span></li>
+    </ul>
+
 </div>
 <div class="col-xs-12 text-right">
     <hr>
     <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - CNAEs</button>
-    <button type="submit" class="btn btn-success">Finalizar e Pagar <span class="fa fa-angle-check"></span>
+    <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Finalizar e Pagar
     </button>
 </div>
