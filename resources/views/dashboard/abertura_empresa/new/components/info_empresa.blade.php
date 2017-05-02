@@ -30,6 +30,30 @@
         </select>
     </div>
 </div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="nome_empresarial2">Quantidade de Funcionários *</label>
+        <input type="text" class="form-control" value="" name="qtde_funcionarios"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="nome_empresarial2">Quantidade de sócios que retiram pró-labore *</label>
+        <input type="text" class="form-control" value="" name="qtde_pro_labores"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="nome_empresarial2">Quantidade de documentos contábeis emitidos mensalmente *</label>
+        <input type="text" class="form-control" value="" name="qtde_doc_contabeis"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="nome_empresarial2">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
+        <input type="text" class="form-control" value="" name="qtde_doc_fiscais"/>
+    </div>
+</div>
 <div class="col-xs-12">
     <div class="form-group">
         <label for="capital_social">Capital social *</label>
