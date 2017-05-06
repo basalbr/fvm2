@@ -67,7 +67,7 @@
                         <div class="col-xs-3">
                             <div class='form-group'>
                                 <label for="data_nascimento">Data de Nascimento *</label>
-                                <input type='text' class='form-control' name='data_nascimento'/>
+                                <input type='text' class='form-control date-mask' name='data_nascimento'/>
                             </div>
                         </div>
                         <div class="col-xs-4">
@@ -83,7 +83,7 @@
                             <div class='form-group'>
                                 <label for="regime_casamento">Regime de casamento</label>
                                 <select name="regime_casamento" class="form-control">
-                                    <option value="">Nenhum</option>
+                                    <option value="0">Nenhum</option>
                                     <option value="1">União parcial de bens</option>
                                     <option value="2">Alguma outra coisa muito comprida e extensa e complexa</option>
                                 </select>
@@ -104,13 +104,13 @@
                         <div class="col-xs-4">
                             <div class='form-group'>
                                 <label for="telefone">Telefone *</label>
-                                <input type='text' class='form-control' name='telefone'/>
+                                <input type='text' class='form-control phone-mask' name='telefone'/>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class='form-group'>
                                 <label for="cpf">CPF *</label>
-                                <input type='text' class='form-control' name='cpf'/>
+                                <input type='text' class='form-control cpf-mask' name='cpf'/>
                             </div>
                         </div>
                         <div class="col-xs-3">

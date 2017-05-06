@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\Cnae;
+use App\Models\Plano;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -55,6 +56,26 @@ class AjaxController extends Controller
             return response()->json($cnaes, 200);
         }
         return response()->json(['message' => 'Nenhum CNAE encontrado'], 404);
+    }
+
+    public function getMonthlyPaymentParams()
+    {
+        $planos = Plano::orderBy('total_documento_fiscal', 'asc')->get(['total_documento_fiscal', 'total_documento_contabil', 'total_funcionario', 'total_pro_labore', 'valor']);
+        $maxDocsFiscais = Plano::max('total_documento_fiscal');
+        $maxDocsContabeis = Plano::max('total_documento_contabil');
+        $maxFuncionarios = Plano::max('total_funcionario');
+        $maxProLabores = Plano::max('total_pro_labore');
+        $maxPrice = Plano::max('valor');
+        $minPrice = Plano::min('valor');
+        return response()->json([
+            'planos' => $planos,
+            'maxFuncionarios' => $maxFuncionarios,
+            'maxDocsFiscais' => (int)$maxDocsFiscais,
+            'maxProLabores' => (int)$maxProLabores,
+            'maxPrice' => (float)$maxPrice,
+            'minPrice' => (int)$minPrice,
+            'maxDocsContabeis' => (int)$maxDocsContabeis
+        ]);
     }
 
 

@@ -42,7 +42,7 @@ $(function () {
     $('.time-mask').mask('00:00:00', {clearIfNotMatch: true});
     $('.date_time-mask').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});
     $('.cep-mask').mask('00000-000', {clearIfNotMatch: true});
-    $('.cpf-mask').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "__/__/____"});
+    $('.cpf-mask').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "___.___.___-__"});
     $('.cnpj-mask').mask('00.000.000/0000-00', {reverse: true}, {clearIfNotMatch: true});
     $('.money-mask').mask("#.##0,00", {reverse: true});
     $('.cnae-mask').mask('0000-0/00',{clearIfNotMatch: true, placeholder: '____-_/__'});

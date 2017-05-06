@@ -13,6 +13,9 @@
         <label for="id_uf">Estado *</label>
         <select class="form-control" name="id_uf">
             <option value="">Selecione uma opção</option>
+            @foreach($ufs as $uf)
+                <option value="{{$uf->id}}">{{$uf->nome}}</option>
+            @endforeach
         </select>
     </div>
 </div>

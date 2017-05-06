@@ -9,6 +9,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\AberturaEmpresa;
+use App\Models\EnquadramentoEmpresa;
+use App\Models\NaturezaJuridica;
+use App\Models\Uf;
 use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
@@ -27,7 +30,10 @@ class AberturaEmpresaController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function new(){
-        return view('dashboard.abertura_empresa.new.index');
+        $enquadramentos = EnquadramentoEmpresa::orderBy('descricao')->get();
+        $naturezasJuridicas = NaturezaJuridica::orderBy('descricao')->get();
+        $ufs = Uf::orderBy('nome')->get();
+        return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs"));
     }
 
     /**

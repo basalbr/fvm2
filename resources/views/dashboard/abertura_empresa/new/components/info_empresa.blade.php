@@ -19,6 +19,9 @@
         <label for="id_natureza_juridica">Natureza Jurídica *</label>
         <select class="form-control" name="id_natureza_juridica">
             <option value="">Selecione uma opção</option>
+            @foreach($naturezasJuridicas as $naturezaJuridica)
+                <option value="{{$naturezaJuridica->id}}">{{$naturezaJuridica->descricao}}</option>
+            @endforeach
         </select>
     </div>
 </div>
@@ -27,6 +30,9 @@
         <label for="enquadramento">Enquadramento da empresa *</label>
         <select class="form-control" name="enquadramento">
             <option value="">Selecione uma opção</option>
+            @foreach($enquadramentos as $enquadramento)
+                <option value="{{$enquadramento->id}}">{{$enquadramento->descricao}}</option>
+            @endforeach
         </select>
     </div>
 </div>
@@ -34,12 +40,6 @@
     <div class="form-group">
         <label for="nome_empresarial2">Quantidade de Funcionários *</label>
         <input type="text" class="form-control" value="" name="qtde_funcionarios"/>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="nome_empresarial2">Quantidade de sócios que retiram pró-labore *</label>
-        <input type="text" class="form-control" value="" name="qtde_pro_labores"/>
     </div>
 </div>
 <div class="col-xs-6">
