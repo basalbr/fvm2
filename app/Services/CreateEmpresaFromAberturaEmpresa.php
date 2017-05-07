@@ -11,14 +11,10 @@ namespace App\Services;
 use App\Models\AberturaEmpresa;
 use App\Models\Pessoa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CreateEmpresaFromAberturaEmpresa
 {
-    const PENDENTE = 'pendente';
-    const NOVO = 'novo';
-    const CANCELADO = 'cancelado';
-    const ATENCAO = 'atencao';
-    const CONCLUIDO = 'concluido';
 
     /**
      * @param array $data
@@ -34,6 +30,7 @@ class CreateEmpresaFromAberturaEmpresa
             AberturaEmpresa::find($data['id_abertura_empresa'])->status(static::CONCLUIDO)->save();
             DB::commit();
         } catch (\Exception $e) {
+            Log::critical($e->getMessage());
             DB::rollback();
             return false;
         }

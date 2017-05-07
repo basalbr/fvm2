@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Validator;
  * @property \DateTime updated_at
  * @property \DateTime deleted_at
  */
-class Cnae extends Model {
+class Cnae extends Model
+{
 
     use SoftDeletes;
 
@@ -37,7 +38,18 @@ class Cnae extends Model {
      */
     protected $fillable = ['id_tabela_simples_nacional', 'descricao', 'codigo'];
 
-    public function validate($data) {
+    public static function getCollectionFromCodes($codes)
+    {
+        $collection = [];
+        foreach ($codes as $code) {
+            $cnae = self::where('code', '=', $code)->select('id')->first();
+            $collection[] = $cnae->toArray();
+        }
+        return $collection;
+    }
+
+    public function validate($data)
+    {
         // make a new validator object
         $v = Validator::make($data, $this->rules);
         $v->setAttributeNames($this->niceNames);
@@ -52,15 +64,18 @@ class Cnae extends Model {
         return true;
     }
 
-    public function errors() {
+    public function errors()
+    {
         return $this->errors;
     }
 
-    public function isSimplesNacional(){
+    public function isSimplesNacional()
+    {
         return $this->id_tabela_simples_nacional ? true : false;
     }
 
-    public function tabela_simples_nacional() {
+    public function tabela_simples_nacional()
+    {
         return $this->belongsTo('App\TabelaSimplesNacional', 'id_tabela_simples_nacional');
     }
 

@@ -3,13 +3,67 @@
 @include('dashboard.components.cnaes.search')
 <!-- Manipulação de Sócios -->
 @include('dashboard.components.socios.add')
+<!-- Cálculo de mensalidade -->
+@include('dashboard.components.mensalidade.simulate')
+
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $('#form-principal').find('.btn-success').on('click', function (e) {
+                e.preventDefault();
+                validateFormPrincipal();
+            });
+        });
+
+        function checkSocioPrincipal() {
+            var countSocios = 0;
+            $('#form-principal').find("[name*='principal']").each(function () {
+                if ($(this).val() === '1') {
+                    countSocios++;
+                }
+            });
+            if(countSocios === 1){
+                return true;
+            }
+            if(countSocios > 1){
+                showFormValidationError($('#form-principal'), ['A empresa deve possuir somente um sócio principal. Você cadastrou '+countSocios]);
+                return false
+            }
+            showFormValidationError($('#form-principal'), ['É necessário ter um sócio principal cadastrado.']);
+            return false;
+        }
+
+        function validateFormPrincipal() {
+            if (checkSocioPrincipal()) {
+                var formData = $('#form-principal').serializeArray();
+                $.post($('#form-principal').data('validation-url'), formData)
+                    .done(function (data, textStatus, jqXHR) {
+                        $('#form-principal').submit();
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status === 422) {
+                            //noinspection JSUnresolvedVariable
+                            showFormValidationError($('#form-principal'), jqXHR.responseJSON);
+                        } else {
+                            showFormValidationError($('#form-principal'));
+                        }
+                    });
+            }
+
+        }
+    </script>
+@stop
 
 @section('content')
     <h1>Abrir empresa</h1>
     <hr>
-    <form class="form" method="POST" action="" id="form-principal">
-        @include('dashboard.components.mensalidade.simulate')
-        <!-- Nav tabs -->
+    <form class="form" method="POST" action="" id="form-principal"
+          data-validation-url="{{route('validateAberturaEmpresa')}}">
+    @include('dashboard.components.form-alert')
+    @include('dashboard.components.disable-auto-complete')
+    {{csrf_field()}}
+    <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
@@ -27,7 +81,7 @@
                     CNAEs</a>
             </li>
             <li role="presentation">
-                <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i class="fa fa-list"></i>
+                <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>
                     Resumo</a>
             </li>
         </ul>
@@ -43,7 +97,7 @@
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="socios">
-                @include('dashboard.abertura_empresa.new.components.socios')
+                @include('dashboard.abertura_empresa.new.components.socios', [$ufs])
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="cnae">

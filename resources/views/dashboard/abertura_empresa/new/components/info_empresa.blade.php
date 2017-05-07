@@ -27,8 +27,8 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="enquadramento">Enquadramento da empresa *</label>
-        <select class="form-control" name="enquadramento">
+        <label for="id_enquadramento_empresa">Enquadramento da empresa *</label>
+        <select class="form-control" name="id_enquadramento_empresa">
             <option value="">Selecione uma opção</option>
             @foreach($enquadramentos as $enquadramento)
                 <option value="{{$enquadramento->id}}">{{$enquadramento->descricao}}</option>
@@ -38,20 +38,31 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="nome_empresarial2">Quantidade de Funcionários *</label>
-        <input type="text" class="form-control" value="" name="qtde_funcionarios"/>
+        <label for="id_tipo_tributacao">Tipo de Tributação *</label>
+        <select class="form-control" name="id_tipo_tributacao">
+            <option value="">Selecione uma opção</option>
+            @foreach($tiposTributacao as $tipoTributacao)
+                <option value="{{$tipoTributacao->id}}">{{$tipoTributacao->descricao}}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="nome_empresarial2">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <input type="text" class="form-control" value="" name="qtde_doc_contabeis"/>
+        <label for="qtde_funcionarios">Quantidade de Funcionários *</label>
+        <input type="text" class="form-control number-mask" value="" name="qtde_funcionario"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="nome_empresarial2">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
-        <input type="text" class="form-control" value="" name="qtde_doc_fiscais"/>
+        <label for="qtde_documento_contabil">Quantidade de documentos contábeis emitidos mensalmente *</label>
+        <input type="text" class="form-control number-mask" value="" name="qtde_documento_contabil"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="qtde_documento_fiscal">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
+        <input type="text" class="form-control number-mask" value="" name="qtde_documento_fiscal"/>
     </div>
 </div>
 <div class="col-xs-12">

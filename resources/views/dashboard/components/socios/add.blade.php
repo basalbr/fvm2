@@ -148,16 +148,17 @@
                         <div class="col-xs-2">
                             <div class='form-group'>
                                 <label for="cep">CEP *</label>
-                                <input type='text' class='form-control' name='cep'/>
+                                <input type='text' class='form-control cep-mask' name='cep'/>
                             </div>
                         </div>
                         <div class="col-xs-3">
                             <div class='form-group'>
                                 <label for="id_uf">Estado *</label>
                                 <select name="id_uf" class="form-control">
-                                    <option value="1">Santa Catarina</option>
-                                    <option value="2">Paraná</option>
-                                    <option value="3">Rio Grande do Sul tchê</option>
+                                    <option value="">Escolha uma opção</option>
+                                    @foreach($ufs as $uf)
+                                        <option value="{{$uf->id}}">{{$uf->nome}}</option>
+                                        @endforeach
                                 </select>
                             </div>
                         </div>

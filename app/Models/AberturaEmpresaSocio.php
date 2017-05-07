@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
@@ -112,6 +113,11 @@ class AberturaEmpresaSocio extends Model {
 
         // validation pass
         return true;
+    }
+
+    public function setDataNascimentoAttribute($value)
+    {
+        $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
     public function errors() {

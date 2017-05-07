@@ -453,6 +453,14 @@ a.shortcut h3.text-center {
     vertical-align: middle;
 }
 
+.table{
+    font-size: 14px;
+}
+
+td .btn{
+    margin-right: 5px;
+}
+
 th.cnae-code {
     min-width: 100px;
 }

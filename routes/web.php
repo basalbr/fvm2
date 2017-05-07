@@ -37,11 +37,22 @@ Route::get('dashboard', ['as' => 'dashboard', 'uses' => function () {
 }]);
 
 //Dashboard - Abertura de Empresa
-Route::group(['prefix' => 'dashboard/abertura_empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
-    Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresa@index']);
+Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
-    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresa@view']);
+    Route::post('new', ['uses' => 'AberturaEmpresaController@store']);
+    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateAberturaEmpresaSocio', 'uses' => 'AberturaEmpresaController@validateSocio']);
+    Route::post('validate/abertura-empresa', ['as' => 'validateAberturaEmpresa', 'uses' => 'AberturaEmpresaController@validateAjax']);
+    Route::post('validate/abertura-empresa222', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'AberturaEmpresaController@validateAjax']);
+    Route::post('validate/abertura-empresa333', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
+    Route::post('validate/abertura-2311', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
+    Route::post('validate/abertura-2323', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
+});
+
+//Admin - Abertura de Empresa
+Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresaController@view']);
 });
 
 //Ajax

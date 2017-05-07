@@ -6,7 +6,7 @@
  * Time: 20:48
  */
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\AberturaEmpresa;
 use App\Models\EnquadramentoEmpresa;
@@ -25,25 +25,21 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Auth;
 
 class AberturaEmpresaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index()
-    {
-        $aberturaEmpresas = AberturaEmpresa::where('id_usuario', '=', Auth::user()->id)->get();
-        return view('dashboard.abertura_empresa.index', compact("aberturaEmpresas"));
-    }
-
-    public function new()
-    {
+    public function new(){
         $enquadramentos = EnquadramentoEmpresa::orderBy('descricao')->get();
         $naturezasJuridicas = NaturezaJuridica::orderBy('descricao')->get();
         $tiposTributacao = TipoTributacao::orderBy('descricao')->get();
         $ufs = Uf::orderBy('nome')->get();
         return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao"));
+    }
+
+    public function view($id){
+        return $id;
     }
 
     /**
@@ -54,6 +50,7 @@ class AberturaEmpresaController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         /*
          * Valida a requisição, retorna para página de origem caso falhe
          */
@@ -86,7 +83,7 @@ class AberturaEmpresaController extends Controller
     {
         $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
         $this->authorize('sendMessage', $aberturaEmpresa);
-        if (SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())) {
+        if(SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())){
             return redirect()->route('viewAberturaEmpresa')->with('successAlert', 'A mensagem foi enviada, você receberá um e-mail quando respondermos.');
         }
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);

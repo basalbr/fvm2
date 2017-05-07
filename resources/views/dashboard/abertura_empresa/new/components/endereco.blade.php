@@ -5,7 +5,7 @@
 <div class="col-xs-6">
     <div class="form-group">
         <label for="cep">CEP *</label>
-        <input type="text" class="form-control" value="" name="cep"/>
+        <input type="text" class="form-control cep-mask" value="" name="cep"/>
     </div>
 </div>
 <div class="col-xs-6">
@@ -52,19 +52,19 @@
 <div class="col-xs-6">
     <div class="form-group">
         <label for="inscricao_iptu">Inscrição IPTU *</label>
-        <input type="text" class="form-control" value="" name="inscricao_iptu"/>
+        <input type="text" class="form-control" value="" name="iptu"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="area_total_ocupada">Área total ocupada em m² *</label>
-        <input type="text" class="form-control" value="" name="area_total_ocupada"/>
+        <label for="area_ocupada">Área total ocupada em m² *</label>
+        <input type="text" class="form-control" value="" name="area_ocupada"/>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="area_total_imovel">Área total do imóvel m² *</label>
-        <input type="text" class="form-control" value="" name="area_total_imovel"/>
+        <label for="area_total">Área total do imóvel m² *</label>
+        <input type="text" class="form-control" value="" name="area_total"/>
     </div>
 </div>
 <div class="col-xs-6">

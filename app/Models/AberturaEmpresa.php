@@ -8,11 +8,42 @@
 
 namespace App\Models;
 
-use App\Validation\ValidatesAberturaEmpresa;
+use App\Services\CalculateMonthlyPayment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
+/**
+ * @property integer id
+ * @property integer id_usuario
+ * @property string nome_empresarial1
+ * @property string nome_empresarial2
+ * @property string nome_empresarial3
+ * @property string capital_social
+ * @property integer id_natureza_juridica
+ * @property integer id_tipo_tributacao
+ * @property string cep
+ * @property integer id_uf
+ * @property string cidade
+ * @property string endereco
+ * @property string bairro
+ * @property integer numero
+ * @property string complemento
+ * @property string iptu
+ * @property integer area_total
+ * @property integer area_ocupada
+ * @property string cpf_cnpj_proprietario
+ * @property string cnae_duvida
+ * @property string status
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
+ * @property \DateTime deleted_at
+ * @property integer id_enquadramento_empresa
+ * @property integer qtde_funcionario
+ * @property integer qtde_documento_fiscal
+ * @property integer qtde_documento_contabil
+ * @property Usuario usuario
+ */
 class AberturaEmpresa extends Model
 {
     /**
@@ -20,6 +51,11 @@ class AberturaEmpresa extends Model
      */
     use SoftDeletes, ValidatesRequests;
 
+    const PENDENTE = 'pendente';
+    const NOVO = 'novo';
+    const CANCELADO = 'cancelado';
+    const ATENCAO = 'atencao';
+    const CONCLUIDO = 'concluido';
     /**
      * The database table used by the model.
      *
@@ -37,7 +73,7 @@ class AberturaEmpresa extends Model
         'nome_empresarial1',
         'nome_empresarial2',
         'nome_empresarial3',
-        'enquadramento',
+        'id_enquadramento_empresa',
         'capital_social',
         'id_natureza_juridica',
         'id_tipo_tributacao',
@@ -53,8 +89,13 @@ class AberturaEmpresa extends Model
         'area_ocupada',
         'cpf_cnpj_proprietario',
         'status',
+        'cnae_duvida',
+        'qtde_funcionario',
+        'qtde_documento_fiscal',
+        'qtde_documento_contabil'
     ];
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public function isSimplesNacional()
     {
@@ -65,6 +106,29 @@ class AberturaEmpresa extends Model
 
     }
 
+    /**
+     * @return AberturaEmpresaSocio
+     */
+    public function getSocioPrincipal()
+    {
+        return $this->socios()->where('principal', '=', 1)->first();
+    }
+
+    public function getPaymentStatus()
+    {
+        return OrdemPagamento::where('referencia', '=', $this->getTable())->where('id_referencia', '=', $this->id)->first()->status;
+    }
+
+    public function getMonthlyPayment()
+    {
+        $qtdeProLabore = $this->socios()->where('pro_labore', '>', 0)->count();
+        return 'R$ '.number_format(
+            CalculateMonthlyPayment::handle($this->qtde_funcionario, $this->qtde_documento_fiscal, $this->qtde_documento_contabil, $qtdeProLabore),
+            2,
+            ',',
+            '.'
+        );
+    }
 
     public function cnaes()
     {
@@ -101,42 +165,4 @@ class AberturaEmpresa extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
-    public function botao_pagamento()
-    {
-        if (
-            ($this->status == 'Atenção' ||
-                $this->status == 'Em Processamento' ||
-                $this->status == 'Novo') &&
-            ($this->pagamento->status == 'Devolvida' ||
-                $this->pagamento->status == 'Cancelada' ||
-                $this->pagamento->status == 'Pendente' ||
-                $this->pagamento->status == 'Aguardando pagamento')
-        ) {
-            $data = [
-                'items' => [
-                    [
-                        'id' => $this->id,
-                        'description' => 'Abertura de Empresa',
-                        'quantity' => '1',
-                        'amount' => $this->pagamento->valor,
-                    ],
-                ],
-                'notificationURL' => 'http://www.webcontabilidade.com/pagseguro',
-                'reference' => $this->pagamento->id,
-                'sender' => [
-                    'email' => $this->usuario->email,
-                    'name' => $this->usuario->nome,
-                    'phone' => $this->usuario->telefone
-                ]
-            ];
-            $checkout = Pagseguro::checkout()->createFromArray($data);
-            $credentials = PagSeguro::credentials()->get();
-            $information = $checkout->send($credentials); // Retorna um objeto de laravel\pagseguro\Checkout\Information\Information
-            return '<a href="' . $information->getLink() . '" class="btn btn-success"><span class="fa fa-credit-card"></span> Clique para pagar</a>';
-        }
-        if ($this->status == 'Disponível' || $this->status == 'Em análise') {
-            return '<a href="" class="btn btn-success" disabled>Em processamento</a>';
-        }
-        return null;
-    }
 }

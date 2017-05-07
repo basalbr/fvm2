@@ -8,7 +8,7 @@ $(function () {
     $('#modal-socio').find('.btn-success').on('click', function () {
         var socioData = $('#modal-socio').find('form').serializeArray();
         //remove referências caso seja uma edição
-        $("[name^='socio[" + $(this).data('id') + "]'], tr[data-id='" + $(this).data('id') + "']").remove();
+        $("[name^='socios[" + $(this).data('id') + "]'], tr[data-id='" + $(this).data('id') + "']").remove();
         validateSocio(socioData);
     });
 
@@ -20,7 +20,7 @@ $(function () {
     }).on('click', '.remove-socio', function (e) {
         e.preventDefault();
         var id = parseInt($(this).data('id'));
-        $('#socio-name').text($("input[name='socio[" + id + "][nome]']").val());
+        $('#socio-name').text($("input[name='socios[" + id + "][nome]']").val());
         $('#modal-remove-socio').find('.btn-danger').data('id', id);
         $('#modal-remove-socio').modal('show');
     });
@@ -41,10 +41,10 @@ $(function () {
 function editSocio(id) {
     $('#modal-socio').find('.btn-success').html('<i class="fa fa-save"></i> Alterar').data('id', id);
     //busca no form de sócio pelas partes equivalentes das informaçoes que estamos editando
-    $("[name^='socio[" + id + "]']").each(function () {
+    $("[name^='socios[" + id + "]']").each(function () {
         var name = $(this).attr('name');
         var value = $(this).val();
-        name = name.replace('socio[' + id + '][', '');
+        name = name.replace('socios[' + id + '][', '');
         name = name.replace(']', '');
         if (name === 'principal' || name === 'estado_civil' || name === 'regime_casamento' || name === 'id_uf') {
             $('#modal-socio').find('select[name="' + name + '"] option').each(function () {
@@ -60,7 +60,7 @@ function editSocio(id) {
 
 //remove um sócio do formulário e da lista de sócios
 function removeSocio(id) {
-    $("[name^='socio[" + id + "]'], tr[data-id='" + id + "']").remove();
+    $("[name^='socios[" + id + "]'], tr[data-id='" + id + "']").remove();
     //se nenhum sócio estiver cadastrado, mostra tr indicando que nenhum sócio foi cadastrado
     if ($('#list-socios').find('tr').length === 1) {
         $("#list-socios").find('.none').show();
@@ -83,7 +83,7 @@ function addSocio(socioData, id) {
             socioPrincipal = socioData[i].value;
         }
         $('#form-principal').append($('<input>').attr({
-            "name": "socio[" + id + "][" + socioData[i].name + "]",
+            "name": "socios[" + id + "][" + socioData[i].name + "]",
             "type": "hidden",
             "value": socioData[i].value
         }));

@@ -29,12 +29,9 @@ class RegisterUsuario
         try {
             /** @var Usuario $usuario */
             $usuario = Usuario::create($data);
-            $admins = Usuario::where('admin', '=', 1)->get();
-            $usuario->notify(new UsuarioRegistered($usuario));
-            foreach ($admins as $admin) {
-                /** @var Usuario $admin */
-                $admin->notify(new NewUsuario($usuario));
-            }
+
+            //Notifica os admins que um novo usuário foi criado
+            Usuario::notifyAdmins(new NewUsuario($usuario));
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

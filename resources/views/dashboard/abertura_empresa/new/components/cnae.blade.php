@@ -42,7 +42,12 @@
         </tbody>
     </table>
 </div>
-
+<div class="col-xs-12">
+    <div class="form-group">
+        <label for="cnae_duvida">Se você não sabe quais CNAEs escolher, digite a descrição da(s) atividade(s) que pretende realizar</label>
+        <textarea class="form-control" name="cnae_duvida"></textarea>
+    </div>
+</div>
 <div class="col-xs-12 text-right">
     <hr>
     <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Sócios</button>

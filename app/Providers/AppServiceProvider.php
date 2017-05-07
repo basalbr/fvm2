@@ -18,7 +18,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AberturaEmpresa::observe(MensagemObserver::class);
         Mensagem::observe(MensagemObserver::class);
         Schema::defaultStringLength(191);
         /**

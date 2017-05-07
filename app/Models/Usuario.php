@@ -93,9 +93,14 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany('App\Pessoa', 'id_usuario');
     }
 
+    public function aberturasEmpresa()
+    {
+        return $this->hasMany(AberturaEmpresa::class, 'id_usuario');
+    }
+
     public function ordensPagamento()
     {
-        return $this->hasMany('App\OrdemPagamento', 'id_usuario');
+        return $this->hasMany(OrdemPagamento::class, 'id_usuario');
     }
 
     public function setSenhaAttribute($senha)
@@ -109,6 +114,14 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
 
     public function getFirstName(){
         return array_first(explode(' ', $this->nome));
+    }
+
+    public static function notifyAdmins($notification){
+        $admins = self::where('admin', '=', 1)->get();
+        foreach ($admins as $admin) {
+            /** @var Usuario $admin */
+            $admin->notify($notification);
+        }
     }
 
 }
