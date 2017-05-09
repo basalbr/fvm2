@@ -52,6 +52,11 @@ class OrdemPagamento extends Model
         return $this->errors;
     }
 
+    public function formattedValue()
+    {
+        return 'R$' . number_format($this->valor, 2, ',', '.');
+    }
+
     public function mensalidade()
     {
         return $this->belongsTo('App\Mensalidade', 'id_mensalidade');

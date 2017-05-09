@@ -142,7 +142,7 @@ class AberturaEmpresa extends Model
 
     public function ordemPagamento()
     {
-        return $this->hasOne(OrdemPagamento::class, 'id_abertura_empresa');
+        return OrdemPagamento::where('referencia','=', $this->getTable())->where('id_referencia','=',$this->id)->first();
     }
 
     public function naturezaJuridica()

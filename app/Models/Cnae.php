@@ -42,7 +42,7 @@ class Cnae extends Model
     {
         $collection = [];
         foreach ($codes as $code) {
-            $cnae = self::where('code', '=', $code)->select('id')->first();
+            $cnae = self::where('codigo', '=', $code)->select('id as id_cnae')->first();
             $collection[] = $cnae->toArray();
         }
         return $collection;

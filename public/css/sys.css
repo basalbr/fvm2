@@ -416,10 +416,6 @@ a.shortcut h3.text-center {
     box-shadow: none;
 }
 
-.btn:hover {
-    border-radius: 0px !important;
-}
-
 .btn-warning:hover, .btn-warning.active, .btn-warning:focus, .btn-warning:active {
     background-color: #FFA726 !important;;
     border-color: #FF9800 !important;;
@@ -453,11 +449,11 @@ a.shortcut h3.text-center {
     vertical-align: middle;
 }
 
-.table{
+.table {
     font-size: 14px;
 }
 
-td .btn{
+td .btn {
     margin-right: 5px;
 }
 
@@ -478,7 +474,7 @@ th.cnae-code {
     padding: 2px 0;
 }
 
-.summary .items li span{
+.summary .items li span {
     font-weight: bold;
 }
 
@@ -486,12 +482,83 @@ th.cnae-code {
     border-bottom: 2px dotted rgba(98, 98, 98, 0.7);
 }
 
-.summary .description:not(:first-child){
+.summary .description:not(:first-child) {
     margin-top: 10px;
 }
 
 .summary .description .price {
-    font-weight:bold;
+    font-weight: bold;
     color: #1E88E5;
     float: right;
+}
+
+.panel .item-icon {
+    font-size: 40px;
+    color: #0091EA;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    display: block;
+    width: 40px;
+    text-align: center;
+}
+
+.panel .item-value {
+    margin-left: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 10px;
+
+}
+
+.panel .item-description {
+    text-align: right;
+    margin-left: 50px;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.panel .item-link-description {
+    text-align: right;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.panel .title {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #0091EA;
+
+}
+
+.panel .options {
+    text-align: right;
+}
+
+.panel .items > div:nth-child(even) {
+    background-color: #E1F5FE;
+}
+
+.panel.add-abertura-empresa {
+    background: rgba(255,255,255,0.2);
+    height: 428px;
+    text-align: center;
+    border: 2px dashed #0091EA;
+    transition: all 0.2s ease-in;
+}
+
+.panel.add-abertura-empresa:hover {
+    background: rgba(255,255,255,1);
+    border: 2px dashed #23527c;
+}
+
+.panel.add-abertura-empresa > div {
+    margin-top: 170px;
+    display: block;
+}
+.panel.add-abertura-empresa > div > p {
+    margin-top: 10px;
+    font-weight: bold;
 }
