@@ -41,9 +41,11 @@ class NewUsuario extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Temos um novo usuário cadastrado: ' . $this->usuario->nome)
+            ->greeting('Olá!')
+            ->line('Temos um novo usuário cadastrado: ' . $this->usuario->nome)
             ->line('Para visualizar as informações desse usuário clique no botão abaixo:')
             ->action('Visualizar usuário', $this->url)
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Novo usuário')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

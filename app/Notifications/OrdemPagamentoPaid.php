@@ -43,9 +43,9 @@ class OrdemPagamentoPaid extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome)
+            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome.'!')
             ->line('Seu pagamento no valor de R$'.$this->ordemPagamento->valor.' foi efetuado com sucesso!')
-            ->line('A equipe WEBContabilidade agradece sua preferência :)')
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Pagamento recebido')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

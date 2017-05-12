@@ -48,8 +48,10 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->greeting('Olá!')
             ->line('Você está recebendo este e-mail porque recebemos uma solicitação de alteração de senha para a sua conta.')
             ->action('Alterar Senha', route('resetPassword', [$this->email, $this->token]))
-            ->line('Se você não solicitou nenhuma alteração de senha, por favor ignore este e-mail.');
+            ->line('Se você não solicitou nenhuma alteração de senha, por favor ignore este e-mail.')
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)');
     }
 }

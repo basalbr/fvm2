@@ -562,3 +562,7 @@ th.cnae-code {
     margin-top: 10px;
     font-weight: bold;
 }
+
+.panel{
+    border:none;
+}

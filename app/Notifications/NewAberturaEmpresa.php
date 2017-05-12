@@ -44,9 +44,11 @@ class NewAberturaEmpresa extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Temos um nova solicitação de abertura de empresa de ' . $this->aberturaEmpresa->usuario->nome)
+            ->greeting('Olá!')
+            ->line('Temos um nova solicitação de abertura de empresa de ' . $this->aberturaEmpresa->usuario->nome)
             ->line('Para visualizar essa solicitação, clique no botão abaixo:')
             ->action('Visualizar Abertura de Empresa', $this->url)
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Nova abertura de empresa')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

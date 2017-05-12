@@ -58,10 +58,10 @@ class MessageSent extends Notification
     private function toUserMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->mensagem->aberturaEmpresa->usuario->nome)
+            ->greeting('Olá ' . $this->mensagem->aberturaEmpresa->usuario->nome.'!')
             ->line('Você recebeu uma nova mensagem de nossa equipe em seu processo de abertura de empresa.')
             ->action('Visualizar Mensagem', $this->url)
-            ->line('A equipe WEBContabilidade agradece sua preferência :)')
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Você recebeu uma nova mensagem')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

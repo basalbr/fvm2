@@ -44,10 +44,12 @@ class OrdemPagamentoNewStatus extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Mudança de status em ordem de pagamento')
+            ->greeting('Olá')
+            ->line('Mudança de status em ordem de pagamento')
             ->line('A ordem de pagamento de '.$this->ordemPagamento->usuario->nome.' foi alterada para:'.$this->ordemPagamento->status)
             ->line('Para visualizar a ordem de pagamento, clique no botão abaixo:')
             ->action('Visualizar', $this->url)
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Novo status em ordem de pagamento')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

@@ -41,11 +41,11 @@ class UsuarioRegistered extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->usuario->nome)
+            ->greeting('Olá ' . $this->usuario->nome.'!')
             ->line('Seja bem vindo à WEBContabilidade!')
             ->line('Você pode acessar nosso sistema através do link abaixo:')
             ->action('Acesse o sistema', $this->url)
-            ->line('A equipe WEBContabilidade agradece sua preferência :)')
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Seja bem vindo')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

@@ -43,9 +43,11 @@ class MessageFromSite extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Você recebeu uma mensagem de '.$this->mensagem->nome. ' com o assunto:'.$this->mensagem->assunto)
+            ->greeting('Olá!')
+            ->line('Você recebeu uma mensagem de '.$this->mensagem->nome. ' com o assunto:'.$this->mensagem->assunto)
             ->line('Para visualizar e responder a mensagem, clique no botão abaixo:')
             ->action('Visualizar', $this->url)
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Novo contato do site')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

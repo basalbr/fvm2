@@ -46,13 +46,13 @@ class OrdemPagamentoFailed extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome)
+            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome.'!')
             ->line('O PagSeguro rejeitou sua tentativa de pagamento.')
             ->line('Para verificar mais detalhes da transação e efetuar um novo pagamento, clique no botão abaixo:')
             ->action('Verificar pagamento', $this->url)
             ->line('Caso tenha problemas novamente com seu pagamento, crie um chamado em nosso site através do botão abaixo:')
             ->action('Abrir chamado', $this->chamadoUrl)
-            ->line('A equipe WEBContabilidade agradece sua preferência :)')
+            ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Houve um problema com seu pagamento')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
