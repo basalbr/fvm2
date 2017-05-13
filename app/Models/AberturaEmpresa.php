@@ -97,6 +97,9 @@ class AberturaEmpresa extends Model
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    /**
+     * @return bool
+     */
     public function isSimplesNacional()
     {
         if ($this->cnaes()->where('id_tabela_simples_nacional', '=', null)->count()) {
@@ -114,52 +117,90 @@ class AberturaEmpresa extends Model
         return $this->socios()->where('principal', '=', 1)->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function getPaymentStatus()
     {
         return OrdemPagamento::where('referencia', '=', $this->getTable())->where('id_referencia', '=', $this->id)->first()->status;
     }
 
+    /**
+     * @return string
+     */
     public function getMonthlyPayment()
     {
         $qtdeProLabore = $this->socios()->where('pro_labore', '>', 0)->count();
-        return 'R$ '.number_format(
-            CalculateMonthlyPayment::handle($this->qtde_funcionario, $this->qtde_documento_fiscal, $this->qtde_documento_contabil, $qtdeProLabore),
-            2,
-            ',',
-            '.'
-        );
+        return 'R$ ' . number_format(CalculateMonthlyPayment::handle($this->qtde_funcionario, $this->qtde_documento_fiscal, $this->qtde_documento_contabil, $qtdeProLabore), 2, ',', '.');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function cnaes()
     {
         return $this->hasMany(AberturaEmpresaCnae::class, 'id_abertura_empresa');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function uf()
     {
-        return $this->belongsTo(Uf::class, 'id', 'id_uf');
+        return $this->belongsTo(Uf::class, 'id_uf');
     }
 
+    /**
+     * @return mixed
+     */
     public function ordemPagamento()
     {
-        return OrdemPagamento::where('referencia','=', $this->getTable())->where('id_referencia','=',$this->id)->first();
+        return OrdemPagamento::where('referencia', '=', $this->getTable())->where('id_referencia', '=', $this->id)->first();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function naturezaJuridica()
     {
-        return $this->belongsTo(NaturezaJuridica::class, 'id', 'id_natureza_juridica');
+        return $this->belongsTo(NaturezaJuridica::class, 'id_natureza_juridica');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function enquadramentoEmpresa()
+    {
+        return $this->belongsTo(EnquadramentoEmpresa::class, 'id_enquadramento_empresa');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tipoTributacao()
+    {
+        return $this->belongsTo(TipoTributacao::class, 'id_tipo_tributacao');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function socios()
     {
         return $this->hasMany(AberturaEmpresaSocio::class, 'id_abertura_empresa');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function mensagens()
     {
         return $this->hasMany(AberturaEmpresaComentario::class, 'id_abertura_empresa');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');

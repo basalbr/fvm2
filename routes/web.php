@@ -41,18 +41,14 @@ Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboar
     Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
     Route::post('new', ['uses' => 'AberturaEmpresaController@store']);
-    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresaController@view']);
+    Route::get('view/{id}', ['as' => 'showAberturaEmpresaToUser', 'uses' => 'AberturaEmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateAberturaEmpresaSocio', 'uses' => 'AberturaEmpresaController@validateSocio']);
     Route::post('validate/abertura-empresa', ['as' => 'validateAberturaEmpresa', 'uses' => 'AberturaEmpresaController@validateAjax']);
-    Route::post('validate/abertura-empresa222', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'AberturaEmpresaController@validateAjax']);
-    Route::post('validate/abertura-empresa333', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
-    Route::post('validate/abertura-2311', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
-    Route::post('validate/abertura-2323', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@validateAjax']);
 });
 
 //Admin - Abertura de Empresa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-    Route::get('view/{id}', ['as' => 'viewAberturaEmpresa', 'uses' => 'AberturaEmpresaController@view']);
+    Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);
 });
 
 //Ajax

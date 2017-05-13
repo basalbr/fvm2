@@ -49,7 +49,7 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="qtde_funcionarios">Quantidade de Funcionários *</label>
+        <label for="qtde_funcionario">Quantidade de Funcionários *</label>
         <input type="text" class="form-control number-mask" value="" name="qtde_funcionario"/>
     </div>
 </div>

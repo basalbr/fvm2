@@ -4,8 +4,6 @@
     <h1>Abrir empresa</h1>
     <hr>
     <form class="form" method="POST" action="">
-    @include('dashboard.components.disable-auto-complete')
-    {{csrf_field()}}
     <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
@@ -32,23 +30,23 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="empresa">
-                @include('dashboard.abertura_empresa.new.components.info_empresa')
+                @include('dashboard.abertura_empresa.view.components.info_empresa')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="endereco">
-                @include('dashboard.abertura_empresa.new.components.endereco')
+                @include('dashboard.abertura_empresa.view.components.endereco')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="socios">
-                @include('dashboard.abertura_empresa.new.components.socios', [$ufs])
+{{--                @include('dashboard.abertura_empresa.view.components.socios', [$ufs])--}}
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="cnae">
-                @include('dashboard.abertura_empresa.new.components.cnae')
+{{--                @include('dashboard.abertura_empresa.view.components.cnae')--}}
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="resumo">
-                @include('dashboard.abertura_empresa.new.components.resumo')
+{{--                @include('dashboard.abertura_empresa.view.components.resumo')--}}
                 <div class="clearfix"></div>
             </div>
         </div>

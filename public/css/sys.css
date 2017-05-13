@@ -558,6 +558,7 @@ th.cnae-code {
     margin-top: 170px;
     display: block;
 }
+
 .panel.add-abertura-empresa > div > p {
     margin-top: 10px;
     font-weight: bold;
@@ -565,4 +566,9 @@ th.cnae-code {
 
 .panel{
     border:none;
+}
+
+.form-group div.form-control{
+    display: table-cell;
+    vertical-align: middle;
 }

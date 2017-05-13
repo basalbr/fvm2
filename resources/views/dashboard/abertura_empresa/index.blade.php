@@ -38,7 +38,7 @@
                 <div class="col-xs-12 options">
                     <a href="" class="btn btn-success"><i class="fa fa-credit-card"></i>
                         Pagar {{$aberturaEmpresa->ordemPagamento()->formattedValue()}}</a>
-                    <a href="" class="btn btn-primary"><i class="fa fa-search"></i> Ver Detalhes</a>
+                    <a href="{{route('showAberturaEmpresaToUser', $aberturaEmpresa->id)}}" class="btn btn-primary"><i class="fa fa-search"></i> Ver Detalhes</a>
                     <a href="" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
                 </div>
                 <div class="clearfix"></div>

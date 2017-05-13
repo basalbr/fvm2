@@ -15,7 +15,7 @@
         <li>
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul id="left-menu-list" class="animated fadeInLeft">
-                <li><a href="">Abertura de empresa <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listAberturaEmpresaToUser')}}">Abertura de empresa <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="">Migrar empresa <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="">Sócios <i class="fa fa-angle-right"></i></a></li>

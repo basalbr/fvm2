@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @property boolean admin
+ */
 class Usuario extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
 

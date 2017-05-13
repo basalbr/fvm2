@@ -4,71 +4,56 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="nome_preferencial1">Nome preferencial *</label>
-        <input type="text" class="form-control" name="nome_empresarial1" value=""/>
+        <label for="">Nome preferencial *</label>
+        <div class="form-control">{{$aberturaEmpresa->nome_empresarial1}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="nome_empresarial2">Nome alternativo *</label>
-        <input type="text" class="form-control" value="" name="nome_empresarial2"/>
+        <label for="">Nome alternativo *</label>
+        <div class="form-control">{{$aberturaEmpresa->nome_empresarial2}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="id_natureza_juridica">Natureza Jurídica *</label>
-        <select class="form-control" name="id_natureza_juridica">
-            <option value="">Selecione uma opção</option>
-            @foreach($naturezasJuridicas as $naturezaJuridica)
-                <option value="{{$naturezaJuridica->id}}">{{$naturezaJuridica->descricao}}</option>
-            @endforeach
-        </select>
+        <label for="">Natureza Jurídica *</label>
+        <div class="form-control">{{$aberturaEmpresa->naturezaJuridica->descricao}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="id_enquadramento_empresa">Enquadramento da empresa *</label>
-        <select class="form-control" name="id_enquadramento_empresa">
-            <option value="">Selecione uma opção</option>
-            @foreach($enquadramentos as $enquadramento)
-                <option value="{{$enquadramento->id}}">{{$enquadramento->descricao}}</option>
-            @endforeach
-        </select>
+        <label for="">Enquadramento da empresa *</label>
+        <div class="form-control">{{$aberturaEmpresa->enquadramentoEmpresa->descricao}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="id_tipo_tributacao">Tipo de Tributação *</label>
-        <select class="form-control" name="id_tipo_tributacao">
-            <option value="">Selecione uma opção</option>
-            @foreach($tiposTributacao as $tipoTributacao)
-                <option value="{{$tipoTributacao->id}}">{{$tipoTributacao->descricao}}</option>
-            @endforeach
-        </select>
+        <label for="">Tipo de Tributação *</label>
+        <div class="form-control">{{$aberturaEmpresa->tipoTributacao->descricao}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="qtde_funcionarios">Quantidade de Funcionários *</label>
-        <input type="text" class="form-control number-mask" value="" name="qtde_funcionario"/>
+        <label for="">Quantidade de Funcionários *</label>
+        <div class="form-control">{{$aberturaEmpresa->qtde_funcionario}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="qtde_documento_contabil">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <input type="text" class="form-control number-mask" value="" name="qtde_documento_contabil"/>
+        <label for="">Quantidade de documentos contábeis emitidos mensalmente *</label>
+        <div class="form-control">{{$aberturaEmpresa->qtde_documento_contabil}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="qtde_documento_fiscal">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
-        <input type="text" class="form-control number-mask" value="" name="qtde_documento_fiscal"/>
+        <label for="">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
+        <div class="form-control">{{$aberturaEmpresa->qtde_documento_fiscal}}</div>
     </div>
 </div>
 <div class="col-xs-12">
     <div class="form-group">
-        <label for="capital_social">Capital social *</label>
-        <textarea class="form-control" name="capital_social"></textarea>
+        <label for="">Capital social *</label>
+        <div class="form-control">{{$aberturaEmpresa->capital_social}}</div>
     </div>
 </div>
 <div class="col-xs-12 text-right">

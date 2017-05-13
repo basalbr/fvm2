@@ -46,6 +46,13 @@ class AberturaEmpresaController extends Controller
         return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao"));
     }
 
+    public function view($id)
+    {
+        $aberturaEmpresa = AberturaEmpresa::find($id);
+        $this->authorize('view',$aberturaEmpresa);
+        return view('dashboard.abertura_empresa.view.index', compact("aberturaEmpresa"));
+    }
+
     /**
      * Salva um novo processo de abertura de empresa no sistema
      *
