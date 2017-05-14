@@ -50,7 +50,7 @@ class AberturaEmpresaCnae extends Model {
     }
     
     public function cnae(){
-        return $this->belongsTo('App\Cnae', 'id_cnae');
+        return $this->belongsTo(Cnae::class, 'id_cnae');
     }
 
 }

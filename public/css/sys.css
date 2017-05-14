@@ -542,7 +542,7 @@ th.cnae-code {
 }
 
 .panel.add-abertura-empresa {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     height: 428px;
     text-align: center;
     border: 2px dashed #0091EA;
@@ -550,7 +550,7 @@ th.cnae-code {
 }
 
 .panel.add-abertura-empresa:hover {
-    background: rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     border: 2px dashed #23527c;
 }
 
@@ -564,11 +564,85 @@ th.cnae-code {
     font-weight: bold;
 }
 
-.panel{
-    border:none;
+.panel {
+    border: none;
 }
 
-.form-group div.form-control{
+.form-group div.form-control {
     display: table-cell;
     vertical-align: middle;
+}
+
+.messages {
+    background: #fafafa;
+    min-height: 100px;
+    overflow: auto;
+    padding: 15px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 5px;
+}
+
+.message {
+    position: relative;
+    min-height: 65px;
+    border-radius: 35px;
+    display: table;
+    padding: 5px 15px 5px 70px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.message:last-child{
+    margin-bottom: 0;
+}
+
+.message:before {
+    display: table;
+    content: " ";
+}
+
+.message:after {
+    clear: both;
+}
+
+.message.from-admin {
+    padding: 5px 70px 5px 15px;
+    float: right;
+    text-align: right;
+    background-color: #daeffd;
+}
+
+
+
+.message .text {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.message .text p{
+    margin: 0;
+}
+
+.message .thumb {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    border-radius: 65px;
+    text-align: center;
+    position: absolute;
+    left: 10px;
+    top: 7px;
+}
+
+.message.from-admin .thumb {
+    left: auto;
+    right: 10px;
+}
+
+.message .thumb img {
+    min-height: 50px;
+    max-width: 50px;
+    margin: 0;
+    padding: 0;
+    position: relative;
 }

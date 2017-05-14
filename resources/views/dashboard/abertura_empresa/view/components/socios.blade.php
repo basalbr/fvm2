@@ -13,20 +13,21 @@
 
         </thead>
         <tbody id="list-socios">
-        <tr>
-            <td colspan="3" class="none">Nenhum sócio cadastrado</td>
-        </tr>
+        @if(count($aberturaEmpresa->socios))
+            @foreach($aberturaEmpresa->socios as $socio)
+                <tr>
+                    <td>{{$socio->nome}}</td>
+                    <td>{{$socio->isPrincipal()}}</td>
+                    <td>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i> Detalhes</button>
+                    </td>
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="3" class="none">Nenhum sócio cadastrado</td>
+            </tr>
+        @endif
         </tbody>
     </table>
-</div>
-<div class="col-xs-12">
-    <button type="button" class="btn btn-primary open-modal" data-modal="#modal-socio"><i class="fa fa-plus"></i>
-        Cadastrar sócio
-    </button>
-</div>
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Endereço</button>
-    <button class="btn btn-primary next">Avançar - CNAEs <i class="fa fa-angle-right"></i>
-    </button>
 </div>

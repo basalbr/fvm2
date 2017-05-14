@@ -16,7 +16,7 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Natureza Jurídica *</label>
+        <label for="">Natureza jurídica *</label>
         <div class="form-control">{{$aberturaEmpresa->naturezaJuridica->descricao}}</div>
     </div>
 </div>
@@ -28,13 +28,13 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Tipo de Tributação *</label>
+        <label for="">Tipo de tributação *</label>
         <div class="form-control">{{$aberturaEmpresa->tipoTributacao->descricao}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Quantidade de Funcionários *</label>
+        <label for="">Quantidade de funcionários *</label>
         <div class="form-control">{{$aberturaEmpresa->qtde_funcionario}}</div>
     </div>
 </div>
@@ -55,9 +55,4 @@
         <label for="">Capital social *</label>
         <div class="form-control">{{$aberturaEmpresa->capital_social}}</div>
     </div>
-</div>
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-primary next">Avançar - Endereço <span class="fa fa-angle-right"></span>
-    </button>
 </div>

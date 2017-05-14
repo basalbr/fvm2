@@ -115,6 +115,10 @@ class AberturaEmpresaSocio extends Model {
         return true;
     }
 
+    public function isPrincipal(){
+        return $this->principal ? 'Sim': 'Não';
+    }
+
     public function setDataNascimentoAttribute($value)
     {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
