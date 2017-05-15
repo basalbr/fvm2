@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\Cnae;
+use App\Models\Mensagem;
 use App\Models\Plano;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -76,6 +78,31 @@ class AjaxController extends Controller
             'minPrice' => (int)$minPrice,
             'maxDocsContabeis' => (int)$maxDocsContabeis
         ]);
+    }
+
+    public function sendMessage()
+    {
+
+    }
+
+    public function updateMessages(Request $request)
+    {
+        $referenceId = $request->get('referenceId');
+        $reference = $request->get('reference');
+        $lastMessageId = $request->get('lastMessageId');
+
+        /** @var Collection $messages */
+        $messages = Mensagem::where('id_referencia', '=', $referenceId)
+            ->where('referencia', '=', $reference)
+            ->where('id', '>', $lastMessageId)
+            ->get();
+
+        if (count($messages)) {
+            $html = view('dashboard.components.chat.messages', ['messages' => $messages])->render();
+            $lastMessageId = $messages->last()->id;
+            return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
+        }
+        return response()->json(['messages' => null, 'lastMessageId' => null]);
     }
 
 

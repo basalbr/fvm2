@@ -2,16 +2,73 @@
 @section('js')
     @parent
     <script type="text/javascript">
-        $(function(){
+        var reference, referenceId, lastMessageId;
+
+        $(function () {
+            reference = $('.messages').data('reference');
+            referenceId = $('.messages').data('reference-id');
+            lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
+            // organizar mensagens no chat assim que carregar a pagina
             $('.messages').scrollTop($('.messages')[0].scrollHeight);
-        })
+            setInterval(updateChat, 3000);
+        });
+
+        function sendMessage() {
+            var info = {
+                message: $('#message').val()
+            }
+            $.post($('.messages').data('send-message-url'), info)
+                .done(function (data, textStatus, jqXHR) {
+                    if (data.messages.length) {
+
+                    }
+                    if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
+                        lastMessageId = data.lastMessageId;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 422) {
+                        //noinspection JSUnresolvedVariable
+                        showFormValidationError($('#message-form'), jqXHR.responseJSON);
+                    } else {
+                        showFormValidationError($('#message-form'));
+                    }
+                });
+        }
+
+        function updateChat() {
+            var info = {
+                reference: reference,
+                referenceId: referenceId,
+                lastMessageId: lastMessageId
+            };
+            $.post($('.messages').data('update-messages-url'), info)
+                .done(function (data, textStatus, jqXHR) {
+                    if (data.messages !== null) {
+                        $('.no-messages').hide();
+                        $('.messages').append(data.messages);
+                        $('.messages').scrollTop($('.messages')[0].scrollHeight);
+                    }
+                    if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
+                        lastMessageId = data.lastMessageId;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 422) {
+                        //noinspection JSUnresolvedVariable
+                        showFormValidationError($('#message-form'), jqXHR.responseJSON);
+                    } else {
+                        showFormValidationError($('#message-form'));
+                    }
+                });
+        }
     </script>
-    @stop
+@stop
 @section('content')
     <h1>Abertura de Empresa</h1>
     <hr>
     <form class="form" method="POST" action="">
-    <!-- Nav tabs -->
+        <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>

@@ -646,3 +646,10 @@ th.cnae-code {
     padding: 0;
     position: relative;
 }
+
+.messages .no-messages{
+    color: #1E88E5;
+    font-weight: bold;
+    margin-top: 25px;
+    text-align: center;
+}

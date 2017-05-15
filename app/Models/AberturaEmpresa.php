@@ -134,6 +134,11 @@ class AberturaEmpresa extends Model
         return 'R$ ' . number_format(CalculateMonthlyPayment::handle($this->qtde_funcionario, $this->qtde_documento_fiscal, $this->qtde_documento_contabil, $qtdeProLabore), 2, ',', '.');
     }
 
+    public function messages()
+    {
+        return Mensagem::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
