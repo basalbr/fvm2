@@ -22,7 +22,7 @@ $(function () {
         e.preventDefault();
         $.post($('#login-form').data('validation-url'), $('#login-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
-                $('#login-form').submit();
+                window.location.href = data;
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 422) {

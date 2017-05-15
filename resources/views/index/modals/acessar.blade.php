@@ -10,7 +10,7 @@
                   action="{{route('loginUser')}}">
                 <div class="modal-body">
                     @include('index.components.form-alert')
-                    {{csrf_field()}}
+                    {!! csrf_field() !!}
                     <div class='form-group'>
                         <label for="email">E-mail *</label>
                         <input type='text' class='form-control' name='email'/>

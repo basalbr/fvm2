@@ -1,7 +1,14 @@
 @extends('dashboard.layouts.master')
-
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function(){
+            $('.messages').scrollTop($('.messages')[0].scrollHeight);
+        })
+    </script>
+    @stop
 @section('content')
-    <h1>Abrir empresa</h1>
+    <h1>Abertura de Empresa</h1>
     <hr>
     <form class="form" method="POST" action="">
     <!-- Nav tabs -->
