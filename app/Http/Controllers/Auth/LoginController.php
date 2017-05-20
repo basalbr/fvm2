@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -22,8 +23,23 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers,ValidatesRequests;
+    use AuthenticatesUsers, ValidatesRequests;
 
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath())->getTargetUrl();
+    }
 
     /**
      * Create a new controller instance.
@@ -43,6 +59,7 @@ class LoginController extends Controller
     {
         return route('dashboard');
     }
+
 
     /**
      * Get the needed authorization credentials from the request.
@@ -66,25 +83,11 @@ class LoginController extends Controller
         $this->validate($request, $rules, [], $niceNames);
     }
 
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        return response()->json(route('dashboard'));
-    }
 
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)

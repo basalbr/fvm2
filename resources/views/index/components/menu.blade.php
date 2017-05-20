@@ -5,7 +5,15 @@
     <li><a href="">Dúvidas</a></li>
     <li><a href="">Notícias</a></li>
     <li><a href="">Contato</a></li>
-    <li><a href="" class="btn-registrar" data-toggle="modal" data-target="#modal-register"><span
-                    class="fa fa-check-square-o"></span> Crie sua conta</a></li>
-    <li><a href="" class="btn-acessar" data-toggle="modal" data-target="#modal-access"><span class="fa fa-sign-in"></span> Acessar</a></li>
+    @if(Auth::check())
+        <li><a href="{{route('dashboard')}}" class="btn-registrar" data-toggle="modal"><span
+                        class="fa fa-sign-in"></span> Acessar</a></li>
+        <li><a href="{{route('logout')}}" class="btn-acessar" data-toggle="modal"><span class="fa fa-sign-out"></span>
+                Sair</a></li>
+    @else
+        <li><a href="" class="btn-registrar" data-toggle="modal" data-target="#modal-register"><span
+                        class="fa fa-check-square-o"></span> Crie sua conta</a></li>
+        <li><a href="" class="btn-acessar" data-toggle="modal" data-target="#modal-access"><span
+                        class="fa fa-sign-in"></span> Acessar</a></li>
+    @endif
 </ul>

@@ -15,8 +15,12 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
     return view('index');
 }]);
 
+Route::get('/login', ['as' => 'login', 'uses' => function () {
+    return view('index', ['login'=>'true']);
+}]);
+
 //Registro e login de usuários
-Route::group(['namespace' => 'Auth', 'middleware' => 'guest'], function () {
+Route::group(['namespace' => 'Auth'], function () {
     Route::post('ajax/validate/user/registration', ['as' => 'validateUserRegistration', 'uses' => 'RegisterController@validateAjax']);
     Route::post('ajax/validate/user/recover-password', ['as' => 'validateUserEmail', 'uses' => 'LoginController@validateAjax']);
     Route::post('user/register', ['as' => 'registerUser', 'uses' => 'RegisterController@register']);
@@ -32,7 +36,7 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
 });
 
 //Dashboard - Home
-Route::get('dashboard', ['as' => 'dashboard', 'uses' => function () {
+Route::get('dashboard', ['as' => 'dashboard', 'middleware' => 'auth', 'uses' => function () {
     return view('dashboard.index');
 }]);
 

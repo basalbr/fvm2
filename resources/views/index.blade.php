@@ -1,4 +1,17 @@
 @extends('layouts.master')
+
+@if(isset($login))
+    @section('js')
+        @parent
+        <script type="text/javascript">
+            $(function(){
+                $('#modal-access').modal('show');
+
+            })
+        </script>
+        @stop
+    @endif
+
 @section('content')
 
 <section id="main-banner" class="section">
