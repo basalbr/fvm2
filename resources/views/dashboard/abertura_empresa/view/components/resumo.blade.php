@@ -19,7 +19,7 @@
             <textarea class="form-control" id="message"
                       placeholder="Digite sua mensagem e clique em enviar que responderemos o mais breve possível"></textarea>
         </div>
-        <button class="btn-primary btn"><i class="fa fa-send"></i> Enviar mensagem</button>
+        <button class="btn-primary btn" id="send-message"><i class="fa fa-send"></i> Enviar mensagem</button>
     </form>
 </div>
 <div class="col-xs-6 summary">

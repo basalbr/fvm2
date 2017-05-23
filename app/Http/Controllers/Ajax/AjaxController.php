@@ -18,6 +18,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
 {
@@ -80,9 +82,28 @@ class AjaxController extends Controller
         ]);
     }
 
-    public function sendMessage()
+    public function sendMessage(Request $request)
     {
+        if ($this->authorizeSendMessage($request->get('reference'), $request->get('referenceId'))) {
+            $message = Mensagem::create(
+                ['id_usuario' => Auth::user()->id,
+                    'referencia' => $request->get('reference'),
+                    'id_referencia'=>$request->get('referenceId'),
+                    'mensagem'=>$request->get('message')]);
+            $html = view('dashboard.components.chat.messages', ['messages' => [$message]])->render();
+            $lastMessageId = $message->id;
+            return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
+        }
+        return response()->json(['messages' => null, 'lastMessageId' => null])->setStatusCode(500);
+    }
 
+    public function authorizeSendMessage($reference, $referenceId)
+    {
+        $q = DB::table($reference)->where('id', '=', $referenceId)->where('id_usuario', '=', Auth::user()->id)->count();
+        if ($q > 0) {
+            return true;
+        }
+        return false;
     }
 
     public function updateMessages(Request $request)

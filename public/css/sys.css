@@ -592,6 +592,7 @@ th.cnae-code {
     margin-bottom: 15px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    backface-visibility: hidden;
 }
 
 .message:last-child{

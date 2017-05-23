@@ -10,17 +10,25 @@
             lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
             // organizar mensagens no chat assim que carregar a pagina
             $('.messages').scrollTop($('.messages')[0].scrollHeight);
+            $('#send-message').on('click', function (e) {
+                e.preventDefault();
+                sendMessage();
+            });
             setInterval(updateChat, 3000);
         });
 
         function sendMessage() {
             var info = {
+                reference: reference,
+                referenceId: referenceId,
                 message: $('#message').val()
-            }
+            };
             $.post($('.messages').data('send-message-url'), info)
                 .done(function (data, textStatus, jqXHR) {
-                    if (data.messages.length) {
-
+                    if (data.messages !== null) {
+                        $('.no-messages').hide();
+                        $('.messages').append(data.messages);
+                        $('.messages').scrollTop($('.messages')[0].scrollHeight);
                     }
                     if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
                         lastMessageId = data.lastMessageId;
@@ -29,9 +37,10 @@
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status === 422) {
                         //noinspection JSUnresolvedVariable
-                        showFormValidationError($('#message-form'), jqXHR.responseJSON);
+//                        showFormValidationError($('#message-form'), jqXHR.responseJSON);
                     } else {
-                        showFormValidationError($('#message-form'));
+                        console.log(jqXHR, textStatus, errorThrown)
+//                        showFormValidationError($('#message-form'));
                     }
                 });
         }

@@ -81,4 +81,12 @@ class AberturaEmpresaPolicy
         }
         return false;
     }
+
+    public function sendMessage(Usuario $user, AberturaEmpresa $aberturaEmpresa)
+    {
+        if($aberturaEmpresa->id_usuario == $user->id){
+            return true;
+        }
+        return false;
+    }
 }
