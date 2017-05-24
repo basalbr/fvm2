@@ -1,3 +1,6 @@
+<!-- Cálculo de mensalidade -->
+@include('dashboard.components.mensalidade.simulate')
+
 <div class="col-xs-12">
     <h3>Mensalidade após abertura da empresa</h3>
     <hr>

@@ -13,7 +13,7 @@
                     <div class="col-xs-12">
                         <i class="fa fa-user item-icon"></i>
                         <div class="item-value">{{$aberturaEmpresa->getSocioPrincipal()->nome}}</div>
-                        <div class="item-description">Sócio Principal</div>
+                        <div class="item-description">Sócio principal</div>
                     </div>
                     <div class="col-xs-12">
                         <i class="fa fa-cogs item-icon"></i>

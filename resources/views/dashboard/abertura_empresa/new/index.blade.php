@@ -1,10 +1,4 @@
 @extends('dashboard.layouts.master')
-<!-- Manipulação de CNAES -->
-@include('dashboard.components.cnaes.search')
-<!-- Manipulação de Sócios -->
-@include('dashboard.components.socios.add')
-<!-- Cálculo de mensalidade -->
-@include('dashboard.components.mensalidade.simulate')
 
 @section('js')
     @parent

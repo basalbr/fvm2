@@ -583,7 +583,7 @@ th.cnae-code {
     max-height: 250px;
 }
 
-.message {
+.messages .message {
     position: relative;
     min-height: 65px;
     border-radius: 35px;
@@ -595,36 +595,36 @@ th.cnae-code {
     backface-visibility: hidden;
 }
 
-.message:last-child{
+.messages .message:last-child{
     margin-bottom: 0;
 }
 
-.message:before {
+.messages .message:before {
     display: table;
     content: " ";
 }
 
-.message:after {
+.messages .message:after {
     clear: both;
 }
 
-.message.from-admin {
+.messages .message.from-admin {
     padding: 5px 70px 5px 15px;
     float: right;
     text-align: right;
     background-color: #daeffd;
 }
 
-.message .text {
+.messages .message .text {
     vertical-align: middle;
     display: table-cell;
 }
 
-.message .text p{
+.messages .message .text p{
     margin: 0;
 }
 
-.message .thumb {
+.messages .message .thumb {
     height: 50px;
     width: 50px;
     overflow: hidden;
@@ -635,12 +635,12 @@ th.cnae-code {
     top: 7px;
 }
 
-.message.from-admin .thumb {
+.messages .message.from-admin .thumb {
     left: auto;
     right: 10px;
 }
 
-.message .thumb img {
+.messages .message .thumb img {
     min-height: 50px;
     max-width: 50px;
     margin: 0;

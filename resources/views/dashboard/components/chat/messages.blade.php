@@ -1,6 +1,6 @@
 @if(count($messages))
     @foreach($messages as $message)
-        <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated bounceIn" data-id="{{$message->id}}">
+        <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
             <div class="thumb">
                 <img src="{{url(public_path().'/images/thumb.jpg')}}"/>
             </div>

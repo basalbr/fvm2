@@ -1,3 +1,5 @@
+<!-- Manipulação de Sócios -->
+@include('dashboard.components.socios.add')
 <div class="col-xs-12">
     <h3>Sócios</h3>
     <hr>

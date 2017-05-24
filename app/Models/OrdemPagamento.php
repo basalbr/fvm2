@@ -47,6 +47,14 @@ class OrdemPagamento extends Model
         return true;
     }
 
+    public function isPending()
+    {
+        if ($this->status == 'Cancelado' || $this->status == 'Pendente') {
+            return true;
+        }
+        return false;
+    }
+
     public function errors()
     {
         return $this->errors;

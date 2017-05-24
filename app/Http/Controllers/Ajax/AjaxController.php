@@ -11,6 +11,8 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\Cnae;
 use App\Models\Mensagem;
 use App\Models\Plano;
+use App\Services\SendMessage;
+use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -84,33 +86,26 @@ class AjaxController extends Controller
 
     public function sendMessage(Request $request)
     {
-        if ($this->authorizeSendMessage($request->get('reference'), $request->get('referenceId'))) {
-            $message = Mensagem::create(
-                ['id_usuario' => Auth::user()->id,
-                    'referencia' => $request->get('reference'),
-                    'id_referencia'=>$request->get('referenceId'),
-                    'mensagem'=>$request->get('message')]);
-            $html = view('dashboard.components.chat.messages', ['messages' => [$message]])->render();
-            $lastMessageId = $message->id;
-            return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
-        }
-        return response()->json(['messages' => null, 'lastMessageId' => null])->setStatusCode(500);
+        $request->merge(['id_usuario'=>Auth::user()->id]);
+        $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
+        $this->authorizeMessage($request->get('referencia'), $request->get('id_referencia'));
+        return SendMessage::handle($request->all());
     }
 
-    public function authorizeSendMessage($reference, $referenceId)
+    public function authorizeMessage($reference, $referenceId)
     {
         $q = DB::table($reference)->where('id', '=', $referenceId)->where('id_usuario', '=', Auth::user()->id)->count();
         if ($q > 0) {
             return true;
         }
-        return false;
+        return response()->json(['Você não está autorizado para enviar essa mensagem'])->setStatusCode(403);
     }
 
     public function updateMessages(Request $request)
     {
-        $referenceId = $request->get('referenceId');
-        $reference = $request->get('reference');
-        $lastMessageId = $request->get('lastMessageId');
+        $referenceId = $request->get('id_referencia');
+        $reference = $request->get('referencia');
+        $lastMessageId = $request->get('id_ultima_mensagem');
 
         /** @var Collection $messages */
         $messages = Mensagem::where('id_referencia', '=', $referenceId)

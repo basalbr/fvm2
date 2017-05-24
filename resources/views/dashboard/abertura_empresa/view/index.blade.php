@@ -10,6 +10,12 @@
             lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
             // organizar mensagens no chat assim que carregar a pagina
             $('.messages').scrollTop($('.messages')[0].scrollHeight);
+            $('#message').on('keypress', function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
             $('#send-message').on('click', function (e) {
                 e.preventDefault();
                 sendMessage();
@@ -19,9 +25,9 @@
 
         function sendMessage() {
             var info = {
-                reference: reference,
-                referenceId: referenceId,
-                message: $('#message').val()
+                referencia: reference,
+                id_referencia: referenceId,
+                mensagem: $('#message').val()
             };
             $.post($('.messages').data('send-message-url'), info)
                 .done(function (data, textStatus, jqXHR) {
@@ -35,21 +41,17 @@
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status === 422) {
-                        //noinspection JSUnresolvedVariable
-//                        showFormValidationError($('#message-form'), jqXHR.responseJSON);
-                    } else {
-                        console.log(jqXHR, textStatus, errorThrown)
-//                        showFormValidationError($('#message-form'));
-                    }
+                    showModalValidationError(jqXHR.responseJSON)
                 });
+            $('#message').val(null);
+
         }
 
         function updateChat() {
             var info = {
-                reference: reference,
-                referenceId: referenceId,
-                lastMessageId: lastMessageId
+                referencia: reference,
+                id_referencia: referenceId,
+                id_ultima_mensagem: lastMessageId
             };
             $.post($('.messages').data('update-messages-url'), info)
                 .done(function (data, textStatus, jqXHR) {
@@ -80,8 +82,8 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>
-                    Resumo</a>
+                <a href="#principal" aria-controls="principal" role="tab" data-toggle="tab"><i class="fa fa-home"></i>
+                    Principal</a>
             </li>
             <li role="presentation">
                 <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
@@ -103,8 +105,8 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="resumo">
-                @include('dashboard.abertura_empresa.view.components.resumo')
+            <div role="tabpanel" class="tab-pane active" id="principal">
+                @include('dashboard.abertura_empresa.view.components.principal')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="empresa">

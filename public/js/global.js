@@ -23,6 +23,23 @@ function showFormValidationError(form, errors) {
 
 }
 
+function showModalValidationError(errors) {
+    if (!errors) {
+        errors = [["Ocorreu um erro interno, por favor atualize a página e tente novamente."]];
+    }
+    var message = $('#modal-alert').find('.message');
+
+    message.empty()
+    for (var i in errors) {
+        if (typeof errors[i] === Array) {
+            message.append('<p>' + errors[i][0] + '</p>');
+        } else {
+            message.append('<p>' + errors[i] + '</p>');
+        }
+    }
+    $('#modal-alert').modal('show');
+}
+
 // masks
 var SPMaskBehavior = function (val) {
         return val.replace(/\D/g, '').length === 11 ? '(00) 0 0000-0000' : '(00) 0000-00009';
