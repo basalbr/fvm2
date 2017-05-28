@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class Pessoa extends Model {
+class Empresa extends Model {
 
     use SoftDeletes;
 
@@ -57,7 +57,7 @@ class Pessoa extends Model {
      *
      * @var string
      */
-    protected $table = 'pessoa';
+    protected $table = 'empresa';
 
     /**
      * The attributes that are mass assignable.

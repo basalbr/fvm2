@@ -20,7 +20,9 @@ $(function(){
         }
     });
 
-    $('#cnae-add-code').on('click', function () {
+    $('#cnae-add-code').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         var code = $('#cnae-code').val();
         if ($('#list-cnaes').has('tr[data-code="' + code + '"]').length) {
             showModalAlert('Este CNAE já foi adicionado');

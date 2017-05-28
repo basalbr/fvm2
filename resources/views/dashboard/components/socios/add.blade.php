@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form class="form" data-validation-url="{{route('validateAberturaEmpresaSocio')}}" action="">
+                    <form class="form" data-validation-url="{{$validationUrl}}" action="">
 
                         <div class="col-xs-12">
                             <h4>Informações</h4>
@@ -81,11 +81,12 @@
                         </div>
                         <div class="col-xs-5">
                             <div class='form-group'>
-                                <label for="regime_casamento">Regime de casamento</label>
-                                <select name="regime_casamento" class="form-control">
-                                    <option value="0">Nenhum</option>
-                                    <option value="1">União parcial de bens</option>
-                                    <option value="2">Alguma outra coisa muito comprida e extensa e complexa</option>
+                                <label for="id_regime_casamento">Regime de casamento</label>
+                                <select name="id_regime_casamento" class="form-control">
+                                    <option value="">Não está casado</option>
+                                    @foreach($regimesCasamento as $regimeCasamento)
+                                        <option value="{{$regimeCasamento->id}}">{{$regimeCasamento->descricao}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -125,7 +126,7 @@
                                 <input type='text' class='form-control' name='orgao_expedidor'/>
                             </div>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-4">
                             <div class='form-group'>
                                 <label for="principal">É o sócio principal? *</label>
                                 <select name="principal" class="form-control">
@@ -134,11 +135,17 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-4">
                             <div class='form-group'>
                                 <label for="pro_labore">Valor de Pró-labore *</label>
                                 <input type='text' class='form-control money-mask' name='pro_labore'/>
 
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class='form-group'>
+                                <label for="pis">PIS</label>
+                                <input type='text' class='form-control pis-mask' name='pis'/>
                             </div>
                         </div>
                         <div class="col-xs-12">
@@ -158,7 +165,7 @@
                                     <option value="">Escolha uma opção</option>
                                     @foreach($ufs as $uf)
                                         <option value="{{$uf->id}}">{{$uf->nome}}</option>
-                                        @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

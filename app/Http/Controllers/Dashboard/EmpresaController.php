@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\AberturaEmpresa;
+use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
@@ -28,14 +29,14 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
 
-class AberturaEmpresaController extends Controller
+class EmpresaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function index()
     {
-        $aberturaEmpresas = AberturaEmpresa::where('id_usuario', '=', Auth::user()->id)->get();
-        return view('dashboard.abertura_empresa.index', compact("aberturaEmpresas"));
+        $empresas = Empresa::where('id_usuario', '=', Auth::user()->id)->get();
+        return view('dashboard.empresa.index', compact("empresas"));
     }
 
     public function new()
@@ -45,14 +46,14 @@ class AberturaEmpresaController extends Controller
         $tiposTributacao = TipoTributacao::orderBy('descricao')->get();
         $regimesCasamento = RegimeCasamento::orderBy('descricao')->get();
         $ufs = Uf::orderBy('nome')->get();
-        return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao", "regimesCasamento"));
+        return view('dashboard.empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao", "regimesCasamento"));
     }
 
     public function view($id)
     {
         $aberturaEmpresa = AberturaEmpresa::find($id);
         $this->authorize('view',$aberturaEmpresa);
-        return view('dashboard.abertura_empresa.view.index', compact("aberturaEmpresa"));
+        return view('dashboard.empresa.view.index', compact("aberturaEmpresa"));
     }
 
     /**

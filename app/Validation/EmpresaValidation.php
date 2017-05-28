@@ -8,15 +8,21 @@
 
 namespace App\Validation;
 
+/**
+ * Class EmpresaValidation
+ * @package App\Validation
+ */
 class EmpresaValidation extends Validation
 {
 
     protected static $rules = [
         'id_usuario' => 'required',
         'id_natureza_juridica' => 'required',
-        'cpf_cnpj' => 'required|unique:pessoa,cpf_cnpj|size:18',
-        'inscricao_estadual' => 'unique:pessoa,inscricao_estadual',
-        'inscricao_municipal' => 'unique:pessoa,inscricao_municipal',
+        'id_tipo_tributacao' => 'required',
+        'id_enquadramento_empresa' => 'required',
+        'cnpj' => 'required|unique:empresa,cnpj|size:18',
+        'inscricao_estadual' => 'unique:empresa,inscricao_estadual',
+        'inscricao_municipal' => 'unique:empresa,inscricao_municipal',
         'qtde_funcionarios' => 'required|numeric',
         'endereco' => 'required',
         'bairro' => 'required',
@@ -26,9 +32,7 @@ class EmpresaValidation extends Validation
         'id_uf' => 'required',
         'codigo_acesso_simples_nacional' => 'numeric',
         'nome_fantasia' => 'required',
-        'razao_social' => 'required|unique:pessoa,razao_social',
-        'id_tipo_tributacao' => 'required',
-        'crc' => 'required|sometimes',
+        'razao_social' => 'required|unique:empresa,razao_social',
         'socios' => 'required|array|min:1',
         'socios.*.nome' => 'required',
         'socios.*.principal' => 'required',

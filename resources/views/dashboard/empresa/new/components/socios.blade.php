@@ -1,5 +1,5 @@
 <!-- Manipulação de Sócios -->
-@include('dashboard.components.socios.add', ['validationUrl'=>route('validateAberturaEmpresaSocio')])
+@include('dashboard.components.socios.add', ['validationUrl'=>route('validateEmpresaSocio')])
 <div class="col-xs-12">
     <h3>Sócios</h3>
     <hr>

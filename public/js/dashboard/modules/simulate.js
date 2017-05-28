@@ -9,7 +9,6 @@ $(function () {
         maxDocsContabeis = parseInt(data.maxDocsContabeis);
         maxProLabores = parseInt(data.maxProLabores);
         maxPrice = parseFloat(data.maxPrice);
-        $('#mensalidade').text('R$' + parseFloat(data.minPrice).toFixed(2));
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR, textStatus, errorThrown);
     });
@@ -66,5 +65,6 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeProLabores, qtdeDocContabe
         }
     }
     minPrice = parseFloat(minPrice + acrescimoFuncionarios).toFixed(2);
+    minPrice = minPrice.replace(".", ",");
     $('#mensalidade').text('R$' + minPrice);
 }

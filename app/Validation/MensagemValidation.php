@@ -8,6 +8,10 @@
 
 namespace App\Validation;
 
+/**
+ * Class MensagemValidation
+ * @package App\Validation
+ */
 class MensagemValidation extends Validation
 {
     protected static $rules = [

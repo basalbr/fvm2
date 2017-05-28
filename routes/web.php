@@ -50,6 +50,16 @@ Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboar
     Route::post('validate/abertura-empresa', ['as' => 'validateAberturaEmpresa', 'uses' => 'AberturaEmpresaController@validateAjax']);
 });
 
+//Dashboard - Empresa
+Route::group(['prefix' => 'dashboard/empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listEmpresaToUser', 'uses' => 'EmpresaController@index']);
+    Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
+    Route::post('new', ['uses' => 'EmpresaController@store']);
+    Route::get('view/{id}', ['as' => 'showEmpresaToUser', 'uses' => 'EmpresaController@view']);
+    Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
+    Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
+});
+
 //Admin - Abertura de Empresa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
     Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);

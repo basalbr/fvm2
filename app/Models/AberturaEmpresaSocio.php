@@ -129,11 +129,14 @@ class AberturaEmpresaSocio extends Model {
     }
 
     public function empresa() {
-        return $this->belongsTo('App\AberturaEmpresa', 'id_abertura_empresa');
+        return $this->belongsTo(AberturaEmpresa::class, 'id_abertura_empresa');
     }
 
     public function uf() {
-        return $this->hasOne('App\Uf', 'id', 'id_uf');
+        return $this->hasOne(Uf::class, 'id', 'id_uf');
+    }
+    public function regimeCasamento() {
+        return $this->hasOne(RegimeCasamento::class, 'id','id_regime_casamento');
     }
 
     public function pro_labore_formatado() {

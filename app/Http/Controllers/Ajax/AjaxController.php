@@ -35,7 +35,7 @@ class AjaxController extends Controller
     public function searchCnaeByCode(Request $request)
     {
         $rules = ['code' => 'required'];
-        $this->validate($request, $rules, []);
+        $this->validate($request, $rules, [],['code'=>'Código']);
         try {
             $cnae = Cnae::where('codigo', '=', $request->get('code'))->select('codigo', 'descricao', 'id_tabela_simples_nacional')->firstOrFail();
             /** @var Cnae $cnae */
