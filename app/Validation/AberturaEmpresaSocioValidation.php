@@ -16,7 +16,7 @@ class AberturaEmpresaSocioValidation extends Validation
         'nome' => 'required',
         'nome_mae' => 'required',
         'nome_pai' => 'required',
-        'data_nascimento' => 'required|date',
+        'data_nascimento' => 'required|date_format:d/m/Y',
         'estado_civil' => 'required',
         'regime_casamento' => 'sometimes|required',
         'nacionalidade' => 'required',

@@ -17,11 +17,11 @@
                     countSocios++;
                 }
             });
-            if(countSocios === 1){
+            if (countSocios === 1) {
                 return true;
             }
-            if(countSocios > 1){
-                showFormValidationError($('#form-principal'), ['A empresa deve possuir somente um sócio principal. Você cadastrou '+countSocios]);
+            if (countSocios > 1) {
+                showFormValidationError($('#form-principal'), ['A empresa deve possuir somente um sócio principal. Você cadastrou ' + countSocios]);
                 return false
             }
             showFormValidationError($('#form-principal'), ['É necessário ter um sócio principal cadastrado.']);
@@ -29,13 +29,13 @@
         }
 
         function checkCnaes() {
-            $('#form-principal').find("[name='cnaes[]']").each(function () {
-                if ($(this).val() !== null) {
-                    return true;
-                }
-            });
+            var cnaes = $('#form-principal').find("[name='cnaes[]']");
+            for (var i in cnaes) {
+                if (cnaes[i].val() !== null) return true;
+            }
             showFormValidationError($('#form-principal'), ['É necessário adicionar ao menos um CNAE.']);
             return false;
+
         }
 
         function validateFormPrincipal() {

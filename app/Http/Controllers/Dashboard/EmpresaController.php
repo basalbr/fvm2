@@ -13,15 +13,18 @@ use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
+use App\Models\Socio;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
 use App\Services\CreateAberturaEmpresa;
+use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
 use App\Validation\AberturaEmpresaSocioValidation;
 use App\Validation\AberturaEmpresaValidation;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
+use App\Validation\SocioValidation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -64,6 +67,7 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         /*
          * Valida a requisição, retorna para página de origem caso falhe
          */
@@ -72,7 +76,7 @@ class EmpresaController extends Controller
         /*
          * Caso o processo de abertura de empresa seja criado com sucesso redireciona para lista de processos de abertura de empresa
          */
-        if (CreateAberturaEmpresa::handle($request->all())) {
+        if (CreateEmpresa::handle($request->all())) {
             return redirect()->route('listAberturaEmpresaToUser')->with('successAlert', 'Sua solicitação de abertura de empresa foi cadastrada com sucesso.');
         }
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
@@ -122,7 +126,7 @@ class EmpresaController extends Controller
      */
     public function validateSocio(Request $request)
     {
-        $this->validate($request, AberturaEmpresaSocioValidation::getRules(), [], AberturaEmpresaSocioValidation::getNiceNames());
+        $this->validate($request, SocioValidation::getRules(), [], SocioValidation::getNiceNames());
         return response()->json('success', 200);
     }
 
