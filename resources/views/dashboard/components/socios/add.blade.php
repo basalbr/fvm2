@@ -126,7 +126,13 @@
                                 <input type='text' class='form-control' name='orgao_expedidor'/>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-3">
+                            <div class='form-group'>
+                                <label for="pro_labore">Título de Eleitor *</label>
+                                <input type='text' class='form-control' name='titulo_eleitor'/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
                             <div class='form-group'>
                                 <label for="principal">É o sócio principal? *</label>
                                 <select name="principal" class="form-control">
@@ -135,14 +141,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-3">
                             <div class='form-group'>
-                                <label for="pro_labore">Valor de Pró-labore *</label>
+                                <label for="pro_labore">Valor de Pró-labore</label>
                                 <input type='text' class='form-control money-mask' name='pro_labore'/>
 
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-3">
                             <div class='form-group'>
                                 <label for="pis">PIS</label>
                                 <input type='text' class='form-control pis-mask' name='pis'/>

@@ -29,9 +29,11 @@
         }
 
         function checkCnaes() {
-            var cnaes = $('#form-principal').find("[name='cnaes[]']");
-            for (var i in cnaes) {
-                if (cnaes[i].val() !== null) return true;
+            var cnaes = $("#form-principal input[name*='cnaes']").serializeArray();
+            if (cnaes.length > 0) {
+                for (var i in cnaes) {
+                    if (cnaes[i].value !== null) return true;
+                }
             }
             showFormValidationError($('#form-principal'), ['É necessário adicionar ao menos um CNAE.']);
             return false;

@@ -52,6 +52,7 @@ class AberturaEmpresaValidation extends Validation
         'socios.*.numero' => 'required|numeric',
         'socios.*.id_uf' => 'required',
         'socios.*.orgao_expedidor' => 'required',
+        'socios.*.titulo_eleitor' => 'required',
         'cnaes.*' => 'required'
     ];
 
@@ -88,6 +89,7 @@ class AberturaEmpresaValidation extends Validation
         'socios.*.regime_casamento' => 'Regime de casamento',
         'socios.*.cpf' => 'CPF',
         'socios.*.rg' => 'RG',
+        'socios.*.titulo_eleitor' => 'Título de eleitor',
         'socios.*.nacionalidade' => 'Nacionalidade',
         'socios.*.endereco' => 'Endereço',
         'socios.*.bairro' => 'Bairro',

@@ -60,25 +60,25 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Salva um novo processo de abertura de empresa no sistema
+     * Salva uma nova empresa no sistema
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        dd($request->all());
         /*
          * Valida a requisição, retorna para página de origem caso falhe
          */
-        $this->validate($request, AberturaEmpresaValidation::getRules(), [], AberturaEmpresaValidation::getNiceNames());
+        $this->validate($request, EmpresaValidation::getRules(), [], EmpresaValidation::getNiceNames());
 
         /*
-         * Caso o processo de abertura de empresa seja criado com sucesso redireciona para lista de processos de abertura de empresa
+         * Caso o processo de migração de empresa seja criado com sucesso redireciona para lista de empresas
          */
         if (CreateEmpresa::handle($request->all())) {
-            return redirect()->route('listAberturaEmpresaToUser')->with('successAlert', 'Sua solicitação de abertura de empresa foi cadastrada com sucesso.');
+            return redirect()->route('listEmpresaToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
         }
+        dd('a');
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
     }
 
@@ -114,7 +114,7 @@ class EmpresaController extends Controller
      */
     public function validateAjax(Request $request)
     {
-        $this->validate($request, AberturaEmpresaValidation::getRules(), [], AberturaEmpresaValidation::getNiceNames());
+        $this->validate($request, EmpresaValidation::getRules(), [], EmpresaValidation::getNiceNames());
         return response()->json('success', 200);
     }
 

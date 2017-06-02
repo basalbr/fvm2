@@ -51,8 +51,8 @@
         <a href="{{route('newEmpresa')}}">
             <div class="panel add-abertura-empresa">
                 <div>
-                    <i class="fa fa-child big-icon"></i>
-                    <p>Solicitar migração de empresa</p>
+                    <i class="fa fa-exchange big-icon"></i>
+                    <p>Migrar minha empresa</p>
                 </div>
                 <div class="clearfix"></div>
             </div>

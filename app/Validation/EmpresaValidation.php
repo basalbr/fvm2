@@ -16,23 +16,25 @@ class EmpresaValidation extends Validation
 {
 
     protected static $rules = [
-        'id_usuario' => 'required',
+        'id_usuario' => 'sometimes',
         'id_natureza_juridica' => 'required',
         'id_tipo_tributacao' => 'required',
         'id_enquadramento_empresa' => 'required',
         'cnpj' => 'required|unique:empresa,cnpj|size:18',
         'inscricao_estadual' => 'unique:empresa,inscricao_estadual',
         'inscricao_municipal' => 'unique:empresa,inscricao_municipal',
-        'qtde_funcionarios' => 'required|numeric',
         'endereco' => 'required',
         'bairro' => 'required',
         'cep' => 'required|size:9',
         'cidade' => 'required',
         'numero' => 'numeric',
         'id_uf' => 'required',
-        'codigo_acesso_simples_nacional' => 'numeric',
+        'codigo_acesso_simples_nacional' => 'nullable|numeric',
         'nome_fantasia' => 'required',
         'razao_social' => 'required|unique:empresa,razao_social',
+        'mensalidade.qtde_funcionario'=> 'required|numeric',
+        'mensalidade.qtde_documento_fiscal'=> 'required|numeric',
+        'mensalidade.qtde_documento_contabil'=> 'required|numeric',
         'socios' => 'required|array|min:1',
         'socios.*.nome' => 'required',
         'socios.*.principal' => 'required',
@@ -44,14 +46,12 @@ class EmpresaValidation extends Validation
         'socios.*.cidade' => 'required',
         'socios.*.numero' => 'numeric',
         'socios.*.id_uf' => 'required',
-        'socios.*.pro_labore' => 'numeric',
+        'socios.*.pro_labore' => 'nullable|numeric',
         'socios.*.orgao_expedidor' => 'required',
-        'socios.*.pis' => 'size:14',
+        'socios.*.pis' => 'nullable|size:14',
         'socios.*.data_nascimento' => 'required|date',
         'socios.*.titulo_eleitor' => 'required',
-        'cnaes' => 'required|array|min:1',
-        'cnaes.*.id_abertura_empresa' => 'required',
-        'cnaes.*.id_cnae' => 'required'
+        'cnaes' => 'required|array|min:1'
     ];
 
     protected static $niceNames = [
@@ -59,7 +59,9 @@ class EmpresaValidation extends Validation
         'cpf_cnpj' => 'CNPJ',
         'inscricao_estadual' => 'Inscrição Estadual',
         'inscricao_municipal' => 'Inscrição Municipal',
-        'qtde_funcionarios' => 'Quantidade de Funcionários',
+        'mensalidade.qtde_funcionario' => 'Quantidade de Funcionários',
+        'mensalidade.qtde_documento_fiscal' => 'Quantidade de documentos fiscais recebidos e emitidos mensalmente',
+        'mensalidade.qtde_documento_contabil' => 'Quantidade de documentos contábeis emitidos mensalmente',
         'tipo' => 'tipo',
         'endereco' => 'Endereço',
         'bairro' => 'Bairro',

@@ -17,21 +17,21 @@ $(function () {
         gatherDataAndSimulate();
     });
 
-    $('[name="qtde_funcionario"], [name="qtde_pro_labores"],[name="qtde_documento_contabil"],[name="qtde_documento_fiscal"]').on('blur, focus, keyup', function () {
+    $('[name*="qtde_funcionario"], [name*="qtde_pro_labores"],[name*="qtde_documento_contabil"],[name*="qtde_documento_fiscal"]').on('blur, focus, keyup', function () {
         gatherDataAndSimulate();
     });
 });
 
 function gatherDataAndSimulate() {
-    qtdeFuncionarios = isNaN(parseInt($('[name="qtde_funcionario"]').val())) ? 0 : $('[name="qtde_funcionario"]').val();
+    qtdeFuncionarios = isNaN(parseInt($('[name*="qtde_funcionario"]').val())) ? 0 : $('[name*="qtde_funcionario"]').val();
     qtdeProLabores = 0;
     $("[name*='pro_labore']").each(function () {
         if (isNaN($(this).val())) {
             qtdeProLabores++;
         }
     });
-    qtdeDocsContabeis = isNaN(parseInt($('[name="qtde_documento_contabil"]').val())) ? 0 : $('[name="qtde_documento_contabil"]').val();
-    qtdeDocsFiscais = isNaN(parseInt($('[name="qtde_documento_fiscal"]').val())) ? 0 : $('[name="qtde_documento_fiscal"]').val();
+    qtdeDocsContabeis = isNaN(parseInt($('[name*="qtde_documento_contabil"]').val())) ? 0 : $('[name*="qtde_documento_contabil"]').val();
+    qtdeDocsFiscais = isNaN(parseInt($('[name*="qtde_documento_fiscal"]').val())) ? 0 : $('[name*="qtde_documento_fiscal"]').val();
 
     simulateMonthlyPayment(qtdeFuncionarios, qtdeProLabores, qtdeDocsContabeis, qtdeDocsFiscais);
     $('#qtde-funcionarios').text(qtdeFuncionarios);
@@ -44,10 +44,10 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeProLabores, qtdeDocContabe
     var acrescimoFuncionarios = 0;
     minPrice = maxPrice;
     if (qtdeDocFiscais > maxDocsFiscais) {
-        $('[name="qtde_documento_fiscal"]').val(maxDocsFiscais);
+        $('[name*="qtde_documento_fiscal"]').val(maxDocsFiscais);
     }
     if (qtdeDocsContabeis > maxDocsContabeis) {
-        $('[name="qtde_documento_contabil"]').val(maxDocsContabeis);
+        $('[name*="qtde_documento_contabil"]').val(maxDocsContabeis);
     }
     if (qtdeFuncionarios >= 10) {
         acrescimoFuncionarios = qtdeFuncionarios * 20;
