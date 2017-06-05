@@ -56,6 +56,7 @@ Route::group(['prefix' => 'dashboard/empresa', 'namespace' => 'Dashboard', 'midd
     Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
     Route::post('new', ['uses' => 'EmpresaController@store']);
     Route::get('view/{id}', ['as' => 'showEmpresaToUser', 'uses' => 'EmpresaController@view']);
+    Route::get('vieaw/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
 });

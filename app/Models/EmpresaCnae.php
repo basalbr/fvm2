@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class PessoaCnae extends Model {
+class EmpresaCnae extends Model {
 
 
-    protected $rules = ['id_pessoa' => 'required', 'id_cnae' => 'required'];
+    protected $rules = ['id_empresa' => 'required', 'id_cnae' => 'required'];
     protected $errors;
     protected $niceNames = ['descricao' => 'Descrição', 'codigo' => 'Código', 'id_tabela_simples_nacional' => 'Tabela do simples nacional'];
 
@@ -18,14 +18,14 @@ class PessoaCnae extends Model {
      *
      * @var string
      */
-    protected $table = 'pessoa_cnae';
+    protected $table = 'empresa_cnae';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id_pessoa', 'id_cnae'];
+    protected $fillable = ['id_empresa', 'id_cnae'];
 
     public function validate($data) {
         // make a new validator object

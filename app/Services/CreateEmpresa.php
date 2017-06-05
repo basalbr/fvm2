@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Models\Cnae;
 use App\Models\Empresa;
+use App\Models\Mensalidade;
 use App\Models\Usuario;
 use App\Notifications\NewEmpresa;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,7 @@ class CreateEmpresa
         DB::beginTransaction();
         try {
             /** @var Empresa $empresa */
+
             $empresa = Auth::user()->empresas()->create($data);
 
             //Cadastra CNAEs (se existir)
@@ -36,6 +38,8 @@ class CreateEmpresa
 
             //Cadastra Mensalidade
             $data['mensalidade']['qtde_pro_labores'] = $empresa->getQtdeProLabores();
+            $data['mensalidade']['id_usuario'] = $empresa->usuario->id;
+            $data['mensalidade']['valor'] = Mensalidade::calculateMonthlyPayment($data['mensalidade']);
             $empresa->mensalidades()->create($data['mensalidade']);
 
             //Notifica admins que existe uma nova  empresa

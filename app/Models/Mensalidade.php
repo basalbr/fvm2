@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,15 +30,27 @@ class Mensalidade extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_usuario', 'id_pessoa', 'valor', 'duracao', 'documentos_fiscais', 'documentos_contabeis', 'pro_labores', 'funcionarios', 'status', 'created_at'];
+    protected $fillable = ['id_usuario', 'id_empresa', 'valor', 'qtde_documentos_fiscais', 'qtde_documentos_contabeis', 'qtde_pro_labores', 'qtde_funcionarios', 'status'];
 
-
-    public function calculateMonthlyPayment()
+    public function create(array $attributes)
     {
-        $plano = Plano::where('total_documento_fiscal', '<=', $this->qtde_documentos_fiscais)
-            ->where('total_documento_contabil', '<=', $this->qtde_documentos_contabeis)
-            ->where('total_pro_labore', '<=', $this->qtde_pro_labores)->select('valor')->first();
-        return $plano->valor + (Config::getFuncionarioIncrementalPrice() * $this->qtde_funcionarios);
+        $attributes['valor'] = $this->calculateMonthlyPayment();
+        return tap($this->related->newInstance($attributes), function ($instance) {
+            $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
+
+            $instance->save();
+        });
+    }
+
+    public static function calculateMonthlyPayment($data)
+    {
+        $plano = Plano::where('total_documento_fiscal', '>=', $data['qtde_documento_fiscal'])
+            ->where('total_documento_contabil', '>=', $data['qtde_documento_contabil'])
+            ->where('total_pro_labore', '>=', $data['qtde_pro_labores'])
+            ->orderBy('valor', 'asc')
+            ->select('valor')
+            ->first();
+        return $plano->valor + (Config::getFuncionarioIncrementalPrice() * $data['qtde_funcionario']);
     }
 
     public function pagamentos()
