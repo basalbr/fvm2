@@ -61,6 +61,10 @@ class Socio extends Model {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
+    public function setProLaboreAttribute($value){
+        $this->attributes['pro_labore'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+
     public function errors() {
         return $this->errors;
     }
@@ -69,15 +73,20 @@ class Socio extends Model {
         return $this->belongsTo('App\Pessoa', 'id_pessoa');
     }
     public function uf() {
-        return $this->belongsTo('App\Uf', 'id_uf');
+        return $this->belongsTo(Uf::class, 'id_uf');
     }
 
     public function pro_labores() {
         return $this->hasMany('App\Prolabore', 'id_socio');
     }
 
-    public function pro_labore_formatado() {
+    public function getProLaboreFormatado() {
         return number_format($this->pro_labore, 2, ',', '.');
     }
+
+    public function isPrincipal(){
+        return $this->principal ? 'Sim': 'Não';
+    }
+
 
 }

@@ -46,12 +46,12 @@ class EmpresaCnae extends Model {
         return $this->errors;
     }
     
-    public function pessoa(){
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+    public function empresa(){
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
     
     public function cnae(){
-        return $this->belongsTo('App\Cnae', 'id_cnae');
+        return $this->belongsTo(Cnae::class, 'id_cnae');
     }
 
 }

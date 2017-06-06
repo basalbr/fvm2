@@ -3,11 +3,9 @@
     <hr>
 </div>
 <div class="col-xs-12">
-    <p>Digite o código do CNAE que deseja adicionar no campo abaixo e clique em <strong>Adicionar CNAE</strong>.<br/>É
-        possível procurar por um CNAE utilizando o botão <strong>Pesquisar CNAE</strong>.</p>
+    <p>Abaixo está a lista dos CNAEs relacionados à sua empresa.</p>
 </div>
 <div class="clearfix"></div>
-<br/>
 <div class="col-xs-12">
     <table class="table table-hover table-striped">
         <thead>

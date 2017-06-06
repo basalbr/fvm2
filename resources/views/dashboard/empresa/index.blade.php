@@ -1,7 +1,17 @@
 @extends('dashboard.layouts.master')
 @section('content')
-    <h1>Empresas</h1>
-    <hr>
+    <div class="col-xs-12">
+        <h1>Empresas</h1>
+        <p>Nesta área você pode solicitar uma migração de empresa de sua contabilidade atual para a WEBContabilidade e
+            visualizar suas empresas cadastradas no sistema.</p>
+        <hr>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12">
+        <div class="list-group">
+            <a href="{{route('newEmpresa')}}" class="btn btn-primary"><span class="fa fa-exchange"></span> Clique aqui para migrar uma empresa</a>
+        </div>
+    </div>
     @foreach($empresas as $empresa)
         <div class="col-lg-6">
             <div class="panel">
@@ -40,16 +50,6 @@
             </div>
         </div>
     @endforeach
-    <div class="col-lg-6">
-        <a href="{{route('newEmpresa')}}">
-            <div class="panel add-abertura-empresa">
-                <div>
-                    <i class="fa fa-exchange big-icon"></i>
-                    <p>Migrar minha empresa</p>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </a>
-    </div>
+
 @stop
 

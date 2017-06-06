@@ -26,10 +26,6 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         Notifiable,
         SoftDeletes;
 
-    protected $rules = ['nome' => 'required', 'email' => 'required|unique:usuario,email', 'senha' => 'required|confirmed'];
-    protected $errors;
-    protected $niceNames = ['nome' => 'Nome', 'email' => 'E-mail', 'senha' => 'Senha', 'senha_confirmed' => 'Confirmar Senha'];
-
     /**
      * The database table used by the model.
      *
@@ -54,26 +50,6 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
     public static function admins()
     {
         return static::where('admin', '=', true)->get();
-    }
-
-    public function validate($data, $update = false)
-    {
-        // make a new validator object
-        if ($update) {
-            $this->rules['senha'] = 'confirmed';
-            $this->rules['email'] = 'required|unique:usuario,email,' . $data['id'];
-        }
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
     }
 
     public function errors()
@@ -111,20 +87,34 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         $this->attributes['senha'] = Hash::make($senha);
     }
 
-    public function setNomeAttribute($nome){
+    public function setNomeAttribute($nome)
+    {
         $this->attributes['nome'] = ucwords($nome);
     }
 
-    public function getFirstName(){
+    public function getFirstName()
+    {
         return array_first(explode(' ', $this->nome));
     }
 
-    public static function notifyAdmins($notification){
+    public static function notifyAdmins($notification)
+    {
         $admins = self::where('admin', '=', 1)->get();
         foreach ($admins as $admin) {
             /** @var Usuario $admin */
             $admin->notify($notification);
         }
+    }
+
+    public function funcionarios()
+    {
+        return $this->hasManyThrough(
+            Funcionario::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
     }
 
 }

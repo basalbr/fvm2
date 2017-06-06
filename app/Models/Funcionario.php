@@ -101,8 +101,8 @@ class Funcionario extends Model {
         return $this->errors;
     }
 
-    public function pessoa() {
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+    public function empresa() {
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
     public function deficiencias() {

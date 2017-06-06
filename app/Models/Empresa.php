@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 
 class Empresa extends Model
 {
@@ -42,6 +38,7 @@ class Empresa extends Model
         'endereco',
         'bairro',
         'numero',
+        'complemento',
         'cep',
         'cidade',
         'id_uf',
@@ -57,6 +54,11 @@ class Empresa extends Model
     public function getMensalidadeAtual(): Mensalidade
     {
         return $this->mensalidades()->orderBy('created_at', 'desc')->first();
+    }
+
+    public function messages()
+    {
+        return Mensagem::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
     }
 
     public function mensalidades(): HasMany
@@ -84,6 +86,29 @@ class Empresa extends Model
             }
             return true;
         }
+    }
+
+    public function tipoTributacao()
+    {
+        return $this->belongsTo(TipoTributacao::class, 'id_tipo_tributacao');
+    }
+
+    public function naturezaJuridica()
+    {
+        return $this->belongsTo(NaturezaJuridica::class, 'id_natureza_juridica');
+    }
+
+    public function enquadramentoEmpresa()
+    {
+        return $this->belongsTo(EnquadramentoEmpresa::class, 'id_enquadramento_empresa');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function uf()
+    {
+        return $this->belongsTo(Uf::class, 'id_uf');
     }
 
     public function errors()
@@ -120,6 +145,7 @@ class Empresa extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
+
 
     public function delete()
     {

@@ -541,7 +541,7 @@ th.cnae-code {
     background-color: #E1F5FE;
 }
 
-.panel.add-abertura-empresa {
+.panel.add-item-panel {
     background: rgba(255, 255, 255, 0.2);
     height: 428px;
     text-align: center;
@@ -549,19 +549,27 @@ th.cnae-code {
     transition: all 0.2s ease-in;
 }
 
-.panel.add-abertura-empresa:hover {
+.panel.add-item-panel:hover {
     background: rgba(255, 255, 255, 1);
     border: 2px dashed #23527c;
 }
 
-.panel.add-abertura-empresa > div {
+.panel.add-item-panel > div {
     margin-top: 170px;
     display: block;
 }
 
-.panel.add-abertura-empresa > div > p {
+.panel.add-item-panel > div > p {
     margin-top: 10px;
     font-weight: bold;
+}
+
+.panel.add-item-panel.empresa{
+    height: 366px;
+}
+
+.panel.add-item-panel.empresa > div{
+    margin-top: 140px;
 }
 
 .panel {

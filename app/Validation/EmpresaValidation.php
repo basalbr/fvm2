@@ -46,7 +46,7 @@ class EmpresaValidation extends Validation
         'socios.*.cidade' => 'required',
         'socios.*.numero' => 'numeric',
         'socios.*.id_uf' => 'required',
-        'socios.*.pro_labore' => 'nullable|numeric',
+        'socios.*.pro_labore' => 'nullable',
         'socios.*.orgao_expedidor' => 'required',
         'socios.*.pis' => 'nullable|size:14',
         'socios.*.data_nascimento' => 'required|date',

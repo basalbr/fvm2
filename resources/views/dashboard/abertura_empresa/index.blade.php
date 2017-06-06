@@ -49,7 +49,7 @@
     @endforeach
     <div class="col-lg-6">
         <a href="{{route('newAberturaEmpresa')}}">
-            <div class="panel add-abertura-empresa">
+            <div class="panel add-item-panel">
                 <div>
                     <i class="fa fa-child big-icon"></i>
                     <p>Solicitar Abertura de Empresa</p>

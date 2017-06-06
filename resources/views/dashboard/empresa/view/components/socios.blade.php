@@ -25,8 +25,8 @@
 
         </thead>
         <tbody id="list-socios">
-        @if(count($aberturaEmpresa->socios))
-            @foreach($aberturaEmpresa->socios as $socio)
+        @if(count($empresa->socios))
+            @foreach($empresa->socios as $socio)
                 <tr>
                     <td>{{$socio->nome}}</td>
                     <td>{{$socio->isPrincipal()}}</td>

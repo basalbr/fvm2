@@ -54,6 +54,21 @@ var SPMaskBehavior = function (val) {
 
 
 $(function () {
+
+    $('.cep-mask').on('keyup', function () {
+        if ($(this).val().length == 9) {
+            var selector = $(this);
+            var cep = $(this).val().replace('-', '');
+            $.get('http://viacep.com.br/ws/' + cep + '/json/unicode/').done(function (data) {
+                var form = selector.parent().parent().parent();
+                form.find('input[name="endereco"]').val(data.logradouro);
+                form.find('select[name="id_uf"] option[data-sigla="' + data.uf + '"]').prop("selected", true);
+                form.find('input[name="cidade"]').val(data.localidade);
+                form.find('input[name="bairro"]').val(data.bairro);
+            })
+        }
+    });
+
     $('.phone-mask').mask(SPMaskBehavior, spOptions);
     $('.date-mask').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
     $('.time-mask').mask('00:00:00', {clearIfNotMatch: true});
@@ -61,10 +76,14 @@ $(function () {
     $('.date-time-mask').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});
     $('.cep-mask').mask('00000-000', {clearIfNotMatch: true, placeholder: "_____-___"});
     $('.cpf-mask').mask('000.000.000-00', {reverse: true, clearIfNotMatch: true, placeholder: "___.___.___-__"});
-    $('.cnpj-mask').mask('00.000.000/0000-00', {reverse: true, clearIfNotMatch: true, placeholder: "__.___.___/____-__"});
+    $('.cnpj-mask').mask('00.000.000/0000-00', {
+        reverse: true,
+        clearIfNotMatch: true,
+        placeholder: "__.___.___/____-__"
+    });
     $('.money-mask').mask("#.##0,00", {reverse: true});
-    $('.cnae-mask').mask('0000-0/00',{clearIfNotMatch: true, placeholder: '____-_/__'});
-    $('.pis-mask').mask('999.99999.99-9',{clearIfNotMatch: true, placeholder: '___._____.__-_'});
+    $('.cnae-mask').mask('0000-0/00', {clearIfNotMatch: true, placeholder: '____-_/__'});
+    $('.pis-mask').mask('999.99999.99-9', {clearIfNotMatch: true, placeholder: '___._____.__-_'});
 
     ///////////////abrir modal////////////////////////
     $('.open-modal').on('click', function (e) {

@@ -30,7 +30,15 @@ class Mensalidade extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_usuario', 'id_empresa', 'valor', 'qtde_documentos_fiscais', 'qtde_documentos_contabeis', 'qtde_pro_labores', 'qtde_funcionarios', 'status'];
+    protected $fillable = [
+        'id_usuario',
+        'id_empresa',
+        'valor',
+        'qtde_documento_fiscal',
+        'qtde_documento_contabil',
+        'qtde_pro_labore',
+        'qtde_funcionario',
+        'status'];
 
     public function create(array $attributes)
     {
@@ -46,7 +54,7 @@ class Mensalidade extends Model
     {
         $plano = Plano::where('total_documento_fiscal', '>=', $data['qtde_documento_fiscal'])
             ->where('total_documento_contabil', '>=', $data['qtde_documento_contabil'])
-            ->where('total_pro_labore', '>=', $data['qtde_pro_labores'])
+            ->where('total_pro_labore', '>=', $data['qtde_pro_labore'])
             ->orderBy('valor', 'asc')
             ->select('valor')
             ->first();

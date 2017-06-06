@@ -66,16 +66,14 @@ class AjaxController extends Controller
 
     public function getMonthlyPaymentParams()
     {
-        $planos = Plano::orderBy('total_documento_fiscal', 'asc')->get(['total_documento_fiscal', 'total_documento_contabil', 'total_funcionario', 'total_pro_labore', 'valor']);
+        $planos = Plano::orderBy('total_documento_fiscal', 'asc')->get(['total_documento_fiscal', 'total_documento_contabil', 'total_pro_labore', 'valor']);
         $maxDocsFiscais = Plano::max('total_documento_fiscal');
         $maxDocsContabeis = Plano::max('total_documento_contabil');
-        $maxFuncionarios = Plano::max('total_funcionario');
         $maxProLabores = Plano::max('total_pro_labore');
         $maxPrice = Plano::max('valor');
         $minPrice = Plano::min('valor');
         return response()->json([
             'planos' => $planos,
-            'maxFuncionarios' => $maxFuncionarios,
             'maxDocsFiscais' => (int)$maxDocsFiscais,
             'maxProLabores' => (int)$maxProLabores,
             'maxPrice' => (float)$maxPrice,

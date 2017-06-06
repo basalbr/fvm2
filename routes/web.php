@@ -51,7 +51,7 @@ Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboar
 });
 
 //Dashboard - Empresa
-Route::group(['prefix' => 'dashboard/empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listEmpresaToUser', 'uses' => 'EmpresaController@index']);
     Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
     Route::post('new', ['uses' => 'EmpresaController@store']);
@@ -59,6 +59,13 @@ Route::group(['prefix' => 'dashboard/empresa', 'namespace' => 'Dashboard', 'midd
     Route::get('vieaw/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
+    Route::get('{id}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
+});
+
+//Dashboard - Funcionários
+Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listFuncionarioToUser', 'uses' => 'FuncionarioController@index']);
+    Route::post('validate', ['as' => 'validateFuncionario', 'uses' => 'FuncionarioController@validateFuncionario']);
 });
 
 //Admin - Abertura de Empresa

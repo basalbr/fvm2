@@ -1,24 +1,22 @@
 @extends('dashboard.layouts.master')
 
-@section('js')
-    @parent
-    <script type="text/javascript"
-            src="{{url(public_path().'js/dashboard/abertura_empresa/new/index.js')}}"></script>
-@stop
-
 @section('content')
-    <h1>Abrir empresa</h1>
-    <hr>
+    <div class="col-xs-12">
+        <h1>Cadastrar novo funcionário</h1>
+        <h3>{{$empresa->nome_fantasia}}</h3>
+        <hr>
+    </div>
+    <div class="clearfix"></div>
     <form class="form" method="POST" action="" id="form-principal"
-          data-validation-url="{{route('validateAberturaEmpresa')}}">
+          data-validation-url="{{route('validateFuncionario')}}">
     @include('dashboard.components.form-alert')
     @include('dashboard.components.disable-auto-complete')
     {{csrf_field()}}
     <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
-                    Informações da empresa</a>
+                <a href="#pessoal" aria-controls="pessoal" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
+                    Informações pessoais</a>
             </li>
             <li role="presentation">
                 <a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab"><i
@@ -39,20 +37,20 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="empresa">
-                @include('dashboard.abertura_empresa.new.components.info_empresa')
+            <div role="tabpanel" class="tab-pane active" id="pessoal">
+                @include('dashboard.funcionario.new.components.pessoal')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="endereco">
-                @include('dashboard.abertura_empresa.new.components.endereco')
+{{--                @include('dashboard.abertura_empresa.new.components.endereco')--}}
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="socios">
-                @include('dashboard.abertura_empresa.new.components.socios', [$ufs])
+{{--                @include('dashboard.abertura_empresa.new.components.socios', [$ufs])--}}
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="cnae">
-                @include('dashboard.abertura_empresa.new.components.cnae')
+{{--                @include('dashboard.abertura_empresa.new.components.cnae')--}}
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane" id="resumo">

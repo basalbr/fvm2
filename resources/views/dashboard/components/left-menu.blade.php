@@ -17,7 +17,7 @@
             <ul id="left-menu-list" class="animated fadeInLeft">
                 <li><a href="{{route('listAberturaEmpresaToUser')}}">Abertura de empresa <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="{{route('listEmpresaToUser')}}">Listar/Migrar empresa <i class="fa fa-angle-right"></i></a></li>
-                <li><a href="">Funcionários <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listFuncionarioToUser')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="">Sócios <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>

@@ -13,23 +13,19 @@ use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
-use App\Models\Socio;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
-use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
-use App\Validation\AberturaEmpresaSocioValidation;
-use App\Validation\AberturaEmpresaValidation;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
 use App\Validation\SocioValidation;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class EmpresaController extends Controller
@@ -54,9 +50,9 @@ class EmpresaController extends Controller
 
     public function view($id)
     {
-        $aberturaEmpresa = AberturaEmpresa::find($id);
-        $this->authorize('view',$aberturaEmpresa);
-        return view('dashboard.empresa.view.index', compact("aberturaEmpresa"));
+        $empresa = Empresa::find($id);
+        $this->authorize('view', $empresa);
+        return view('dashboard.empresa.view.index', compact("empresa"));
     }
 
     /**

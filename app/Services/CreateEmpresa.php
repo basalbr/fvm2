@@ -37,11 +37,10 @@ class CreateEmpresa
             $empresa->socios()->createMany($data['socios']);
 
             //Cadastra Mensalidade
-            $data['mensalidade']['qtde_pro_labores'] = $empresa->getQtdeProLabores();
+            $data['mensalidade']['qtde_pro_labore'] = $empresa->getQtdeProLabores();
             $data['mensalidade']['id_usuario'] = $empresa->usuario->id;
             $data['mensalidade']['valor'] = Mensalidade::calculateMonthlyPayment($data['mensalidade']);
             $empresa->mensalidades()->create($data['mensalidade']);
-
             //Notifica admins que existe uma nova  empresa
             Usuario::notifyAdmins(new NewEmpresa($empresa));
             DB::commit();

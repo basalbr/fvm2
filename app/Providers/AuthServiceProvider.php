@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\AberturaEmpresa;
+use App\Models\Empresa;
 use App\Policies\AberturaEmpresaPolicy;
+use App\Policies\EmpresaPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        AberturaEmpresa::class => AberturaEmpresaPolicy::class
+        AberturaEmpresa::class => AberturaEmpresaPolicy::class,
+        Empresa::class => EmpresaPolicy::class,
     ];
 
     /**
