@@ -49,6 +49,8 @@
         <input type="text" class="form-control date-mask" name="validade_carteira_trabalho" value=""/>
     </div>
 </div>
+<div class="clearfix"></div>
+
 <div class="col-xs-6">
     <div class="checkbox check-primary checkbox-circle">
         <input type="checkbox" checked="checked" value="1" name="casado_estrangeiro" id="casado_estrangeiro">
@@ -58,7 +60,7 @@
 <div class="col-xs-6">
     <div class="checkbox check-primary checkbox-circle">
         <input type="checkbox" checked="checked" value="1" name="filho_estrangeiro" id="filho_estrangeiro">
-        <label for="casado_estrangeiro"> Filho(s) com brasileiro(a)</label>
+        <label for="filho_estrangeiro"> Filho(s) com brasileiro(a)</label>
     </div>
 </div>
 <div class="col-xs-12 text-right">

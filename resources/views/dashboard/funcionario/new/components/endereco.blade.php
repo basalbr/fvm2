@@ -56,21 +56,20 @@
     </div>
 </div>
 <div class="col-xs-6">
-    <div class="form-group">
-        <label for="area_ocupada">Área total ocupada em m² *</label>
-        <input type="text" class="form-control" value="" name="area_ocupada"/>
+    <div class="checkbox check-primary checkbox-circle">
+        <input type="checkbox" checked="checked" value="1" name="residente_exterior" id="residente_exterior">
+        <label for="residente_exterior"> Residente/Domiciliado no Exterior</label>
     </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="area_total">Área total do imóvel m² *</label>
-        <input type="text" class="form-control" value="" name="area_total"/>
+</div><div class="col-xs-6">
+    <div class="checkbox check-primary checkbox-circle">
+        <input type="checkbox" checked="checked" value="1" name="residencia_propria" id="residencia_propria">
+        <label for="residencia_propria"> Residência Própria</label>
     </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="cpf_cnpj_proprietario">CPF ou CNPJ do proprietário do imóvel *</label>
-        <input type="text" class="form-control" value="" name="cpf_cnpj_proprietario"/>
+</div><div class="col-xs-6">
+    <div class="checkbox check-primary checkbox-circle">
+        <input type="checkbox" checked="checked" value="1" name="imovel_fgts" id="imovel_fgts">
+        <label for="imovel_fgts"> Imóvel
+            Adquirido com Recursos do FGTS</label>
     </div>
 </div>
 <div class="col-xs-12 text-right">

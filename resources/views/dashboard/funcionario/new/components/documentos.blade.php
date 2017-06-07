@@ -56,7 +56,7 @@
         <select class="form-control" name="id_uf_ctps">
             <option value="">Selecione uma opção</option>
             @foreach($ufs as $uf)
-                <option value="{{$uf->id}}">{{$uf->descricao}}</option>
+                <option value="{{$uf->id}}">{{$uf->nome}}</option>
             @endforeach
         </select>
     </div>

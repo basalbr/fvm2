@@ -1,3 +1,29 @@
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $('#tipo-cadastro').on('change', function () {
+                if ($(this).val() == 1) {
+                    $("#exame-admissional").show();
+                    $("#exame-admissional input").prop('disabled', false)
+                } else {
+                    $("#exame-admissional").hide();
+                    $("#exame-admissional input").prop('disabled', true)
+                }
+            });
+            $('#estrangeiro').on('change', function(){
+                if ($(this).val() == 1) {
+                    $("#info-estrangeiro").show();
+                    $("#info-estrangeiro input").prop('disabled', false)
+                } else {
+                    $("#info-estrangeiro").hide();
+                    $("#info-estrangeiro input").prop('disabled', true)
+                }
+            });
+        });
+    </script>
+@stop
+
 <div class="col-xs-12">
     <h3>Informações pessoais</h3>
     <hr>
@@ -16,7 +42,6 @@
     </div>
 </div>
 <div class='clearfix'></div>
-<br/>
 <div id='exame-admissional' style="display: none">
     <h3 class="text-uppercase">Exame admissional</h3>
     <div class='col-xs-12'>
@@ -113,6 +138,94 @@
                 <option value="{{$sexo->id}}">{{$sexo->descricao}}</option>
             @endforeach
         </select>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="telefone">Telefone *</label>
+        <input type="text" class="form-control phone-mask" value="" name="telefone"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="text" class="form-control" value="" name="email"/>
+    </div>
+</div>
+<div class="col-xs-6">
+    <div class="form-group">
+        <label for="estrangeiro">É estrangeiro? *</label>
+        <select class="form-control" id="estrangeiro" name="estrangeiro">
+            <option value="0">Não</option>
+            <option value="1">Sim</option>
+        </select>
+    </div>
+</div>
+<div id="info-estrangeiro" style="display: none;">
+    <div class="col-xs-12">
+        <h3>Estrangeiro</h3>
+        <hr>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="id_condicao_trabalhador_estrangeiro">Condição *</label>
+            <select class="form-control" name="id_condicao_trabalhador_estrangeiro">
+                <option value="">Selecione uma opção</option>
+                @foreach($condicoesEstrangeiro as $condicaoEstrangeiro)
+                    <option value="{{$condicaoEstrangeiro->id}}">{{$condicaoEstrangeiro->descricao}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="data_chegada_estrangeiro">Data de chegada</label>
+            <input type="text" class="form-control date-mask" name="data_chegada_estrangeiro" value=""/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="numero_processo_mte">Número do processo MTE</label>
+            <input type="text" class="form-control" name="numero_processo_mte" value=""/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="numero_rne">Número do RNE</label>
+            <input type="text" class="form-control" name="numero_rne" value=""/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="data_expedicao_rne">Data de expedição do RNE</label>
+            <input type="text" class="form-control date-mask" name="data_expedicao_rne" value=""/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="data_validade_rne">Data de validade do RNE</label>
+            <input type="text" class="form-control date-mask" name="data_validade_rne" value=""/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="validade_carteira_trabalho">Data de validade da CTPS</label>
+            <input type="text" class="form-control date-mask" name="validade_carteira_trabalho" value=""/>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="col-xs-6">
+        <div class="checkbox check-primary checkbox-circle">
+            <input type="checkbox" checked="checked" value="1" name="casado_estrangeiro" id="casado_estrangeiro">
+            <label for="casado_estrangeiro"> Casado(a) com brasileiro(a)</label>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="checkbox check-primary checkbox-circle">
+            <input type="checkbox" checked="checked" value="1" name="filho_estrangeiro" id="filho_estrangeiro">
+            <label for="filho_estrangeiro"> Filho(s) com brasileiro(a)</label>
+        </div>
     </div>
 </div>
 <div class="col-xs-12 text-right">
