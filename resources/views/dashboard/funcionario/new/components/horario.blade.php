@@ -1,6 +1,71 @@
 <!-- Cálculo de mensalidade -->
 @include('dashboard.components.mensalidade.simulate')
-
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function(){
+            $("#" + $("#dsr").val() + " input").attr('disabled', 'disabled');
+            $("#" + $("#dsr").val() + " td:nth-child(6) b").text('D.S.R');
+            function msToTime(s) {
+                function addZ(n) {
+                    return (n < 10 ? '0' : '') + n;
+                }
+                var ms = s % 1000;
+                s = (s - ms) / 1000;
+                var secs = s % 60;
+                s = (s - secs) / 60;
+                var mins = s % 60;
+                var hrs = (s - mins) / 60;
+                if (!isNaN(addZ(hrs)) && !isNaN(addZ(mins))) {
+                    return addZ(hrs) + ':' + addZ(mins);
+                }
+            }
+            $("#dsr").on('change', function () {
+                $("td input").each(function () {
+                    if ($(this).attr('disabled')) {
+                        $(this).removeAttr('disabled');
+                        var id = $(this).parent().parent().attr('id');
+                        $("#" + id + " td:nth-child(6) b").html('00:00');
+                    }
+                })
+                $("#" + $("#dsr").val() + " input").val('').attr('disabled', 'disabled');
+                $("#" + $("#dsr").val() + " td:nth-child(6) b").text('D.S.R');
+            });
+            $(".horario input").on('blur', function () {
+                var id = $(this).parent().parent().attr('id');
+                var horario1 = $("#" + id + " td:nth-child(2) input").val().split(":");
+                var horario2 = $("#" + id + " td:nth-child(3) input").val().split(":");
+                var horario3 = $("#" + id + " td:nth-child(4) input").val().split(":");
+                var horario4 = $("#" + id + " td:nth-child(5) input").val().split(":");
+                var data1 = new Date(2015, 1, 1, horario1[0], horario1[1]);
+                var data2 = new Date(2015, 1, 1, horario2[0], horario2[1]);
+                var data3 = new Date(2015, 1, 1, horario3[0], horario3[1]);
+                var data4 = new Date(2015, 1, 1, horario4[0], horario4[1]);
+                var resultado1 = false;
+                var resultado2 = false;
+                var resultadoFinal = "00:00";
+                if (data1 > 0 && data2 > 0 && (data1 < data2)) {
+                    resultado1 = data2 - data1;
+                }
+                if (data3 > 0 && data4 && (data3 < data4)) {
+                    resultado2 = data4 - data3;
+                }
+                if (resultado1 > 0 && resultado2 > 0 && (data2 < data3)) {
+                    resultadoFinal = resultado1 + resultado2;
+                }
+                if (!resultado1 && resultado2 > 0) {
+                    resultadoFinal = resultado2;
+                }
+                if (resultado1 > 0 && !resultado2) {
+                    resultadoFinal = resultado1;
+                }
+                if (msToTime(resultadoFinal)) {
+                    $("#" + id + " td:nth-child(6) b").html(msToTime(resultadoFinal));
+                }
+            });
+        });
+    </script>
+    @stop
 <div class="col-xs-12">
     <h3>Horários de trabalho</h3>
     <hr>
