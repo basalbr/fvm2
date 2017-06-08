@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\CategoriaContratoTrabalho;
 use App\Models\CondicaoEstrangeiro;
+use App\Models\EstadoCivil;
 use App\Models\GrauInstrucao;
 use App\Models\GrupoSanguineo;
 use App\Models\Raca;
@@ -50,12 +51,14 @@ class FuncionarioController extends Controller
         $vinculosEmpregaticios = VinculoEmpregaticio::orderBy('descricao')->get();
         $situacoesSeguroDesemprego = SituacaoSeguroDesemprego::orderBy('descricao')->get();
         $tiposDependencia = TipoDependencia::orderBy('descricao')->get();
+        $estadosCivis = EstadoCivil::orderBy('descricao')->get();
         $dow = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
 
         return view('dashboard.funcionario.new.index', compact(
             'empresa',
             'sexos',
             'grausInstrucao',
+            'estadosCivis',
             'ufs',
             'gruposSanguineos',
             'condicoesEstrangeiro',

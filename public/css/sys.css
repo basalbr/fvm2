@@ -47,12 +47,12 @@ body {
     height: 25px;
 }
 
-.horario .form-group{
+.horario .form-group {
     margin-bottom: 0;
     background-color: #fff;
 }
 
-.horario .form-group.disabled{
+.horario .form-group.disabled {
     background-color: #ccc;
 }
 
@@ -66,8 +66,31 @@ body {
     background: #2b303b !important;
 }
 
+#open-left-menu {
+    border-radius: 0px;
+    position: absolute;
+    left: 0px;
+    padding: 15px;
+    top: 0px;
+    bottom: 0px;
+    background: #42A5F5;
+    font-family: 'Raleway', sans-serif;
+    transition: 0.2s all ease-in;
+    transform: translate3d(0, -100px, 0);
+    color: #fff;
+    text-transform: capitalize;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+#open-left-menu:hover, #open-left-menu.active, #open-left-menu:active {
+    background: #1E88E5 !important;
+}
+
 #top-menu-brand {
     padding: 8px 15px;
+    transition: 0.2s margin ease-in;
 }
 
 #top-menu-brand img {
@@ -104,13 +127,22 @@ body {
 #left-menu {
     position: fixed;
     left: 0;
-    z-index: 1;
     top: 50px;
     bottom: 0;
     width: 250px;
     background: #2b303b !important;
     padding-top: 20px;
     overflow: auto;
+    transition: transform 0.2s ease-in;
+    z-index: 3;
+}
+
+#left-menu.open {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    -moz-transform: translate3d(0, 0, 0) !important;
+    -ms-transform: translate3d(0, 0, 0) !important;
+    -o-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
 }
 
 #left-menu .profile {
@@ -215,6 +247,24 @@ body {
     right: 10px;
     bottom: 0;
     padding: 0 10px 15px;
+}
+
+@media (max-width: 1200px ) {
+    #content {
+        left: 10px;
+    }
+
+    #left-menu {
+        transform: translate3d(-250px, 0, 0);
+    }
+
+    #open-left-menu {
+        transform: translate3d(0, 0, 0);
+    }
+
+    #top-menu-brand {
+        margin-left: 90px;
+    }
 }
 
 a.shortcut {
@@ -573,11 +623,11 @@ th.cnae-code {
     font-weight: bold;
 }
 
-.panel.add-item-panel.empresa{
+.panel.add-item-panel.empresa {
     height: 366px;
 }
 
-.panel.add-item-panel.empresa > div{
+.panel.add-item-panel.empresa > div {
     margin-top: 140px;
 }
 
@@ -612,7 +662,7 @@ th.cnae-code {
     backface-visibility: hidden;
 }
 
-.messages .message:last-child{
+.messages .message:last-child {
     margin-bottom: 0;
 }
 
@@ -637,7 +687,7 @@ th.cnae-code {
     display: table-cell;
 }
 
-.messages .message .text p{
+.messages .message .text p {
     margin: 0;
 }
 
@@ -665,9 +715,140 @@ th.cnae-code {
     position: relative;
 }
 
-.messages .no-messages{
+.messages .no-messages {
     color: #1E88E5;
     font-weight: bold;
     margin-top: 25px;
     text-align: center;
+}
+
+.checkbox-styled:not(ie8), .radio-styled:not(ie8) {
+    position: relative;
+    margin-top: 0;
+    cursor: pointer;
+}
+
+.checkbox-styled:not(ie8).radio-inline, .radio-styled:not(ie8).radio-inline, .checkbox-styled:not(ie8).checkbox-inline, .radio-styled:not(ie8).checkbox-inline {
+    padding-left: 0;
+}
+
+.checkbox-styled:not(ie8) input[type="radio"], .radio-styled:not(ie8) input[type="radio"], .checkbox-styled:not(ie8) input[type="checkbox"], .radio-styled:not(ie8) input[type="checkbox"] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.checkbox-styled:not(ie8) input ~ span, .radio-styled:not(ie8) input ~ span {
+    font-weight: normal;
+    position: relative;
+    padding-left: 30px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: text-top;
+}
+
+.checkbox-styled:not(ie8) input ~ span:before, .radio-styled:not(ie8) input ~ span:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #535858;
+    top: -1px;
+}
+
+.form-group.no-border{
+    border: none;
+}
+
+.radio-styled:not(ie8) input ~ span:before {
+    top: 0;
+    border-radius: 50%;
+    -webkit-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+}
+
+.radio-styled:not(ie8) input:checked ~ span:before {
+    border-color: #0aa89e;
+}
+
+.checkbox-styled:not(ie8).checkbox-info input:checked ~ span:before, .radio-styled:not(ie8).checkbox-info input:checked ~ span:before, .checkbox-styled:not(ie8).radio-info input:checked ~ span:before, .radio-styled:not(ie8).radio-info input:checked ~ span:before {
+    border-color: #2196f3;
+}
+
+.radio-styled:not(ie8) input ~ span:after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    background-color: #0aa89e;
+    border-radius: 50%;
+    -webkit-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+}
+
+.radio-styled:not(ie8) input:checked ~ span:after {
+    left: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+}
+
+.checkbox-styled:not(ie8).checkbox-info input ~ span:after, .radio-styled:not(ie8).checkbox-info input ~ span:after, .checkbox-styled:not(ie8).radio-info input ~ span:after, .radio-styled:not(ie8).radio-info input ~ span:after {
+    background-color: #2196f3;
+}
+
+.checkbox-styled:not(ie8).checkbox-danger input:checked ~ span:before, .radio-styled:not(ie8).checkbox-danger input:checked ~ span:before, .checkbox-styled:not(ie8).radio-danger input:checked ~ span:before, .radio-styled:not(ie8).radio-danger input:checked ~ span:before {
+    border-color: #f44336;
+}
+
+.checkbox-styled:not(ie8).checkbox-danger input ~ span:after, .radio-styled:not(ie8).checkbox-danger input ~ span:after, .checkbox-styled:not(ie8).radio-danger input ~ span:after, .radio-styled:not(ie8).radio-danger input ~ span:after {
+    background-color: #f44336;
+}
+
+.checkbox-styled:not(ie8).checkbox-warning input:checked ~ span:before, .radio-styled:not(ie8).checkbox-warning input:checked ~ span:before, .checkbox-styled:not(ie8).radio-warning input:checked ~ span:before, .radio-styled:not(ie8).radio-warning input:checked ~ span:before {
+    border-color: #ff9800;
+}
+
+.checkbox-styled:not(ie8).checkbox-warning input ~ span:after, .radio-styled:not(ie8).checkbox-warning input ~ span:after, .checkbox-styled:not(ie8).radio-warning input ~ span:after, .radio-styled:not(ie8).radio-warning input ~ span:after {
+    background-color: #ff9800;
+}
+
+.checkbox-styled:not(ie8).checkbox-success input:checked ~ span:before, .radio-styled:not(ie8).checkbox-success input:checked ~ span:before, .checkbox-styled:not(ie8).radio-success input:checked ~ span:before, .radio-styled:not(ie8).radio-success input:checked ~ span:before {
+    border-color: #4caf50;
+}
+
+.checkbox-styled:not(ie8).checkbox-success input ~ span:after, .radio-styled:not(ie8).checkbox-success input ~ span:after, .checkbox-styled:not(ie8).radio-success input ~ span:after, .radio-styled:not(ie8).radio-success input ~ span:after {
+    background-color: #4caf50;
+}
+
+.checkbox-styled:not(ie8).checkbox-primary input:checked ~ span:before, .radio-styled:not(ie8).checkbox-primary input:checked ~ span:before, .checkbox-styled:not(ie8).radio-primary input:checked ~ span:before, .radio-styled:not(ie8).radio-primary input:checked ~ span:before {
+    border-color: #0aa89e;
+}
+
+.checkbox-styled:not(ie8).checkbox-primary input ~ span:after, .radio-styled:not(ie8).checkbox-primary input ~ span:after, .checkbox-styled:not(ie8).radio-primary input ~ span:after, .radio-styled:not(ie8).radio-primary input ~ span:after {
+    background-color: #0aa89e;
+}
+.checkbox-styled:not(ie8) input:checked ~ span:before {
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    height: 10px;
+    border-color: #0aa89e;
+    border-top-style: none;
+    border-right-style: none;
+}
+
+.checkbox-styled:not(ie8) input ~ span:before {
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }

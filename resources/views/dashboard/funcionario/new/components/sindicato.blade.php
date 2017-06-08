@@ -17,15 +17,19 @@
 </div>
 
 <div class="col-xs-6">
-    <div class="checkbox check-primary checkbox-circle">
-        <input type="checkbox" value="1" name="sindicalizado" id="sindicalizado">
-        <label for="sindicalizado"> Sindicalizado</label>
+    <div class="form-group no-border">
+        <label class="checkbox checkbox-styled radio-success">
+            <input type="checkbox" value="1" name="sindicalizado" id="sindicalizado"><span></span> Sindicalizado
+        </label>
+        <div class="clearfix"></div>
     </div>
 </div>
 <div class="col-xs-6">
-    <div class="checkbox check-primary checkbox-circle">
-        <input type="checkbox" value="1" name="pagou_contribuicao" id="pagou_contribuicao">
-        <label for="pagou_contribuicao"> Pagou contribuição</label>
+    <div class="form-group no-border">
+        <label class="checkbox checkbox-styled radio-success">
+            <input type="checkbox" value="1" name="pagou_contribuicao" id="pagou_contribuicao"><span></span> Pagou contribuição
+        </label>
+        <div class="clearfix"></div>
     </div>
 </div>
 <div class="col-xs-12 text-right">

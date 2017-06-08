@@ -21,6 +21,11 @@ $(function () {
         e.preventDefault();
         $('.nav-tabs li.active').next().find('a').tab('show');
     });
+    $('#open-left-menu').on('click', function(e){
+        e.preventDefault()
+        $('#left-menu').toggleClass('open');
+        $(this).toggleClass('active');
+    });
 });
 
 function showModalAlert(message){
