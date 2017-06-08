@@ -1,5 +1,5 @@
 <!-- Manipulação de Sócios -->
-@include('dashboard.components.socios.add', ['validationUrl'=>route('validateEmpresaSocio')])
+@include('dashboard.components.dependentes.add', ['validationUrl'=>route('validateDependente')])
 <div class="col-xs-12">
     <h3>Dependentes</h3>
     <hr>
@@ -9,14 +9,13 @@
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Tipo de dependente</th>
             <th>Opções</th>
         </tr>
 
         </thead>
         <tbody id="list-dependentes">
         <tr>
-            <td colspan="3" class="none">Nenhum dependente cadastrado</td>
+            <td colspan="2" class="none">Nenhum dependente cadastrado</td>
         </tr>
         </tbody>
     </table>

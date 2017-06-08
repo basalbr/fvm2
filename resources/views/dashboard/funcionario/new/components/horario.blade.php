@@ -5,6 +5,7 @@
     <script type="text/javascript">
         $(function(){
             $("#" + $("#dsr").val() + " input").attr('disabled', 'disabled');
+            $("#" + $("#dsr").val() + " .form-group").addClass('disabled');
             $("#" + $("#dsr").val() + " td:nth-child(6) b").text('D.S.R');
             function msToTime(s) {
                 function addZ(n) {
@@ -21,18 +22,20 @@
                 }
             }
             $("#dsr").on('change', function () {
-                $("td input").each(function () {
+                $(".horario input").each(function () {
                     if ($(this).attr('disabled')) {
-                        $(this).removeAttr('disabled');
-                        var id = $(this).parent().parent().attr('id');
+                        $(this).prop('disabled', false);
+                        $(this).parent().removeClass('disabled');
+                        var id = $(this).parent().parent().parent().attr('id');
                         $("#" + id + " td:nth-child(6) b").html('00:00');
                     }
                 })
                 $("#" + $("#dsr").val() + " input").val('').attr('disabled', 'disabled');
+                $("#" + $("#dsr").val() + " .form-group").addClass('disabled');
                 $("#" + $("#dsr").val() + " td:nth-child(6) b").text('D.S.R');
             });
             $(".horario input").on('blur', function () {
-                var id = $(this).parent().parent().attr('id');
+                var id = $(this).parent().parent().parent().attr('id');
                 var horario1 = $("#" + id + " td:nth-child(2) input").val().split(":");
                 var horario2 = $("#" + id + " td:nth-child(3) input").val().split(":");
                 var horario3 = $("#" + id + " td:nth-child(4) input").val().split(":");
@@ -71,6 +74,19 @@
     <hr>
 </div>
 <div class="col-xs-12">
+    <p>Escolha o dia do descanso semanal remunerado (D.S.R)</p>
+
+    <div class="form-group">
+        <label for="id_grau_instrucao">D.S.R *</label>
+        <select class="form-control" id='dsr' name='dsr'>
+            @foreach($dow as $n => $dia)
+                <option value="{{$n}}" {{$n == 0 ? 'selected="selected"' : ''}}>{{$dia}}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="col-xs-12">
+
     <p>Digite na tabela abaixo o horário de trabalho do funcionário de acordo com o dia da semana.</p>
 
     <table class='table table-hover table-bordered table-striped'>
@@ -95,16 +111,30 @@
             <tr id="{{$n}}">
                 <td style="vertical-align: middle; min-width: 78px;"><b>{{$dia}}</b></td>
                 <td class="text-center horario">
+                    <div class="form-group">
                     <input class="form-control time-mask" type="text" name="horario[{{$n}}][0]" value="">
+                    </div>
                 </td>
                 <td class="text-center horario">
+                    <div class="form-group">
+
                     <input class="form-control time-mask" type="text" name="horario[{{$n}}][1]" value="">
+                    </div>
+
                 </td>
                 <td class="text-center horario">
+                    <div class="form-group">
+
                     <input class="form-control time-mask" type="text" name="horario[{{$n}}][2]" value="">
+                    </div>
+
                 </td>
                 <td class="text-center horario">
+                    <div class="form-group">
+
                     <input class="form-control time-mask" type="text" name="horario[{{$n}}][3]" value="">
+                    </div>
+
                 </td>
                 <td class="text-center" style="vertical-align: middle;">
                     <b>00:00</b>

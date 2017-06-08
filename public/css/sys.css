@@ -47,6 +47,15 @@ body {
     height: 25px;
 }
 
+.horario .form-group{
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+.horario .form-group.disabled{
+    background-color: #ccc;
+}
+
 #top-menu {
     position: fixed;
     left: 0;

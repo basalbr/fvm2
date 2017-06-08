@@ -63,7 +63,7 @@
                                 @endforeach
                             @else
                                 <p>Você não cadastrou nenhuma empresa ainda.<br/>Caso queira abrir uma empresa, <a
-                                            href="{{route('newAberturaEmpresa')}}">clique aqui.<br/>Para migrar uma
+                                            href="{{route('newAberturaEmpresa')}}">clique aqui.</a><br/>Para migrar uma
                                         empresa, <a href="{{route('newEmpresa')}}">clique aqui</a></p>
                             @endif
                         </div>

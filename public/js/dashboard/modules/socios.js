@@ -46,7 +46,7 @@ function editSocio(id) {
         var value = $(this).val();
         name = name.replace('socios[' + id + '][', '');
         name = name.replace(']', '');
-        if (name === 'principal' || name === 'estado_civil' || name === 'regime_casamento' || name === 'id_uf') {
+        if (name === 'principal' || name === 'estado_civil' || name === 'id_regime_casamento' || name === 'id_uf') {
             $('#modal-socio').find('select[name="' + name + '"] option').each(function () {
                 if ($(this).val() === value) {
                     $(this).prop('selected', true);

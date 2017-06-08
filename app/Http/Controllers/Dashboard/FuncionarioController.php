@@ -15,6 +15,7 @@ use App\Models\GrupoSanguineo;
 use App\Models\Raca;
 use App\Models\Sexo;
 use App\Models\SituacaoSeguroDesemprego;
+use App\Models\TipoDependencia;
 use App\Models\Uf;
 use App\Models\VinculoEmpregaticio;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -48,6 +49,7 @@ class FuncionarioController extends Controller
         $categoriasContrato = CategoriaContratoTrabalho::orderBy('descricao')->get();
         $vinculosEmpregaticios = VinculoEmpregaticio::orderBy('descricao')->get();
         $situacoesSeguroDesemprego = SituacaoSeguroDesemprego::orderBy('descricao')->get();
+        $tiposDependencia = TipoDependencia::orderBy('descricao')->get();
         $dow = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
 
         return view('dashboard.funcionario.new.index', compact(
@@ -61,11 +63,17 @@ class FuncionarioController extends Controller
             'vinculosEmpregaticios',
             'situacoesSeguroDesemprego',
             'racas',
+            'tiposDependencia',
             'dow'
         ));
     }
 
     public function validateFuncionario(Request $request)
+    {
+
+    }
+
+    public function validateDependente(Request $request)
     {
 
     }

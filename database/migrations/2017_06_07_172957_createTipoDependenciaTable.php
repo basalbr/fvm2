@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeFieldsInPlano extends Migration
+class CreateTipoDependenciaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class ChangeFieldsInPlano extends Migration
      */
     public function up()
     {
-        Schema::table('plano', function (Blueprint $table) {
-            $table->dropColumn(['total_funcionario']);
+        Schema::create('tipo_dependencia', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('descricao', 255);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class ChangeFieldsInPlano extends Migration
      */
     public function down()
     {
-        Schema::table('plano', function (Blueprint $table) {
-            $table->integer('total_funcionario');
-        });
+        Schema::dropIfExists('tipo_dependencia');
     }
 }

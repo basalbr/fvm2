@@ -66,6 +66,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
 Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listFuncionarioToUser', 'uses' => 'FuncionarioController@index']);
     Route::post('validate', ['as' => 'validateFuncionario', 'uses' => 'FuncionarioController@validateFuncionario']);
+    Route::post('validate/dependente',['as'=>'validateDependente', 'uses'=>'FuncionarioController@validateDependente']);
 });
 
 //Admin - Abertura de Empresa

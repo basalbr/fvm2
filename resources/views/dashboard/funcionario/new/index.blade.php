@@ -15,7 +15,7 @@
     <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#pessoal" aria-controls="pessoal" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
+                <a href="#pessoal" aria-controls="pessoal" role="tab" data-toggle="tab"><i class="fa fa-id-badge"></i>
                     Pessoal</a>
             </li>
             <li role="presentation">
@@ -23,18 +23,22 @@
                             class="fa fa-address-card"></i> Endereço</a>
             </li>
             <li role="presentation">
-                <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab"><i class="fa fa-users"></i> Documentos</a>
-            </li>
-            <li role="presentation">
-                <a href="#sindicato" aria-controls="sindicato" role="tab" data-toggle="tab"><i class="fa fa-list"></i>
-                    Sindicato</a>
-            </li>
-            <li role="presentation">
-                <a href="#contrato" aria-controls="contrato" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>
+                <a href="#contrato" aria-controls="contrato" role="tab" data-toggle="tab"><i class="fa fa-handshake-o"></i>
                     Contrato</a>
             </li>
             <li role="presentation">
-                <a href="#horario" aria-controls="horario" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>
+                <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i> Documentos</a>
+            </li>
+            <li role="presentation">
+                <a href="#sindicato" aria-controls="sindicato" role="tab" data-toggle="tab"><i class="fa fa-shield"></i>
+                    Sindicato</a>
+            </li>
+            <li role="presentation">
+                <a href="#dependentes" aria-controls="dependentes" role="tab" data-toggle="tab"><i class="fa fa-users"></i>
+                    Dependentes</a>
+            </li>
+            <li role="presentation">
+                <a href="#horario" aria-controls="horario" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i>
                     Horários</a>
             </li>
         </ul>
@@ -63,6 +67,9 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="horario">
                 @include('dashboard.funcionario.new.components.horario')
+                <div class="clearfix"></div>
+            </div><div role="tabpanel" class="tab-pane" id="dependentes">
+                @include('dashboard.funcionario.new.components.dependentes')
                 <div class="clearfix"></div>
             </div>
         </div>
