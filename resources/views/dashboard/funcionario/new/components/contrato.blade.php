@@ -97,7 +97,7 @@
     </div>
 </div>
 
-<div class="col-sm-9">
+<div class="col-sm-9 col-lg-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
             <input type="checkbox" value="1" name="desconta_vale_transporte" id="desconta_vale_transporte"><span></span>
@@ -106,7 +106,7 @@
         <div class="clearfix"></div>
     </div>
 </div>
-<div class="col-sm-3">
+<div class="col-sm-3 col-lg-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
             <input type="checkbox" value="1" name="professor" id="professor"><span></span> Professor
@@ -155,7 +155,7 @@
     <div class="col-sm-4">
         <div class="form-group disabled">
             <label for="data_final_experiencia">Data de término</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value=""/>
+            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_experiencia"/>
         </div>
     </div>
     <div class="col-sm-4">
@@ -166,14 +166,14 @@
     </div>
     <div class="col-sm-4">
         <div class="form-group disabled">
-            <label for="data_inicio_prorrogacao_experiencia">Data de início</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value=""/>
+            <label for="data_inicio_prorrogacao">Data de início</label>
+            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_inicio_prorrogacao"/>
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group disabled">
-            <label for="data_final_prorrogacao_experiencia">Data de término</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value=""/>
+            <label for="data_final_prorrogacao">Data de término</label>
+            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_prorrogacao"/>
         </div>
     </div>
     </div>

@@ -14,7 +14,7 @@
         <select class="form-control" name="id_uf">
             <option value="">Selecione uma opção</option>
             @foreach($ufs as $uf)
-                <option value="{{$uf->id}}">{{$uf->nome}}</option>
+                <option data-sigla="{{$uf->sigla}}" value="{{$uf->id}}">{{$uf->nome}}</option>
             @endforeach
         </select>
     </div>
@@ -49,7 +49,7 @@
         <input type="text" class="form-control" value="" name="complemento"/>
     </div>
 </div>
-
+<div class="clearfix"></div>
 <div class="col-sm-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">

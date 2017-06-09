@@ -17,7 +17,7 @@ function showFormValidationError(form, errors) {
         form.find('[name="' + i + '"]').parent().addClass('alert-warning');
     }
     alertDiv.show().addClass('animated shake');
-    $('.modal, html, body').animate({
+    $('.modal, html, body, #content').animate({
         scrollTop: alertDiv.offset().top - 50
     }, 500);
 
@@ -71,7 +71,7 @@ $(function () {
 
     $('.phone-mask').mask(SPMaskBehavior, spOptions);
     $('.date-mask').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
-    $('.time-mask').mask('00:00', {clearIfNotMatch: true});
+    $('.time-mask').mask('00:00', {clearIfNotMatch: true, placeholder: "--:--"});
     $('.number-mask').mask('#', {clearIfNotMatch: true});
     $('.date-time-mask').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});
     $('.cep-mask').mask('00000-000', {clearIfNotMatch: true, placeholder: "_____-___"});

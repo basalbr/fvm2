@@ -19,12 +19,13 @@ use App\Models\SituacaoSeguroDesemprego;
 use App\Models\TipoDependencia;
 use App\Models\Uf;
 use App\Models\VinculoEmpregaticio;
+use App\Validation\FuncionarioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class FuncionarioController extends Controller
 {
@@ -73,7 +74,7 @@ class FuncionarioController extends Controller
 
     public function validateFuncionario(Request $request)
     {
-
+        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
     }
 
     public function validateDependente(Request $request)

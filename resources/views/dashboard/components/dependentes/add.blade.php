@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="modal-body">
-                    Tem certeza que deseja remover <span id="dependente-name"></span> da lista de sócios?
+                    Tem certeza que deseja remover <span id="dependente-name"></span> da lista de dependentes?
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" type="button" data-id=""><i class="fa fa-trash"></i> Sim, desejo
@@ -35,7 +35,7 @@
                 <div class="modal-body">
                     <form class="form" data-validation-url="{{$validationUrl}}" action="">
 
-                        <div class="col-xs-12">
+                        <div class="col-sm-12">
                             <h4>Informações</h4>
                             <p>Complete as informações abaixo e clique em adicionar. Campos com * são obrigatórios.</p>
                             <hr>
@@ -45,13 +45,13 @@
                         <input type="hidden" name="id" value="">
 
 
-                        <div class="col-xs-4">
+                        <div class="col-sm-6">
                             <div class='form-group'>
                                 <label for="nome">Nome completo *</label>
                                 <input type='text' class='form-control' name='nome'/>
                             </div>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-sm-6">
                             <div class='form-group'>
                                 <label for="id_tipo_dependencia">Tipo de dependência *</label>
                                 <select name="id_tipo_dependencia" class="form-control">
@@ -63,77 +63,71 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-3">
+                        <div class="col-sm-3">
                             <div class='form-group'>
-                                <label for="cpf">CPF *</label>
+                                <label for="cpf">CPF</label>
                                 <input type='text' class='form-control cpf-mask' name='cpf'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-3">
                             <div class='form-group'>
-                                <label for="rg">RG *</label>
+                                <label for="rg">RG</label>
                                 <input type='text' class='form-control' name='rg'/>
                             </div>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-sm-6">
                             <div class='form-group'>
-                                <label for="orgao_expedidor">Órgão Expedidor do RG (Ex: SSP/SC) *</label>
-                                <input type='text' class='form-control' name='orgao_expedidor'/>
+                                <label for="orgao_expedidor_rg">Órgão Expedidor do RG</label>
+                                <input type='text' class='form-control' name='orgao_expedidor_rg'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-5">
                             <div class='form-group'>
                                 <label for="data_nascimento">Data de Nascimento *</label>
                                 <input type='text' class='form-control date-mask' name='data_nascimento'/>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-sm-7">
                             <div class='form-group'>
                                 <label for="local_nascimento">Local de nascimento *</label>
                                 <input type='text' class='form-control' name='local_nascimento'/>
                             </div>
                         </div>
 
-                        <div class="col-xs-3">
+                        <div class="col-sm-12">
                             <div class='form-group'>
-                                <label for="matricula">Matrícula *</label>
+                                <label for="matricula">Matrícula da certidão de nascimento</label>
                                 <input type='text' class='form-control' name='matricula'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-6">
                             <div class='form-group'>
-                                <label for="cartorio">Cartório *</label>
+                                <label for="cartorio">Nome do cartório</label>
                                 <input type='text' class='form-control' name='cartorio'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-6">
                             <div class='form-group'>
-                                <label for="numero_cartorio">Número de Registro do Cartório *</label>
+                                <label for="numero_cartorio">Número de registro do cartório</label>
                                 <input type='text' class='form-control' name='numero_cartorio'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-6">
                             <div class='form-group'>
-                                <label for="numero_livro">Número do Livro</label>
+                                <label for="numero_livro">Número do livro</label>
                                 <input type='text' class='form-control' name='numero_livro'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-6">
                             <div class='form-group'>
-                                <label for="numero_folha">Número da Folha</label>
+                                <label for="numero_folha">Número da folha</label>
                                 <input type='text' class='form-control' name='numero_folha'/>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-sm-6">
                             <div class='form-group'>
                                 <label for="numero_dnv">Número da D.N.V</label>
                                 <input type='text' class='form-control' name='numero_dnv'/>
-                            </div>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class='form-group'>
-                                <label for="data_entrega_documento">Data de entrega do documento</label>
-                                <input type='text' class='form-control date-mask' name='data_entrega_documento'/>
                             </div>
                         </div>
                     </form>
@@ -141,7 +135,8 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Cancelar</button>
-                    <button class="btn btn-success" type="button"><i class="fa fa-plus"></i> Adicionar Dependente</button>
+                    <button class="btn btn-success" type="button"><i class="fa fa-plus"></i> Adicionar Dependente
+                    </button>
                 </div>
             </div>
         </div>

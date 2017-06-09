@@ -75,26 +75,26 @@
 </div>
 <div class="col-sm-4">
     <div class="form-group">
-        <label for="numero_carteira_motorista">Número da CNH</label>
-        <input type="text" class="form-control" value="" name="numero_carteira_motorista"/>
+        <label for="cnh">Número da CNH</label>
+        <input type="text" class="form-control" value="" name="cnh"/>
     </div>
 </div>
 <div class="col-sm-4">
     <div class="form-group">
-        <label for="categoria_carteira_motorista">Categoria da CNH</label>
-        <input type="text" class="form-control" value="" name="categoria_carteira_motorista"/>
+        <label for="categoria_cnh">Categoria da CNH</label>
+        <input type="text" class="form-control" value="" name="categoria_cnh"/>
     </div>
 </div>
 <div class="col-sm-4">
     <div class="form-group">
-        <label for="vencimento_carteira_motorista">Vencimento da CNH</label>
-        <input type="text" class="form-control date-mask" value="" name="vencimento_carteira_motorista"/>
+        <label for="vencimento_cnh">Vencimento da CNH</label>
+        <input type="text" class="form-control date-mask" value="" name="vencimento_cnh"/>
     </div>
 </div>
 <div class="col-sm-6">
     <div class="form-group">
-        <label for="numero_carteira_reservista">Número de reservista</label>
-        <input type="text" class="form-control" value="" name="numero_carteira_reservista"/>
+        <label for="carteira_reservista">Número de reservista</label>
+        <input type="text" class="form-control" value="" name="carteira_reservista"/>
     </div>
 </div>
 <div class="col-sm-6">

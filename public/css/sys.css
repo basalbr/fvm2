@@ -53,7 +53,7 @@ body {
 }
 
 .horario .form-group.disabled {
-    background-color: #ccc;
+    background-color: #E0E0E0;
 }
 
 #top-menu {
@@ -454,8 +454,16 @@ a.shortcut h3.text-center {
 }
 
 .alert-warning, .btn-warning {
-    background-color: #FFB74D;
-    border-color: #FFA726;
+    background-color: #EF9A9A;
+    border-color: #E57373;
+}
+
+.alert-warning input, .alert-warning label, .alert-warning select, .alert-warning input::placeholder {
+    color: #fff;
+}
+
+.alert-warning select option {
+    color: #555;
 }
 
 .alert-danger, .btn-danger {
@@ -759,7 +767,7 @@ th.cnae-code {
     top: -1px;
 }
 
-.form-group.no-border{
+.form-group.no-border {
     border: none;
 }
 
@@ -836,6 +844,7 @@ th.cnae-code {
 .checkbox-styled:not(ie8).checkbox-primary input ~ span:after, .radio-styled:not(ie8).checkbox-primary input ~ span:after, .checkbox-styled:not(ie8).radio-primary input ~ span:after, .radio-styled:not(ie8).radio-primary input ~ span:after {
     background-color: #0aa89e;
 }
+
 .checkbox-styled:not(ie8) input:checked ~ span:before {
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);

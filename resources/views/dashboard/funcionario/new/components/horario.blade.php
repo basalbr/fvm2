@@ -3,7 +3,7 @@
 @section('js')
     @parent
     <script type="text/javascript">
-        $(function(){
+        $(function () {
             $("#" + $("#dsr").val() + " input").attr('disabled', 'disabled');
             $("#" + $("#dsr").val() + " .form-group").addClass('disabled');
             $("#" + $("#dsr").val() + " td:nth-child(6) b").text('D.S.R');
@@ -11,6 +11,7 @@
                 function addZ(n) {
                     return (n < 10 ? '0' : '') + n;
                 }
+
                 var ms = s % 1000;
                 s = (s - ms) / 1000;
                 var secs = s % 60;
@@ -21,6 +22,7 @@
                     return addZ(hrs) + ':' + addZ(mins);
                 }
             }
+
             $("#dsr").on('change', function () {
                 $(".horario input").each(function () {
                     if ($(this).attr('disabled')) {
@@ -47,6 +49,7 @@
                 var resultado1 = false;
                 var resultado2 = false;
                 var resultadoFinal = "00:00";
+                var resultadoAtual = $("#" + id + " td:nth-child(6) b").html();
                 if (data1 > 0 && data2 > 0 && (data1 < data2)) {
                     resultado1 = data2 - data1;
                 }
@@ -65,14 +68,40 @@
                 if (msToTime(resultadoFinal)) {
                     $("#" + id + " td:nth-child(6) b").html(msToTime(resultadoFinal));
                 }
+                var hours = validateHoursOfWork();
+                if (hours >= 0) {
+                    $('#total-horas strong').html(hours)
+                } else {
+                    console.log('a');
+                    $("#" + id + " td:nth-child(6) b").html(resultadoAtual);
+                    $('#'+id+' input').val(null);
+                    showModalAlert('O total de horas de trabalho não pode exceder 44 horas por semana');
+                }
+
             });
         });
+        function validateHoursOfWork() {
+            var totalSeconds = 0;
+            $("td:nth-child(6) b").each(function () {
+                if ($(this).text() !== 'D.S.R') {
+                    totalSeconds += toSeconds($(this).text());
+                }
+            });
+            var totalHours = Math.floor(totalSeconds / 3600);
+            console.log(totalHours)
+            return totalHours <= 44 ? totalHours : -1;
+        }
+        function toSeconds(time) {
+            var parts = time.split(':');
+            return (+parts[0]) * 60 * 60 + (+parts[1]) * 60;
+        }
     </script>
-    @stop
+@stop
 <div class="col-xs-12">
     <h3>Horários de trabalho</h3>
     <hr>
 </div>
+
 <div class="col-xs-12">
     <p>Escolha o dia do descanso semanal remunerado (D.S.R)</p>
 
@@ -85,6 +114,7 @@
         </select>
     </div>
 </div>
+
 <div class="col-xs-12">
 
     <p>Digite na tabela abaixo o horário de trabalho do funcionário de acordo com o dia da semana.</p>
@@ -112,27 +142,27 @@
                 <td style="vertical-align: middle; min-width: 78px;"><b>{{$dia}}</b></td>
                 <td class="text-center horario">
                     <div class="form-group">
-                    <input class="form-control time-mask" type="text" name="horario[{{$n}}][0]" value="">
+                        <input class="form-control time-mask" type="text" name="horario[{{$n}}][0]" value="">
                     </div>
                 </td>
                 <td class="text-center horario">
                     <div class="form-group">
 
-                    <input class="form-control time-mask" type="text" name="horario[{{$n}}][1]" value="">
-                    </div>
-
-                </td>
-                <td class="text-center horario">
-                    <div class="form-group">
-
-                    <input class="form-control time-mask" type="text" name="horario[{{$n}}][2]" value="">
+                        <input class="form-control time-mask" type="text" name="horario[{{$n}}][1]" value="">
                     </div>
 
                 </td>
                 <td class="text-center horario">
                     <div class="form-group">
 
-                    <input class="form-control time-mask" type="text" name="horario[{{$n}}][3]" value="">
+                        <input class="form-control time-mask" type="text" name="horario[{{$n}}][2]" value="">
+                    </div>
+
+                </td>
+                <td class="text-center horario">
+                    <div class="form-group">
+
+                        <input class="form-control time-mask" type="text" name="horario[{{$n}}][3]" value="">
                     </div>
 
                 </td>
@@ -141,8 +171,20 @@
                 </td>
             </tr>
         @endforeach
+        <tr>
+            <td colspan="5" class="text-right"><strong>Total de horas semanais</strong></td>
+            <td id="total-horas" class="text-center"><strong>0</strong></td>
+        </tr>
         </tbody>
     </table>
+</div>
+<div class="col-sm-12">
+    <div class="form-group no-border">
+        <label class="checkbox checkbox-styled radio-success">
+            <input type="checkbox" value="1" name="banco_horas" id="banco_horas"><span></span> Possui banco de horas
+        </label>
+        <div class="clearfix"></div>
+    </div>
 </div>
 <div class="col-xs-12 text-right">
     <hr>

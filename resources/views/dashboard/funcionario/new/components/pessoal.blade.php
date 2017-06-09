@@ -3,17 +3,28 @@
     <script type="text/javascript">
         $(function () {
             $('[name="qtde_dias_experiencia"], [name="qtde_dias_prorrogacao_experiencia"]').on('keyup', function () {
+                $('#data_inicio_experiencia').val($('[name="data_admissao"]').val());
                 var days = parseInt($('[name="qtde_dias_experiencia"]').val()) + parseInt($('[name="qtde_dias_prorrogacao_experiencia"]').val());
                 if (days > 90) {
                     showModalAlert('A quantidade de dias de experiência não pode exceder 90.');
-                    $('[name="qtde_dias_prorrogacao_experiencia"]').val(null);
+                    $('#contrato-experiencia-info input').val(null);
+                } else {
+                    calculateDaysOfExperience();
                 }
             });
             $('#experiencia').on('change', function () {
                 if ($(this).is(':checked')) {
                     $("#contrato-experiencia-info").show().find('[name="qtde_dias_experiencia"],[name="qtde_dias_prorrogacao_experiencia"]').val(45).prop('disabled', false);
+                    calculateDaysOfExperience();
                 } else {
                     $("#contrato-experiencia-info").hide().find('[name="qtde_dias_experiencia"],[name="qtde_dias_prorrogacao_experiencia"]').val(null).prop('disabled', true);
+                }
+            });
+            $('[name="sindicalizado"]').on('change', function () {
+                if ($(this).val() === '1') {
+                    $('#info-sindicato').show().find('input').prop('disabled', false);
+                } else {
+                    $('#info-sindicato').hide().find('input').prop('disabled', true).val(null);
                 }
             });
             $('#tipo-cadastro').on('change', function () {
@@ -43,8 +54,33 @@
             });
             $('[name="data_admissao"]').on('keyup', function () {
                 $('#data_inicio_experiencia').val($(this).val());
+                if ($(this).val().length == 10) {
+                    if (isValidDate($(this).val())) {
+                        calculateDaysOfExperience();
+                    } else {
+                        $(this).val(null);
+                        $('#contrato-experiencia-info input').val(null);
+                        showModalAlert('A data de admissão deve ser uma data válida, por exemplo: 01/01/2017')
+                    }
+                }
             });
         });
+        function calculateDaysOfExperience() {
+
+            if ($('#experiencia').is(':checked') && $('[name="data_admissao"]').val().length == 10) {
+                if (isValidDate($('[name="data_admissao"]').val())) {
+                    var dataInicioExperiencia = parseStringToDate($('#data_inicio_experiencia').val());
+                    var qtdeDiasExperiencia = $('[name="qtde_dias_experiencia"]').val() !== '' ? parseInt($('[name="qtde_dias_experiencia"]').val()) : 0;
+                    var qtdeDiasProrrogacao = $('[name="qtde_dias_prorrogacao_experiencia"]').val() !== '' ? parseInt($('[name="qtde_dias_prorrogacao_experiencia"]').val()) : 0;
+                    $('#data_final_experiencia').val(parseDateToString(addDaysToDate(dataInicioExperiencia, qtdeDiasExperiencia)));
+                    var dataFinalExperiencia = parseStringToDate($('#data_final_experiencia').val());
+                    $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 1)));
+                    var dataInicioProrrogacao = parseStringToDate($('#data_inicio_prorrogacao').val());
+                    $('#data_final_prorrogacao').val(parseDateToString(addDaysToDate(dataInicioProrrogacao, qtdeDiasProrrogacao)));
+                }
+            }
+
+        }
         function parseStringToDate(string) {
             try {
                 var dsplit = string.split("/");
@@ -55,13 +91,21 @@
         }
         function addDaysToDate(date, days) {
             try {
-                return new Date(date.setTime(date.getTime() + days * 86400000));
+                return new Date(date.setDate(date.getDate() + days));
             } catch (e) {
                 throw (new Error('Formato de data inválido'));
             }
         }
         function parseDateToString(date) {
-            return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
+
+            var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1).toString() : (date.getMonth() + 1).toString();
+            var day = date.getDate() < 10 ? "0" + date.getDate().toString() : date.getDate().toString();
+            return day + '/' + month + '/' + date.getFullYear().toString();
+        }
+        function isValidDate(s) {
+            var bits = s.split('/');
+            var d = new Date(bits[2], bits[1] - 1, bits[0]);
+            return d && (d.getMonth() + 1) == bits[1];
         }
     </script>
     function parseDate()
@@ -115,8 +159,8 @@
 </div>
 <div class="col-sm-6">
     <div class='form-group'>
-        <label for="estado_civil">Estado civil *</label>
-        <select name="estado_civil" class="form-control">
+        <label for="id_estado_civil">Estado civil *</label>
+        <select name="id_estado_civil" class="form-control">
             <option value="">Selecione uma opção</option>
             @foreach($estadosCivis as $estadoCivil)
                 <option value="{{$estadoCivil->id}}">{{$estadoCivil->descricao}}</option>
@@ -216,8 +260,8 @@
     </div>
     <div class="col-sm-8">
         <div class="form-group">
-            <label for="id_condicao_trabalhador_estrangeiro">Condição *</label>
-            <select class="form-control" name="id_condicao_trabalhador_estrangeiro">
+            <label for="id_condicao_estrangeiro">Condição *</label>
+            <select class="form-control" name="id_condicao_estrangeiro">
                 <option value="">Selecione uma opção</option>
                 @foreach($condicoesEstrangeiro as $condicaoEstrangeiro)
                     <option value="{{$condicaoEstrangeiro->id}}">{{$condicaoEstrangeiro->descricao}}</option>
