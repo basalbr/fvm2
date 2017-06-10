@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class HorarioTrabalho extends Model {
+class FuncionarioDiaTrabalho extends Model {
 
     use SoftDeletes;
 
@@ -21,7 +21,7 @@ class HorarioTrabalho extends Model {
      *
      * @var string
      */
-    protected $table = 'horario_trabalho';
+    protected $table = 'funcionario_dia_trabalho';
 
     /**
      * The attributes that are mass assignable.

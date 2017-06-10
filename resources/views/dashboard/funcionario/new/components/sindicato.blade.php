@@ -5,7 +5,7 @@
 <div class="col-sm-6">
     <div class="form-group">
         <label for="sindicalizado">Sindicato *</label>
-        <select name="sindicalizado" class="form-control" id="sindicalizado">
+        <select name="contrato[sindicalizado]" class="form-control" id="sindicalizado">
             <option>Escolha uma opção</option>
             <option value="1">Sim</option>
             <option value="0">Não</option>
@@ -16,13 +16,13 @@
     <div class="col-xs-6">
         <div class="form-group">
             <label for="sindicato">Nome do sindicato *</label>
-            <input type="text" class="form-control" value="" name="sindicato" disabled="disabled"/>
+            <input type="text" class="form-control" value="" name="contrato[sindicato]" disabled="disabled"/>
         </div>
     </div>
     <div class="col-xs-6">
         <div class="form-group">
             <label for="competencia_sindicato">Data da última contribuição</label>
-            <input type="text" class="form-control date-mask" value="" name="competencia_sindicato"
+            <input type="text" class="form-control date-mask" value="" name="contrato[competencia_sindicato]"
                    disabled="disabled"/>
         </div>
     </div>

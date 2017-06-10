@@ -13,6 +13,7 @@ class FuncionarioValidation extends Validation
 
     protected static $rules = [
         'novo_funcionario' => 'required|boolean',
+        'documentos.exame_admissional'=>'required_if:novo_funcionario,1|file|max:10240|mimes:zip,jpeg,jpg,bmp,png,pdf',
         'nome_completo' => 'required|max:191',
         'nome_mae' => 'required|max:191',
         'nome_pai' => 'required|max:191',
@@ -27,7 +28,7 @@ class FuncionarioValidation extends Validation
         'telefone' => 'required|max:20',
         'email' => 'nullable|email',
         'estrangeiro' => 'required|boolean',
-        'id_condicao_estrangeiro' => 'sometimes|exists:grau_instrucao,id',
+        'id_condicao_estrangeiro' => 'required_if:estrangeiro,1|exists:grau_instrucao,id',
         'data_chegada_estrangeiro' => 'nullable|date_format:d/m/Y',
         'numero_processo_mte' => 'nullable|max:191',
         'numero_rne' => 'nullable|max:191',
@@ -66,12 +67,12 @@ class FuncionarioValidation extends Validation
         'contrato.funcao'=>'required|max:191',
         'contrato.departamento'=>'required|max:191',
         'contrato.id_categoria_contrato_trabalho'=>'required|exists:categoria_contrato_trabalho,id',
-        'contrato.vinculo_empregaticio'=>'required|exists:vinculo_empregaticio,id',
-        'contrato.salario'=>'required|numeric',
+        'contrato.id_vinculo_empregaticio'=>'required|exists:vinculo_empregaticio,id',
+        'contrato.salario'=>'required',
         'contrato.data_admissao'=> 'required|date_format:d/m/Y',
-        'contrato.vale_transporte'=>'required|boolean',
-        'contrato.valor_vale_transporte'=>'nullable|numeric',
-        'contrato.desconto_assistencia_medica'=>'nullable|numeric',
+        'contrato.vale_transporte'=>'nullable|boolean',
+        'contrato.valor_vale_transporte'=>'required_if:contrato.vale_transporte,1',
+        'contrato.desconto_assistencia_medica'=>'nullable',
         'contrato.desconta_vale_transporte'=>'nullale|boolean',
         'contrato.primeiro_emprego'=>'nullable|boolean',
         'contrato.professor'=>'nullable|boolean',
@@ -82,11 +83,11 @@ class FuncionarioValidation extends Validation
         'contrato.sindicato'=>'sometimes|max:191',
         'contrato.competencia_sindicato'=>'nullable|date_format:d/m/Y',
         'contrato.dsr'=>'required|numeric',
-        'dia_trabalho.*.hora1'=>'nullable|size:4',
-        'dia_trabalho.*.hora2'=>'nullable|size:4',
-        'dia_trabalho.*.hora3'=>'nullable|size:4',
-        'dia_trabalho.*.hora4'=>'nullable|size:4',
-        'dia_trabalho.*.dia'=>'required|numeric',
+        'horario'=>'array|min:1',
+        'horario.*.hora1'=>'nullable|size:4',
+        'horario.*.hora2'=>'nullable|size:4',
+        'horario.*.hora3'=>'nullable|size:4',
+        'horario.*.hora4'=>'nullable|size:4',
         'dependentes.*.nome'=>'required|max:191',
         'dependentes.*.id_tipo_dependencia'=>'required|exists:tipo_dependencia,id',
         'dependentes.*.cpf'=>'nullable|size:14',
@@ -99,12 +100,14 @@ class FuncionarioValidation extends Validation
         'dependentes.*.numero_cartorio'=>'nullable|max:191',
         'dependentes.*.numero_livro'=>'nullable|max:191',
         'dependentes.*.numero_folha'=>'nullable|max:191',
-        'dependentes.*.numero_dnv'=>'nullable|max:191'
-
+        'dependentes.*.numero_dnv'=>'nullable|max:191',
+        'deficiencias.*.id_tipo_deficiencia'=>'exists:tipo_deficiencia,id',
     ];
 
     protected static $niceNames = [
+
         'novo_funcionario' => 'Tipo de Cadastro',
+        'documentos.exame_admissional'=>'Exame admissional',
         'nome_completo' => 'Nome completo do funcionário',
         'nome_mae' => 'Nome completo da mãe ',
         'nome_pai' => 'Nome completo do pai',
@@ -191,7 +194,8 @@ class FuncionarioValidation extends Validation
         'dependentes.*.numero_cartorio'=>'Número de registro do cartório',
         'dependentes.*.numero_livro'=>'Número do livro',
         'dependentes.*.numero_folha'=>'Número da folha',
-        'dependentes.*.numero_dnv'=>'Número da D.N.V'
+        'dependentes.*.numero_dnv'=>'Número da D.N.V',
+        'deficiencias.*.id_tipo_deficiencia'=>'Tipo de deficiência'
     ];
 
 

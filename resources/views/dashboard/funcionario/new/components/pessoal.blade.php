@@ -2,9 +2,9 @@
     @parent
     <script type="text/javascript">
         $(function () {
-            $('[name="qtde_dias_experiencia"], [name="qtde_dias_prorrogacao_experiencia"]').on('keyup', function () {
-                $('#data_inicio_experiencia').val($('[name="data_admissao"]').val());
-                var days = parseInt($('[name="qtde_dias_experiencia"]').val()) + parseInt($('[name="qtde_dias_prorrogacao_experiencia"]').val());
+            $('[name="contrato[qtde_dias_experiencia]"], [name="contrato[qtde_dias_prorrogacao_experiencia]"]').on('keyup', function () {
+                $('#data_inicio_experiencia').val($('[name="contrato[data_admissao]"]').val());
+                var days = parseInt($('[name="contrato[qtde_dias_experiencia]"]').val()) + parseInt($('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val());
                 if (days > 90) {
                     showModalAlert('A quantidade de dias de experiência não pode exceder 90.');
                     $('#contrato-experiencia-info input').val(null);
@@ -14,13 +14,13 @@
             });
             $('#experiencia').on('change', function () {
                 if ($(this).is(':checked')) {
-                    $("#contrato-experiencia-info").show().find('[name="qtde_dias_experiencia"],[name="qtde_dias_prorrogacao_experiencia"]').val(45).prop('disabled', false);
+                    $("#contrato-experiencia-info").show().find('[name="contrato[qtde_dias_experiencia]"],[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val(45).prop('disabled', false);
                     calculateDaysOfExperience();
                 } else {
-                    $("#contrato-experiencia-info").hide().find('[name="qtde_dias_experiencia"],[name="qtde_dias_prorrogacao_experiencia"]').val(null).prop('disabled', true);
+                    $("#contrato-experiencia-info").hide().find('[name="contrato[qtde_dias_experiencia]"],[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val(null).prop('disabled', true);
                 }
             });
-            $('[name="sindicalizado"]').on('change', function () {
+            $('[name="contrato[sindicalizado]"]').on('change', function () {
                 if ($(this).val() === '1') {
                     $('#info-sindicato').show().find('input').prop('disabled', false);
                 } else {
@@ -29,7 +29,7 @@
             });
             $('#tipo-cadastro').on('change', function () {
                 $('#contrato-experiencia input[type="checkbox"]').prop('checked', false);
-                $("#contrato-experiencia-info").hide().find('[name="qtde_dias_experiencia"],[name="qtde_dias_prorrogacao_experiencia"]').val(null).prop('disabled', true);
+                $("#contrato-experiencia-info").hide().find('[name="contrato[qtde_dias_experiencia]"],[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val(null).prop('disabled', true);
                 if ($(this).val() == 1) {
                     $("#exame-admissional").show();
                     $("#exame-admissional input").prop('disabled', false);
@@ -52,7 +52,7 @@
                     $("#info-estrangeiro input").prop('disabled', true)
                 }
             });
-            $('[name="data_admissao"]').on('keyup', function () {
+            $('[name="contrato[data_admissao]"]').on('keyup', function () {
                 $('#data_inicio_experiencia').val($(this).val());
                 if ($(this).val().length == 10) {
                     if (isValidDate($(this).val())) {
@@ -67,11 +67,11 @@
         });
         function calculateDaysOfExperience() {
 
-            if ($('#experiencia').is(':checked') && $('[name="data_admissao"]').val().length == 10) {
-                if (isValidDate($('[name="data_admissao"]').val())) {
+            if ($('#experiencia').is(':checked') && $('[name="contrato[data_admissao]"]').val().length == 10) {
+                if (isValidDate($('[name="contrato[data_admissao]"]').val())) {
                     var dataInicioExperiencia = parseStringToDate($('#data_inicio_experiencia').val());
-                    var qtdeDiasExperiencia = $('[name="qtde_dias_experiencia"]').val() !== '' ? parseInt($('[name="qtde_dias_experiencia"]').val()) : 0;
-                    var qtdeDiasProrrogacao = $('[name="qtde_dias_prorrogacao_experiencia"]').val() !== '' ? parseInt($('[name="qtde_dias_prorrogacao_experiencia"]').val()) : 0;
+                    var qtdeDiasExperiencia = $('[name="contrato[qtde_dias_experiencia]"]').val() !== '' ? parseInt($('[name="contrato[qtde_dias_experiencia]"]').val()) : 0;
+                    var qtdeDiasProrrogacao = $('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val() !== '' ? parseInt($('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val()) : 0;
                     $('#data_final_experiencia').val(parseDateToString(addDaysToDate(dataInicioExperiencia, qtdeDiasExperiencia)));
                     var dataFinalExperiencia = parseStringToDate($('#data_final_experiencia').val());
                     $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 1)));
@@ -108,7 +108,6 @@
             return d && (d.getMonth() + 1) == bits[1];
         }
     </script>
-    function parseDate()
 @stop
 
 <div class="col-xs-12">
@@ -135,7 +134,7 @@
 
             <label class="control-label">Anexe o exame admissional</label>
             <input class="form-control" type="file" placeholder="Clique para anexar o exame admissional"
-                   name="exame_admissional" disabled="">
+                   name="documentos[exame_admissional]" disabled="">
         </div>
     </div>
 </div>

@@ -5,25 +5,25 @@
 <div class="col-sm-6">
     <div class="form-group">
         <label for="cargo">Cargo *</label>
-        <input type="text" class="form-control" value="" name="cargo"/>
+        <input type="text" class="form-control" value="" name="contrato[cargo]"/>
     </div>
 </div>
 <div class="col-sm-6">
     <div class="form-group">
         <label for="funcao">Função *</label>
-        <input type="text" class="form-control" value="" name="funcao"/>
+        <input type="text" class="form-control" value="" name="contrato[funcao]"/>
     </div>
 </div>
 <div class="col-sm-6">
     <div class="form-group">
         <label for="departamento">Departamento *</label>
-        <input type="text" class="form-control" value="" name="departamento"/>
+        <input type="text" class="form-control" value="" name="contrato[departamento]"/>
     </div>
 </div>
 <div class="col-sm-6">
     <div class="form-group">
         <label for="id_categoria_contrato_trabalho">Categoria *</label>
-        <select class="form-control" name="id_categoria_contrato_trabalho">
+        <select class="form-control" name="contrato[id_categoria_contrato_trabalho]">
             <option value="">Selecione uma opção</option>
             @foreach($categoriasContrato as $categoria)
                 <option value="{{$categoria->id}}">{{$categoria->descricao}}</option>
@@ -34,7 +34,7 @@
 <div class="col-sm-7">
     <div class="form-group">
         <label for="id_vinculo_empregaticio">Vínculo empregatício *</label>
-        <select class="form-control" name="id_vinculo_empregaticio">
+        <select class="form-control" name="contrato[id_vinculo_empregaticio]">
             <option value="">Selecione uma opção</option>
             @foreach($vinculosEmpregaticios as $vinculoEmpregaticio)
                 <option value="{{$vinculoEmpregaticio->id}}">{{$vinculoEmpregaticio->descricao}}</option>
@@ -46,13 +46,13 @@
 <div class="col-sm-5">
     <div class="form-group">
         <label for="salario">Salário (R$) *</label>
-        <input type="text" class="form-control money-mask" value="" name="salario"/>
+        <input type="text" class="form-control money-mask" value="" name="contrato[salario]"/>
     </div>
 </div>
 <div class="col-sm-4">
     <div class="form-group">
         <label for="data_admissao">Data de admissão *</label>
-        <input type="text" class="form-control date-mask" value="" name="data_admissao"/>
+        <input type="text" class="form-control date-mask" value="" name="contrato[data_admissao]"/>
     </div>
 </div>
 
@@ -71,7 +71,7 @@
 <div class="col-sm-7">
     <div class="form-group">
         <label for="vale_transporte">Recebe vale transporte? *</label>
-        <select class="form-control" name="vale_transporte">
+        <select class="form-control" name="contrato[vale_transporte]">
             <option value="">Selecione uma opção</option>
             <option value="1">Sim</option>
             <option value="0">Não</option>
@@ -81,7 +81,7 @@
 <div class="col-sm-5">
     <div class="form-group">
         <label for="valor_vale_transporte">Valor de vale tranporte (R$)</label>
-        <input type="text" class="form-control money-mask" value="" name="valor_vale_transporte"/>
+        <input type="text" class="form-control money-mask" value="" name="contrato[valor_vale_transporte]"/>
     </div>
 </div>
 {{--<div class="col-sm-6">--}}
@@ -93,14 +93,14 @@
 <div class="col-sm-6">
     <div class="form-group">
         <label for="desconto_assistencia_medica">Desconto de assistência médica (R$)</label>
-        <input type="text" class="form-control money-mask" value="" name="desconto_assistencia_medica"/>
+        <input type="text" class="form-control money-mask" value="" name="contrato[desconto_assistencia_medica]"/>
     </div>
 </div>
 
 <div class="col-sm-9 col-lg-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
-            <input type="checkbox" value="1" name="desconta_vale_transporte" id="desconta_vale_transporte"><span></span>
+            <input type="checkbox" value="1" name="contrato[desconta_vale_transporte]" id="desconta_vale_transporte"><span></span>
             Desejo descontar o Vale Transporte do funcionário (6%)
         </label>
         <div class="clearfix"></div>
@@ -109,7 +109,7 @@
 <div class="col-sm-3 col-lg-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
-            <input type="checkbox" value="1" name="professor" id="professor"><span></span> Professor
+            <input type="checkbox" value="1" name="contrato[professor]" id="professor"><span></span> Professor
         </label>
         <div class="clearfix"></div>
     </div>
@@ -119,7 +119,7 @@
 <div class="col-sm-6">
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
-            <input type="checkbox" value="1" name="primeiro_emprego" id="primeiro_emprego"><span></span> Primeiro
+            <input type="checkbox" value="1" name="contrato[primeiro_emprego]" id="primeiro_emprego"><span></span> Primeiro
             emprego
         </label>
         <div class="clearfix"></div>
@@ -133,7 +133,7 @@
     <div class="col-sm-12">
         <div class="form-group no-border">
             <label class="checkbox checkbox-styled radio-success">
-                <input type="checkbox" value="1" name="experiencia" id="experiencia"><span></span> Desejo emitir o
+                <input type="checkbox" value="1" name="contrato[experiencia]" id="experiencia"><span></span> Desejo emitir o
                 contrato de experiência
             </label>
             <div class="clearfix"></div>
@@ -143,7 +143,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label for="qtde_dias_experiencia">Quantidade de dias *</label>
-            <input type="text" class="form-control number-mask" value="" name="qtde_dias_experiencia"/>
+            <input type="text" class="form-control number-mask" value="" name="contrato[qtde_dias_experiencia]"/>
         </div>
     </div>
     <div class="col-sm-4">
@@ -161,7 +161,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label for="qtde_dias_prorrogacao_experiencia">Quantidade de dias de prorrogação</label>
-            <input type="text" class="form-control number-mask" value="" name="qtde_dias_prorrogacao_experiencia"/>
+            <input type="text" class="form-control number-mask" value="" name="contrato[qtde_dias_prorrogacao_experiencia]"/>
         </div>
     </div>
     <div class="col-sm-4">

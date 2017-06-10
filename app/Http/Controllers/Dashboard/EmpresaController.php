@@ -74,8 +74,7 @@ class EmpresaController extends Controller
         if (CreateEmpresa::handle($request->all())) {
             return redirect()->route('listEmpresaToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
         }
-        dd('a');
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     /**
@@ -89,7 +88,7 @@ class EmpresaController extends Controller
         if (CreateEmpresaFromAberturaEmpresa::handle($request->all())) {
             return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'A empresa foi criada com sucesso e o processo de abertura de empresa foi encerrado.');
         }
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function sendMessageToAdmin(Request $request, AberturaEmpresa $aberturaEmpresa)
@@ -99,7 +98,7 @@ class EmpresaController extends Controller
         if (SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())) {
             return redirect()->route('viewAberturaEmpresa')->with('successAlert', 'A mensagem foi enviada, você receberá um e-mail quando respondermos.');
         }
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     /**

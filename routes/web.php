@@ -60,6 +60,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
     Route::get('{id}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
+    Route::post('{id}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
 });
 
 //Dashboard - Funcionários

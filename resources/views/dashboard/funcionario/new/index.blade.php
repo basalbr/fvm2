@@ -10,19 +10,29 @@
         });
 
         function validateFormPrincipal() {
-            var formData = $('#form-principal').serializeArray();
-            $.post($('#form-principal').data('validation-url'), formData)
-                .done(function (data, textStatus, jqXHR) {
-                    $('#form-principal').submit();
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status === 422) {
-                        //noinspection JSUnresolvedVariable
-                        showFormValidationError($('#form-principal'), jqXHR.responseJSON);
-                    } else {
-                        showFormValidationError($('#form-principal'));
-                    }
-                });
+            var formData = new FormData();
+            if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null) {
+                formData.append('documentos[exame_admissional]', $('[name="documentos[exame_admissional]"]')[0].files[0])
+            }
+            var params = $('#form-principal').serializeArray();
+            $(params).each(function (index, element) {
+                formData.append(element.name, element.value);
+            });
+            $.post({
+                url: $('#form-principal').data('validation-url'),
+                data: formData,
+                contentType: false,
+                processData: false
+            }).done(function (data, textStatus, jqXHR) {
+                $('#form-principal').submit();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 422) {
+                    //noinspection JSUnresolvedVariable
+                    showFormValidationError($('#form-principal'), jqXHR.responseJSON);
+                } else {
+                    showFormValidationError($('#form-principal'));
+                }
+            });
         }
     </script>
 @stop
@@ -34,7 +44,8 @@
     </div>
     <div class="clearfix"></div>
     <form class="form" method="POST" action="" id="form-principal"
-          data-validation-url="{{route('validateFuncionario')}}">
+          data-validation-url="{{route('validateFuncionario')}}"
+          enctype="multipart/form-data">
     @include('dashboard.components.form-alert')
     @include('dashboard.components.disable-auto-complete')
     {{csrf_field()}}
@@ -51,6 +62,10 @@
             <li role="presentation">
                 <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab"><i
                             class="fa fa-files-o"></i> Documentos</a>
+            </li>
+            <li role="presentation">
+                <a href="#deficiencias" aria-controls="deficiencias" role="tab" data-toggle="tab"><i
+                            class="fa fa-wheelchair-alt"></i> Deficiências</a>
             </li>
             <li role="presentation">
                 <a href="#contrato" aria-controls="contrato" role="tab" data-toggle="tab"><i
@@ -100,6 +115,10 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="dependentes">
                 @include('dashboard.funcionario.new.components.dependentes')
+                <div class="clearfix"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="deficiencias">
+                @include('dashboard.funcionario.new.components.deficiencias')
                 <div class="clearfix"></div>
             </div>
         </div>

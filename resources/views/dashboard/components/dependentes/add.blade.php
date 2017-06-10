@@ -42,8 +42,6 @@
                         </div>
                         @include('dashboard.components.form-alert')
                         {{csrf_field()}}
-                        <input type="hidden" name="id" value="">
-
 
                         <div class="col-sm-6">
                             <div class='form-group'>

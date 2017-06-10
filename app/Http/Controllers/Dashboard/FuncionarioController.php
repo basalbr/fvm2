@@ -10,15 +10,18 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\CategoriaContratoTrabalho;
 use App\Models\CondicaoEstrangeiro;
+use App\Models\Deficiencia;
 use App\Models\EstadoCivil;
 use App\Models\GrauInstrucao;
 use App\Models\GrupoSanguineo;
 use App\Models\Raca;
 use App\Models\Sexo;
 use App\Models\SituacaoSeguroDesemprego;
+use App\Models\TipoDeficiencia;
 use App\Models\TipoDependencia;
 use App\Models\Uf;
 use App\Models\VinculoEmpregaticio;
+use App\Services\CreateFuncionario;
 use App\Validation\FuncionarioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -53,6 +56,7 @@ class FuncionarioController extends Controller
         $situacoesSeguroDesemprego = SituacaoSeguroDesemprego::orderBy('descricao')->get();
         $tiposDependencia = TipoDependencia::orderBy('descricao')->get();
         $estadosCivis = EstadoCivil::orderBy('descricao')->get();
+        $deficiencias = TipoDeficiencia::orderBy('descricao')->get();
         $dow = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
 
         return view('dashboard.funcionario.new.index', compact(
@@ -68,8 +72,20 @@ class FuncionarioController extends Controller
             'situacoesSeguroDesemprego',
             'racas',
             'tiposDependencia',
-            'dow'
+            'dow',
+            'deficiencias'
         ));
+    }
+
+    public function store(Request $request, $id)
+    {
+
+        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
+        dd($request->all());
+        if (CreateFuncionario::handle($request->all(), $id)) {
+            return redirect()->route('listFuncionarioToUser')->with('successAlert', 'Funcionário cadastrado com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function validateFuncionario(Request $request)

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class ContratoTrabalho extends Model {
+class FuncionarioContrato extends Model {
 
     use SoftDeletes;
 
@@ -21,7 +21,7 @@ class ContratoTrabalho extends Model {
      *
      * @var string
      */
-    protected $table = 'contrato_trabalho';
+    protected $table = 'funcionario_contrato';
 
     /**
      * The attributes that are mass assignable.
@@ -58,41 +58,14 @@ class ContratoTrabalho extends Model {
         'data_final_prorrogacao_experiencia',
     ];
 
-    public function validate($data, $update = false) {
-        // make a new validator object
-        if ($update) {
-            $this->rules['cpf'] = 'required|unique:socio,cpf,' . $data['id'];
-            $this->rules['rg'] = 'required|unique:socio,rg,' . $data['id'];
-            $this->rules['id_pessoa'] = '';
-            $this->rules['principal'] = '';
-        }
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
 
-        // validation pass
-        return true;
-    }
-
-    public function errors() {
-        return $this->errors;
-    }
 
     public function funcionario() {
-        return $this->belongsTo('App\Funcionario', 'id_funcionario');
+        return $this->belongsTo(Funcionario::class, 'id_funcionario');
     }
     
     public function horarios(){
-        return $this->hasMany('App\HorarioTrabalho','id_contrato_trabalho');
-    }
-
-    public function salario_formatado() {
-        return number_format($this->salario, 2, ',', '.');
+        return $this->hasMany(FuncionarioDiaTrabalho::class,'id_funcionario_contrato');
     }
 
 }
