@@ -10,7 +10,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\CategoriaContratoTrabalho;
 use App\Models\CondicaoEstrangeiro;
+use App\Models\Config;
 use App\Models\Deficiencia;
+use App\Models\Empresa;
 use App\Models\EstadoCivil;
 use App\Models\GrauInstrucao;
 use App\Models\GrupoSanguineo;
@@ -45,6 +47,41 @@ class FuncionarioController extends Controller
     {
         //precisa criar autorizacao
         $empresa = Auth::user()->empresas()->find($empresaId);
+
+
+        return view('dashboard.funcionario.new.index', array_merge($this->getFormParameters(), compact('empresa')));
+    }
+
+    public function view($empresaId, $funcionarioId){
+        /** @var Empresa $empresa */
+        $empresa = Auth::user()->empresas()->find($empresaId);
+        $funcionario = $empresa->funcionarios()->find($funcionarioId);
+        return view('dashboard.funcionario.view.index', array_merge($this->getFormParameters(), compact('funcionario', 'empresa')));
+    }
+
+    public function store(Request $request, $id)
+    {
+
+        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
+
+        if (CreateFuncionario::handle($request, $id)) {
+            return redirect()->route('listFuncionarioToUser')->with('successAlert', 'Funcionário cadastrado com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+    }
+
+    public function validateFuncionario(Request $request)
+    {
+        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
+    }
+
+    public function validateDependente(Request $request)
+    {
+
+    }
+
+    public function getFormParameters()
+    {
         $ufs = Uf::orderBy('nome')->get();
         $grausInstrucao = GrauInstrucao::orderBy('descricao')->get();
         $gruposSanguineos = GrupoSanguineo::orderBy('descricao')->get();
@@ -57,9 +94,9 @@ class FuncionarioController extends Controller
         $tiposDependencia = TipoDependencia::orderBy('descricao')->get();
         $estadosCivis = EstadoCivil::orderBy('descricao')->get();
         $deficiencias = TipoDeficiencia::orderBy('descricao')->get();
-        $dow = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
+        $dow = Config::getDaysOfWeek();
 
-        return view('dashboard.funcionario.new.index', compact(
+        return compact(
             'empresa',
             'sexos',
             'grausInstrucao',
@@ -74,28 +111,7 @@ class FuncionarioController extends Controller
             'tiposDependencia',
             'dow',
             'deficiencias'
-        ));
-    }
-
-    public function store(Request $request, $id)
-    {
-
-        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
-        dd($request->all());
-        if (CreateFuncionario::handle($request->all(), $id)) {
-            return redirect()->route('listFuncionarioToUser')->with('successAlert', 'Funcionário cadastrado com sucesso.');
-        }
-        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
-    }
-
-    public function validateFuncionario(Request $request)
-    {
-        $this->validate($request, FuncionarioValidation::getRules(), [], FuncionarioValidation::getNiceNames());
-    }
-
-    public function validateDependente(Request $request)
-    {
-
+        );
     }
 
 }

@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
 
-class FuncionarioContrato extends Model {
+/**
+ * Class FuncionarioContrato
+ * @package App\Models
+ */
+class FuncionarioContrato extends Model
+{
 
     use SoftDeletes;
 
-    protected $rules = [
-    ];
-    protected $errors;
-    protected $niceNames = [
-    ];
 
     /**
      * The database table used by the model.
@@ -36,36 +36,59 @@ class FuncionarioContrato extends Model {
         'sindicato',
         'dsr',
         'sindicalizado',
-        'pagou_contribuicao',
         'competencia_sindicato',
         'data_admissao',
-        'qtde_dias_vale_transporte',
         'valor_vale_transporte',
-        'valor_assistencia_medica',
         'desconto_assistencia_medica',
-        'vinculo_empregaticio',
-        'situacao_seguro_desemprego',
         'salario',
-        'possui_banco_de_horas',
         'desconta_vale_transporte',
         'contrato_experiencia',
         'professor',
         'primeiro_emprego',
         'qtde_dias_experiencia',
-        'data_inicio_experiencia',
-        'data_final_experiencia',
-        'data_inicio_prorrogacao_experiencia',
-        'data_final_prorrogacao_experiencia',
+        'vale_transporte',
+        'id_vinculo_empregaticio',
+        'id_categoria_contrato_trabalho',
+        'id_situacao_seguro_desemprego',
+        'banco_horas',
+        'experiencia',
+        'qtde_dias_prorrogacao_experiencia'
     ];
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    public function setCompetenciaSindicatoAttribute($value)
+    {
+        $this->attributes['competencia_sindicato'] = Carbon::createFromFormat('d/m/Y', $value);
+    }
+    public function setDataAdmissaoAttribute($value)
+    {
+        $this->attributes['data_admissao'] = Carbon::createFromFormat('d/m/Y', $value);
+    }
+    public function setDescontoAssistenciaMedicaAttribute($value){
+        $this->attributes['desconto_assistencia_medica'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+    public function setValorValeTransporteAttribute($value){
+        $this->attributes['valor_vale_transporte'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+    public function setSalarioAttribute($value){
+        $this->attributes['salario'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
 
-    public function funcionario() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function funcionario()
+    {
         return $this->belongsTo(Funcionario::class, 'id_funcionario');
     }
-    
-    public function horarios(){
-        return $this->hasMany(FuncionarioDiaTrabalho::class,'id_funcionario_contrato');
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function horarios()
+    {
+        return $this->hasMany(FuncionarioDiaTrabalho::class, 'id_funcionario_contrato');
     }
 
 }

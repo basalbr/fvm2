@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class FuncionarioDeficiencia extends Model {
 
-    public $timestamps = false;
     protected $rules = [
     ];
     protected $errors;
@@ -29,7 +28,7 @@ class FuncionarioDeficiencia extends Model {
      */
     protected $fillable = [
         'id_funcionario',
-        'deficiencia'
+        'id_tipo_deficiencia'
     ];
 
     public function validate($data) {

@@ -51,11 +51,20 @@ class Config extends Model
         'facebook'
     ];
 
+    protected static $daysOfWeek = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
+
     protected $dates = ['created_at', 'updated_at'];
 
     public static function getAberturaEmpresaPrice()
     {
         return self::first()->valor_abertura_empresa;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDaysOfWeek(){
+        return self::$daysOfWeek;
     }
 
     public static function getFuncionarioIncrementalPrice()

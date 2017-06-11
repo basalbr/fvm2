@@ -59,8 +59,10 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::get('vieaw/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
-    Route::get('{id}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
-    Route::post('{id}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
+    Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
+    Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
+    Route::post('{idEmpresa}/funcionarios/newa', ['as'=>'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@store']);
+    Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as'=>'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
 });
 
 //Dashboard - Funcionários

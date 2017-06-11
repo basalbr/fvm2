@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
@@ -10,18 +11,13 @@ class FuncionarioDependente extends Model {
 
     use SoftDeletes;
 
-    protected $rules = [
-    ];
-    protected $errors;
-    protected $niceNames = [
-    ];
-
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'funcionario_dependente';
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -29,45 +25,29 @@ class FuncionarioDependente extends Model {
      * @var array
      */
     protected $fillable = [
-        'id_funcionario',
-        'nome',
-        'data_nascimento',
-        'local_nascimento',
-        'cpf',
-        'rg',
-        'orgao_rg',
-        'tipo_dependencia',
-        'matricula',
-        'cartorio',
-        'numero_cartorio',
-        'numero_folha',
-        'numero_dnv',
-        'data_entrega_documento',
+      'id_funcionario',
+      'nome',
+      'data_nascimento',
+      'local_nascimento',
+      'cpf',
+      'rg',
+      'matricula',
+      'cartorio',
+      'numero_cartorio',
+      'numero_folha',
+      'numero_dnv',
+      'id_tipo_dependencia',
+      'orgao_expedidor_rg',
+      'numero_livro'
     ];
 
-    public function validate($data, $update = false) {
-        // make a new validator object
-        if ($update) {
-            $this->rules['cpf'] = 'required|unique:socio,cpf,' . $data['id'];
-            $this->rules['rg'] = 'required|unique:socio,rg,' . $data['id'];
-            $this->rules['id_pessoa'] = '';
-            $this->rules['principal'] = '';
-        }
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
+    public function setDataNascimentoAttribute($value)
+    {
+        $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
     public function funcionario() {
-        return $this->belongsTo('App\Funcionario', 'id_funcionario');
+        return $this->belongsTo(Funcionario::class, 'id_funcionario');
     }
 
 }

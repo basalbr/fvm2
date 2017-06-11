@@ -29,8 +29,44 @@
     <div class="panel">
         @if($funcionarios->count())
             @foreach($funcionarios as $funcionario)
-                <div class="col-xs-12">
-                    <p>{{$funcionario->nome_completo}}</p>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="panel">
+                        <div class="col-xs-12">
+                            <h3 class="title">{{$funcionario->nome_completo}}</h3>
+                            <hr>
+                        </div>
+                        <div class="items">
+                            <div class="col-xs-12">
+                                <i class="fa fa-user item-icon"></i>
+                                <div class="item-value">{{$funcionario->nome_completo}}</div>
+                                <div class="item-description">Nome do funcionário</div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i class="fa fa-building item-icon"></i>
+                                <div class="item-value">
+                                    <a href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a>
+                                </div>
+                                <div class="item-description">Nome da empresa</div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i class="fa fa-cogs item-icon"></i>
+                                <div class="item-value">{!! $funcionario->getStatus() !!}</div>
+                                <div class="item-description">Status</div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="col-xs-12 options">
+                            <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
+                               class="btn btn-primary">
+                                <i class="fa fa-search"></i> Ver Detalhes</a>
+                            <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
+                               class="btn btn-success">
+                                <i class="fa fa-files-o"></i> Documentos</a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br/>
+                    </div>
                 </div>
             @endforeach
         @else
@@ -64,7 +100,7 @@
                             @else
                                 <p>Você não cadastrou nenhuma empresa ainda.<br/>Caso queira abrir uma empresa, <a
                                             href="{{route('newAberturaEmpresa')}}">clique aqui.</a><br/>Para migrar uma
-                                        empresa, <a href="{{route('newEmpresa')}}">clique aqui</a></p>
+                                    empresa, <a href="{{route('newEmpresa')}}">clique aqui</a></p>
                             @endif
                         </div>
                     </div>
