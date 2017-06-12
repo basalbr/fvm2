@@ -16,7 +16,7 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
 }]);
 
 Route::get('/login', ['as' => 'login', 'uses' => function () {
-    return view('index', ['login'=>'true']);
+    return view('index', ['login' => 'true']);
 }]);
 
 //Registro e login de usuários
@@ -59,17 +59,23 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::get('vieaw/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
-    Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
-    Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
-    Route::post('{idEmpresa}/funcionarios/newa', ['as'=>'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@store']);
-    Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as'=>'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
+
 });
 
 //Dashboard - Funcionários
 Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listFuncionarioToUser', 'uses' => 'FuncionarioController@index']);
     Route::post('validate', ['as' => 'validateFuncionario', 'uses' => 'FuncionarioController@validateFuncionario']);
-    Route::post('validate/dependente',['as'=>'validateDependente', 'uses'=>'FuncionarioController@validateDependente']);
+    Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
+    Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
+
+});
+Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
+    Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
+    Route::post('{idEmpresa}/funcionarios/newa', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@store']);
+    Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
+    Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToUser', 'uses' => 'FuncionarioDocumentoController@index']);
 });
 
 //Admin - Abertura de Empresa

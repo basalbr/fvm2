@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AberturaEmpresa;
 use App\Models\Mensagem;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Observers\MensagemObserver;
@@ -45,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 return '/';
             });
         }
+        App::make('files')->link(storage_path('app/public'), public_path('storage'));
+
     }
 }

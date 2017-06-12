@@ -11,7 +11,7 @@
 
         function validateFormPrincipal() {
             var formData = new FormData();
-            if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null) {
+            if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null  && $('[name="documentos[exame_admissional]"]').val() !== undefined) {
                 formData.append('documentos[exame_admissional]', $('[name="documentos[exame_admissional]"]')[0].files[0])
             }
             var params = $('#form-principal').serializeArray();

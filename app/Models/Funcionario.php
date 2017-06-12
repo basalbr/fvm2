@@ -63,7 +63,7 @@ class Funcionario extends Model
         'complemento',
         'residente_exterior',
         'residencia_propria',
-        'imovel_recurso_fgts',
+        'imovel_fgts',
         'pis',
         'data_cadastro_pis',
         'ctps',

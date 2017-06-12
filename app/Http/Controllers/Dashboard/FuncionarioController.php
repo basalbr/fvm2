@@ -24,6 +24,7 @@ use App\Models\TipoDependencia;
 use App\Models\Uf;
 use App\Models\VinculoEmpregaticio;
 use App\Services\CreateFuncionario;
+use App\Validation\FuncionarioDependenteValidation;
 use App\Validation\FuncionarioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -78,7 +79,7 @@ class FuncionarioController extends Controller
 
     public function validateDependente(Request $request)
     {
-
+        $this->validate($request, FuncionarioDependenteValidation::getRules(), [], FuncionarioDependenteValidation::getNiceNames());
     }
 
     public function getFormParameters()

@@ -60,7 +60,7 @@
                             <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
                                class="btn btn-primary">
                                 <i class="fa fa-search"></i> Ver Detalhes</a>
-                            <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
+                            <a href="{{route('listDocumentosFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
                                class="btn btn-success">
                                 <i class="fa fa-files-o"></i> Documentos</a>
                         </div>

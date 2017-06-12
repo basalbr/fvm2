@@ -35,11 +35,10 @@ class CreateFuncionario
             /** @var Funcionario $funcionario */
             $funcionario = $empresa->funcionarios()->create($request->all());
 
-
             if ($request->has('deficiencias')) {
                 foreach ($request->get('deficiencias') as $deficiencia) {
                     $deficiencia['id_funcionario'] = $funcionario->id;
-                    new FuncionarioDeficiencia($deficiencia);
+                    FuncionarioDeficiencia::create($deficiencia);
                 }
             }
 
@@ -56,12 +55,13 @@ class CreateFuncionario
                     $horario['dia'] = $dia;
                     $contrato->horarios()->create($horario);
                 }
+
             }
 
             if ($request->hasFile('documentos')) {
                 /** @var UploadedFile $file */
                 $file = $request->file('documentos')['exame_admissional'];
-                $filename = 'exame_admissional.' . $file->guessClientExtension();
+                $filename = md5(random_bytes(5)).'exame_admissional.' . $file->guessClientExtension();
                 $file->storeAs('funcionarios/' . $funcionario->id . '/documentos', $filename, 'public');
                 $funcionario->documentos()->create(['documento' => $filename, 'nome' => 'exame_admissional', 'descricao' => 'Exame admissional do funcionário']);
             }

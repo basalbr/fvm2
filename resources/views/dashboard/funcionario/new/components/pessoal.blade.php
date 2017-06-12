@@ -115,6 +115,30 @@
     <hr>
 </div>
 <div class='clearfix'></div>
+<div class='col-xs-12'>
+    <div class="form-group">
+        <label class="control-label">Tipo de Cadastro</label>
+        <select name="novo_funcionario" class="form-control" id="tipo-cadastro">
+            <option value="1">Novo funcionário
+                na empresa
+            </option>
+            <option value="0" selected>O funcionário já
+                se encontra no quadro da empresa
+            </option>
+        </select>
+    </div>
+</div>
+<div class='clearfix'></div>
+<div id='exame-admissional' style="display: none">
+    <div class='col-xs-12'>
+        <div class="form-group">
+
+            <label class="control-label">Anexe o exame admissional</label>
+            <input class="form-control" type="file" placeholder="Clique para anexar o exame admissional"
+                   name="documentos[exame_admissional]" disabled="">
+        </div>
+    </div>
+</div>
 <div class="col-sm-6">
     <div class="form-group">
         <label for="nome_completo">Nome completo do funcionário *</label>
