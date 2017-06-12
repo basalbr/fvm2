@@ -159,7 +159,7 @@ class Funcionario extends Model
      */
     public function deficiencias()
     {
-        return $this->belongsToMany(FuncionarioDeficiencia::class, (new FuncionarioDeficiencia())->getTable(), 'id_funcionario', 'id_tipo_deficiencia');
+        return $this->belongsToMany(TipoDeficiencia::class, (new FuncionarioDeficiencia())->getTable(), 'id_funcionario', 'id_tipo_deficiencia');
     }
 
     /**

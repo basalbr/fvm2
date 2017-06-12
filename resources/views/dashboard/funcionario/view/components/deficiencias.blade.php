@@ -2,7 +2,7 @@
     <h3>Deficiências</h3>
     <hr>
 </div>
-@include('dashboard.components.deficiencias.add')
+@include('dashboard.components.deficiencias.view')
 
 <div class="col-xs-12 text-right">
     <hr>

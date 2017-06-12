@@ -90,35 +90,35 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active animated fadeIn" id="pessoal">
-                @include('dashboard.funcionario.new.components.pessoal')
+                @include('dashboard.funcionario.view.components.pessoal')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="endereco">
-                @include('dashboard.funcionario.new.components.endereco')
+                @include('dashboard.funcionario.view.components.endereco')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
-                @include('dashboard.funcionario.new.components.documentos', [$ufs])
+                @include('dashboard.funcionario.view.components.documentos', [$ufs])
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="sindicato">
-                @include('dashboard.funcionario.new.components.sindicato')
+                @include('dashboard.funcionario.view.components.sindicato')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="contrato">
-                @include('dashboard.funcionario.new.components.contrato')
+                @include('dashboard.funcionario.view.components.contrato')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="horario">
-                @include('dashboard.funcionario.new.components.horario')
+                @include('dashboard.funcionario.view.components.horario')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="dependentes">
-                @include('dashboard.funcionario.new.components.dependentes')
+                @include('dashboard.funcionario.view.components.dependentes')
                 <div class="clearfix"></div>
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="deficiencias">
-                @include('dashboard.funcionario.new.components.deficiencias')
+                @include('dashboard.funcionario.view.components.deficiencias')
                 <div class="clearfix"></div>
             </div>
         </div>

@@ -55,8 +55,9 @@ class FuncionarioController extends Controller
     public function view($empresaId, $funcionarioId){
         /** @var Empresa $empresa */
         $empresa = Auth::user()->empresas()->find($empresaId);
-        $funcionario = $empresa->funcionarios()->find($funcionarioId);
-        return view('dashboard.funcionario.view.index', array_merge($this->getFormParameters(), compact('funcionario', 'empresa')));
+        $funcionario = $empresa->funcionarios()->with('contratos')->find($funcionarioId);
+        $contrato = $funcionario->contratos()->latest()->first();
+        return view('dashboard.funcionario.view.index', array_merge($this->getFormParameters(), compact('funcionario', 'empresa', 'contrato')));
     }
 
     public function store(Request $request, $id)

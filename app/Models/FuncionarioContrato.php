@@ -55,7 +55,7 @@ class FuncionarioContrato extends Model
         'qtde_dias_prorrogacao_experiencia'
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'data_admissao', 'competencia_sindicato'];
 
     public function setCompetenciaSindicatoAttribute($value)
     {
