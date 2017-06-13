@@ -48,6 +48,8 @@
             <button type="button" class="btn btn-primary open-modal" data-modal="#modal-enviar-documento"><span
                         class="fa fa-paperclip"></span> Enviar novo documento
             </button>
+            <a href="{{route('listFuncionarioToUser')}}" class="btn btn-success"><span class="fa fa-th"></span> Listar funcionários
+            </a>
         </div>
     </div>
     <div class="clearfix"></div>

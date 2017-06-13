@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Deficiencia;
+use App\Services\CreateDocumentoFuncionario;
 use App\Validation\FuncionarioDocumentoValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,12 +26,20 @@ class FuncionarioDocumentoController extends Controller
     {
 
         $funcionario = Auth::user()->funcionarios()->find($idFuncionario);
-        $documentos = $funcionario->documentos;
+        $documentos = $funcionario->documentos()->orderBy('created_at', 'desc')->get();
         return view('dashboard.funcionario.documentos.index', compact("funcionario", "documentos"));
     }
 
     public function validateDocumento(Request $request)
     {
         $this->validate($request, FuncionarioDocumentoValidation::getRules(), [], FuncionarioDocumentoValidation::getNiceNames());
+    }
+
+    public function store(Request $request, $idEmpresa, $idFuncionario){
+        $this->validate($request, FuncionarioDocumentoValidation::getRules(), [], FuncionarioDocumentoValidation::getNiceNames());
+        if (CreateDocumentoFuncionario::handle($request, $idFuncionario)) {
+            return redirect()->route('listDocumentosFuncionarioToUser', [$idEmpresa, $idFuncionario])->with('successAlert', 'Documento enviado com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 }

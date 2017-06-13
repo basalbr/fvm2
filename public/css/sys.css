@@ -861,3 +861,31 @@ th.cnae-code {
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
 }
+
+.anexo .remove{
+    display: table-cell;
+    width: 33px;
+    height: 33px;
+}
+
+.anexo .description{
+    display: table-cell;
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+.anexo{
+    padding: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 25px;
+    display: table;
+    width: 100%;
+}
+
+.anexo .btn{
+    display: inline-block;
+    border-radius:25px;
+    padding: 5px 10px;
+}

@@ -76,6 +76,24 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::post('{idEmpresa}/funcionarios/newa', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@store']);
     Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToUser', 'uses' => 'FuncionarioDocumentoController@index']);
+    Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
+});
+
+//Dashboard - Atendimento
+Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listAtendimentosToUser', 'uses' => 'AtendimentoController@index']);
+});
+
+//Dashboard - Chamados
+Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('new', ['as' => 'newChamado', 'uses' => 'ChamadoController@new']);
+    Route::post('new', ['uses' => 'ChamadoController@store']);
+    Route::post('validate', ['as' => 'validateChamado', 'uses' => 'ChamadoController@validateChamado']);
+});
+
+//Dashboard - Anexo
+Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
 });
 
 //Admin - Abertura de Empresa

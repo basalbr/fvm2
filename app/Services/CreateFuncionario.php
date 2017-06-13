@@ -61,7 +61,7 @@ class CreateFuncionario
             if ($request->hasFile('documentos')) {
                 /** @var UploadedFile $file */
                 $file = $request->file('documentos')['exame_admissional'];
-                $filename = md5(random_bytes(5)).'exame_admissional.' . $file->guessClientExtension();
+                $filename = md5(random_bytes(5)) . 'exame_admissional.' . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('funcionarios/' . $funcionario->id . '/documentos', $filename, 'public');
                 $funcionario->documentos()->create(['documento' => $filename, 'nome' => 'exame_admissional', 'descricao' => 'Exame admissional do funcionário']);
             }

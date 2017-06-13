@@ -1,45 +1,28 @@
 @extends('dashboard.layouts.master')
 @section('js')
     @parent
-    <script type="text/javascript">
-        $(function () {
-            $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
-                e.preventDefault();
-                validateFormPrincipal();
-            });
-        });
-
-        function validateFormPrincipal() {
-            var formData = new FormData();
-            if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null) {
-                formData.append('documentos[exame_admissional]', $('[name="documentos[exame_admissional]"]')[0].files[0])
-            }
-            var params = $('#form-principal').serializeArray();
-            $(params).each(function (index, element) {
-                formData.append(element.name, element.value);
-            });
-            $.post({
-                url: $('#form-principal').data('validation-url'),
-                data: formData,
-                contentType: false,
-                processData: false
-            }).done(function (data, textStatus, jqXHR) {
-                $('#form-principal').submit();
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status === 422) {
-                    //noinspection JSUnresolvedVariable
-                    showFormValidationError($('#form-principal'), jqXHR.responseJSON);
-                } else {
-                    showFormValidationError($('#form-principal'));
-                }
-            });
-        }
-    </script>
+    <script type="text/javascript"
+            src="{{url(public_path().'js/dashboard/funcionario/view/index.js')}}"></script>
 @stop
 @section('content')
     <div class="col-xs-12">
-        <h1>Cadastrar novo funcionário</h1>
-        <h3>{{$empresa->nome_fantasia}}</h3>
+        <h1>{{$funcionario->nome_completo}}
+            <small> ({!! $funcionario->getStatus() !!})</small>
+        </h1>
+        <h4><a href="{{route('showEmpresaToUser', $empresa->id)}}">{{$empresa->nome_fantasia}}</a></h4>
+        <hr>
+    </div>
+    <div class="col-sm-12">
+        <a class="btn btn-primary"
+           href="{{route('listDocumentosFuncionarioToUser', [$empresa->id, $funcionario->id])}}">
+            <i class="fa fa-files-o"></i> Ver documentos
+        </a>
+        @if($funcionario->status == 'aprovado')
+            <a class="btn btn-danger"
+               href="{{route('', [$empresa->id, $funcionario->id])}}">
+                <i class="fa fa-minus-circle"></i> Solicitar demissão
+            </a>
+        @endif
         <hr>
     </div>
     <div class="clearfix"></div>

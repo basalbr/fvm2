@@ -1,4 +1,3 @@
-<!-- Manipulação de Sócios -->
 @include('dashboard.components.dependentes.add', ['validationUrl'=>route('validateDependente')])
 <div class="col-xs-12">
     <h3>Dependentes</h3>

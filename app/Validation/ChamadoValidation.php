@@ -11,10 +11,16 @@ namespace App\Validation;
 class ChamadoValidation extends Validation
 {
     protected static $rules = [
-        'titulo' => 'required', 'mensagem' => 'required'
+        'id_tipo_chamado' => 'required|exists:tipo_chamado,id',
+        'mensagem' => 'required|max:191',
+        'anexos.*.arquivo' => 'max:191',
+        'anexos.*.descricao' => 'max:191'
     ];
 
     protected static $niceNames = [
-        'titulo' => 'Título', 'mensagem' => 'Mensagem'
+        'id_tipo_chamado' => 'Assunto',
+        'mensagem' => 'Mensagem',
+        'anexos.*.arquivo' => 'Anexo',
+        'anexos.*.descricao' => 'Descrição'
     ];
 }

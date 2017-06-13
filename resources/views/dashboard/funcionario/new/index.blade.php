@@ -1,40 +1,8 @@
 @extends('dashboard.layouts.master')
 @section('js')
     @parent
-    <script type="text/javascript">
-        $(function () {
-            $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
-                e.preventDefault();
-                validateFormPrincipal();
-            });
-        });
-
-        function validateFormPrincipal() {
-            var formData = new FormData();
-            if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null  && $('[name="documentos[exame_admissional]"]').val() !== undefined) {
-                formData.append('documentos[exame_admissional]', $('[name="documentos[exame_admissional]"]')[0].files[0])
-            }
-            var params = $('#form-principal').serializeArray();
-            $(params).each(function (index, element) {
-                formData.append(element.name, element.value);
-            });
-            $.post({
-                url: $('#form-principal').data('validation-url'),
-                data: formData,
-                contentType: false,
-                processData: false
-            }).done(function (data, textStatus, jqXHR) {
-                $('#form-principal').submit();
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status === 422) {
-                    //noinspection JSUnresolvedVariable
-                    showFormValidationError($('#form-principal'), jqXHR.responseJSON);
-                } else {
-                    showFormValidationError($('#form-principal'));
-                }
-            });
-        }
-    </script>
+    <script type="text/javascript"
+            src="{{url(public_path().'js/dashboard/funcionario/new/index.js')}}"></script>
 @stop
 @section('content')
     <div class="col-xs-12">
