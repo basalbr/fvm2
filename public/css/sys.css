@@ -8,7 +8,7 @@ body {
     -moz-border-radius: 15px;
     border-radius: 15px;
     padding: 8px 14px;
-    transition: all ease-in 0.2s;
+    transition: all ease-in 0.15s;
 }
 
 .btn:focus, .btn:active {
@@ -75,7 +75,7 @@ body {
     bottom: 0px;
     background: #42A5F5;
     font-family: 'Raleway', sans-serif;
-    transition: 0.2s all ease-in;
+    transition: 0.15s all ease-in;
     transform: translate3d(0, -100px, 0);
     color: #fff;
     text-transform: capitalize;
@@ -90,7 +90,7 @@ body {
 
 #top-menu-brand {
     padding: 8px 15px;
-    transition: 0.2s margin ease-in;
+    transition: 0.15s margin ease-in;
 }
 
 #top-menu-brand img {
@@ -133,7 +133,7 @@ body {
     background: #2b303b !important;
     padding-top: 20px;
     overflow: auto;
-    transition: transform 0.2s ease-in;
+    transition: transform 0.15s ease-in;
     z-index: 3;
 }
 
@@ -377,8 +377,8 @@ a.shortcut h3.text-center {
 
 .nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
     overflow: visible;
-    -webkit-transition: color 0.2s ease 0s;
-    transition: color 0.2s ease 0s;
+    -webkit-transition: color 0.15s ease 0s;
+    transition: color 0.15s ease 0s;
 }
 
 .nav-tabs > li > a > i {
@@ -490,9 +490,9 @@ a.shortcut h3.text-center {
 }
 
 .btn-danger:hover, .btn-danger.active, .btn-danger:focus, .btn-danger:active {
-    background-color: #FF5252 !important;;
-    border-color: #EF5350 !important;;
-    box-shadow: none !important;;
+    background-color: #FF5252 !important;
+    border-color: #EF5350 !important;
+    box-shadow: none !important;
 }
 
 .btn-success:hover, .btn-success.active, .btn-success:focus, .btn-success:active {
@@ -613,7 +613,7 @@ th.cnae-code {
     height: 428px;
     text-align: center;
     border: 2px dashed #0091EA;
-    transition: all 0.2s ease-in;
+    transition: all 0.15s ease-in;
 }
 
 .panel.add-item-panel:hover {
@@ -857,35 +857,56 @@ th.cnae-code {
 }
 
 .checkbox-styled:not(ie8) input ~ span:before {
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 
-.anexo .remove{
-    display: table-cell;
-    width: 33px;
-    height: 33px;
+.anexo .remove {
+    position: absolute;
+    top: 33px;
+    font-size: 15px;
+    background-color: #FF8A80;
+    border-color: #FF5252;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 39px;
+    left: 52%;
+    cursor: pointer;
+    transition: all 0.15s ease;
 }
 
-.anexo .description{
-    display: table-cell;
-    font-style: italic;
-    font-weight: bold;
-    padding-left: 10px;
-    vertical-align: middle;
+.anexo .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
 }
 
-.anexo{
-    padding: 3px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 25px;
-    display: table;
+.anexo {
     width: 100%;
+    text-align: center;
 }
 
-.anexo .btn{
+.anexo .btn {
     display: inline-block;
-    border-radius:25px;
+    border-radius: 25px;
     padding: 5px 10px;
+}
+
+.anexo .big-icon {
+    color: #0aa89e;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+.anexo:hover .big-icon {
+    color: #0097bc;
+}
+
+.anexo:hover .remove {
+    background-color: #FF5252 !important;
+    border-color: #EF5350 !important;
+    box-shadow: none !important;
 }

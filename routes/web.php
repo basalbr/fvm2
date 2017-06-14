@@ -94,6 +94,7 @@ Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'mid
 //Dashboard - Anexo
 Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
+    Route::post('removeTemp', ['as' => 'removeAnexoFromTemp', 'uses' => 'AnexoController@removeFromTemp']);
 });
 
 //Admin - Abertura de Empresa

@@ -11,7 +11,9 @@ namespace App\Services;
 use App\Models\Anexo;
 use App\Models\Chamado;
 use App\Models\ContratoTrabalho;
+use App\Models\Mensagem;
 use App\Models\Usuario;
+use App\Notifications\NewChamado;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -28,18 +30,22 @@ class CreateChamado
         try {
             /** @var Chamado $chamado */
             $chamado = Auth::user()->chamados()->create($request->all());
-
+            Mensagem::create([
+                'id_referencia' => $chamado->id,
+                'referencia' => $chamado->getTable(),
+                'from_admin'=>Auth::user()->admin,
+                'mensagem'=>$request->get('mensagem'),
+                'id_usuario'=>Auth::user()->id
+            ]);
             if (count($request->get('anexos'))) {
-                foreach ($request->get('anexos') as $file) {
-                    /** @var UploadedFile $file ['arquivo'] */
-                    $filename = md5(random_bytes(5)) . $request->get('nome') . '.' . $file['arquivo']->getClientOriginalExtension();
-                    $file['arquivo']->storeAs('anexos/' . Auth::user()->id, $filename, 'public');
+                foreach ($request->get('anexos') as $arquivo) {
                     Anexo::create([
-                        'referencia' => $chamado->getTable(),
                         'id_referencia' => $chamado->id,
-                        'descricao' => $file->descricao,
-                        'arquivo' => $filename
+                        'referencia' => $chamado->getTable(),
+                        'arquivo' => $arquivo['arquivo'],
+                        'descricao' => $arquivo['descricao']
                     ]);
+                    Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . Auth::user()->id . '/' . $arquivo['arquivo']);
                 }
             }
 
@@ -48,9 +54,6 @@ class CreateChamado
             DB::commit();
 
         } catch (\Exception $e) {
-            if (isset($file)) {
-                Storage::disk('public')->getDriver()->delete('anexos/' . Auth::user()->id . '/' . $filename);
-            }
             Log::critical($e);
             DB::rollback();
             return false;

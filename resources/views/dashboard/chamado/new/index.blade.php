@@ -16,9 +16,19 @@
             });
 
             $('#modal-anexar-arquivo').on('hidden.bs.modal', function () {
-                $(this).find('.alert').empty();
+                $(this).find('.alert').css('display', '').empty();
+
                 $(this).find('form')[0].reset();
-            })
+            });
+
+            $('#anexos').on('click', '.remove', function () {
+                showRemoveAnexoModal($(this).parent().parent());
+            });
+
+            $('#modal-remover-arquivo .btn-danger').on('click', function () {
+                removeAnexo();
+            });
+
         });
 
         var anexoKey = 0;
@@ -68,7 +78,7 @@
                 processData: false
             }).done(function (data) {
                 $('#modal-anexar-arquivo').modal('hide');
-                appendAnexoToForm(data.filename, formData.get('descricao'), targetForm);
+                appendAnexoToForm(data.filename, formData.get('descricao'), targetForm, data.html);
             }).fail(function (jqXHR) {
                 if (jqXHR.status === 422) {
                     //noinspection JSUnresolvedVariable
@@ -79,22 +89,9 @@
             });
         }
 
-        function appendAnexoToForm(filename, description, targetForm) {
-            var anexoContainer = $('<div>').addClass('col-sm-4');
-            anexoContainer.append(
-                $('<div>').addClass('anexo').append(
-                    $('<div>').addClass('remove').append(
-                        $('<button>').attr({
-                            'type': 'button',
-                            'class': 'btn btn-danger'
-                        }).append(
-                            $('<i>').addClass('fa fa-remove')
-                        )
-                    )).append(
-                    $('<div>').addClass('description').text(description)
-                ).append(
-                    $('<div>').addClass('clearfix')
-                ));
+        function appendAnexoToForm(filename, description, targetForm, anexoContainer) {
+            anexoContainer = $('<div class="col-sm-4 col-lg-3"></div>').html(anexoContainer);
+            anexoContainer.find('.description').text(description).attr('title', description);
 
             anexoContainer.appendTo(targetForm.find('#anexos .list'));
 
@@ -111,6 +108,33 @@
             }).appendTo(anexoContainer);
             $('#anexos').removeClass('hidden');
             anexoKey++;
+        }
+
+        function showRemoveAnexoModal(anexo) {
+            $('#modal-remover-arquivo .nome-arquivo').text(anexo.find('.description').text());
+            $('#modal-remover-arquivo .btn-danger').attr('data-arquivo', anexo.parent().find('[name*="[arquivo]"]').val());
+            $('#modal-remover-arquivo').modal('show');
+        }
+
+        function removeAnexo() {
+            var arquivo = $('#modal-remover-arquivo .btn-danger').attr('data-arquivo');
+            console.log(arquivo)
+            $.post({
+                url: $('#modal-remover-arquivo .btn-danger').data('remove-url'),
+                data: {arquivo: arquivo}
+            }).done(function () {
+                $('#modal-remover-arquivo').modal('hide');
+                $('[value="' + arquivo + '"]').parent().remove();
+                if ($('#anexos .list div').length == 0) {
+                    $('#anexos').addClass('hidden');
+                }
+            }).fail(function (jqXHR) {
+                $('#modal-remover-arquivo').modal('hide');
+                $('[value="' + arquivo + '"]').parent().remove();
+                if ($('#anexos .list div').length == 0) {
+                    $('#anexos').addClass('hidden');
+                }
+            });
         }
 
     </script>
@@ -137,6 +161,9 @@
                     <label>Assunto *</label>
                     <select class="form-control" name="id_tipo_chamado">
                         <option value="">Escolha uma opção</option>
+                        @foreach($tiposChamado as $tipoChamado)
+                            <option value="{{$tipoChamado->id}}">{{$tipoChamado->descricao}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -153,7 +180,7 @@
             </div>
             <div class="clearfix"></div>
             <br/>
-            <div id="anexos">
+            <div id="anexos" class="hidden">
                 <div class="col-sm-12">
                     <h4>Anexos</h4>
                 </div>
@@ -210,6 +237,25 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal animated fadeInDown" id="modal-remover-arquivo" tabindex="-1" role="dialog">
+        <div class="modal-dialog  modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Remover arquivo</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja remover o arquivo <span class="nome-arquivo"></span></p>
+                    @include('dashboard.components.form-alert')
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-arquivo="" data-remove-url="{{route('removeAnexoFromTemp')}}"><i
+                                class="fa fa-remove"></i> Sim, desejo remover
+                    </button>
                     <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
                 </div>
             </div>

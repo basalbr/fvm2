@@ -28,7 +28,7 @@ class Chamado extends Model {
      *
      * @var array
      */
-    protected $fillable = ['titulo', 'mensagem', 'id_usuario', 'status'];
+    protected $fillable = ['id_usuario', 'status', 'id_tipo_chamado'];
 
     public function validate($data) {
         // make a new validator object
@@ -70,7 +70,7 @@ class Chamado extends Model {
     }
 
     public function usuario() {
-        return $this->belongsTo('App\Usuario', 'id_usuario');
+        return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
 }

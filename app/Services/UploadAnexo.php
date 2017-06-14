@@ -23,12 +23,11 @@ use League\Flysystem\FilesystemInterface;
 class UploadAnexo
 {
 
-    public static function handle(Request $request, FilesystemInterface $disk, $target)
+    public static function handle(Request $request, $disk, $target)
     {
-        DB::beginTransaction();
         try {
             $filename = md5(random_bytes(5)) . '.' . $request->file('arquivo')->getClientOriginalExtension();
-            $disk->put($target.$filename, $request->file('arquivo'));
+            $request->file('arquivo')->storeAs($target, $filename, $disk);
             return $filename;
         } catch (\Exception $e) {
                 $disk->delete($target.$filename);

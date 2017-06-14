@@ -19,6 +19,7 @@ use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateChamado;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
+use App\Services\RemoveAnexo;
 use App\Services\SendMessageToAdmin;
 use App\Services\UploadAnexo;
 use App\Validation\AberturaEmpresaSocioValidation;
@@ -42,10 +43,17 @@ class AnexoController extends Controller
     public function sendToTemp(Request $request)
     {
         $this->validate($request, AnexoValidation::getRules(), [], AnexoValidation::getNiceNames());
-        if ($filename = UploadAnexo::handle($request, Storage::disk('local')->getDriver(), 'temp/')) {
-            return response()->json(['filename'=>$filename]);
+        if ($filename = UploadAnexo::handle($request, 'local', 'temp/')) {
+            return response()->json(['filename'=>$filename, 'html'=>view('dashboard.components.anexo.withRemove')->render()]);
         }
         return response()->setStatusCode(500)->json(['Não foi possível fazer upload do arquivo']);
+    }
+
+    public function removeFromTemp(Request $request){
+        if (RemoveAnexo::handle($request, Storage::disk('local')->getDriver(), 'temp/')) {
+            return response()->json(['removed'=>true]);
+        }
+        return response()->json(['removed'=>true]);
     }
 
 }

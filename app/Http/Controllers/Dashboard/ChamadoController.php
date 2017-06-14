@@ -8,29 +8,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\AberturaEmpresa;
-use App\Models\EnquadramentoEmpresa;
-use App\Models\NaturezaJuridica;
-use App\Models\RegimeCasamento;
 use App\Models\TipoChamado;
-use App\Models\TipoTributacao;
-use App\Models\Uf;
-use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateChamado;
-use App\Services\CreateEmpresa;
-use App\Services\CreateEmpresaFromAberturaEmpresa;
-use App\Services\SendMessageToAdmin;
-use App\Validation\AberturaEmpresaSocioValidation;
-use App\Validation\AberturaEmpresaValidation;
 use App\Validation\ChamadoValidation;
-use App\Validation\EmpresaValidation;
-use App\Validation\MensagemValidation;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class ChamadoController extends Controller
 {
@@ -49,12 +34,11 @@ class ChamadoController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         $this->validate($request, ChamadoValidation::getRules(), [], ChamadoValidation::getNiceNames());
         if (CreateChamado::handle($request)) {
-            dd('a');
+            return redirect()->route('listAtendimentosToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
         }
-        dd('b');
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
 }
