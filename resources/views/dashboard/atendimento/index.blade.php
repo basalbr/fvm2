@@ -41,7 +41,38 @@
             </div>
             @if($chamados->count())
                 @foreach($chamados as $chamado)
-                    {{$chamado->id}}
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="panel">
+                            <div class="items">
+                                <div class="col-xs-12">
+                                    <i class="fa item-icon fa-info text-success"></i>
+                                    <div class="item-value">{{$chamado->tipoChamado->descricao}}</div>
+                                    <div class="item-description">Aberto
+                                        em: {{$chamado->created_at->format('H:i - d/m/Y')}}</div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <i class="fa item-icon fa-envelope text-success"></i>
+                                    <div class="item-value">{{$chamado->mensagens()->latest()->first()->mensagem}}</div>
+                                    <div class="item-description">Recebido
+                                        em: {{$chamado->mensagens()->latest()->first()->created_at->format('H:i - d/m/Y')}}</div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <i class="fa item-icon fa-question-circle text-success"></i>
+                                    <div class="item-value">{{$chamado->status}}</div>
+                                    <div class="item-description">Status</div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <hr>
+                            <div class="col-xs-12">
+                                <a href="{{route('viewChamado', $chamado->id)}}" class="btn btn-primary"><i class="fa fa-search"></i> Visualizar</a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                        </div>
+                    </div>
                 @endforeach
             @else
                 <div class="col-sm-12">Nenhum chamado encontrado</div>

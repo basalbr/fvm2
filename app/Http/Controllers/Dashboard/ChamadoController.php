@@ -16,6 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ChamadoController extends Controller
 {
@@ -39,6 +40,13 @@ class ChamadoController extends Controller
             return redirect()->route('listAtendimentosToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+    }
+
+    public function view($idChamado)
+    {
+        $chamado = Auth::user()->chamados()->find($idChamado);
+        $tiposChamado = TipoChamado::orderBy('descricao')->get();
+        return view('dashboard.chamado.view.index', compact('chamado', 'tiposChamado'));
     }
 
 }

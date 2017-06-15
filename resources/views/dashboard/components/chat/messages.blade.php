@@ -5,7 +5,7 @@
                 <img src="{{url(public_path().'/images/thumb.jpg')}}"/>
             </div>
             <div class="text">
-                <p><strong>{{$message->usuario->nome}} - {{$message->created_at->format('d/m/y H:i')}}</strong>
+                <p><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}} - {{$message->created_at->format('d/m/y H:i')}}</strong>
                 </p>
                 <p>{{$message->mensagem}}</p>
             </div>

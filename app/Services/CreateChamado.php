@@ -33,9 +33,9 @@ class CreateChamado
             Mensagem::create([
                 'id_referencia' => $chamado->id,
                 'referencia' => $chamado->getTable(),
-                'from_admin'=>Auth::user()->admin,
-                'mensagem'=>$request->get('mensagem'),
-                'id_usuario'=>Auth::user()->id
+                'from_admin' => Auth::user()->admin,
+                'mensagem' => $request->get('mensagem'),
+                'id_usuario' => Auth::user()->id
             ]);
             if (count($request->get('anexos'))) {
                 foreach ($request->get('anexos') as $arquivo) {
@@ -45,7 +45,7 @@ class CreateChamado
                         'arquivo' => $arquivo['arquivo'],
                         'descricao' => $arquivo['descricao']
                     ]);
-                    Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . Auth::user()->id . '/' . $arquivo['arquivo']);
+                    Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . $chamado->getTable() . '/' . $chamado->id . '/' . $arquivo['arquivo']);
                 }
             }
 

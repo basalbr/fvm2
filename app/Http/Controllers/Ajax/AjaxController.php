@@ -12,6 +12,7 @@ use App\Models\Cnae;
 use App\Models\Mensagem;
 use App\Models\Plano;
 use App\Services\SendMessage;
+use App\Services\UploadChatFile;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -35,7 +36,7 @@ class AjaxController extends Controller
     public function searchCnaeByCode(Request $request)
     {
         $rules = ['code' => 'required'];
-        $this->validate($request, $rules, [],['code'=>'Código']);
+        $this->validate($request, $rules, [], ['code' => 'Código']);
         try {
             $cnae = Cnae::where('codigo', '=', $request->get('code'))->select('codigo', 'descricao', 'id_tabela_simples_nacional')->firstOrFail();
             /** @var Cnae $cnae */
@@ -84,7 +85,7 @@ class AjaxController extends Controller
 
     public function sendMessage(Request $request)
     {
-        $request->merge(['id_usuario'=>Auth::user()->id]);
+        $request->merge(['id_usuario' => Auth::user()->id]);
         $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
         $this->authorizeMessage($request->get('referencia'), $request->get('id_referencia'));
         return SendMessage::handle($request->all());
@@ -117,6 +118,17 @@ class AjaxController extends Controller
             return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
         }
         return response()->json(['messages' => null, 'lastMessageId' => null]);
+    }
+
+    public function uploadChatFile(Request $request)
+    {
+        $rules = ['arquivo' => 'required|file|max:10240', 'id_referencia' => 'required', 'referencia' => 'required'];
+        $niceNames = ['arquivo' => 'Arquivo', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
+        $this->validate($request, $rules, [], $niceNames);
+        if ($anexo = UploadChatFile::handle($request)) {
+            return response()->json(['html' => view('dashboard.components.anexo.withDownload', ['anexo' => $anexo])->render()]);
+        }
+        return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
 
 

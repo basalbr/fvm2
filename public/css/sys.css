@@ -882,6 +882,11 @@ th.cnae-code {
     font-size: 12px;
 }
 
+.item-description{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .anexo {
     width: 100%;
     text-align: center;
@@ -908,5 +913,25 @@ th.cnae-code {
 .anexo:hover .remove {
     background-color: #FF5252 !important;
     border-color: #EF5350 !important;
+    box-shadow: none !important;
+}
+
+.anexo .download {
+    position: absolute;
+    top: 33px;
+    font-size: 15px;
+    background-color: #8BC34A;
+    border-color: #7CB342;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 39px;
+    left: 52%;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.anexo:hover .download {
+    background-color: #7CB342 !important;
+    border-color: #689F38 !important;
     box-shadow: none !important;
 }

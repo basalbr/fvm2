@@ -88,6 +88,7 @@ Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', '
 Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('new', ['as' => 'newChamado', 'uses' => 'ChamadoController@new']);
     Route::post('new', ['uses' => 'ChamadoController@store']);
+    Route::get('view/{id}', ['as' => 'viewChamado', 'uses' => 'ChamadoController@view']);
     Route::post('validate', ['as' => 'validateChamado', 'uses' => 'ChamadoController@validateChamado']);
 });
 
@@ -95,6 +96,7 @@ Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'mid
 Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
     Route::post('removeTemp', ['as' => 'removeAnexoFromTemp', 'uses' => 'AnexoController@removeFromTemp']);
+
 });
 
 //Admin - Abertura de Empresa
@@ -108,6 +110,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth']
     Route::post('cnae/search/description', ['as' => 'searchCnaeByDescription', 'uses' => 'AjaxController@searchCnaeByDescription']);
     Route::post('messages/send', ['as' => 'sendMessageAjax', 'uses' => 'AjaxController@sendMessage']);
     Route::post('messages/update', ['as' => 'updateMessagesAjax', 'uses' => 'AjaxController@updateMessages']);
+    Route::post('messages/upload', ['as' => 'uploadChatFileAjax', 'uses' => 'AjaxController@uploadChatFile']);
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
 });
 
