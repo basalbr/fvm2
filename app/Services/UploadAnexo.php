@@ -30,7 +30,6 @@ class UploadAnexo
             $request->file('arquivo')->storeAs($target, $filename, $disk);
             return $filename;
         } catch (\Exception $e) {
-                $disk->delete($target.$filename);
             Log::critical($e);
             return false;
         }

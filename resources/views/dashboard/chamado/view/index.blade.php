@@ -153,26 +153,29 @@
                     <h3>Anexos</h3>
                 </div>
                 <div class="list">
-                    @if(count($chamado->anexos()))
-                        @foreach($chamado->anexos() as $anexo)
+                    @if($chamado->anexos)
+                        @foreach($chamado->anexos as $anexo)
                             <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload')
+                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
                             </div>
                         @endforeach
-                    @else
-                        <div class="col-sm-12 nenhum">
-                            <p class="">Nenhum anexo enviado</p>
-                        </div>
                     @endif
+                    @foreach($chamado->mensagens as $message)
+                        @if($message->anexo)
+                            <div class="col-sm-4">
+                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
                 <div class="clearfix"></div>
-
             </div>
         </div>
         <div class="clearfix"></div>
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listAtendimentosToUser')}}"><i class="fa fa-angle-left"></i> Voltar para atendimento</a>
+            <a class="btn btn-default" href="{{route('listAtendimentosToUser')}}"><i class="fa fa-angle-left"></i>
+                Voltar para atendimento</a>
         </div>
         <div class="clearfix"></div>
         <br/>

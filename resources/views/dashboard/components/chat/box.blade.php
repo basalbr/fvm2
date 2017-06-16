@@ -11,7 +11,7 @@
          data-send-message-url="{{route('sendMessageAjax')}}"
          data-update-messages-url="{{route('updateMessagesAjax')}}"
          data-upload-url="{{route('uploadChatFileAjax')}}">
-        @include('dashboard.components.chat.messages',['messages'=>$model->messages()])
+        @include('dashboard.components.chat.messages',['messages'=>$model->mensagens])
     </div>
     <form>
         <div class="form-group">

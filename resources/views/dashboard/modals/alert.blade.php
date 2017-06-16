@@ -6,7 +6,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-xs-12">
-                    <br />
+                    <br/>
                     <p class="message"></p>
                 </div>
                 <div class="clearfix"></div>

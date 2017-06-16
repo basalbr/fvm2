@@ -27,17 +27,12 @@ class Chamado extends Model {
 
 
     public function mensagens(){
-        return Mensagem::where('id_referencia','=',$this->id)->where('referencia','=',$this->getTable());
-    }
-
-    public function messages()
-    {
-        return Mensagem::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
     public function anexos()
     {
-        return Anexo::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
     public function tipoChamado(){

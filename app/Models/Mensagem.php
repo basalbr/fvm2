@@ -31,4 +31,14 @@ class Mensagem extends Model {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
+    public function anexo()
+    {
+        return $this->hasOne(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function parent(){
+        return $this->belongsTo(__NAMESPACE__ .'\\'. studly_case(str_singular($this->referencia)), 'id_referencia');
+    }
+
+
 }

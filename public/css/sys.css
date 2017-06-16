@@ -935,3 +935,23 @@ th.cnae-code {
     border-color: #689F38 !important;
     box-shadow: none !important;
 }
+
+.form-group .thumbnail{
+    height: 60px;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 60px;
+    width: 60px;
+    margin-bottom: 0;
+    float: left;
+    margin-right: 15px;
+}
+
+
+.form-group .thumbnail img{
+    height: 60px;
+}
+
+.form-group .thumbnail+button{
+    margin-top: 10px;
+}

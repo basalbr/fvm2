@@ -1,6 +1,6 @@
 <div id="left-menu">
     <div class="profile">
-        <a href="">
+        <a href="{{route('editPerfil')}}">
             <div class="profile-pic"><img
                         src="https://images.mic.com/0hg7fwagt8yo80cqfdisukrxucvtzv00yaarqmzaj9aj4krhhpprfaqvjbst6tbz.jpg"/>
             </div>

@@ -56,14 +56,22 @@ class Empresa extends Model
         return $this->mensalidades()->orderBy('created_at', 'desc')->first();
     }
 
-    public function messages()
+    public function mensagens()
     {
-        return Mensagem::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia','=',$this->getTable());
     }
 
     public function mensalidades(): HasMany
     {
         return $this->hasMany(Mensalidade::class, 'id_empresa');
+    }
+
+    public function getUltimaMensagem(){
+        return $this->mensagens->count() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem encontrada';
+    }
+
+    public function getQtdeMensagensNaoLidas(){
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=',$this->usuario->id)->count();
     }
 
     public function getQtdeProLabores()

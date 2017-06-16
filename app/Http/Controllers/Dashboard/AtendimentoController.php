@@ -36,7 +36,7 @@ class AtendimentoController extends Controller
     public function index()
     {
         $chamados = Auth::user()->chamados;
-        $empresas = Empresa::where('id_usuario', '=', Auth::user()->id)->get();
+        $empresas = Auth::user()->empresas;
         $aberturaEmpresas = AberturaEmpresa::where('id_usuario', '=', Auth::user()->id)->get();
         $solicitacoes = Empresa::where('id_usuario', '=', Auth::user()->id)->get();
         return view('dashboard.atendimento.index', compact("empresas", 'chamados','solicitacoes','aberturaEmpresas'));

@@ -12,12 +12,10 @@
             $('#form-anexo').on('submit', function (e) {
                 e.preventDefault();
                 validateFormAnexo();
-
             });
 
             $('#modal-anexar-arquivo').on('hidden.bs.modal', function () {
                 $(this).find('.alert').css('display', '').empty();
-
                 $(this).find('form')[0].reset();
             });
 

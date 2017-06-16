@@ -20,7 +20,9 @@
         @yield('content')
     </div>
 </div>
-@yield('modals')
-@include('dashboard.modals.alert')
+@section('modals')
+    @include('dashboard.modals.alert')
+    @include('dashboard.modals.success')
+@show
 </body>
 </html>

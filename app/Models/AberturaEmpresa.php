@@ -134,11 +134,6 @@ class AberturaEmpresa extends Model
         return 'R$ ' . number_format(CalculateMonthlyPayment::handle($this->qtde_funcionario, $this->qtde_documento_fiscal, $this->qtde_documento_contabil, $qtdeProLabore), 2, ',', '.');
     }
 
-    public function messages()
-    {
-        return Mensagem::where('id_referencia', '=', $this->id)->where('referencia', '=', $this->getTable())->orderBy('created_at', 'asc')->get();
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -160,7 +155,7 @@ class AberturaEmpresa extends Model
      */
     public function ordemPagamento()
     {
-        return OrdemPagamento::where('referencia', '=', $this->getTable())->where('id_referencia', '=', $this->id)->first();
+        return $this->hasOne(OrdemPagamento::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
     /**
@@ -200,7 +195,7 @@ class AberturaEmpresa extends Model
      */
     public function mensagens()
     {
-        return $this->hasMany(AberturaEmpresaComentario::class, 'id_abertura_empresa');
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia','=',$this->getTable());
     }
 
     /**

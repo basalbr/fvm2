@@ -33,7 +33,7 @@ class UploadChatFile
                 'id_usuario' => Auth::user()->id,
                 'referencia' => $request->get('referencia'),
                 'id_referencia' => $request->get('id_referencia'),
-                'mensagem' => 'Enviou um arquivo',
+                'mensagem' => 'Enviou o arquivo:',
                 'admin'=>Auth::user()->admin
             ]);
             $originalFileName = $request->file('arquivo')->getClientOriginalName();

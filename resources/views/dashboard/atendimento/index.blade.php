@@ -80,9 +80,26 @@
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="empresas">
-            @foreach($empresas as $empresa)
-                {{$empresa->id}}
-            @endforeach
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Última mensagem</th>
+                    <th>Novas mensagens?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($empresas as $empresa)
+                    <tr>
+                        <td>{{$empresa->nome_fantasia}}</td>
+                        <td>{{$empresa->getUltimaMensagem()}}</td>
+                        <td>{{$empresa->getQtdeMensagensNaoLidas()}}</td>
+                        <td><a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="abertura-empresas">

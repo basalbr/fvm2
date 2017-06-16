@@ -99,6 +99,14 @@ Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => '
 
 });
 
+//Dashboard - Usuário
+Route::group(['prefix' => 'dashboard/usuario', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'editPerfil', 'uses' => 'UsuarioController@view']);
+    Route::post('', ['uses' => 'UsuarioController@update']);
+    Route::post('upload/foto', ['as'=>'uploadUsuarioFoto', 'uses' => 'UsuarioController@uploadFoto']);
+
+});
+
 //Admin - Abertura de Empresa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
     Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);
@@ -113,4 +121,5 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth']
     Route::post('messages/upload', ['as' => 'uploadChatFileAjax', 'uses' => 'AjaxController@uploadChatFile']);
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
 });
+
 
