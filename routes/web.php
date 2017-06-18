@@ -79,6 +79,13 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
 });
 
+Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listSolicitacoesAlteracaoToUser', 'uses' => 'AlteracaoController@index']);
+    Route::get('new/{idTipo}', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
+    Route::post('new/{idTipo}', ['uses' => 'AlteracaoController@store']);
+    Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToUser', 'uses' => 'AlteracaoController@view']);
+});
+
 //Dashboard - Atendimento
 Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listAtendimentosToUser', 'uses' => 'AtendimentoController@index']);

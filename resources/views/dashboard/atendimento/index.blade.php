@@ -36,48 +36,35 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="chamados">
-            <div class="col-sm-12">
-                <h3>Chamados</h3>
-            </div>
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Assunto</th>
+                    <th>Aberto em</th>
+                    <th>Última mensagem</th>
+                    <th>Recebida em</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+            <div class="clearfix"></div>
             @if($chamados->count())
                 @foreach($chamados as $chamado)
+                    <tr>
+                        <td>{{$chamado->tipoChamado->descricao}}</td>
+                        <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
+                        <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
+                        <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
+                        <td><a class="btn btn-primary" href="{{route('viewChamado', [$chamado->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="panel">
-                            <div class="items">
-                                <div class="col-xs-12">
-                                    <i class="fa item-icon fa-info text-success"></i>
-                                    <div class="item-value">{{$chamado->tipoChamado->descricao}}</div>
-                                    <div class="item-description">Aberto
-                                        em: {{$chamado->created_at->format('H:i - d/m/Y')}}</div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <i class="fa item-icon fa-envelope text-success"></i>
-                                    <div class="item-value">{{$chamado->mensagens()->latest()->first()->mensagem}}</div>
-                                    <div class="item-description">Recebido
-                                        em: {{$chamado->mensagens()->latest()->first()->created_at->format('H:i - d/m/Y')}}</div>
-                                </div>
-                                <div class="col-xs-12">
-                                    <i class="fa item-icon fa-question-circle text-success"></i>
-                                    <div class="item-value">{{$chamado->status}}</div>
-                                    <div class="item-description">Status</div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-
-                            <hr>
-                            <div class="col-xs-12">
-                                <a href="{{route('viewChamado', $chamado->id)}}" class="btn btn-primary"><i class="fa fa-search"></i> Visualizar</a>
-                            </div>
-                            <div class="clearfix"></div>
-                            <br/>
-                        </div>
-                    </div>
                 @endforeach
             @else
                 <div class="col-sm-12">Nenhum chamado encontrado</div>
             @endif
-            <div class="clearfix"></div>
+                </tbody>
+            </table>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="empresas">
             <table class="table table-hovered table-striped">
@@ -93,7 +80,7 @@
                 @foreach($empresas as $empresa)
                     <tr>
                         <td>{{$empresa->nome_fantasia}}</td>
-                        <td>{{$empresa->getUltimaMensagem()}}</td>
+                        <td>{{$empresa->mensagens()->latest()->first()->mensagem}}</td>
                         <td>{{$empresa->getQtdeMensagensNaoLidas()}}</td>
                         <td><a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>

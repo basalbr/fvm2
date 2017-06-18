@@ -6,7 +6,7 @@ body {
 .btn {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
-    border-radius: 15px;
+    border-radius: 25px;
     padding: 8px 14px;
     transition: all ease-in 0.15s;
 }
@@ -882,7 +882,7 @@ th.cnae-code {
     font-size: 12px;
 }
 
-.item-description{
+.item-description {
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -936,7 +936,7 @@ th.cnae-code {
     box-shadow: none !important;
 }
 
-.form-group .thumbnail{
+.form-group .thumbnail {
     height: 60px;
     overflow: hidden;
     padding: 0;
@@ -947,11 +947,10 @@ th.cnae-code {
     margin-right: 15px;
 }
 
-
-.form-group .thumbnail img{
+.form-group .thumbnail img {
     height: 60px;
 }
 
-.form-group .thumbnail+button{
+.form-group .thumbnail + button {
     margin-top: 10px;
 }

@@ -12,6 +12,7 @@ use App\Models\AberturaEmpresa;
 use App\Models\Chamado;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
+use App\Models\Mensagem;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
@@ -28,6 +29,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AtendimentoController extends Controller
 {
@@ -36,10 +38,23 @@ class AtendimentoController extends Controller
     public function index()
     {
         $chamados = Auth::user()->chamados;
-        $empresas = Auth::user()->empresas;
-        $aberturaEmpresas = AberturaEmpresa::where('id_usuario', '=', Auth::user()->id)->get();
+        //Buscar somente empresas que possuem mensagens não lidas
+        $empresas = Auth::user()->empresas()->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('mensagem')
+                ->whereRaw('mensagem.id_referencia = empresa.id')
+                ->where('mensagem.lida', '=', 0)
+                ->where('deleted_at','=',null)->limit(1);
+        })->get();
+        $aberturaEmpresas = Auth::user()->aberturasEmpresa()->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('mensagem')
+                ->whereRaw('mensagem.id_referencia = abertura_empresa.id')
+                ->where('mensagem.lida', '=', 0)
+                ->where('deleted_at','=',null)->limit(1);
+        })->get();
         $solicitacoes = Empresa::where('id_usuario', '=', Auth::user()->id)->get();
-        return view('dashboard.atendimento.index', compact("empresas", 'chamados','solicitacoes','aberturaEmpresas'));
+        return view('dashboard.atendimento.index', compact("empresas", 'chamados', 'solicitacoes', 'aberturaEmpresas'));
     }
 
 }

@@ -24,7 +24,7 @@
         <li><a href=""><span class="fa fa-dollar"></span> Impostos <i class="fa fa-angle-down"></i></a></li>
         <li><a href=""><span class="fa fa-money"></span> Financeiro <i class="fa fa-angle-down"></i></a></li>
         <li><a href=""><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
-        <li><a href=""><span class="fa fa-bullhorn"></span> Solicitações <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="{{route('listSolicitacoesAlteracaoToUser')}}"><span class="fa fa-bullhorn"></span> Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listAtendimentosToUser')}}"><span class="fa fa-comments"></span> Atendimento <i class="fa fa-angle-right"></i></a></li>
     </ul>
 </div>

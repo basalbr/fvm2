@@ -21,7 +21,7 @@ class NewChamado extends Notification
     public function __construct(Chamado $chamado)
     {
         $this->chamado = $chamado;
-        $this->url = route('newChamado', [$this->chamado->id]);
+        $this->url = route('viewChamado', [$this->chamado->id]);
     }
 
     /**

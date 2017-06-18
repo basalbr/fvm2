@@ -39,4 +39,8 @@ class Chamado extends Model {
         return $this->belongsTo(TipoChamado::class, 'id_tipo_chamado');
     }
 
+    public function usuario(){
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
 }

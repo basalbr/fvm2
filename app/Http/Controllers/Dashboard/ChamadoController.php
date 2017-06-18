@@ -38,7 +38,7 @@ class ChamadoController extends Controller
     {
         $this->validate($request, ChamadoValidation::getRules(), [], ChamadoValidation::getNiceNames());
         if (CreateChamado::handle($request)) {
-            return redirect()->route('listAtendimentosToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
+            return redirect()->route('listAtendimentosToUser')->with('successAlert', 'Seu chamado foi aberto com sucesso, você receberá uma notificação assim que respondermos :)');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }

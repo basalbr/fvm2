@@ -48,8 +48,14 @@ class TipoAlteracao extends Model {
         return $this->errors;
     }
 
+    public function getValorFormatado()
+    {
+        return 'R$' . number_format($this->valor, 2, ',', '.');
+    }
+
+
     public function campos(){
-        return $this->hasMany('App\AlteracaoCampo','id_tipo_alteracao');
+        return $this->hasMany(AlteracaoCampo::class,'id_tipo_alteracao');
     }
     
     public function valor_formatado() {
