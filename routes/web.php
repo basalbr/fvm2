@@ -84,6 +84,7 @@ Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashb
     Route::get('new/{idTipo}', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
     Route::post('new/{idTipo}', ['uses' => 'AlteracaoController@store']);
     Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToUser', 'uses' => 'AlteracaoController@view']);
+    Route::post('validate', ['as' => 'validateAlteracao', 'uses' => 'AlteracaoController@validateAlteracao']);
 });
 
 //Dashboard - Atendimento

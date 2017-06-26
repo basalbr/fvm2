@@ -121,15 +121,15 @@ class Alteracao extends Model {
     }
 
     public function empresa() {
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
     public function tipo() {
-        return $this->belongsTo('App\TipoAlteracao', 'id_tipo_alteracao');
+        return $this->belongsTo(TipoAlteracao::class, 'id_tipo_alteracao');
     }
 
     public function informacoes() {
-        return $this->hasMany('App\AlteracaoInformacao', 'id_alteracao');
+        return $this->hasMany(AlteracaoInformacao::class, 'id_alteracao');
     }
 
     public function mensagens() {

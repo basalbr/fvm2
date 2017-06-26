@@ -15,46 +15,8 @@
     <div class="clearfix"></div>
     <div class="panel">
         @if($alteracoes->count())
-            @foreach($solicitacoes as $solicitacao)
-                <div class="col-lg-4 col-sm-6">
-                    <div class="panel">
-                        <div class="col-xs-12">
-                            <h3 class="title">{{$funcionario->nome_completo}}</h3>
-                            <hr>
-                        </div>
-                        <div class="items">
-                            <div class="col-xs-12">
-                                <i class="fa fa-user item-icon"></i>
-                                <div class="item-value">{{$funcionario->nome_completo}}</div>
-                                <div class="item-description">Nome do funcionário</div>
-                            </div>
-                            <div class="col-xs-12">
-                                <i class="fa fa-building item-icon"></i>
-                                <div class="item-value">
-                                    <a href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a>
-                                </div>
-                                <div class="item-description">Nome da empresa</div>
-                            </div>
-                            <div class="col-xs-12">
-                                <i class="fa fa-cogs item-icon"></i>
-                                <div class="item-value">{!! $funcionario->getStatus() !!}</div>
-                                <div class="item-description">Status</div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <div class="col-xs-12 options">
-                            <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
-                               class="btn btn-primary">
-                                <i class="fa fa-search"></i> Ver Detalhes</a>
-                            <a href="{{route('listDocumentosFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
-                               class="btn btn-success">
-                                <i class="fa fa-files-o"></i> Documentos</a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <br/>
-                    </div>
-                </div>
+            @foreach($alteracoes as $alteracao)
+                {{$alteracao->tipo->descricao}}
             @endforeach
         @else
             <div class="col-xs-12">
@@ -80,7 +42,7 @@
                     <div class="col-xs-12">
                         <ul class="list-group">
                                 @foreach($tiposAlteracao as $tipoAlteracao)
-                                    <a class="list-group-item" href="{{route('newSolicitacaoAlteracao',[$tipoAlteracao->id])}}">{{$tipoAlteracao->descricao}} (R$ {{$tipoAlteracao->getValorFormatado()}})</a>
+                                    <a class="list-group-item" href="{{route('newSolicitacaoAlteracao',[$tipoAlteracao->id])}}">{{$tipoAlteracao->descricao}} ({{$tipoAlteracao->getValorFormatado()}})</a>
                                 @endforeach
                         </ul>
                     </div>
