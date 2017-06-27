@@ -63,7 +63,8 @@ class Config extends Model
     /**
      * @return array
      */
-    public static function getDaysOfWeek(){
+    public static function getDaysOfWeek()
+    {
         return self::$daysOfWeek;
     }
 
@@ -72,10 +73,15 @@ class Config extends Model
         return self::first()->valor_incremental_funcionario;
     }
 
+    public static function getPagseguroNotificationUrl()
+    {
+        return route('pagseguroNotification');
+    }
+
     public static function getModelFromTable($table)
     {
-        foreach( get_declared_classes() as $class ) {
-            if( is_subclass_of( $class, 'Illuminate\Database\Eloquent\Model' ) ) {
+        foreach (get_declared_classes() as $class) {
+            if (is_subclass_of($class, 'Illuminate\Database\Eloquent\Model')) {
                 $model = new $class;
                 if ($model->getTable() === $table)
                     return $class;
@@ -84,6 +90,5 @@ class Config extends Model
 
         return false;
     }
-
 
 }

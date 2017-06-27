@@ -11,6 +11,7 @@
         "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "pagseguro/pagseguro-php-sdk": "^3.0",
         "twbs/bootstrap": "^3.3"
     },
     "require-dev": {

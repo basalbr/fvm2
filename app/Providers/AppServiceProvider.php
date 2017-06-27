@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Observers\MensagemObserver;
+use PagSeguro\Configuration\Configure;
+use PagSeguro\Library;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        Library::initialize();
+        Configure::setAccountCredentials(env('PAGSEGURO_EMAIL') ?: '', env('PAGSEGURO_TOKEN_PRODUCTION') ?: '');
+        Configure::setCharset('UTF-8');
         if ($this->app->environment() !== 'production') {
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->bind('path.public', function () {

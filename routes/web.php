@@ -70,6 +70,15 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
     Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
 
 });
+
+//Dashboard - Ordem Pagamento
+Route::group(['prefix' => 'dashboard/pagamentos', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'FuncionarioController@index']);
+    Route::post('validate', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'FuncionarioController@validateFuncionario']);
+//    Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
+//    Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
+});
+
 Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
     Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
@@ -130,4 +139,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth']
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
 });
 
+//Pagseguro
 
+Route::group(['namespace' => 'Pagseguro', 'middleware' => 'auth'], function () {
+    Route::post('notifications', ['as' => 'pagseguroNotification', 'uses' => 'PagseguroController@notifications']);
+});

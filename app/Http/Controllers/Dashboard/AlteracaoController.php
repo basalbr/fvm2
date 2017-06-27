@@ -37,12 +37,16 @@ class AlteracaoController extends Controller
         return view('dashboard.alteracao.new.index', compact('tipoAlteracao', 'empresas'));
     }
 
+    public function view($idAlteracao){
+        $alteracao = Auth::user()->alteracoes()->find($idAlteracao);
+        return view('dashboard.alteracao.view.index', compact('alteracao'));
+    }
+
     public function store(Request $request){
         $this->validate($request, AlteracaoValidation::getRules(), [], AlteracaoValidation::getNiceNames());
         if (CreateSolicitacaoAlteracao::handle($request)) {
             return redirect()->route('listSolicitacoesAlteracaoToUser')->with('successAlert', 'Sua solicitação foi aberta com sucesso, você receberá uma notificação assim que respondermos :)');
         }
-        dd('a');
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 

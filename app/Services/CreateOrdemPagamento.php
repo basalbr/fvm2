@@ -11,7 +11,7 @@ namespace App\Services;
 use App\Models\OrdemPagamento;
 use App\Models\Usuario;
 use App\Notifications\OrdemPagamentoCreated;
-use App\Notifications\OrdemPagamentoNewStatus;
+use App\Notifications\OrdemPagamentoNewStatusAdmin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -50,7 +50,7 @@ class CreateOrdemPagamento
             $usuario->notify(new OrdemPagamentoCreated($ordemPagamento));
 
             //Notifica admins de uma nova ordem de pagamento
-            Usuario::notifyAdmins(new OrdemPagamentoNewStatus($ordemPagamento));
+            Usuario::notifyAdmins(new OrdemPagamentoNewStatusAdmin($ordemPagamento));
 
             DB::commit();
         } catch (\Exception $e) {

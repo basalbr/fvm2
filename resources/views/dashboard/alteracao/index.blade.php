@@ -8,7 +8,7 @@
     <div class="col-xs-12">
         <div class="list-group">
             <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i
-                        class="fa fa-user-plus"></i> Clique aqui para cadastrar uma solicitação
+                        class="fa fa-plus"></i> Clique aqui para cadastrar uma solicitação
             </button>
         </div>
     </div>
@@ -16,7 +16,43 @@
     <div class="panel">
         @if($alteracoes->count())
             @foreach($alteracoes as $alteracao)
-                {{$alteracao->tipo->descricao}}
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="items">
+                            <div class="col-xs-12">
+                                <i class="fa fa-info item-icon"></i>
+                                <div class="item-value">{{$alteracao->tipo->descricao}}</div>
+                                <div class="item-description">Tipo de solicitação</div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i class="fa fa-cogs item-icon"></i>
+                                <div class="item-value">{{$alteracao->status}}</div>
+                                <div class="item-description">Status da solicitação</div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i class="fa fa-credit-card item-icon"></i>
+                                <div class="item-value">{{$alteracao->pagamento->status}}</div>
+                                <div class="item-description">Status do Pagamento</div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i class="fa fa-envelope item-icon"></i>
+                                <div class="item-value">Nenhuma nova mensagem</div>
+                                <div class="item-link-description"><a href="">Ver mensagens <i
+                                                class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="col-xs-12 options">
+                            <a href="{{route('showSolicitacaoAlteracaoToUser', $alteracao->id)}}" class="btn btn-primary"><i
+                                        class="fa fa-search"></i> Ver Detalhes</a>
+                            <a href="" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br/>
+                    </div>
+                </div>
             @endforeach
         @else
             <div class="col-xs-12">

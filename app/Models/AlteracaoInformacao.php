@@ -30,31 +30,18 @@ class AlteracaoInformacao extends Model {
      */
     protected $fillable = ['id_alteracao', 'valor', 'id_alteracao_campo'];
 
-    public function validate($data, $rules, $niceNames) {
-        // make a new validator object
-        $v = Validator::make($data, $rules);
-        $v->setAttributeNames($niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
 
-        // validation pass
-        return true;
-    }
 
     public function errors() {
         return $this->errors;
     }
 
     public function campo(){
-         return $this->belongsTo('App\AlteracaoCampo', 'id_alteracao_campo');
+         return $this->belongsTo(AlteracaoCampo::class, 'id_alteracao_campo');
     }
     
     public function alteracao() {
-        return $this->belongsTo('App\Alteracao', 'id_alteracao');
+        return $this->belongsTo(Alteracao::class, 'id_alteracao');
     }
 
 }
