@@ -2,7 +2,7 @@
     <div class="profile">
         <a href="{{route('editPerfil')}}">
             <div class="profile-pic"><img
-                        src="https://images.mic.com/0hg7fwagt8yo80cqfdisukrxucvtzv00yaarqmzaj9aj4krhhpprfaqvjbst6tbz.jpg"/>
+                        src="{{Auth::user()->foto ? asset('public/storage/usuarios/'.Auth::user()->id.'/'.Auth::user()->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
             <div class="profile-name">Olá {{Auth::user()->getFirstName()}}!</div>
             <div class="profile-settings">Clique para editar seu perfil</div>
@@ -20,10 +20,15 @@
                 <li><a href="{{route('listFuncionarioToUser')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="">Sócios <i class="fa fa-angle-right"></i></a></li>
             </ul>
+        </li>  <li>
+            <a href=""><span class="fa fa-calendar-check-o"></span> Apurações <i class="fa fa-angle-down"></i></a>
+            <ul id="left-menu-list" class="animated fadeInLeft">
+                <li><a href="{{route('showCalendarioImpostos')}}">Calendário de impostos <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listApuracoesToUser')}}">Listar apurações <i class="fa fa-angle-right"></i></a></li>
+            </ul>
         </li>
-        <li><a href=""><span class="fa fa-dollar"></span> Impostos <i class="fa fa-angle-down"></i></a></li>
-        <li><a href=""><span class="fa fa-money"></span> Financeiro <i class="fa fa-angle-down"></i></a></li>
-        <li><a href=""><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
+        {{--<li><a href=""><span class="fa fa-money"></span> Financeiro <i class="fa fa-angle-down"></i></a></li>--}}
+        <li><a href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listSolicitacoesAlteracaoToUser')}}"><span class="fa fa-bullhorn"></span> Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listAtendimentosToUser')}}"><span class="fa fa-comments"></span> Atendimento <i class="fa fa-angle-right"></i></a></li>
     </ul>

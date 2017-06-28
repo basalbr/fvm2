@@ -45,7 +45,6 @@ class ChamadoController extends Controller
 
     public function view($idChamado)
     {
-        //'App\\Models\\' . studly_case(str_singular('chamado'))
         $chamado = Auth::user()->chamados()->find($idChamado);
         $tiposChamado = TipoChamado::orderBy('descricao')->get();
         return view('dashboard.chamado.view.index', compact('chamado', 'tiposChamado'));

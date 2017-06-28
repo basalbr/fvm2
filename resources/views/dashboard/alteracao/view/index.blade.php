@@ -169,6 +169,12 @@
                         <div class="form-control">{{$alteracao->status}}</div>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Status do pagamento</label>
+                        <div class="form-control">{{$alteracao->pagamento->status}}</div>
+                    </div>
+                </div>
                 @if(count($alteracao->informacoes))
                     @foreach($alteracao->informacoes as $informacao)
                         @if($informacao->campo->tipo != 'file')

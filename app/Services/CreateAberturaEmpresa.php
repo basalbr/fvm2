@@ -35,7 +35,6 @@ class CreateAberturaEmpresa
 
             //Abre ordem de pagamento
             CreateOrdemPagamento::handle($aberturaEmpresa->usuario, $aberturaEmpresa->getTable(), $aberturaEmpresa->id, Config::getAberturaEmpresaPrice());
-
             //Notifica admins que existe uma nova abertura de empresa
             Usuario::notifyAdmins(new NewAberturaEmpresa($aberturaEmpresa));
             DB::commit();

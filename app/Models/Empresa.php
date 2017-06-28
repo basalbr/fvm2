@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Notifications\NewApuracao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Empresa extends Model
 {
@@ -48,17 +51,59 @@ class Empresa extends Model
         'id_enquadramento_empresa',
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado'=>'Aprovado'];
 
+    public function abrirApuracoes()
+    {
+        if ($this->status !== 'Aprovado') {
+            return false;
+        }
+        try {
+            DB::beginTransaction();
+            $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
+            $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
+            $apuracoes = $this->apuracoes()->where('competencia', '=',$competencia)->count();
+            if($apuracoes){
+                return false;
+            }
+            if (count($impostosMes)) {
+
+                foreach ($impostosMes as $impostoMes) {
+
+                    /* @var Imposto $imposto */
+                    $imposto = $impostoMes->imposto;
+
+                    /* @var Apuracao $apuracao*/
+                    $apuracao = $this->apuracoes()->create([
+                        'competencia' => $competencia,
+                        'id_imposto' => $imposto->id,
+                        'vencimento' => $imposto->corrigeData(date('Y') . '-' . date('m') . '-' . $imposto->vencimento, 'Y-m-d'),
+                        'status' => 'novo'
+                    ]);
+                    $this->usuario->notify(new NewApuracao($apuracao));
+                    DB::commit();
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::critical($e);
+            return false;
+        }
+    }
 
     public function getMensalidadeAtual(): Mensalidade
     {
         return $this->mensalidades()->orderBy('created_at', 'desc')->first();
     }
 
+    public function apuracoes(){
+        return $this->hasMany(Apuracao::class, 'id_empresa');
+    }
+
     public function mensagens()
     {
-        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia','=',$this->getTable());
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
     public function mensalidades(): HasMany
@@ -66,12 +111,14 @@ class Empresa extends Model
         return $this->hasMany(Mensalidade::class, 'id_empresa');
     }
 
-    public function getUltimaMensagem(){
+    public function getUltimaMensagem()
+    {
         return $this->mensagens->count() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem encontrada';
     }
 
-    public function getQtdeMensagensNaoLidas(){
-        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=',$this->usuario->id)->count();
+    public function getQtdeMensagensNaoLidas()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->usuario->id)->count();
     }
 
     public function getQtdeProLabores()
@@ -119,11 +166,6 @@ class Empresa extends Model
         return $this->belongsTo(Uf::class, 'id_uf');
     }
 
-    public function errors()
-    {
-        return $this->errors;
-    }
-
     public function cnaes()
     {
         return $this->hasMany(EmpresaCnae::class, 'id_empresa');
@@ -139,10 +181,6 @@ class Empresa extends Model
         return $this->hasMany(Funcionario::class, 'id_empresa');
     }
 
-    public function processos()
-    {
-        return $this->hasMany(Processo::class, 'id_empresa');
-    }
 
     public function processos_documentos_contabeis()
     {

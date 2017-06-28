@@ -73,12 +73,13 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
 
 //Dashboard - Ordem Pagamento
 Route::group(['prefix' => 'dashboard/pagamentos', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
-    Route::get('', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'FuncionarioController@index']);
+    Route::get('', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'PagamentoController@index']);
     Route::post('validate', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'FuncionarioController@validateFuncionario']);
 //    Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
 //    Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
 });
 
+//Dashboard - Funcionários
 Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
     Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
@@ -88,6 +89,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
 });
 
+//Dashboard - Alterações
 Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listSolicitacoesAlteracaoToUser', 'uses' => 'AlteracaoController@index']);
     Route::get('new/{idTipo}', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
@@ -116,12 +118,30 @@ Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => '
 
 });
 
+//Dashboard - Apurações
+Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('calendario', ['as' => 'showCalendarioImpostos', 'uses' => 'ApuracaoController@calendario']);
+    Route::get('', ['as' => 'listApuracoesToUser', 'uses' => 'ApuracaoController@index']);
+    Route::get('view/{idApuracao}', ['as' => 'showApuracaoToUser', 'uses' => 'ApuracaoController@view']);
+    Route::get('view/{idApurac2ao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
+    Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
+    Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
+
+});
+Route::group(['namespace' => 'Dashboard'], function () {
+    Route::get('abrir-apuracoes', ['uses' => 'ApuracaoController@abrirApuracoes']);
+});
+
 //Dashboard - Usuário
 Route::group(['prefix' => 'dashboard/usuario', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'editPerfil', 'uses' => 'UsuarioController@view']);
     Route::post('', ['uses' => 'UsuarioController@update']);
-    Route::post('upload/foto', ['as'=>'uploadUsuarioFoto', 'uses' => 'UsuarioController@uploadFoto']);
+    Route::post('upload/foto', ['as' => 'uploadUsuarioFoto', 'uses' => 'UsuarioController@uploadFoto']);
+});
 
+//Admin
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'adminHome', 'uses' => 'AdminController@index']);
 });
 
 //Admin - Abertura de Empresa

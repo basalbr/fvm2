@@ -6,30 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class Imposto extends Model {
+class Imposto extends Model
+{
 
     use SoftDeletes;
-
-    private static $arr_meses = array(
-        'Janeiro',
-        'Fevereiro',
-        'Março',
-        'Abril',
-        'Maio',
-        'Junho',
-        'Julho',
-        'Agosto',
-        'Setembro',
-        'Outubro',
-        'Novembro',
-        'Dezembro'
-    );
-
-   
-
-    protected $rules = ['nome' => 'required', 'vencimento' => 'required|integer', 'antecipa_posterga' => 'required', 'recebe_documento' => 'required'];
-    protected $errors;
-    protected $niceNames = ['nome' => 'Nome', 'vencimento' => 'Dia do Vencimento', 'antecipa_posterga' => 'Antecipa ou posterga', 'recebe_documento' => 'Receber documentos'];
 
     /**
      * The database table used by the model.
@@ -45,38 +25,24 @@ class Imposto extends Model {
      */
     protected $fillable = ['nome', 'vencimento', 'antecipa_posterga', 'recebe_documento'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
 
-        // validation pass
-        return true;
+    public function meses()
+    {
+        return $this->hasMany(ImpostoMes::class, 'id_imposto');
     }
 
-    public function errors() {
-        return $this->errors;
+    public function instrucoes()
+    {
+        return $this->hasMany(ImpostoInstrucao::class, 'id_imposto');
     }
 
-    public function meses() {
-        return $this->hasMany('App\ImpostoMes', 'id_imposto');
+    public function informacoesExtras()
+    {
+        return $this->hasMany(ImpostoInformacaoExtra::class, 'id_imposto');
     }
 
-    public function instrucoes() {
-        return $this->hasMany('App\Instrucao', 'id_imposto', 'id');
-    }
-
-    public function informacoes_extras() {
-        return $this->hasMany('App\InformacaoExtra', 'id_imposto', 'id');
-    }
-
-     public function corrigeData($date, $format) {
+    public function corrigeData($date, $format)
+    {
         $retDate = new \DateTime($date);
         $weekDay = date('w', strtotime($date));
         if ($this->antecipa_posterga == 'posterga') {
@@ -97,5 +63,5 @@ class Imposto extends Model {
         }
         return $retDate->format($format);
     }
-    
+
 }

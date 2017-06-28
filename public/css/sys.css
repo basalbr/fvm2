@@ -454,8 +454,14 @@ a.shortcut h3.text-center {
 }
 
 .alert-warning, .btn-warning {
-    background-color: #EF9A9A;
-    border-color: #E57373;
+    background-color: #FFA726;
+    border-color: #FF9800;
+    color: black!important;
+}
+
+.alert-warning a{
+    font-weight: bold;
+    color: black;
 }
 
 .alert-warning input, .alert-warning label, .alert-warning select, .alert-warning input::placeholder {
@@ -953,4 +959,17 @@ th.cnae-code {
 
 .form-group .thumbnail + button {
     margin-top: 10px;
+}
+
+.nav-tabs .badge{
+    border-radius: 25px;
+    padding: 3px 5px;
+    margin-left: 5px;
+    font-weight:bold;
+
+}
+
+.nav-tabs li.active .badge{
+    background: #fff;
+    color: #1E88E5;
 }

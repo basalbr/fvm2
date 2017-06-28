@@ -93,7 +93,14 @@ class AjaxController extends Controller
 
     public function authorizeMessage($reference, $referenceId)
     {
-        $q = DB::table($reference)->where('id', '=', $referenceId)->where('id_usuario', '=', Auth::user()->id)->count();
+        if ($reference = 'apuracao') {
+            $q = DB::table($reference)
+                ->join('empresa','empresa.id','=','apuracao.id_empresa')
+                ->where('apuracao.id', '=', $referenceId)
+                ->where('empresa.id_usuario', '=', Auth::user()->id)->count();
+        } else {
+            $q = DB::table($reference)->where('id', '=', $referenceId)->where('id_usuario', '=', Auth::user()->id)->count();
+        }
         if ($q > 0) {
             return true;
         }

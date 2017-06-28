@@ -14,6 +14,8 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'ajax*',
         'anexo/removeTemp',
-        'dashboard/usuario/upload/foto'
+        'anexo/temp',
+        'dashboard/usuario/upload/foto',
+        'dashboard/apuracao/validate/anexo',
     ];
 }
