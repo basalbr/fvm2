@@ -126,6 +126,7 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
     Route::get('view/{idApurac2ao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
+    Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
 
 });
 Route::group(['namespace' => 'Dashboard'], function () {
@@ -157,6 +158,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth']
     Route::post('messages/update', ['as' => 'updateMessagesAjax', 'uses' => 'AjaxController@updateMessages']);
     Route::post('messages/upload', ['as' => 'uploadChatFileAjax', 'uses' => 'AjaxController@uploadChatFile']);
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
+    Route::post('impostos', ['as' => 'getImpostos', 'uses' => 'AjaxController@getImpostos']);
+    Route::get('impostos/details', ['as' => 'getDetailsImposto', 'uses' => 'AjaxController@getDetailsImposto']);
+
 });
 
 //Pagseguro

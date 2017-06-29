@@ -143,87 +143,104 @@
 @section('content')
     <h1>{{$alteracao->tipo->descricao}}</h1>
     <hr>
-    <div class="panel">
-        @if($alteracao->pagamento->isPending())
-            <div class="col-sm-12">
-                <div class="alert alert-warning" style="display: block;">O pagamento dessa solicitação está com o
-                    status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos dar
-                    início ao processo.<br/><a href='{{$alteracao->pagamento->getBotaoPagamento()}}'>Clique aqui para
-                        pagar.</a></div>
-            </div>
-        @endif
-        <div class="col-sm-12">
-            <div class="col-sm-12">
-                <h3>Informações</h3>
-            </div>
-            <div class="list">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Valor</label>
-                        <div class="form-control">{{$alteracao->pagamento->formattedValue()}}</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Status do processo</label>
-                        <div class="form-control">{{$alteracao->status}}</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Status do pagamento</label>
-                        <div class="form-control">{{$alteracao->pagamento->status}}</div>
-                    </div>
-                </div>
-                @if(count($alteracao->informacoes))
-                    @foreach($alteracao->informacoes as $informacao)
-                        @if($informacao->campo->tipo != 'file')
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>{{$informacao->campo->nome}}</label>
-                                    <div class="form-control">{{$informacao->valor}}</div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @endif
-            </div>
-            <div class="clearfix"></div>
-            <hr>
-        </div>
-        <div class="col-sm-12">
-            @include('dashboard.components.chat.box', ['model'=>$alteracao])
-            <div class="clearfix"></div>
-            <hr>
-        </div>
-        <div class="col-sm-12">
-            <div id="anexos">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
+                        class="fa fa-info-circle"></i>
+                Informações</a>
+        </li>
+        <li role="presentation">
+            <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
+                Mensagens <span class="badge">{{$alteracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
+        </li>
+        <li role="presentation">
+            <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-download"></i>
+                Documentos enviados</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
+            <br />
+            @if($alteracao->pagamento->isPending())
                 <div class="col-sm-12">
-                    <h3>Anexos</h3>
-                    <p>Aqui estão os arquivos relacionados à esse processo.</p>
+                    <div class="alert alert-warning" style="display: block;">O pagamento dessa solicitação está com o
+                        status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos dar
+                        início ao processo.<br/><a href='{{$alteracao->pagamento->getBotaoPagamento()}}'>Clique aqui para
+                            pagar.</a></div>
                 </div>
+            @endif
+            <div class="col-sm-12">
                 <div class="list">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Valor</label>
+                            <div class="form-control">{{$alteracao->pagamento->formattedValue()}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Status do processo</label>
+                            <div class="form-control">{{$alteracao->status}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Status do pagamento</label>
+                            <div class="form-control">{{$alteracao->pagamento->status}}</div>
+                        </div>
+                    </div>
                     @if(count($alteracao->informacoes))
-                        @foreach($alteracao->informacoes as $anexo)
-                            @if($anexo->campo->tipo == 'file')
+                        @foreach($alteracao->informacoes as $informacao)
+                            @if($informacao->campo->tipo != 'file')
                                 <div class="col-sm-4">
-                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
+                                    <div class="form-group">
+                                        <label>{{$informacao->campo->nome}}</label>
+                                        <div class="form-control">{{$informacao->valor}}</div>
+                                    </div>
                                 </div>
                             @endif
                         @endforeach
                     @endif
-                    @foreach($alteracao->mensagens as $message)
-                        @if($message->anexo)
-                            <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                            </div>
-                        @endif
-                    @endforeach
                 </div>
-                <div class="clearfix"></div>
             </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="clearfix"></div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
+            <div class="col-sm-12">
+                @include('dashboard.components.chat.box', ['model'=>$alteracao])
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
+            <div class="col-sm-12">
+                <div id="anexos">
+                    <div class="col-sm-12">
+                        <p>Aqui estão os arquivos relacionados à esse processo.</p>
+                    </div>
+                    <div class="list">
+                        @if(count($alteracao->informacoes))
+                            @foreach($alteracao->informacoes as $anexo)
+                                @if($anexo->campo->tipo == 'file')
+                                    <div class="col-sm-4">
+                                        @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
+                        @foreach($alteracao->mensagens as $message)
+                            @if($message->anexo)
+                                <div class="col-sm-4">
+                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
         <hr>
         <div class="col-sm-12">
             <a class="btn btn-default" href="{{route('listSolicitacoesAlteracaoToUser')}}"><i
@@ -231,8 +248,8 @@
                 Voltar para solicitações</a>
         </div>
         <div class="clearfix"></div>
-        <br/>
     </div>
+
 @stop
 
 @section('modals')

@@ -174,6 +174,11 @@ class AberturaEmpresa extends Model
         return $this->belongsTo(EnquadramentoEmpresa::class, 'id_enquadramento_empresa');
     }
 
+    public function getQtdeMensagensNaoLidas()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->usuario->id)->count();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -26,8 +26,15 @@ class AlteracaoController extends Controller
     public function index()
     {
         $tiposAlteracao = TipoAlteracao::orderBy('descricao')->get();
-        $alteracoes = Alteracao::orderBy('created_at', 'desc')->get();
-        return view('dashboard.alteracao.index', compact("tiposAlteracao", 'alteracoes'));
+        $alteracoesPendentes = Alteracao::orderBy('created_at', 'desc')
+            ->where('status', '=','Pendente')
+            ->orWhere('status','=','Atencao')
+            ->get();
+        $alteracoesConcluidas = Alteracao::orderBy('created_at', 'desc')
+            ->where('status', '=','Concluído')
+            ->orWhere('status','=','Cancelado')
+            ->get();
+        return view('dashboard.alteracao.index', compact("tiposAlteracao", 'alteracoesPendentes', 'alteracoesConcluidas'));
     }
 
     public function new($idTipoAlteracao)

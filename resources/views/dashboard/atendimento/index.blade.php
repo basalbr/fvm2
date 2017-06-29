@@ -40,6 +40,7 @@
                 <thead>
                 <tr>
                     <th>Assunto</th>
+                    <th>Status</th>
                     <th>Aberto em</th>
                     <th>Última mensagem</th>
                     <th>Recebida em</th>
@@ -53,6 +54,7 @@
                 @foreach($chamados as $chamado)
                     <tr>
                         <td>{{$chamado->tipoChamado->descricao}}</td>
+                        <td>{{$chamado->status}}</td>
                         <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
                         <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
                         <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
@@ -90,15 +92,49 @@
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="abertura-empresas">
-            @foreach($aberturaEmpresas as $aberturaEmpresa)
-                {{$aberturaEmpresa->id}}
-            @endforeach
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Última mensagem</th>
+                    <th>Novas mensagens?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($aberturaEmpresas as $aberturaEmpresa)
+                    <tr>
+                        <td>{{$aberturaEmpresa->nome_empresarial1}}</td>
+                        <td>{{$aberturaEmpresa->mensagens()->latest()->first()->mensagem}}</td>
+                        <td>{{$aberturaEmpresa->getQtdeMensagensNaoLidas()}}</td>
+                        <td><a class="btn btn-primary" href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="solicitacoes">
-            @foreach($solicitacoes as $solicitacao)
-                {{$solicitacao->id}}
-            @endforeach
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Solicitação</th>
+                    <th>Última mensagem</th>
+                    <th>Novas mensagens?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($solicitacoes as $solicitacao)
+                    <tr>
+                        <td>{{$solicitacao->tipo->descricao}}</td>
+                        <td>{{$solicitacao->getUltimaMensagem()}}</td>
+                        <td>{{$solicitacao->getQtdeMensagensNaoLidas()}}</td>
+                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
             <div class="clearfix"></div>
         </div>
     </div>

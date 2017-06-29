@@ -38,7 +38,7 @@ class OrdemPagamento extends Model
 
     public function isPending()
     {
-        if ($this->status == 'Cancelado' || $this->status == 'Pendente' || $this->status = 'Aguardando pagamento') {
+        if ($this->status == 'Cancelado' || $this->status == 'Pendente' || $this->status == 'Aguardando pagamento') {
             return true;
         }
         return false;

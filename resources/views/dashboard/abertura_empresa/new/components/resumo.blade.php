@@ -21,6 +21,6 @@
 <div class="col-xs-12 text-right">
     <hr>
     <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - CNAEs</button>
-    <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Finalizar e Pagar
+    <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Finalizar
     </button>
 </div>

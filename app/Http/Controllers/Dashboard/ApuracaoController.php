@@ -13,6 +13,7 @@ use App\Models\Apuracao;
 use App\Models\Chamado;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
+use App\Models\Imposto;
 use App\Models\Mensagem;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
@@ -68,8 +69,9 @@ class ApuracaoController extends Controller
 
     public function calendario()
     {
-
+        return view('dashboard.calendario-impostos.index');
     }
+
 
     public function update(Request $request, $idApuracao)
     {
@@ -77,6 +79,17 @@ class ApuracaoController extends Controller
             return redirect()->route('showApuracaoToUser', [$idApuracao])->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+    }
+
+    public function semMovimento($idApuracao){
+        $apuracao = Apuracao::join('empresa', 'apuracao.id_empresa', '=', 'empresa.id')
+            ->where('empresa.id_usuario', '=', Auth::user()->id)
+            ->where('apuracao.id', '=', $idApuracao)
+            ->select('apuracao.*')
+            ->first();
+        $apuracao->status = 'sem_movimento';
+        $apuracao->save();
+        return redirect()->route('listApuracoesToUser')->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
     }
 
     public function view($idApuracao)

@@ -42,18 +42,17 @@
                             <td>{{$apuracao->imposto->nome}}</td>
                             <td>{{$apuracao->competencia->format('m/Y')}}</td>
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
-                            <td>{{$apuracao->mensagens->where('lida', '=', 0)->count()}}</td>
+                            <td>{{$apuracao->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar
                                 </a>
                             </td>
                         </tr>
-
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5">Nenhuma apuração em aberto</td>
+                        <td colspan="6">Nenhuma apuração em aberto</td>
                     </tr>
                 @endif
                 </tbody>
@@ -92,7 +91,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5">Nenhuma apuração encontrada</td>
+                        <td colspan="6">Nenhuma apuração encontrada</td>
                     </tr>
                 @endif
                 </tbody>

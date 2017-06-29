@@ -32,6 +32,15 @@ class Apuracao extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+    public function isPendingInfo(){
+        return $this->imposto->informacoesExtras->count()
+            && $this->status !== 'sem_movimento'
+            && $this->status !== 'informacoes_enviadas'
+            && $this->status !== 'cancelado'
+            && $this->status !== 'concluido'
+            && !$this->informacoes->count();
+    }
+
     public function imposto(){
         return $this->belongsTo(Imposto::class, 'id_imposto');
     }

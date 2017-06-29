@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\AberturaEmpresa;
+use App\Models\Alteracao;
 use App\Models\Chamado;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
@@ -37,12 +38,13 @@ class AtendimentoController extends Controller
 
     public function index()
     {
-        $chamados = Auth::user()->chamados;
+        $chamados = Auth::user()->chamados()->orderBy('created_at', 'desc')->get();
         //Buscar somente empresas que possuem mensagens não lidas
         $empresas = Auth::user()->empresas()->whereExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('mensagem')
                 ->whereRaw('mensagem.id_referencia = empresa.id')
+                ->where('mensagem.referencia', '=', 'empresa')
                 ->where('mensagem.lida', '=', 0)
                 ->where('deleted_at','=',null)->limit(1);
         })->get();
@@ -50,10 +52,18 @@ class AtendimentoController extends Controller
             $query->select(DB::raw(1))
                 ->from('mensagem')
                 ->whereRaw('mensagem.id_referencia = abertura_empresa.id')
+                ->where('mensagem.referencia', '=', 'abertura_empresa')
                 ->where('mensagem.lida', '=', 0)
                 ->where('deleted_at','=',null)->limit(1);
         })->get();
-        $solicitacoes = Empresa::where('id_usuario', '=', Auth::user()->id)->get();
+        $solicitacoes = Auth::user()->alteracoes()->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('mensagem')
+                ->whereRaw('mensagem.id_referencia = alteracao.id')
+                ->where('mensagem.referencia', '=', 'alteracao')
+                ->where('mensagem.lida', '=', 0)
+                ->where('deleted_at','=',null)->limit(1);
+        })->orderBy('created_at','desc')->get();
         return view('dashboard.atendimento.index', compact("empresas", 'chamados', 'solicitacoes', 'aberturaEmpresas'));
     }
 

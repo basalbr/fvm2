@@ -44,6 +44,10 @@ class Alteracao extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+    public function usuario(){
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
     public function tipo()
     {
         return $this->belongsTo(TipoAlteracao::class, 'id_tipo_alteracao');
@@ -54,6 +58,10 @@ class Alteracao extends Model
         return $this->hasMany(AlteracaoInformacao::class, 'id_alteracao');
     }
 
+    public function getUltimaMensagem(){
+        return $this->mensagens()->latest()->first() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem';
+    }
+
     public function mensagens()
     {
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
@@ -62,6 +70,11 @@ class Alteracao extends Model
     public function pagamento()
     {
         return $this->hasOne(OrdemPagamento::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function getQtdeMensagensNaoLidas()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->usuario->id)->count();
     }
 
 }

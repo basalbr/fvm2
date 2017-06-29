@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\Cnae;
+use App\Models\Imposto;
 use App\Models\Mensagem;
 use App\Models\Plano;
 use App\Services\SendMessage;
@@ -138,5 +139,26 @@ class AjaxController extends Controller
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
 
+    public function getImpostos(){
+        $impostos = Imposto::all();
+        $jsonRet = array();
+        if ($impostos->count()) {
+            foreach ($impostos as $imposto) {
+                if ($imposto->meses->count()) {
+                    foreach ($imposto->meses as $impostoMes) {
+                        $mes = $impostoMes->mes + 1;
+                        $date = $imposto->corrigeData(date('Y') . '-' . $mes . '-' . $imposto->vencimento, 'c');
+                        $jsonRet[] = array('title' => $imposto->nome, 'start' => $date, 'id' => $imposto->id);
+                    }
+                }
+            }
+        }
+        return response()->json($jsonRet);
+    }
+
+    public function getDetailsImposto(Request $request){
+        $instrucoes = Imposto::find($request->get('id'))->instrucoes()->orderBy('ordem', 'asc')->get(['descricao']);
+        return response()->json($instrucoes);
+    }
 
 }
