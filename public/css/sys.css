@@ -453,10 +453,10 @@ a.shortcut h3.text-center {
     font-weight: bold !important;
 }
 
-.alert-warning, .btn-warning {
+.alert-warning {
     background-color: #FFA726;
     border-color: #FF9800;
-    color: black!important;
+    color: black;
 }
 
 .alert-warning a{

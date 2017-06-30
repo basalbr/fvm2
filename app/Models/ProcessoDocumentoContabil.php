@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class ProcessoDocumentoContabil extends Model {
+class ProcessoDocumentoContabil extends Model
+{
 
     use SoftDeletes;
 
-    protected $errors;
     protected $dates = ['created_at', 'updated_at', 'periodo'];
 
     /**
@@ -26,29 +26,18 @@ class ProcessoDocumentoContabil extends Model {
      *
      * @var array
      */
-    protected $fillable = ['id_pessoa', 'periodo', 'status'];
+    protected $fillable = ['id_empresa', 'periodo', 'status'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
 
-        // validation pass
-        return true;
-    }
-
-    public function status_formatado() {
+    public function getStatus()
+    {
         switch ($this->status) {
             case 'pendente':
                 return 'Pendente';
             case 'documentos_enviados':
                 return 'Documentos Enviados';
+            case 'atencao':
+                return 'Atenção';
             case 'sem_movimento':
                 return 'Sem Movimento';
             case 'contabilizado':
@@ -57,29 +46,24 @@ class ProcessoDocumentoContabil extends Model {
         }
     }
 
-    public function errors() {
-        return $this->errors;
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
-    public function enviar_novo_status() {
-        $usuario = $this->pessoa->usuario;
-        try {
-            \Illuminate\Support\Facades\Mail::send('emails.novo-status-documento-contabil', ['nome' => $usuario->nome, 'id_processo' => $this->id], function ($m) use($usuario) {
-                $m->from('site@webcontabilidade.com', 'WEBContabilidade');
-                $m->to($usuario->email)->subject("Novo status em envio de documentos contábeis");
-            });
-            \Illuminate\Support\Facades\Mail::send("emails.novo-status-documento-contabil-admin", ['id_chamado' => $this->id], function ($m) {
-                $m->from('site@webcontabilidade.com', 'WEBContabilidade');
-                $m->to('admin@webcontabilidade.com')->subject("Novo status em envio de documentos contábeis");
-            });
-        } catch (\Exception $ex) {
-            \Illuminate\Support\Facades\Log::error($ex);
-            return true;
-        }
+    public function mensagens()
+    {
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
-    public function pessoa() {
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+    public function isPendingDocs()
+    {
+        return $this->anexos->count() ? false : true;
+    }
+
+    public function anexos()
+    {
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
 }

@@ -69,7 +69,7 @@ class ApuracaoController extends Controller
 
     public function calendario()
     {
-        return view('dashboard.calendario-impostos.index');
+        return view('dashboard.calendario_impostos.index');
     }
 
 

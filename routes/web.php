@@ -129,8 +129,20 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
     Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
 
 });
+
+//Dashboard - Documentos contábeis
+Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listDocumentosContabeisToUser', 'uses' => 'DocumentoContabilController@index']);
+    Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToUser', 'uses' => 'DocumentoContabilController@view']);
+    Route::get('view/{idProcesso}/sem-movimento', ['as' => 'flagDocumentosContabeisAsSemMovimento', 'uses' => 'DocumentoContabilController@semMovimento']);
+    Route::get('view/{idPr2ocesso}', ['as' => 'showDocumentoContabilToAdmin', 'uses' => 'DocumentoContabilController@view']);
+    Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
+
+});
+
 Route::group(['namespace' => 'Dashboard'], function () {
     Route::get('abrir-apuracoes', ['uses' => 'ApuracaoController@abrirApuracoes']);
+    Route::get('abrir-documentos-contabeis', ['uses' => 'DocumentoContabilController@abrirProcessos']);
 });
 
 //Dashboard - Usuário

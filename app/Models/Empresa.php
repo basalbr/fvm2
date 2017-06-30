@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\NewApuracao;
+use App\Notifications\NewProcessoDocumentosContabeis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,7 +52,7 @@ class Empresa extends Model
         'id_enquadramento_empresa',
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado'=>'Aprovado'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado'];
 
     public function abrirApuracoes()
     {
@@ -62,8 +63,8 @@ class Empresa extends Model
             DB::beginTransaction();
             $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
             $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
-            $apuracoes = $this->apuracoes()->where('competencia', '=',$competencia)->count();
-            if($apuracoes){
+            $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
+            if ($apuracoes) {
                 return false;
             }
             if (count($impostosMes)) {
@@ -73,7 +74,7 @@ class Empresa extends Model
                     /* @var Imposto $imposto */
                     $imposto = $impostoMes->imposto;
 
-                    /* @var Apuracao $apuracao*/
+                    /* @var Apuracao $apuracao */
                     $apuracao = $this->apuracoes()->create([
                         'competencia' => $competencia,
                         'id_imposto' => $imposto->id,
@@ -97,7 +98,8 @@ class Empresa extends Model
         return $this->mensalidades()->orderBy('created_at', 'desc')->first();
     }
 
-    public function apuracoes(){
+    public function apuracoes()
+    {
         return $this->hasMany(Apuracao::class, 'id_empresa');
     }
 
@@ -182,7 +184,7 @@ class Empresa extends Model
     }
 
 
-    public function processos_documentos_contabeis()
+    public function processosDocumentosContabeis()
     {
         return $this->hasMany(ProcessoDocumentoContabil::class, 'id_empresa');
     }
@@ -196,26 +198,26 @@ class Empresa extends Model
     public function delete()
     {
 
-        if ($this->processos->count()) {
-            foreach ($this->processos as $processo) {
+        if ($this->apuracoes->count()) {
+            foreach ($this->apuracoes as $processo) {
                 $processo->delete();
             }
         }
-        if ($this->processos_documentos_contabeis->count()) {
+        if ($this->processosDocumentosContabeis()->count()) {
             foreach ($this->processos_documentos_contabeis as $processo) {
                 $processo->delete();
             }
         }
 
         if ($this->funcionarios->count()) {
-            foreach ($this->funcionarios as $funcionarios) {
-                $funcionarios->delete();
+            foreach ($this->funcionarios as $funcionario) {
+                $funcionario->delete();
             }
         }
 
         if ($this->socios->count()) {
-            foreach ($this->socios as $socios) {
-                $socios->delete();
+            foreach ($this->socios as $socio) {
+                $socio->delete();
             }
         }
 
@@ -225,6 +227,29 @@ class Empresa extends Model
     public function getSocioPrincipal()
     {
         return $this->socios()->where('principal', '=', 1)->first();
+    }
+
+    public function abrirProcessosDocumentosContabeis()
+    {
+        try {
+            DB::beginTransaction();
+            $periodo = date('Y-m-01', strtotime(date('Y-m') . " -1 month"));
+            if ($this->status !== 'Aprovado' || $this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
+                return false;
+            }
+            /** @var ProcessoDocumentoContabil $processo */
+            $processo = $this->processosDocumentosContabeis()->create([
+                'periodo' => $periodo, 'status' => 'pendente'
+            ]);
+            $this->usuario->notify(new NewProcessoDocumentosContabeis($processo));
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::critical($e);
+            return false;
+        }
+
     }
 
 }
