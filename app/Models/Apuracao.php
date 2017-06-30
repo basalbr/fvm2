@@ -19,7 +19,7 @@ class Apuracao extends Model
      */
     protected $table = 'apuracao';
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado'=>'Aprovado', 'novo'=>'Novo', 'atencao'=>'Atenção'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'novo' => 'Novo', 'atencao' => 'Atenção'];
 
     /**
      * The attributes that are mass assignable.
@@ -28,11 +28,13 @@ class Apuracao extends Model
      */
     protected $fillable = ['id_empresa', 'competencia', 'id_imposto', 'vencimento', 'status', 'guia'];
 
-    public function empresa(){
+    public function empresa()
+    {
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
-    public function isPendingInfo(){
+    public function isPendingInfo()
+    {
         return $this->imposto->informacoesExtras->count()
             && $this->status !== 'sem_movimento'
             && $this->status !== 'informacoes_enviadas'
@@ -41,7 +43,8 @@ class Apuracao extends Model
             && !$this->informacoes->count();
     }
 
-    public function imposto(){
+    public function imposto()
+    {
         return $this->belongsTo(Imposto::class, 'id_imposto');
     }
 
@@ -49,12 +52,24 @@ class Apuracao extends Model
     {
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
+
     public function getStatusAttribute($status)
     {
         return self::$status[$status];
     }
-    public function informacoes(){
+
+    public function informacoes()
+    {
         return $this->hasMany(ApuracaoInformacaoExtra::class, 'id_apuracao');
+    }
+
+    public function getQtdeMensagensNaoLidas()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->empresa->usuario->id)->count();
+    }
+
+    public function getUltimaMensagem(){
+        return $this->mensagens()->latest()->first() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem';
     }
 
 

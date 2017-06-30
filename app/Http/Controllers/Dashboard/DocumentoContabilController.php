@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\Empresa;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\TipoDocumentoContabil;
+use App\Services\FlagDocumentosContabeisAsSemMovimento;
 use App\Services\SendDocumentosContabeis;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -43,7 +44,7 @@ class DocumentoContabilController extends Controller
       $processosConcluidos = ProcessoDocumentoContabil::query();
       $processosConcluidos->join('empresa','empresa.id','=','processo_documento_contabil.id_empresa');
       $processosConcluidos->where('empresa.id_usuario','=',Auth::user()->id);
-      $processosConcluidos->where('processo_documento_contabil.status','=','concluido');
+      $processosConcluidos->orWhere('processo_documento_contabil.status','=','concluido');
       $processosConcluidos->orWhere('processo_documento_contabil.status','=','sem_movimento');
       $processosConcluidos = $processosConcluidos->select('processo_documento_contabil.*')->get();
 

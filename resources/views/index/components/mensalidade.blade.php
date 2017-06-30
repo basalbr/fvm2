@@ -12,7 +12,7 @@
                                                                                   title="Pró-labore é o salário dos sócios que constam no contrato social da empresa, e recolhem o INSS mensalmente para a previdência social."
                                                                                   data-toggle="tooltip"
                                                                                   data-placement="top">(o que é isso?)</span></label>
-                <input type='text' class='form-control numero-mask2' id='pro_labores'
+                <input type='text' class='form-control number-mask'  name="qtde_pro_labores"
                        data-mask-placeholder='0'/>
                 <div class="clearfix"></div>
             </div>
@@ -21,7 +21,7 @@
                                                                              title="Quantidade de funcionários registrados na empresa. Exigido certificado digital A1."
                                                                              data-toggle="tooltip"
                                                                              data-placement="top">(o que é isso?)</span></label>
-                <input type='text' class='form-control numero-mask2' id='funcionarios' data-mask-placeholder='0'/>
+                <input type='text' class='form-control number-mask'  name="qtde_funcionario" data-mask-placeholder='0'/>
             </div>
             <div class='form-group'>
                 <label for="total_documentos"> Quantos documentos fiscais são emitidos e recebidos por mês? <span
@@ -30,7 +30,7 @@
                             title="Documentos fiscais, são as notas fiscais de venda ou prestação de serviço emitidas, e as notas fiscais de aquisição de mercadorias ou serviços."
                             data-toggle="tooltip"
                             data-placement="top">(o que é isso?)</span></label>
-                <input type='text' class='form-control numero-mask2' id='total_documentos'
+                <input type='text' class='form-control number-mask' name="qtde_documento_fiscal"
                        data-mask-placeholder='0'/>
             </div>
             <div class='form-group'>
@@ -40,12 +40,12 @@
                             title="Neste item estão a movimentação bancária, em que cada transação corresponde a um documento contábil, assim como recibos de aluguel. Cada valor corresponderá a um documento contábil."
                             data-toggle="tooltip"
                             data-placement="top">(o que é isso?)</span></label>
-                <input type='text' class='form-control numero-mask2' id='total_contabeis'
+                <input type='text' class='form-control number-mask'  name="qtde_documento_contabil"
                        data-mask-placeholder='0'/>
             </div>
             <div class='form-group'>
                 <label for="contabilidade">Quanto você paga hoje por mês para sua contabilidade?</label>
-                <input type='text' class='form-control dinheiro-mask2' id='contabilidade' data-mask-placeholder='0'
+                <input type='text' class='form-control money-mask' id='contabilidade' data-mask-placeholder='0'
                        value="499,99"/>
             </div>
             <div class="clearfix"></div>
@@ -69,7 +69,7 @@
     <div class="col-xs-12 text-center">
         <div class="form-group">
             <a href="" data-toggle="modal" data-target="#modal-register" class="btn btn-lg btn-success transparent">Gostou? Crie sua conta</a>
-            <a href="" class="btn btn-lg btn-warning transparent">Dúvidas? Entre em contato</a>
+            <a href="#contato" class="page-scroll btn btn-lg btn-warning transparent">Dúvidas? Entre em contato</a>
         </div>
     </div>
 </div>

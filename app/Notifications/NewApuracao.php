@@ -45,7 +45,7 @@ class NewApuracao extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->apuracao->empresa->usuario->nome.'!')
-            ->line('Você tem uma nova apuração de ' . $this->apuracao->imposto->nome . 'com vencimento no dia '.$this->apuracao->vencimento)
+            ->line('Você tem uma nova apuração de ' . $this->apuracao->imposto->nome . ' com vencimento no dia '.$this->apuracao->vencimento->format('d/m/Y'))
             ->line('Para visualizar essa apuração, clique no botão abaixo:')
             ->action('Visualizar Apuração', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')

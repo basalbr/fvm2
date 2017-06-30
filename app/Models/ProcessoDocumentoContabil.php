@@ -61,9 +61,22 @@ class ProcessoDocumentoContabil extends Model
         return $this->anexos->count() ? false : true;
     }
 
+    public function isPending(){
+        return $this->isPendingDocs() && $this->status !== 'sem_movimento' && $this->status !== 'concluido';
+    }
+
     public function anexos()
     {
         return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function getQtdeMensagensNaoLidas()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->empresa->usuario->id)->count();
+    }
+
+    public function getUltimaMensagem(){
+        return $this->mensagens()->latest()->first() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem';
     }
 
 }

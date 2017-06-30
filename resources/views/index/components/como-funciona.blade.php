@@ -62,7 +62,7 @@
     <div class="col-xs-12 text-center">
         <br/>
         <a href="" data-toggle="modal" data-target="#modal-register" class="btn btn-lg btn-complete">Crie sua conta</a>
-        <a href="" class="btn btn-lg btn-warning">Simule sua mensalidade</a>
+        <a href="#mensalidade" class="page-scroll btn btn-lg btn-warning">Simule sua mensalidade</a>
     </div>
 </div>
 <div class="clearfix"></div>

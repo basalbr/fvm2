@@ -3,6 +3,7 @@ $(function () {
         e.preventDefault();
         validateFormPrincipal();
     });
+
 });
 
 function checkSocioPrincipal() {

@@ -13,7 +13,7 @@
     @show
 
 </head>
-<body>
+<body data-spy="scroll" data-target="#nav-menu-items" data-offset="200" >
 <header id="nav-menu" class="transparent">
     @include('index.components.menu')
 </header>
@@ -26,6 +26,7 @@
     @include('index.modals.acessar')
     @include('index.modals.esqueci')
     @include('index.modals.registrar')
+    @include('index.modals.sucesso')
 </div>
 </body>
 </html>

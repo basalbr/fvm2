@@ -11,6 +11,6 @@
             <a href="" data-toggle="modal" data-target="#modal-access" class="btn btn-lg btn-complete transparent">Acesse
                 agora mesmo</a>
         @endif
-        <a href="" class="btn btn-lg btn-warning transparent">Conheça mais sobre nós</a>
+        <a href="#como-funciona" class="btn btn-lg btn-warning transparent page-scroll">Conheça mais sobre nós</a>
     </div>
 </div>

@@ -1,5 +1,24 @@
 $(function () {
 
+    $('#contato-form button').on('click', function (e) {
+        e.preventDefault();
+        validateFormContato();
+    });
+
+    $("#contato-form").on('submit', function (e) {
+        e.preventDefault();
+        validateFormContato();
+    });
+
+    $('a.page-scroll').bind('click', function (event) {
+        var anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $(anchor.attr('href')).offset().top - 70
+        }, 1000, 'easeInOutExpo');
+        console.log($(anchor.attr('href')).offset().top)
+        event.preventDefault();
+    });
+
     //Validar registro de novo usuário
     $("#modal-register button.btn-complete").on('click', function (e) {
         e.preventDefault();
@@ -146,3 +165,41 @@ $(function () {
 
 });
 
+
+function validateFormContato() {
+    var formData = $('#contato-form').serializeArray();
+    $.post($('#contato-form').data('validation-url'), formData)
+        .done(function (data, textStatus, jqXHR) {
+            sendContato()
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 422) {
+                //noinspection JSUnresolvedVariable
+                showFormValidationError($('#contato-form'), jqXHR.responseJSON);
+            } else {
+                showFormValidationError($('#contato-form'));
+            }
+        });
+}
+
+function sendContato() {
+    var formData = $('#contato-form').serializeArray();
+    $.post($('#contato-form').data('url'), formData)
+        .done(function (data, textStatus, jqXHR) {
+            showModalSuccess(data);
+            $('#contato-form')[0].reset();
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 422) {
+                //noinspection JSUnresolvedVariable
+                showFormValidationError($('#contato-form'), jqXHR.responseJSON);
+            } else {
+                showFormValidationError($('#contato-form'));
+            }
+        });
+}
+
+function showModalSuccess(text){
+    $('#modal-success').find('#text').html(text);
+    $('#modal-success').modal('show');
+}

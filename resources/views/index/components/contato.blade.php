@@ -1,3 +1,4 @@
+
 <img class="background-img" src="{{asset(public_path('images/contato.jpg'))}}"/>
 <div class="container">
     <div class="col-xs-12">
@@ -8,7 +9,10 @@
 
     <div class="row row-eq-height">
         <div class="col-sm-6">
-            <form class="form">
+            <form class="form" id="contato-form" data-validation-url="{{route('validateContato')}}"
+                  data-url="{{route('sendContato')}}">
+                {!! csrf_field() !!}
+                @include('index.components.form-alert')
                 <div class='form-group'>
                     <label for="nome">Seu nome *</label>
                     <input type='text' class='form-control' name="nome"/>
@@ -24,7 +28,8 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="">
-                    <button class="btn btn-complete"><span class="fa fa-send"></span> Enviar mensagem</button>
+                    <button class="btn btn-complete" type="button"><span class="fa fa-send"></span> Enviar mensagem
+                    </button>
                 </div>
             </form>
         </div>
@@ -39,7 +44,8 @@
                 <div class="clearfix"></div>
                 <div id="fb-root"></div>
 
-                <div class="fb-page" style="height: 260px; width: 340px" data-href="https://www.facebook.com/WEBContabilidade-1762521307351768/"
+                <div class="fb-page" style="height: 260px; width: 340px"
+                     data-href="https://www.facebook.com/WEBContabilidade-1762521307351768/"
                      data-tabs="messages" data-height="260" data-small-header="true"
                      data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
                 </div>

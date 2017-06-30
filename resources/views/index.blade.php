@@ -12,9 +12,17 @@
         @stop
     @endif
 
+@section('js')
+    @parent
+    <script type="text/javascript" src="{{url(public_path().'js/modules/simulate.js')}}"></script>
+@stop
+
+
 @section('content')
 
 <section id="main-banner" class="section">
+    <input type="hidden" value="{{route('getMonthlyPaymentParams')}}" id="payment-parameters">
+
     @include('index.components.banner-principal')
 </section>
 <section id="como-funciona" class="section">

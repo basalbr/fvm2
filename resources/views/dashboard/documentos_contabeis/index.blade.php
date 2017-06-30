@@ -67,12 +67,12 @@
                 <tbody>
 
                 <div class="clearfix"></div>
-                @if($processosPendentes->count())
-                    @foreach($processosPendentes as $documento)
+                @if($processosConcluidos->count())
+                    @foreach($processosConcluidos as $documento)
                         <tr>
                             <td>{{$documento->empresa->nome_fantasia}}</td>
                             <td>{{$documento->periodo->format('m/Y')}}</td>
-                            <td>{{$documento->status}}</td>
+                            <td>{{$documento->getStatus()}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showDocumentoContabilToUser', $documento->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar

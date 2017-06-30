@@ -11,7 +11,6 @@ class MessageFromSite extends Notification
 {
     use Queueable;
     private $mensagem;
-    private $url;
 
     /**
      * MessageFromSite constructor.
@@ -20,7 +19,6 @@ class MessageFromSite extends Notification
     public function __construct($mensagem)
     {
         $this->mensagem = $mensagem;
-        $this->url = route('showMessageFromSiteToAdmin', [$this->mensagem->id]);
     }
 
     /**
@@ -31,7 +29,7 @@ class MessageFromSite extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -44,25 +42,10 @@ class MessageFromSite extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá!')
-            ->line('Você recebeu uma mensagem de '.$this->mensagem->nome. ' com o assunto:'.$this->mensagem->assunto)
-            ->line('Para visualizar e responder a mensagem, clique no botão abaixo:')
-            ->action('Visualizar', $this->url)
+            ->line($this->mensagem->get('mensagem'))
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Novo contato do site')
-            ->from('site@webcontabilidade.com', 'WEBContabilidade');
+            ->from($this->mensagem->get('email'), $this->mensagem->get('nome'));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'mensagem' => 'Você recebeu uma mensagem de '.$this->mensagem->nome. ' com o assunto:'.$this->mensagem->assunto,
-            'url' => $this->url
-        ];
-    }
 }

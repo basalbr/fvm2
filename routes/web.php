@@ -35,10 +35,14 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
     Route::get('user/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 });
 
-//Dashboard - Home
-Route::get('dashboard', ['as' => 'dashboard', 'middleware' => 'auth', 'uses' => function () {
-    return view('dashboard.index');
-}]);
+Route::group(['namespace' => 'Dashboard', 'prefix'=>'dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
+});
+
+//Dashboard - Notificações
+Route::group(['prefix' => 'notificacao', 'namespace' => 'Notificacao', 'middleware' => 'auth'], function () {
+    Route::get('ler/{id}', ['as' => 'lerNotificacao', 'uses' => 'NotificacaoController@ler']);
+});
 
 //Dashboard - Abertura de Empresa
 Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
@@ -163,7 +167,7 @@ Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'mid
 });
 
 //Ajax
-Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('cnae/search/code', ['as' => 'searchCnaeByCode', 'uses' => 'AjaxController@searchCnaeByCode']);
     Route::post('cnae/search/description', ['as' => 'searchCnaeByDescription', 'uses' => 'AjaxController@searchCnaeByDescription']);
     Route::post('messages/send', ['as' => 'sendMessageAjax', 'uses' => 'AjaxController@sendMessage']);
@@ -172,7 +176,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => 'auth']
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
     Route::post('impostos', ['as' => 'getImpostos', 'uses' => 'AjaxController@getImpostos']);
     Route::get('impostos/details', ['as' => 'getDetailsImposto', 'uses' => 'AjaxController@getDetailsImposto']);
-
+    Route::post('contato', ['as' => 'sendContato', 'uses' => 'AjaxController@sendContato']);
+    Route::post('contato/validate', ['as' => 'validateContato', 'uses' => 'AjaxController@validateContato']);
 });
 
 //Pagseguro

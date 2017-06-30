@@ -190,7 +190,7 @@
             </div>
             <div class="clearfix"></div>
 
-            @if($processo->isPendingDocs())
+            @if($processo->isPending())
                 <div class="col-sm-12">
                     <hr>
                     <h3>Anexar documentos</h3>
@@ -244,10 +244,10 @@
         </div>
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listApuracoesToUser')}}"><i
+            <a class="btn btn-default" href="{{route('listDocumentosContabeisToUser')}}"><i
                         class="fa fa-angle-left"></i>
                 Voltar para documentos contábeis</a>
-            @if($processo->isPendingDocs())
+            @if($processo->isPending())
                 <button class="btn btn-success" type="button" id="update"><i class="fa fa-send"></i> Enviar documentos
                 </button>
                 <a class="btn btn-warning" href="{{route('flagDocumentosContabeisAsSemMovimento', [$processo->id])}}"><i class="fa fa-remove"></i> Não houve movimentação nesse

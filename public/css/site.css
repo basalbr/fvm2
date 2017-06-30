@@ -1117,7 +1117,6 @@ button, a, p {
 
 .img-holder img {
     position: absolute;
-    bottom: 0;
     left: 0;
 }
 
@@ -1231,8 +1230,9 @@ button, a, p {
 #mensalidade-box .by-year {
     color: #00E676;
     font-weight: bold;
-    margin-left: 60%;
+    margin-left: 80%;
     margin-bottom: 15px;
+    margin-top: 10px;
 }
 
 #duvidas {

@@ -122,4 +122,8 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         );
     }
 
+    public function notificacoes(){
+        return $this->hasMany(Notificacao::class, 'notifiable_id')->where('notifiable_type', '=', Usuario::class);
+    }
+
 }

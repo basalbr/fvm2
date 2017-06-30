@@ -31,6 +31,16 @@
                         class="fa fa-bullhorn"></i>
                 Solicitações</a>
         </li>
+        <li role="presentation">
+            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i
+                        class="fa fa-calendar-check-o"></i>
+                Apurações</a>
+        </li>
+        <li role="presentation">
+            <a href="#documentos-contabeis" aria-controls="documentos-contabeis" role="tab" data-toggle="tab"><i
+                        class="fa fa-files-o"></i>
+                Documentos contábeis</a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -130,6 +140,56 @@
                         <td>{{$solicitacao->tipo->descricao}}</td>
                         <td>{{$solicitacao->getUltimaMensagem()}}</td>
                         <td>{{$solicitacao->getQtdeMensagensNaoLidas()}}</td>
+                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="apuracoes">
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Apuração</th>
+                    <th>Competência</th>
+                    <th>Última mensagem</th>
+                    <th>Novas mensagens?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($apuracoes as $apuracao)
+                    <tr>
+                        <td>{{$apuracao->imposto->nome}}</td>
+                        <td>{{$apuracao->competencia->format('m/Y')}}</td>
+                        <td>{{$apuracao->getUltimaMensagem()}}</td>
+                        <td>{{$apuracao->getQtdeMensagensNaoLidas()}}</td>
+                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            <div class="clearfix"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos-contabeis">
+            <table class="table table-hovered table-striped">
+                <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Período</th>
+                    <th>Última mensagem</th>
+                    <th>Novas mensagens?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($documentosContabeis as $processo)
+                    <tr>
+                        <td>{{$processo->empresa->nome_fantasia}}</td>
+                        <td>{{$processo->periodo->format('m/Y')}}</td>
+                        <td>{{$processo->getUltimaMensagem()}}</td>
+                        <td>{{$processo->getQtdeMensagensNaoLidas()}}</td>
                         <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach

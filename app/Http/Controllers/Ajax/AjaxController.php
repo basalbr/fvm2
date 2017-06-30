@@ -12,6 +12,7 @@ use App\Models\Cnae;
 use App\Models\Imposto;
 use App\Models\Mensagem;
 use App\Models\Plano;
+use App\Services\SendContato;
 use App\Services\SendMessage;
 use App\Services\UploadChatFile;
 use App\Validation\MensagemValidation;
@@ -159,6 +160,19 @@ class AjaxController extends Controller
     public function getDetailsImposto(Request $request){
         $instrucoes = Imposto::find($request->get('id'))->instrucoes()->orderBy('ordem', 'asc')->get(['descricao']);
         return response()->json($instrucoes);
+    }
+
+    public function validateContato(Request $request){
+        $rules = ['nome'=>'required|max:100', 'email'=>'email', 'mensagem'=>'required'];
+        $niceNames = ['nome'=>'Nome', 'email'=>'E-mail', 'mensagem'=>'Mensagem'];
+        $this->validate($request, $rules, [], $niceNames);
+    }
+
+    public function sendContato(Request $request){
+        $this->validateContato($request);
+        if(SendContato::handle($request)){
+            return response()->json('Obrigado pelo seu contato, em breve iremos responder :)');
+        }
     }
 
 }

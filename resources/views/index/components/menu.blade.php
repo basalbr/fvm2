@@ -1,10 +1,9 @@
-<div id="nav-menu-brand"><img src="{{url(public_path('images/logotipo-pequeno.png'))}}"/></div>
+<div id="nav-menu-brand"><img src="{{url(public_path('images/logo.png'))}}"/></div>
 <ul id="nav-menu-items">
-    <li><a href="">Como funciona</a></li>
-    <li><a href="">Mensalidade</a></li>
-    <li><a href="">Dúvidas</a></li>
-    <li><a href="">Notícias</a></li>
-    <li><a href="">Contato</a></li>
+    <li><a class='page-scroll' href="#como-funciona ">Como funciona</a></li>
+    <li><a class='page-scroll' href="#mensalidade">Mensalidade</a></li>
+    <li><a class='page-scroll' href="#duvidas">Dúvidas</a></li>
+    <li><a class='page-scroll' href="#contato">Contato</a></li>
     @if(Auth::check())
         <li><a href="{{route('dashboard')}}" class="btn-registrar" data-toggle="modal"><span
                         class="fa fa-sign-in"></span> Acessar</a></li>

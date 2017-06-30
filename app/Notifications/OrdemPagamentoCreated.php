@@ -44,7 +44,7 @@ class OrdemPagamentoCreated extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->ordemPagamento->usuario->nome.'!')
-            ->line('Uma nova ordem de pagamento com o valor de R$'.$this->ordemPagamento->valor.' foi gerada para você.')
+            ->line('Uma nova ordem de pagamento com o valor de '.$this->ordemPagamento->formattedValue().' foi gerada para você.')
             ->line('Clique no botão abaixo para acessar nosso site e visualizar suas ordens de pagamento.')
             ->action('Visualizar', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')

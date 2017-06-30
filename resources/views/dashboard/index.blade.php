@@ -1,44 +1,93 @@
 @extends('dashboard.layouts.master')
 @section('content')
-    <h1>Seja bem vindo {{Auth::user()->nome}}</h1>
-    <div class="col-md-4">
-        <a href="{{route('newAberturaEmpresa')}}" class="shortcut blue">
-            <div class="big-icon"><span class="fa fa-child"></span></div>
-            <h3 class="text-center">Abrir Empresa</h3>
+    <h3 class="text-center">Olá {{Auth::user()->nome}}, o que você precisa?</h3>
+    @if(!Auth::user()->empresas->count() && !Auth::user()->aberturasEmpresa->count())
+        <div class="col-sm-6">
+            <a href="{{route('newAberturaEmpresa')}}" class="atalho">
+                <i class="fa fa-child"></i> Quero <strong>abrir uma empresa</strong>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="{{route('newEmpresa')}}" class="atalho verde">
+                <i class="fa fa-exchange"></i> Desejo <strong>migrar minha empresa</strong> para cá
+            </a>
+        </div>
+        <div class="clearfix"></div>
+    @endif
+    @if(Auth::user()->empresas->count())
+        <div class="col-sm-6">
+            <a href="{{route('listEmpresaToUser')}}" class="atalho verde">
+                <i class="fa fa-building"></i> Quero verificar os dados da <strong>minha empresa</strong>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="{{route('listApuracoesToUser')}}" class="atalho verde">
+                <i class="fa fa-calendar-check-o"></i> Quero ver minhas <strong>apurações</strong>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="{{route('listDocumentosContabeisToUser')}}" class="atalho verde">
+                <i class="fa fa-files-o"></i> Quero ver meus <strong>documentos contábeis</strong>
+            </a>
+        </div>
+    @endif
+    <div class="col-sm-6">
+        <a href="{{route('listSolicitacoesAlteracaoToUser')}}" class="atalho verde">
+            <i class="fa fa-bullhorn"></i> Quero solicitar uma <strong>alteração</strong>
         </a>
     </div>
-    <div class="col-md-4">
-        <a href="http://www.webcontabilidade.com/empresas/cadastrar" class="shortcut green">
-            <div class="big-icon"><span class="fa fa-exchange"></span></div>
-            <h3 class="text-center">Migrar Empresa</h3>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a href="http://www.webcontabilidade.com/apuracoes" class="shortcut mint">
-            <div class="big-icon"><span class="fa fa-file"></span></div>
-            <div class="contador">0</div>
-            <h3 class="text-center">Apurações em aberto</h3>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a href="http://www.webcontabilidade.com/admin/chamados" class="shortcut blue">
-            <div class="big-icon"><span class="fa fa-envelope"></span></div>
-            <div class="contador">1</div>
-            <h3 class="text-center">Chamados</h3>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a href="http://www.webcontabilidade.com/pagamentos-pendentes" class="shortcut orange">
-            <div class="big-icon"><span class="fa fa-credit-card"></span></div>
-            <div class="contador">0</div>
-            <h3 class="text-center">Pagamentos Pendentes</h3>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a href="http://www.webcontabilidade.com/usuario" class="shortcut green">
-            <div class="big-icon"><span class="fa fa-user"></span></div>
-            <h3 class="text-center">Meus dados</h3>
+    @if(Auth::user()->ordensPagamento->count())
+        <div class="col-sm-6">
+            <a href="{{route('listOrdensPagamentoToUser')}}" class="atalho verde">
+                <i class="fa fa-credit-card"></i> Quero ver meus <strong>pagamentos</strong>
+            </a>
+        </div>
+    @endif
+    <div class="col-sm-6">
+        <a href="{{route('listAtendimentosToUser')}}" class="atalho verde">
+            <i class="fa fa-comments"></i> Preciso de <strong>atendimento</strong>
         </a>
     </div>
     <div class="clearfix"></div>
+    <hr>
+    @if(($pagamentosPendentes + $apuracoesPendentes + $processosPendentes) > 0)
+    <div class="col-sm-6">
+        <h3 class="text-center animated shake">Atenção</h3>
+        <div class="col-sm-12">
+            @if($pagamentosPendentes)
+                <div class="col-sm-12">
+                    <a href="{{route('listOrdensPagamentoToUser')}}" class="alerta animated shake">
+                        Você possui {{$pagamentosPendentes}} pagamentos em aberto
+                    </a>
+                </div>
+            @endif
+            @if($apuracoesPendentes)
+                <div class="col-sm-12">
+                    <a href="{{route('listApuracoesToUser')}}" class="alerta animated shake">
+                        Você possui {{$apuracoesPendentes}} apurações pendentes
+                    </a>
+                </div>
+            @endif
+            @if($processosPendentes)
+                <div class="col-sm-12">
+                    <a href="{{route('listDocumentosContabeisToUser')}}" class="alerta animated shake">
+                        Precisamos que envie seus documentos contábeis
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+    @endif
+    @if(Auth::user()->unreadNotifications->count())
+    <div class="col-sm-6">
+        <h3 class="text-center">Notificações</h3>
+        @foreach(Auth::user()->unreadNotifications as $notification)
+            <div class="col-sm-12">
+                <a href="{{route('lerNotificacao', [$notification->id])}}" class="notification">
+                    {{$notification->data['mensagem']}}
+                </a>
+            </div>
+        @endforeach
+    </div>
+@endif
 @stop
