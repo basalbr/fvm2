@@ -37,7 +37,7 @@
             <div class="col-xs-12">
                 <a href="" class="whatsapp">
                     <img src="{{asset(public_path('images/whatsapp.png'))}}"/>
-                    <div>Pelo whatsapp<br/> (12)1 2340-4564</div>
+                    <div>Pelo whatsapp<br/> {{\App\Models\Config::getWhatsApp()}}</div>
                 </a>
             </div>
             <div class="col-xs-12">

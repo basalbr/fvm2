@@ -144,6 +144,7 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
 
 });
 
+//CRON
 Route::group(['namespace' => 'Dashboard'], function () {
     Route::get('abrir-apuracoes', ['uses' => 'ApuracaoController@abrirApuracoes']);
     Route::get('abrir-documentos-contabeis', ['uses' => 'DocumentoContabilController@abrirProcessos']);

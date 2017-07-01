@@ -60,6 +60,11 @@ class Config extends Model
         return self::first()->valor_abertura_empresa;
     }
 
+    public static function getWhatsapp()
+    {
+        return self::first()->whatsapp;
+    }
+
     /**
      * @return array
      */
