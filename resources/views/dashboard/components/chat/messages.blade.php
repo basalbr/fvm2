@@ -11,7 +11,7 @@
                 <p>{{$message->mensagem}}
                     @if($message->anexo)
                         <a download
-                           href="{{asset('public/storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
+                           href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
                             {{$message->anexo->descricao}}
                         </a>
                     @endif

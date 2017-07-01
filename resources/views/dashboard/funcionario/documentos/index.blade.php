@@ -59,7 +59,7 @@
                 <div class="col-lg-4 col-sm-6">
                     <div class="panel">
                         <a download target="_blank"
-                           href="{{asset('public/storage/funcionarios/'. $funcionario->id . '/documentos/' . $documento->documento)}}">
+                           href="{{asset(public_path().'storage/funcionarios/'. $funcionario->id . '/documentos/' . $documento->documento)}}">
                             <div class="items">
                                 <div class="col-xs-12">
                                     <i class="fa item-icon fa-paperclip text-success"></i>

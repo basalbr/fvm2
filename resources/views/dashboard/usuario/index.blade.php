@@ -58,7 +58,7 @@
                         <label>Foto do perfil (60px x 60px)</label>
                             <div class="clearfix"></div>
                         <div href="#" class="thumbnail">
-                            <img src="{{$usuario->foto ? asset('public/storage/usuarios/'.$usuario->id.'/'.$usuario->foto) : asset(public_path().'images/thumb.jpg')}}"
+                            <img src="{{$usuario->foto ? asset(public_path().'storage/usuarios/'.$usuario->id.'/'.$usuario->foto) : asset(public_path().'images/thumb.jpg')}}"
                                  title="{{$usuario->nome}}"/>
                         </div>
                         <button type="button" class="btn btn-primary"><i class="fa fa-camera"></i> Trocar foto</button>

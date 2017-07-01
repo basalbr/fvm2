@@ -2,7 +2,7 @@
     <div class="profile">
         <a href="{{route('editPerfil')}}">
             <div class="profile-pic"><img
-                        src="{{Auth::user()->foto ? asset('public/storage/usuarios/'.Auth::user()->id.'/'.Auth::user()->foto) : asset(public_path().'images/thumb.jpg')}}"/>
+                        src="{{Auth::user()->foto ? asset(public_path().'storage/usuarios/'.Auth::user()->id.'/'.Auth::user()->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
             <div class="profile-name">Olá {{Auth::user()->getFirstName()}}!</div>
             <div class="profile-settings">Clique para editar seu perfil</div>
