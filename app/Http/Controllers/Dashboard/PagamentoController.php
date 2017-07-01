@@ -38,7 +38,7 @@ class PagamentoController extends Controller
     public function index()
     {
         $pagamentosPendentes = Auth::user()->ordensPagamento()->where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->orderBy('created_at')->get();
-        $historicoPagamento = Auth::user()->ordensPagamento()->where('status', '=', 'Paga')->orWhere('status', '=', 'Disponível')->orderBy('created_at')->get();
+        $historicoPagamento = Auth::user()->ordensPagamento()->whereIn('status', ['Paga', 'Disponível'])->orderBy('created_at')->get();
         return view('dashboard.pagamentos.index', compact("pagamentosPendentes", 'historicoPagamento'));
     }
 

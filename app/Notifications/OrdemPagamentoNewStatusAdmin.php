@@ -46,7 +46,7 @@ class OrdemPagamentoNewStatusAdmin extends Notification
         return (new MailMessage)
             ->greeting('Olá')
             ->line('Mudança de status em ordem de pagamento')
-            ->line('A ordem de pagamento de '.$this->ordemPagamento->usuario->nome.' foi alterada para:'.$this->ordemPagamento->status)
+            ->line('A ordem de pagamento de '.$this->ordemPagamento->usuario->nome.' foi alterada para: '.$this->ordemPagamento->status)
             ->line('Para visualizar a ordem de pagamento, clique no botão abaixo:')
             ->action('Visualizar', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
