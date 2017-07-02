@@ -6,7 +6,7 @@
  * Time: 20:48
  */
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Config;
 use App\Models\TipoChamado;
@@ -23,16 +23,6 @@ class ChamadoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function new()
-    {
-        $tiposChamado = TipoChamado::orderBy('descricao')->get();
-        return view('dashboard.chamado.new.index', compact("tiposChamado"));
-    }
-
-    public function validateChamado(Request $request)
-    {
-        $this->validate($request, ChamadoValidation::getRules(), [], ChamadoValidation::getNiceNames());
-    }
 
     public function store(Request $request)
     {
@@ -47,7 +37,7 @@ class ChamadoController extends Controller
     {
         $chamado = Auth::user()->chamados()->find($idChamado);
         $tiposChamado = TipoChamado::orderBy('descricao')->get();
-        return view('dashboard.chamado.view.index', compact('chamado', 'tiposChamado'));
+        return view('admin.chamado.view.index', compact('chamado', 'tiposChamado'));
     }
 
 }

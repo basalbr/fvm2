@@ -1,6 +1,6 @@
 @section('js')
     @parent
-    <script type="text/javascript" src="{{url(public_path().'js/dashboard/modules/messages.js')}}"></script>
+    <script type="text/javascript" src="{{url(public_path().'js/admin/modules/messages.js')}}"></script>
 @stop
 <div class="col-xs-12">
     <h3>Mensagens</h3>
@@ -11,7 +11,7 @@
          data-send-message-url="{{route('sendMessageAjax')}}"
          data-update-messages-url="{{route('updateMessagesAjax')}}"
          data-upload-url="{{route('uploadChatFileAjax')}}">
-        @include('dashboard.components.chat.messages',['messages'=>$model->mensagens])
+        @include('admin.components.chat.messages',['messages'=>$model->mensagens])
     </div>
     <form>
         <div class="form-group">

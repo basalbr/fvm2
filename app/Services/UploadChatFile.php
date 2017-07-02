@@ -34,7 +34,7 @@ class UploadChatFile
                 'referencia' => $request->get('referencia'),
                 'id_referencia' => $request->get('id_referencia'),
                 'mensagem' => 'Enviou o arquivo:',
-                'admin'=>Auth::user()->admin
+                'from_admin'=>$request->get('from_admin')
             ]);
             $originalFileName = $request->file('arquivo')->getClientOriginalName();
             $filename = md5(random_bytes(5)) . '.' . $request->file('arquivo')->getClientOriginalExtension();

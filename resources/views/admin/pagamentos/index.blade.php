@@ -1,8 +1,7 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
     <div class="col-xs-12">
         <h1>Pagamentos</h1>
-        <p>Aqui você encontra todos os pagamentos em aberto e também seu histórico de pagamento.</p>
         <hr>
     </div>
     <div class="clearfix"></div>
@@ -24,11 +23,11 @@
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
+                    <th>Usuário</th>
                     <th>Referência</th>
                     <th>Valor</th>
                     <th>Status</th>
                     <th>Aberto em</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,12 +36,11 @@
                 @if($pagamentosPendentes->count())
                     @foreach($pagamentosPendentes as $pagamento)
                         <tr>
+                            <td>{{$pagamento->usuario->nome}}</td>
                             <td>{{$pagamento->getDescricao()}}</td>
                             <td>{{$pagamento->formattedValue()}}</td>
                             <td>{{$pagamento->status}}</td>
                             <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
-                            <td><a class="btn btn-success" href="{{$pagamento->getBotaoPagamento()}}"
-                                   title="Visualizar"><i class="fa fa-credit-card"></i> Pagar</a></td>
                         </tr>
 
                     @endforeach
@@ -56,6 +54,7 @@
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
+                    <th>Usuário</th>
                     <th>Referência</th>
                     <th>Valor</th>
                     <th>Status</th>
@@ -69,6 +68,7 @@
                 @if($historicoPagamento->count())
                     @foreach($historicoPagamento as $pagamento)
                         <tr>
+                            <td>{{$pagamento->usuario->nome}}</td>
                             <td>{{$pagamento->getDescricao()}}</td>
                             <td>{{$pagamento->formattedValue()}}</td>
                             <td>{{$pagamento->status}}</td>

@@ -35,7 +35,8 @@ function sendMessage() {
     var info = {
         referencia: reference,
         id_referencia: referenceId,
-        mensagem: $('#message').val()
+        mensagem: $('#message').val(),
+        from_admin: 1
     };
     $('#message').val(null);
 
@@ -67,6 +68,7 @@ function validateFile(file) {
         formData.append('arquivo', file[0].files[0]);
         formData.append('referencia', reference);
         formData.append('id_referencia', referenceId);
+        formData.append('from_admin', 1);
         if ($('#anexos').find('.list').length > 0) {
             uploadFile(formData, $('#anexos .list'));
         } else {

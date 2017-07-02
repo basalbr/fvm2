@@ -2,7 +2,6 @@
 @section('content')
     <div class="col-xs-12">
         <h1>Apurações</h1>
-        <p>Aqui você encontra todos as apurações em aberto e também seu histórico de apurações.</p>
         <hr>
     </div>
     <div class="clearfix"></div>

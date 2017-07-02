@@ -6,23 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WEBContabilidade</title>
     @section('css')
-        @include('dashboard.components.css')
+        @include('admin.components.css')
     @show
     @section('js')
-        @include('dashboard.components.js')
+        @include('admin.components.js')
     @show
 </head>
 <body>
-@include('dashboard.components.top-menu')
-@include('dashboard.components.left-menu')
+@include('admin.components.top-menu')
+@include('admin.components.left-menu')
 <div id="content">
     <div class="container-fluid">
         @yield('content')
     </div>
 </div>
 @section('modals')
-    @include('dashboard.modals.alert')
-    @include('dashboard.modals.success')
+    @include('admin.modals.alert')
+    @include('admin.modals.success')
 @show
 </body>
 </html>

@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 
 @section('js')
     @parent
@@ -145,7 +145,7 @@
     <hr>
     <div class="panel">
         <div class="col-sm-8">
-            @include('dashboard.components.chat.box', ['model'=>$chamado])
+            @include('admin.components.chat.box', ['model'=>$chamado])
         </div>
         <div class="col-sm-4">
             <div id="anexos">
@@ -156,14 +156,14 @@
                     @if($chamado->anexos)
                         @foreach($chamado->anexos as $anexo)
                             <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
+                                @include('admin.components.anexo.withDownload', ['anexo'=>$anexo])
                             </div>
                         @endforeach
                     @endif
                     @foreach($chamado->mensagens as $message)
                         @if($message->anexo)
                             <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
+                                @include('admin.components.anexo.withDownload', ['anexo'=>$message->anexo])
                             </div>
                         @endif
                     @endforeach
@@ -174,7 +174,7 @@
         <div class="clearfix"></div>
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listAtendimentosToUser')}}"><i class="fa fa-angle-left"></i>
+            <a class="btn btn-default" href="{{route('listAtendimentosToAdmin')}}"><i class="fa fa-angle-left"></i>
                 Voltar para atendimento</a>
         </div>
         <div class="clearfix"></div>

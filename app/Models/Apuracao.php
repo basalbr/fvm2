@@ -19,7 +19,7 @@ class Apuracao extends Model
      */
     protected $table = 'apuracao';
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'novo' => 'Novo', 'atencao' => 'Atenção'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'novo' => 'Novo', 'atencao' => 'Atenção', 'concluido'=>'Concluído'];
 
     /**
      * The attributes that are mass assignable.

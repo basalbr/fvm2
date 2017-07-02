@@ -60,7 +60,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
     Route::post('new', ['uses' => 'EmpresaController@store']);
     Route::get('view/{id}', ['as' => 'showEmpresaToUser', 'uses' => 'EmpresaController@view']);
-    Route::get('vieaw/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
+
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
 
@@ -78,16 +78,12 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
 //Dashboard - Ordem Pagamento
 Route::group(['prefix' => 'dashboard/pagamentos', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('', ['as' => 'listOrdensPagamentoToUser', 'uses' => 'PagamentoController@index']);
-    Route::post('validate', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'FuncionarioController@validateFuncionario']);
-//    Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
-//    Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
 });
 
 //Dashboard - Funcionários
 Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
     Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
-    Route::post('{idEmpresa}/funcionarios/newa', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@store']);
     Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToUser', 'uses' => 'FuncionarioDocumentoController@index']);
     Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
@@ -119,7 +115,6 @@ Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'mid
 Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
     Route::post('removeTemp', ['as' => 'removeAnexoFromTemp', 'uses' => 'AnexoController@removeFromTemp']);
-
 });
 
 //Dashboard - Apurações
@@ -127,11 +122,9 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
     Route::get('calendario', ['as' => 'showCalendarioImpostos', 'uses' => 'ApuracaoController@calendario']);
     Route::get('', ['as' => 'listApuracoesToUser', 'uses' => 'ApuracaoController@index']);
     Route::get('view/{idApuracao}', ['as' => 'showApuracaoToUser', 'uses' => 'ApuracaoController@view']);
-    Route::get('view/{idApurac2ao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
     Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
-
 });
 
 //Dashboard - Documentos contábeis
@@ -139,9 +132,7 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
     Route::get('', ['as' => 'listDocumentosContabeisToUser', 'uses' => 'DocumentoContabilController@index']);
     Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToUser', 'uses' => 'DocumentoContabilController@view']);
     Route::get('view/{idProcesso}/sem-movimento', ['as' => 'flagDocumentosContabeisAsSemMovimento', 'uses' => 'DocumentoContabilController@semMovimento']);
-    Route::get('view/{idPr2ocesso}', ['as' => 'showDocumentoContabilToAdmin', 'uses' => 'DocumentoContabilController@view']);
     Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
-
 });
 
 //CRON
@@ -162,9 +153,62 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admi
     Route::get('', ['as' => 'adminHome', 'uses' => 'AdminController@index']);
 });
 
+//Admin - Atendimento
+Route::group(['prefix' => 'admin/atendimento', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listAtendimentosToAdmin', 'uses' => 'AtendimentoController@index']);
+});
+
 //Admin - Abertura de Empresa
-Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);
+});
+
+//Admin - Empresa
+Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listEmpresaToAdmin', 'uses' => 'EmpresaController@index']);
+    Route::get('view/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
+    Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@view']);
+    Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToAdmin', 'uses' => 'FuncionarioDocumentoController@index']);
+    Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
+});
+
+//Admin - Funcionários
+Route::group(['prefix' => 'admin/funcionarios', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listFuncionarioToAdmin', 'uses' => 'FuncionarioController@index']);
+    Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
+});
+
+//Admin - Alterações
+Route::group(['prefix' => 'admin/solicitar-alteracao', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listSolicitacoesAlteracaoToAdmin', 'uses' => 'AlteracaoController@index']);
+    Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToAdmin', 'uses' => 'AlteracaoController@view']);
+});
+
+//Admin - Apurações
+Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('calendario', ['as' => 'showCalendarioImpostos', 'uses' => 'ApuracaoController@calendario']);
+    Route::get('', ['as' => 'listApuracoesToAdmin', 'uses' => 'ApuracaoController@index']);
+    Route::get('view/{idApuracao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
+    Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
+    Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
+    Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoAdmin', 'uses' => 'ApuracaoController@semMovimento']);
+});
+
+//Admin - Ordem Pagamento
+Route::group(['prefix' => 'admin/pagamentos', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listOrdensPagamentoToAdmin', 'uses' => 'PagamentoController@index']);
+});
+
+//Admin - Documentos contábeis
+Route::group(['prefix' => 'admin/documentos-contabeis', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listDocumentosContabeisToAdmin', 'uses' => 'DocumentoContabilController@index']);
+    Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToAdmin', 'uses' => 'DocumentoContabilController@view']);
+});
+
+//Admin - Chamados
+Route::group(['prefix' => 'admin/chamados', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('view/{id}', ['as' => 'showChamadoToAdmin', 'uses' => 'ChamadoController@view']);
 });
 
 //Ajax

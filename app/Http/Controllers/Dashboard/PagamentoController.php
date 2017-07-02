@@ -35,6 +35,10 @@ class PagamentoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function updateMensalidades(){
+
+    }
+
     public function index()
     {
         $pagamentosPendentes = Auth::user()->ordensPagamento()->where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->orderBy('created_at')->get();

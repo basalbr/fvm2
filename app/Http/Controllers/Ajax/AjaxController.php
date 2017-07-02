@@ -97,7 +97,7 @@ class AjaxController extends Controller
     {
         if ($reference = 'apuracao') {
             $q = DB::table($reference)
-                ->join('empresa','empresa.id','=','apuracao.id_empresa')
+                ->join('empresa', 'empresa.id', '=', 'apuracao.id_empresa')
                 ->where('apuracao.id', '=', $referenceId)
                 ->where('empresa.id_usuario', '=', Auth::user()->id)->count();
         } else {
@@ -120,9 +120,12 @@ class AjaxController extends Controller
             ->where('referencia', '=', $reference)
             ->where('id', '>', $lastMessageId)
             ->get();
-
         if (count($messages)) {
-            $html = view('dashboard.components.chat.messages', ['messages' => $messages])->render();
+            if ($request->get('from_admin')) {
+                $html = view('admin.components.chat.messages', ['messages' => $messages])->render();
+            } else {
+                $html = view('dashboard.components.chat.messages', ['messages' => $messages])->render();
+            }
             $lastMessageId = $messages->last()->id;
             return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
         }
@@ -135,12 +138,16 @@ class AjaxController extends Controller
         $niceNames = ['arquivo' => 'Arquivo', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
         $this->validate($request, $rules, [], $niceNames);
         if ($anexo = UploadChatFile::handle($request)) {
+            if ($request->get('from_admin')) {
+                return response()->json(['html' => view('admin.components.anexo.withDownload', ['anexo' => $anexo])->render()]);
+            }
             return response()->json(['html' => view('dashboard.components.anexo.withDownload', ['anexo' => $anexo])->render()]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
 
-    public function getImpostos(){
+    public function getImpostos()
+    {
         $impostos = Imposto::all();
         $jsonRet = array();
         if ($impostos->count()) {
@@ -157,20 +164,23 @@ class AjaxController extends Controller
         return response()->json($jsonRet);
     }
 
-    public function getDetailsImposto(Request $request){
+    public function getDetailsImposto(Request $request)
+    {
         $instrucoes = Imposto::find($request->get('id'))->instrucoes()->orderBy('ordem', 'asc')->get(['descricao']);
         return response()->json($instrucoes);
     }
 
-    public function validateContato(Request $request){
-        $rules = ['nome'=>'required|max:100', 'email'=>'email', 'mensagem'=>'required'];
-        $niceNames = ['nome'=>'Nome', 'email'=>'E-mail', 'mensagem'=>'Mensagem'];
+    public function validateContato(Request $request)
+    {
+        $rules = ['nome' => 'required|max:100', 'email' => 'email', 'mensagem' => 'required'];
+        $niceNames = ['nome' => 'Nome', 'email' => 'E-mail', 'mensagem' => 'Mensagem'];
         $this->validate($request, $rules, [], $niceNames);
     }
 
-    public function sendContato(Request $request){
+    public function sendContato(Request $request)
+    {
         $this->validateContato($request);
-        if(SendContato::handle($request)){
+        if (SendContato::handle($request)) {
             return response()->json('Obrigado pelo seu contato, em breve iremos responder :)');
         }
     }
