@@ -20,7 +20,7 @@ class OrdemPagamento extends Model
     use SoftDeletes;
 
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'vencimento'];
 
     /**
      * The database table used by the model.

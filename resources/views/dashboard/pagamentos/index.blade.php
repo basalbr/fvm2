@@ -28,6 +28,7 @@
                     <th>Valor</th>
                     <th>Status</th>
                     <th>Aberto em</th>
+                    <th>Vencimento</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             <td>{{$pagamento->formattedValue()}}</td>
                             <td>{{$pagamento->status}}</td>
                             <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
+                            <td>{{$pagamento->vencimento->format('d/m/Y')}}</td>
                             <td><a class="btn btn-success" href="{{$pagamento->getBotaoPagamento()}}"
                                    title="Visualizar"><i class="fa fa-credit-card"></i> Pagar</a></td>
                         </tr>
