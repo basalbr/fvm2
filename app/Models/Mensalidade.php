@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\OrdemPagamentoCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class Mensalidade extends Model
 {
@@ -50,6 +52,36 @@ class Mensalidade extends Model
         });
     }
 
+    public function abrirOrdensPagamento()
+    {
+        try {
+            $dataVencimento = $this->created_at->format('d');
+            $pagamento = $this->pagamentos()->orderBy('created_at', 'desc')->first();
+            if (!$pagamento instanceof OrdemPagamento) {
+                return false;
+            }
+            $ultimoPagamento = $pagamento->created_at->format('Y-m');
+            $date = strtotime("+1 month", strtotime($ultimoPagamento . '-' . $dataVencimento));
+            $vencimento = date('Y-m-d', strtotime("+5 days", $date));
+            if ((string)date('Y-m') != $ultimoPagamento) {
+                if ($this->empresa->status == 'Aprovado' && !$this->empresa->trashed()) {
+                    $pagamento = new OrdemPagamento();
+                    $pagamento->id_referencia = $this->id;
+                    $pagamento->referencia = $this->getTable();
+                    $pagamento->status = 'Pendente';
+                    $pagamento->valor = $this->valor;
+                    $pagamento->vencimento = $vencimento;
+                    $pagamento->id_usuario = $this->empresa->usuario->id;
+                    $pagamento->save();
+                    $this->empresa->usuario->notify(new OrdemPagamentoCreated($pagamento));
+                }
+            }
+            return true;
+        } catch (\Exception $ex) {
+            Log::critical($ex);
+        }
+    }
+
     public static function calculateMonthlyPayment($data)
     {
         $plano = Plano::where('total_documento_fiscal', '>=', $data['qtde_documento_fiscal'])
@@ -63,12 +95,12 @@ class Mensalidade extends Model
 
     public function pagamentos()
     {
-        return $this->hasMany('App\Pagamento', 'id_mensalidade');
+        return $this->hasMany(OrdemPagamento::class, 'id_referencia')->where('referencia',$this->getTable());
     }
 
     public function empresa()
     {
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
 }

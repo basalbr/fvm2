@@ -13,6 +13,7 @@ use App\Models\Chamado;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\Mensagem;
+use App\Models\Mensalidade;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
@@ -35,8 +36,12 @@ class PagamentoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function updateMensalidades(){
-
+    public function updateMensalidades()
+    {
+        $mensalidades = Mensalidade::all();
+        foreach ($mensalidades as $mensalidade) {
+            $mensalidade->abrirOrdensPagamento();
+        }
     }
 
     public function index()
