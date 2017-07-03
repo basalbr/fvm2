@@ -12,59 +12,82 @@ use App\Models\AberturaEmpresa;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
+use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
-use App\Services\CreateAberturaEmpresa;
+use App\Services\ActivateEmpresa;
+use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
-use App\Validation\AberturaEmpresaSocioValidation;
-use App\Validation\AberturaEmpresaValidation;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class AberturaEmpresaController extends Controller
+class EmpresaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function ativar($idEmpresa)
+    {
 
-    public function new(){
+        $empresa = Empresa::find($idEmpresa);
+        if ($empresa->status != 'Aprovado') {
+            if (ActivateEmpresa::handle($empresa)) {
+                return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'Empresa ativada com sucesso.');
+            }
+        }
+        return redirect()->back();
+    }
+
+
+    public function index()
+    {
+        $empresasAtivas = Empresa::where('status', 'aprovado')->orderBy('nome_fantasia')->get();
+        $empresasPendentes = Empresa::where('status', 'em_analise')->orderBy('nome_fantasia')->get();
+        return view('admin.empresa.index', compact("empresasAtivas", "empresasPendentes"));
+    }
+
+    public function new()
+    {
         $enquadramentos = EnquadramentoEmpresa::orderBy('descricao')->get();
         $naturezasJuridicas = NaturezaJuridica::orderBy('descricao')->get();
         $tiposTributacao = TipoTributacao::orderBy('descricao')->get();
+        $regimesCasamento = RegimeCasamento::orderBy('descricao')->get();
         $ufs = Uf::orderBy('nome')->get();
-        return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao"));
+        return view('dashboard.empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao", "regimesCasamento"));
     }
 
-    public function view($id){
-        return $id;
+    public function view($id)
+    {
+        $empresa = Empresa::find($id);
+        $this->authorize('view', $empresa);
+        return view('dashboard.empresa.view.index', compact("empresa"));
     }
 
     /**
-     * Salva um novo processo de abertura de empresa no sistema
+     * Salva uma nova empresa no sistema
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        dd($request->all());
         /*
          * Valida a requisição, retorna para página de origem caso falhe
          */
-        $this->validate($request, AberturaEmpresaValidation::getRules(), [], AberturaEmpresaValidation::getNiceNames());
+        $this->validate($request, EmpresaValidation::getRules(), [], EmpresaValidation::getNiceNames());
 
         /*
-         * Caso o processo de abertura de empresa seja criado com sucesso redireciona para lista de processos de abertura de empresa
+         * Caso o processo de migração de empresa seja criado com sucesso redireciona para lista de empresas
          */
-        if (CreateAberturaEmpresa::handle($request->all())) {
-            return redirect()->route('listAberturaEmpresaToUser')->with('successAlert', 'Sua solicitação de abertura de empresa foi cadastrada com sucesso.');
+        if (CreateEmpresa::handle($request->all())) {
+            return redirect()->route('listEmpresaToUser')->with('successAlert', 'Sua solicitação de transferência de empresa foi enviada com sucesso.');
         }
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     /**
@@ -78,17 +101,17 @@ class AberturaEmpresaController extends Controller
         if (CreateEmpresaFromAberturaEmpresa::handle($request->all())) {
             return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'A empresa foi criada com sucesso e o processo de abertura de empresa foi encerrado.');
         }
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function sendMessageToAdmin(Request $request, AberturaEmpresa $aberturaEmpresa)
     {
         $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
         $this->authorize('sendMessage', $aberturaEmpresa);
-        if(SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())){
+        if (SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())) {
             return redirect()->route('viewAberturaEmpresa')->with('successAlert', 'A mensagem foi enviada, você receberá um e-mail quando respondermos.');
         }
-        return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     /**
@@ -99,7 +122,7 @@ class AberturaEmpresaController extends Controller
      */
     public function validateAjax(Request $request)
     {
-        $this->validate($request, AberturaEmpresaValidation::getRules(), [], AberturaEmpresaValidation::getNiceNames());
+        $this->validate($request, EmpresaValidation::getRules(), [], EmpresaValidation::getNiceNames());
         return response()->json('success', 200);
     }
 
@@ -111,7 +134,7 @@ class AberturaEmpresaController extends Controller
      */
     public function validateSocio(Request $request)
     {
-        $this->validate($request, AberturaEmpresaSocioValidation::getRules(), [], AberturaEmpresaSocioValidation::getNiceNames());
+        $this->validate($request, SocioValidation::getRules(), [], SocioValidation::getNiceNames());
         return response()->json('success', 200);
     }
 
