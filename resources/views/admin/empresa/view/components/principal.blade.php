@@ -33,5 +33,5 @@
 
 </div>
 <div class="col-xs-6">
-@include('dashboard.components.chat.box', ['model'=>$empresa])
+@include('admin.components.chat.box', ['model'=>$empresa])
 </div>

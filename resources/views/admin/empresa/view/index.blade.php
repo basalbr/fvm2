@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
     <h1>{{$empresa->nome_fantasia}}</h1>
     <hr>
@@ -29,29 +29,29 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="principal">
-            @include('dashboard.empresa.view.components.principal')
+            @include('admin.empresa.view.components.principal')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="empresa">
-            @include('dashboard.empresa.view.components.info_empresa')
+            @include('admin.empresa.view.components.info_empresa')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="endereco">
-            @include('dashboard.empresa.view.components.endereco')
+            @include('admin.empresa.view.components.endereco')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="socios">
-            @include('dashboard.empresa.view.components.socios')
+            @include('admin.empresa.view.components.socios')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="cnae">
-            @include('dashboard.empresa.view.components.cnae')
+            @include('admin.empresa.view.components.cnae')
             <div class="clearfix"></div>
         </div>
         <div class="clearfix"></div>
         <hr/>
         <div class="col-xs-12">
-            <a href="{{route('listEmpresaToUser')}}" class="btn btn-info"><i class="fa fa-th"></i> Voltar para
+            <a href="{{route('listEmpresaToAdmin')}}" class="btn btn-info"><i class="fa fa-th"></i> Voltar para
                 listagem</a>
         </div>
     </div>
@@ -60,5 +60,5 @@
 
 @section('modals')
     @parent
-    @include('dashboard.components.socios.view', ['socios' => $empresa->socios])
+    @include('admin.components.socios.view', ['socios' => $empresa->socios])
 @stop
