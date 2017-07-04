@@ -124,7 +124,7 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
     Route::get('view/{idApuracao}', ['as' => 'showApuracaoToUser', 'uses' => 'ApuracaoController@view']);
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
-    Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
+    Route::get('sem-movimento/{id}', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
 });
 
 //Dashboard - Documentos contábeis
@@ -194,7 +194,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::get('view/{idApuracao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
-    Route::post('sem-movimento', ['as' => 'apuracaoSemMovimentacaoAdmin', 'uses' => 'ApuracaoController@semMovimento']);
+    Route::get('sem-movimento/{$id}', ['as' => 'apuracaoSemMovimentacaoAdmin', 'uses' => 'ApuracaoController@semMovimento']);
 });
 
 //Admin - Ordem Pagamento

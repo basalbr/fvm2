@@ -165,7 +165,7 @@
                         <td>{{$apuracao->competencia->format('m/Y')}}</td>
                         <td>{{$apuracao->getUltimaMensagem()}}</td>
                         <td>{{$apuracao->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$apuracao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach
                 </tbody>

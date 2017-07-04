@@ -19,8 +19,7 @@ class Apuracao extends Model
      */
     protected $table = 'apuracao';
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'novo' => 'Novo', 'atencao' => 'Atenção', 'concluido'=>'Concluído'];
-
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'novo' => 'Novo', 'atencao' => 'Atenção', 'concluido'=>'Concluído', 'sem_movimento'=>'Sem movimento'];
     /**
      * The attributes that are mass assignable.
      *
@@ -36,10 +35,10 @@ class Apuracao extends Model
     public function isPendingInfo()
     {
         return $this->imposto->informacoesExtras->count()
-            && $this->status !== 'sem_movimento'
-            && $this->status !== 'informacoes_enviadas'
-            && $this->status !== 'cancelado'
-            && $this->status !== 'concluido'
+            && $this->status !== 'Sem movimento'
+            && $this->status !== 'Informações Enviadas'
+            && $this->status !== 'Cancelado'
+            && $this->status !== 'Concluído'
             && !$this->informacoes->count();
     }
 

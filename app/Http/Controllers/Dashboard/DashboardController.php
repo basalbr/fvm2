@@ -42,7 +42,7 @@ class DashboardController extends Controller
         $pagamentosPendentes = Auth::user()->ordensPagamento()->where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->count();
         $apuracoesPendentes = Apuracao::join('empresa', 'apuracao.id_empresa', '=', 'empresa.id')
             ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->where('apuracao.status', '!=', 'concluido')
+            ->whereNotIn('apuracao.status', ['concluido', 'sem_movimento'])
             ->count();
         $processosPendentes = ProcessoDocumentoContabil::join('empresa','empresa.id','=','processo_documento_contabil.id_empresa')
         ->where('empresa.id_usuario','=',Auth::user()->id)
