@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
     <div class="col-xs-12">
         <h1>Apurações</h1>
@@ -43,7 +43,7 @@
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
                             <td>{{$apuracao->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
                             <td>
-                                <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
+                                <a class="btn btn-primary" href="{{route('showApuracaoToAdmin', $apuracao->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar
                                 </a>
                             </td>

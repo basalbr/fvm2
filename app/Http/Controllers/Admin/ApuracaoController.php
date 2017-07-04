@@ -41,7 +41,11 @@ class ApuracaoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
+    public function view($idApuracao)
+    {
+        $apuracao = Apuracao::find($idApuracao);
+        return view('admin.apuracao.view.index', compact('apuracao'));
+    }
 
     public function index()
     {

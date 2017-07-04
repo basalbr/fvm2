@@ -17,11 +17,52 @@ class MessageSent extends Notification
     /**
      * MessageSent constructor.
      * @param Mensagem $mensagem
+     * @param $admin
      */
-    public function __construct(Mensagem $mensagem)
+    public function __construct(Mensagem $mensagem, $admin)
     {
         $this->mensagem = $mensagem;
-        $this->url = route('showAberturaEmpresaToUser', [$this->mensagem->id_referencia]);
+        if ($admin) {
+            if ($this->mensagem->referencia == 'chamado') {
+                $this->url = route('showChamadoToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'abertura_empresa') {
+                $this->url = route('showAberturaEmpresaToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'empresa') {
+                $this->url = route('showEmpresaToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'apuracao') {
+                $this->url = route('showApuracaoToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'alteracao') {
+                $this->url = route('showSolicitacaoAlteracaoToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'processo_documento_contabil') {
+                $this->url = route('showDocumentoContabilToAdmin', [$this->mensagem->id_referencia]);
+            }
+        }elseif(!$admin) {
+            if ($this->mensagem->referencia == 'chamado') {
+                $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'abertura_empresa') {
+                $this->url = route('showAberturaEmpresaToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'empresa') {
+                $this->url = route('showEmpresaToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'apuracao') {
+                $this->url = route('showApuracaoToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'alteracao') {
+                $this->url = route('showSolicitacaoAlteracaoToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'processo_documento_contabil') {
+                $this->url = route('showDocumentoContabilToUser', [$this->mensagem->id_referencia]);
+            }
+        }else{
+            $this->url = null;
+        }
     }
 
     /**
@@ -32,53 +73,23 @@ class MessageSent extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail', 'database'];
     }
 
     /**
-     * Define a origem e envia e-mail para o usuário ou para o admin
+     * Get the mail representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        if ($this->mensagem->origem == 'usuario') {
-            return $this->toAdminMail($notifiable);
-        }
-        return $this->toUserMail($notifiable);
-    }
-
-    /**
-     * Envia o e-mail para o usuário
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    private function toUserMail($notifiable)
-    {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->mensagem->aberturaEmpresa->usuario->nome.'!')
-            ->line('Você recebeu uma nova mensagem de nossa equipe em seu processo de abertura de empresa.')
+            ->greeting('Olá!')
+            ->line('Você recebeu uma nova mensagem em nosso site.')
+            ->line('Clique no botão abaixo para visualizar.')
             ->action('Visualizar Mensagem', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Você recebeu uma nova mensagem')
-            ->from('site@webcontabilidade.com', 'WEBContabilidade');
-    }
-
-    /**
-     * Envia o e-mail para o usuário
-     *
-     * @param  mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    private function toAdminMail($notifiable)
-    {
-        return (new MailMessage)
-            ->greeting('Nova mensagem')
-            ->line('Você recebeu uma nova mensagem de ' . $this->mensagem->usuario->nome . ' no processo de abertura de empresa.')
-            ->line('Para acessar nosso site e visualizar a mensagem, clique no botão abaixo:')
-            ->action('Visualizar', $this->url)
             ->subject('Você recebeu uma nova mensagem')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }

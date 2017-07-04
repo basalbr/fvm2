@@ -31,6 +31,12 @@ class AberturaEmpresaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function index()
+    {
+        $empresasPendentes = AberturaEmpresa::whereIn('status', ['Novo', 'Pendente'])->orderBy('created_at', 'desc')->get();
+        $empresasConcluidas = AberturaEmpresa::whereIn('status', ['Cancelado','Concluído'])->orderBy('created_at', 'desc')->get();
+        return view('admin.abertura_empresa.index', compact("empresasPendentes", "empresasConcluidas"));
+    }
 
     public function new(){
         $enquadramentos = EnquadramentoEmpresa::orderBy('descricao')->get();
@@ -41,7 +47,8 @@ class AberturaEmpresaController extends Controller
     }
 
     public function view($id){
-        return $id;
+        $aberturaEmpresa = AberturaEmpresa::find($id);
+        return view('admin.abertura_empresa.view.index', compact("aberturaEmpresa"));
     }
 
     /**

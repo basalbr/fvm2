@@ -50,8 +50,7 @@ class AberturaEmpresaController extends Controller
 
     public function view($id)
     {
-        $aberturaEmpresa = AberturaEmpresa::find($id);
-        $this->authorize('view',$aberturaEmpresa);
+        $aberturaEmpresa = Auth::user()->aberturasEmpresa()->findOrFail($id);
         return view('dashboard.abertura_empresa.view.index', compact("aberturaEmpresa"));
     }
 

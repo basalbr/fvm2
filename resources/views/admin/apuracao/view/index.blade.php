@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 
 @section('js')
     @parent
@@ -155,85 +155,11 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="col-sm-12">
-                @if($apuracao->guia)
-                    <div class="col-sm-12">
-                        <h3>Download da guia da apuração</h3>
-                    </div>
-                    <div class="list">
-                        <div class='anexo animated bounceIn'>
-                            <div class="big-icon">
-                                <span class="fa fa-file"></span>
-                                <a download class="download"
-                                   href="" title="Clique para fazer download do arquivo"><i class="fa fa-download"></i></a>
-                            </div>
-                            <div class="description" title="">Guia</div>
-                        </div>
-                    </div>
-                @endif
-            </div>
-            <div class="clearfix"></div>
-            @if($apuracao->isPendingInfo())
-                <div class="col-sm-12">
-                    <form method="POST" action="" id="form-principal" enctype="multipart/form-data">
-                        {{ csrf_field() }}
 
-                        <div class="col-sm-12">
-                            <h3>Informações adicionais</h3>
-                            <p>É necessário enviar algumas informações adicionais para que possamos dar
-                                continuidade no processo de apuração.<br/>
-                                <strong>Clique em enviar informações após enviar todas as informações. Após enviar não
-                                    será
-                                    possível modificá-las.</strong><br/>
-                                <strong>Se não houve movimentação, clique no botão "Não houve movimentação".</strong>
-                            </p>
-                        </div>
-
-                        <div class="col-sm-12">
-                            @foreach($apuracao->imposto->informacoesExtras as $informacaoExtra)
-                                @if($informacaoExtra->tipo == 'anexo')
-                                    <div class='form-group'>
-                                        <label>{{$informacaoExtra->nome}} <i class="fa fa-question-circle"
-                                                                             data-toggle="tooltip" data-placement="top"
-                                                                             title="{{$informacaoExtra->descricao}}"></i></label>
-                                        <div class="form-control">
-                                            <br/>
-                                            <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
-                                                Enviar
-                                                arquivo
-                                            </button>
-                                        </div>
-                                        <input data-validation-url="{{route('validateApuracaoAnexo')}}"
-                                               data-upload-url="{{route('sendAnexoToTemp')}}"
-                                               data-id="{{$informacaoExtra->id}}" class="hidden upload-informacao-extra"
-                                               type='file' value=""/>
-                                    </div>
-                                @endif
-                                @if($informacaoExtra->tipo == 'informacao_adicional')
-                                    <div class='form-group'>
-                                        <label>{{$informacaoExtra->nome}}</label>
-                                        <input type='text' class='form-control'
-                                               name="informacoes_extras[{{$informacaoExtra->id}}]"/>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Finalizar
-                            </button>
-                            <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
-                               class="btn btn-danger"><i class="fa fa-remove"></i> Não houve movimentação
-                            </a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-            @endif
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
             <div class="col-sm-12">
-                @include('dashboard.components.chat.box', ['model'=>$apuracao])
+                @include('admin.components.chat.box', ['model'=>$apuracao])
             </div>
             <div class="clearfix"></div>
         </div>
@@ -248,14 +174,14 @@
                     @foreach($apuracao->informacoes as $informacao)
                         @if($informacao->tipo->tipo == 'anexo')
                             <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
+                                @include('admin.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
                             </div>
                         @endif
                     @endforeach
                     @foreach($apuracao->mensagens as $message)
                         @if($message->anexo)
                             <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
+                                @include('admin.components.anexo.withDownload', ['anexo'=>$message->anexo])
                             </div>
                         @endif
                     @endforeach
@@ -265,10 +191,9 @@
 
         </div>
         <div class="clearfix"></div>
-
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listApuracoesToUser')}}"><i
+            <a class="btn btn-default" href="{{route('listApuracoesToAdmin')}}"><i
                         class="fa fa-angle-left"></i>
                 Voltar para apurações</a>
         </div>

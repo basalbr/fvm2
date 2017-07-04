@@ -47,7 +47,6 @@ class SendInformacaoApuracao
                 }
             }
 
-            //Notifica admins que existe um novo funcionario cadastrado
             Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
             $apuracao->status = 'informacoes_enviadas';
             $apuracao->save();

@@ -5,7 +5,7 @@
     </div>
     @if($aberturaEmpresa->ordemPagamento->isPending())
         <div class="col-xs-12">
-            <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">É necessário efetuar o pagamento do processo para que possamos abrir sua empresa.</p>
+            <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">O pagamento desse processo ainda está pendente.</p>
         </div>
     @endif
     <div class="col-xs-12">
@@ -32,14 +32,8 @@
             <div class="form-control">Pagamento {{$aberturaEmpresa->getPaymentStatus()}}</div>
         </div>
     </div>
-    @if($aberturaEmpresa->ordemPagamento->isPending())
-        <div class="col-xs-12">
-            <a href="" class="btn btn-success"><i class="fa fa-credit-card"></i>
-                Clique para realizar o pagamento</a>
-        </div>
-    @endif
 
 </div>
 <div class="col-xs-6">
-@include('dashboard.components.chat.box', ['model'=>$aberturaEmpresa])
+@include('admin.components.chat.box', ['model'=>$aberturaEmpresa])
 </div>

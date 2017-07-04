@@ -26,13 +26,16 @@ class AlteracaoController extends Controller
     public function index()
     {
         $tiposAlteracao = TipoAlteracao::orderBy('descricao')->get();
-        $alteracoesPendentes = Alteracao::orderBy('created_at', 'desc')
-            ->where('status', '=','Pendente')
-            ->orWhere('status','=','Atencao')
+
+        $alteracoesPendentes = Auth::user()->alteracoes()->where('status', '=', 'Pendente')
+            ->orWhere('status', '=', 'Atencao')
+            ->orderBy('created_at')
             ->get();
-        $alteracoesConcluidas = Alteracao::orderBy('created_at', 'desc')
-            ->where('status', '=','Concluído')
-            ->orWhere('status','=','Cancelado')
+
+        $alteracoesConcluidas = Auth::user()->alteracoes()
+            ->where('status', '=', 'Concluído')
+            ->orWhere('status', '=', 'Cancelado')
+            ->orderBy('created_at')
             ->get();
         return view('dashboard.alteracao.index', compact("tiposAlteracao", 'alteracoesPendentes', 'alteracoesConcluidas'));
     }
@@ -44,12 +47,14 @@ class AlteracaoController extends Controller
         return view('dashboard.alteracao.new.index', compact('tipoAlteracao', 'empresas'));
     }
 
-    public function view($idAlteracao){
+    public function view($idAlteracao)
+    {
         $alteracao = Auth::user()->alteracoes()->find($idAlteracao);
         return view('dashboard.alteracao.view.index', compact('alteracao'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, AlteracaoValidation::getRules(), [], AlteracaoValidation::getNiceNames());
         if (CreateSolicitacaoAlteracao::handle($request)) {
             return redirect()->route('listSolicitacoesAlteracaoToUser')->with('successAlert', 'Sua solicitação foi aberta com sucesso, você receberá uma notificação assim que respondermos :)');

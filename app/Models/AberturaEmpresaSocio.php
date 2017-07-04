@@ -143,4 +143,8 @@ class AberturaEmpresaSocio extends Model {
         return number_format($this->pro_labore, 2, ',', '.');
     }
 
+    public function getProLaboreFormatado() {
+        return number_format($this->pro_labore, 2, ',', '.');
+    }
+
 }

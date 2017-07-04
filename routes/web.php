@@ -200,6 +200,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
 //Admin - Ordem Pagamento
 Route::group(['prefix' => 'admin/pagamentos', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listOrdensPagamentoToAdmin', 'uses' => 'PagamentoController@index']);
+    Route::get('view/{id}', ['as' => 'showOrdemPagamentoToAdmin', 'uses' => 'PagamentoController@index']);
 });
 
 //Admin - Documentos contábeis

@@ -9,6 +9,8 @@
 namespace App\Services;
 
 use App\Models\Mensagem;
+use App\Models\Usuario;
+use App\Notifications\MessageSent;
 use App\Validation\MensagemValidation;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +25,22 @@ class SendMessage
     {
         DB::beginTransaction();
         try {
+            /** @var Mensagem $message */
             $message = Mensagem::create($data);
             DB::commit();
             $html = view('dashboard.components.chat.messages', ['messages' => [$message]])->render();
             $lastMessageId = $message->id;
+            if (isset($data['from_admin']) && $data['from_admin']) {
+                if ($message->parent->usuario) {
+                    $message->parent->usuario->notify(new MessageSent($message, false));
+                }elseif($message->parent->empresa){
+                    $message->parent->empresa->usuario->notify(new MessageSent($message, false));
+                }
+
+
+            } else {
+                Usuario::notifyAdmins(new MessageSent($message, true));
+            }
             return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
         } catch (\Exception $e) {
             Log::critical($e);

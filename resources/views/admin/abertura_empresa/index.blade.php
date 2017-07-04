@@ -1,9 +1,7 @@
-@extends('admin.layouts.master')
+@extends('dashboard.layouts.master')
 @section('content')
     <div class="col-xs-12">
-        <h1>Empresas</h1>
-        <p>Nesta área você pode solicitar uma migração de empresa de sua contabilidade atual para a WEBContabilidade e
-            visualizar suas empresas cadastradas no sistema.</p>
+        <h1>Abertura de empresa</h1>
         <hr>
     </div>
     <div class="clearfix"></div>
@@ -23,30 +21,25 @@
                 <thead>
                 <tr>
                     <th>Usuário</th>
-                    <th>Nome Fantasia</th>
-                    <th>Razão Social</th>
-                    <th>CNPJ</th>
+                    <th>Nome Preferencial</th>
+                    <th>Status</th>
+                    <th>Aberto em</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <div class="clearfix"></div>
-                @if($empresasAtivas->count())
-                    @foreach($empresasAtivas as $empresa)
+                @if($empresasPendentes->count())
+                    @foreach($empresasPendentes as $empresa)
                         <tr>
                             <td>{{$empresa->usuario->nome}}</td>
-                            <td>{{$empresa->nome_fantasia}}</td>
-                            <td>{{$empresa->razao_social}}</td>
-                            <td>{{$empresa->cnpj}}</td>
+                            <td>{{$empresa->nome_empresarial1}}</td>
+                            <td>{{$empresa->status}}</td>
+                            <td>{{$empresa->created_at->format('d/m/Y')}}</td>
                             <td>
-                                <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
+                                <a href="{{route('showAberturaEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
                                             class="fa fa-search"></i> Ver Detalhes</a>
-                                @if($empresa->status != 'Aprovado')
-                                    <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success">
-                                        <i class="fa fa-check"></i> Ativar
-                                    </a>
-                                @endif
                             </td>
                         </tr>
 
@@ -64,30 +57,25 @@
                 <thead>
                 <tr>
                     <th>Usuário</th>
-                    <th>Nome Fantasia</th>
-                    <th>Razão Social</th>
-                    <th>CNPJ</th>
+                    <th>Nome Preferencial</th>
+                    <th>Status</th>
+                    <th>Aberto em</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <div class="clearfix"></div>
-                @if($empresasPendentes->count())
-                    @foreach($empresasPendentes as $empresa)
+                @if($empresasConcluidas->count())
+                    @foreach($empresasConcluidas as $empresa)
                         <tr>
                             <td>{{$empresa->usuario->nome}}</td>
-                            <td>{{$empresa->nome_fantasia}}</td>
-                            <td>{{$empresa->razao_social}}</td>
-                            <td>{{$empresa->cnpj}}</td>
+                            <td>{{$empresa->nome_empresarial1}}</td>
+                            <td>{{$empresa->status}}</td>
+                            <td>{{$empresa->created_at->format('d/m/Y')}}</td>
                             <td>
-                                <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
+                                <a href="{{route('showAberturaEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
                                             class="fa fa-search"></i> Ver Detalhes</a>
-                                @if($empresa->status != 'Aprovado')
-                                    <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success">
-                                        <i class="fa fa-check"></i> Ativar
-                                    </a>
-                                @endif
                             </td>
                         </tr>
 

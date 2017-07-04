@@ -19,6 +19,8 @@ use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
+use App\Models\Usuario;
+use App\Notifications\NewInfoInApuracao;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendInformacaoApuracao;
@@ -89,6 +91,7 @@ class ApuracaoController extends Controller
             ->first();
         $apuracao->status = 'sem_movimento';
         $apuracao->save();
+        Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
         return redirect()->route('listApuracoesToUser')->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
     }
 
