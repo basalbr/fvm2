@@ -58,7 +58,7 @@
             }).fail(function (jqXHR) {
                 if (jqXHR.status === 422) {
                     //noinspection JSUnresolvedVariable
-                    showModalAlert(jqXHR.responseJSON[0]);
+                    showModalAlert(jqXHR.responseJSON.arquivo);
                 } else {
                     showModalAlert('Ocorreu um erro inesperado');
                 }

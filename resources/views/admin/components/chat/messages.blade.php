@@ -2,7 +2,7 @@
     @foreach($messages as $message)
         <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
             <div class="thumb">
-                <img src="{{url(public_path().'/images/thumb.jpg')}}"/>
+                <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
             <div class="text">
                 <p><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}

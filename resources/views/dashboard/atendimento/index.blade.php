@@ -59,22 +59,25 @@
                 </thead>
                 <tbody>
 
-            <div class="clearfix"></div>
-            @if($chamados->count())
-                @foreach($chamados as $chamado)
-                    <tr>
-                        <td>{{$chamado->tipoChamado->descricao}}</td>
-                        <td>{{$chamado->status}}</td>
-                        <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
-                        <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
-                        <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
-                        <td><a class="btn btn-primary" href="{{route('viewChamado', [$chamado->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
-                    </tr>
+                <div class="clearfix"></div>
+                @if($chamados->count())
+                    @foreach($chamados as $chamado)
+                        <tr>
+                            <td>{{$chamado->tipoChamado->descricao}}</td>
+                            <td>{{$chamado->status}}</td>
+                            <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
+                            <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
+                            <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
+                            <td><a class="btn btn-primary" href="{{route('viewChamado', [$chamado->id])}}"
+                                   title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        </tr>
 
-                @endforeach
-            @else
-                <div class="col-sm-12">Nenhum chamado encontrado</div>
-            @endif
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="6">Nenhum chamado encontrado</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>
@@ -89,14 +92,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($empresas as $empresa)
+                @if($empresas->count())
+                    @foreach($empresas as $empresa)
+                        <tr>
+                            <td>{{$empresa->nome_fantasia}}</td>
+                            <td>{{$empresa->mensagens()->latest()->first()->mensagem}}</td>
+                            <td>{{$empresa->getQtdeMensagensNaoLidas()}}</td>
+                            <td><a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}"
+                                   title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        </tr>
+                    @endforeach
+                @else
                     <tr>
-                        <td>{{$empresa->nome_fantasia}}</td>
-                        <td>{{$empresa->mensagens()->latest()->first()->mensagem}}</td>
-                        <td>{{$empresa->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td colspan="4">Nenhuma mensagem encontrada</td>
                     </tr>
-                @endforeach
+                @endif
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -112,14 +122,22 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if($aberturaEmpresas->count())
                 @foreach($aberturaEmpresas as $aberturaEmpresa)
                     <tr>
                         <td>{{$aberturaEmpresa->nome_empresarial1}}</td>
                         <td>{{$aberturaEmpresa->mensagens()->latest()->first()->mensagem}}</td>
                         <td>{{$aberturaEmpresa->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td><a class="btn btn-primary"
+                               href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}" title="Visualizar"><i
+                                        class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="4">Nenhuma mensagem encontrada</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -135,14 +153,22 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if($solicitacoes->count())
                 @foreach($solicitacoes as $solicitacao)
                     <tr>
                         <td>{{$solicitacao->tipo->descricao}}</td>
                         <td>{{$solicitacao->getUltimaMensagem()}}</td>
                         <td>{{$solicitacao->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td><a class="btn btn-primary"
+                               href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}"
+                               title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="4">Nenhuma mensagem encontrada</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -159,15 +185,23 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if($apuracoes->count())
                 @foreach($apuracoes as $apuracao)
                     <tr>
                         <td>{{$apuracao->imposto->nome}}</td>
                         <td>{{$apuracao->competencia->format('m/Y')}}</td>
                         <td>{{$apuracao->getUltimaMensagem()}}</td>
                         <td>{{$apuracao->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$apuracao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td><a class="btn btn-primary"
+                               href="{{route('showApuracaoToUser', [$apuracao->id])}}" title="Visualizar"><i
+                                        class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="5">Nenhuma mensagem encontrada</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
             <div class="clearfix"></div>
@@ -184,15 +218,23 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if($documentosContabeis->count())
                 @foreach($documentosContabeis as $processo)
                     <tr>
                         <td>{{$processo->empresa->nome_fantasia}}</td>
                         <td>{{$processo->periodo->format('m/Y')}}</td>
                         <td>{{$processo->getUltimaMensagem()}}</td>
                         <td>{{$processo->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary" href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}" title="Visualizar"><i class="fa fa-search"></i></a></td>
+                        <td><a class="btn btn-primary"
+                               href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}"
+                               title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="5">Nenhuma mensagem encontrada</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
             <div class="clearfix"></div>

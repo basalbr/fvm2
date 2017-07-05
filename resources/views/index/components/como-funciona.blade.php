@@ -40,7 +40,7 @@
                     <div class="text">
                         <h2><span class="fa fa-circle"></span>Quanto custa?</h2>
                         <p>
-                            Nossa mensalidade custa a partir de R$19,90 por mês e ainda o primeiro mês é totalmente
+                            Nossa mensalidade custa a partir de R$39,90 por mês e ainda o primeiro mês é totalmente
                             gratuito.
                             <br/>
                             O cadastro é totalmente gratuito, as cobranças serão feitas somente quando estivermos

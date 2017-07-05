@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Chamado;
 use App\Models\Config;
 use App\Models\TipoChamado;
 use App\Services\CreateChamado;
@@ -35,7 +36,7 @@ class ChamadoController extends Controller
 
     public function view($idChamado)
     {
-        $chamado = Auth::user()->chamados()->find($idChamado);
+        $chamado = Chamado::findOrFail($idChamado);
         $tiposChamado = TipoChamado::orderBy('descricao')->get();
         return view('admin.chamado.view.index', compact('chamado', 'tiposChamado'));
     }

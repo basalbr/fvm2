@@ -189,12 +189,11 @@ Route::group(['prefix' => 'admin/solicitar-alteracao', 'namespace' => 'Admin', '
 
 //Admin - Apurações
 Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
-    Route::get('calendario', ['as' => 'showCalendarioImpostos', 'uses' => 'ApuracaoController@calendario']);
     Route::get('', ['as' => 'listApuracoesToAdmin', 'uses' => 'ApuracaoController@index']);
     Route::get('view/{idApuracao}', ['as' => 'showApuracaoToAdmin', 'uses' => 'ApuracaoController@view']);
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
-    Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
-    Route::get('sem-movimento/{$id}', ['as' => 'apuracaoSemMovimentacaoAdmin', 'uses' => 'ApuracaoController@semMovimento']);
+    Route::post('view/{idApuracao}/upload/guia', ['uses' => 'ApuracaoController@uploadGuia']);
+    Route::post('validate/guia', ['as'=>'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
 });
 
 //Admin - Ordem Pagamento

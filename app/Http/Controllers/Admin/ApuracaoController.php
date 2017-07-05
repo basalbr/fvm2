@@ -23,6 +23,7 @@ use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendInformacaoApuracao;
 use App\Services\SendMessageToAdmin;
+use App\Services\UpdateApuracao;
 use App\Services\UploadAnexo;
 use App\Validation\AnexoValidation;
 use App\Validation\EmpresaValidation;
@@ -43,8 +44,18 @@ class ApuracaoController extends Controller
 
     public function view($idApuracao)
     {
+        /* @var Apuracao $apuracao*/
         $apuracao = Apuracao::find($idApuracao);
-        return view('admin.apuracao.view.index', compact('apuracao'));
+        $qtdeDocumentos = $apuracao->informacoes()
+            ->join('imposto_informacao_extra', 'imposto_informacao_extra.id', 'apuracao_informacao_extra.id_informacao_extra')
+            ->where('imposto_informacao_extra.tipo', 'anexo')
+            ->count();
+        $qtdeDocumentos+= Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
+            ->where('anexo.referencia', 'mensagem')
+            ->where('mensagem.referencia', 'apuracao')
+            ->where('mensagem.id_referencia', $idApuracao)
+            ->count();
+        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos'));
     }
 
     public function index()
@@ -58,6 +69,19 @@ class ApuracaoController extends Controller
             ->select('apuracao.*')
             ->get();
         return view('admin.apuracao.index', compact('apuracoesConcluidas', 'apuracoesPendentes'));
+    }
+
+    public function validateGuia(Request $request){
+        $rules = ['arquivo'=>'max:10240|required|file|mimes:pdf'];
+        $niceNames = ['arquivo'=>'Guia'];
+        $this->validate($request,   $rules, [], $niceNames);
+    }
+
+    public function update(Request $request, $idApuracao){
+        if (UpdateApuracao::handle($request, $idApuracao)) {
+            return redirect()->route('showApuracaoToAdmin', [$idApuracao])->with('successAlert', 'Apuração atualizada com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
 

@@ -173,7 +173,7 @@
                         <td>{{$apuracao->getUltimaMensagem()}}</td>
                         <td>{{$apuracao->getQtdeMensagensNaoLidas()}}</td>
                         <td><a class="btn btn-primary"
-                               href="{{route('showSolicitacaoAlteracaoToAdmin', [$solicitacao->id])}}"
+                               href="{{route('showApuracaoToAdmin', [$apuracao->id])}}"
                                title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach

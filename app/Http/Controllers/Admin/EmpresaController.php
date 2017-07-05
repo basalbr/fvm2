@@ -58,14 +58,14 @@ class EmpresaController extends Controller
         $tiposTributacao = TipoTributacao::orderBy('descricao')->get();
         $regimesCasamento = RegimeCasamento::orderBy('descricao')->get();
         $ufs = Uf::orderBy('nome')->get();
-        return view('dashboard.empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao", "regimesCasamento"));
+        return view('admin.empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao", "regimesCasamento"));
     }
 
     public function view($id)
     {
         $empresa = Empresa::find($id);
         $this->authorize('view', $empresa);
-        return view('dashboard.empresa.view.index', compact("empresa"));
+        return view('admin.empresa.view.index', compact("empresa"));
     }
 
     /**

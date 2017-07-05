@@ -8,6 +8,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Apuracao;
+use App\Models\OrdemPagamento;
+use App\Models\ProcessoDocumentoContabil;
 use App\Services\UpdateUsuario;
 use App\Services\UploadAnexo;
 use App\Validation\UsuarioValidation;
@@ -25,7 +28,12 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.index');
+        $pagamentosPendentes = OrdemPagamento::where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->count();
+        $apuracoesPendentes = Apuracao::whereNotIn('apuracao.status', ['concluido', 'sem_movimento'])
+            ->count();
+        $processosPendentes = ProcessoDocumentoContabil::where('processo_documento_contabil.status', '!=', 'concluido')
+            ->where('processo_documento_contabil.status', '!=', 'sem_movimento')->count();
+        return view('admin.index', compact('pagamentosPendentes', 'apuracoesPendentes', 'processosPendentes'));
     }
 
 
