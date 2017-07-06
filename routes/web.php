@@ -196,6 +196,14 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('validate/guia', ['as'=>'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
 });
 
+//Admin - Pró-labores
+Route::group(['prefix' => 'admin/pro-labore', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listProLaboresToAdmin', 'uses' => 'ProLaboreController@index']);
+    Route::get('send/{idSocio}', ['as' => 'createProLabore', 'uses' => 'ProLaboreController@create']);
+    Route::post('send/{idSocio}', ['uses' => 'ProLaboreController@store']);
+    Route::post('validate', ['as'=>'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
+});
+
 //Admin - Ordem Pagamento
 Route::group(['prefix' => 'admin/pagamentos', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listOrdensPagamentoToAdmin', 'uses' => 'PagamentoController@index']);
@@ -206,6 +214,7 @@ Route::group(['prefix' => 'admin/pagamentos', 'namespace' => 'Admin', 'middlewar
 Route::group(['prefix' => 'admin/documentos-contabeis', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listDocumentosContabeisToAdmin', 'uses' => 'DocumentoContabilController@index']);
     Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToAdmin', 'uses' => 'DocumentoContabilController@view']);
+    Route::get('view/{idProcesso}/contabilizar', ['as' => 'contabilizarDocumentoContabil', 'uses' => 'DocumentoContabilController@contabilizar']);
 });
 
 //Admin - Chamados

@@ -69,15 +69,15 @@ class Socio extends Model {
         return $this->errors;
     }
 
-    public function pessoa() {
-        return $this->belongsTo('App\Pessoa', 'id_pessoa');
+    public function empresa() {
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
     public function uf() {
         return $this->belongsTo(Uf::class, 'id_uf');
     }
 
     public function pro_labores() {
-        return $this->hasMany('App\Prolabore', 'id_socio');
+        return $this->hasMany(Prolabore::class, 'id_socio');
     }
 
     public function getProLaboreFormatado() {

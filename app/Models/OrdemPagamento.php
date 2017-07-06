@@ -59,6 +59,7 @@ class OrdemPagamento extends Model
             );
             $payment->setCurrency("BRL");
             $payment->setReference($this->id);
+            $payment->setRedirectUrl(route('listOrdensPagamentoToUser'));
             $payment->setNotificationUrl(Config::getPagseguroNotificationUrl());
             $payment->setSender()->setName($nome);
             $payment->setSender()->setEmail($this->usuario->email);

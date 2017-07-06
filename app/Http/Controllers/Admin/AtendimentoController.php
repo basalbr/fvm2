@@ -40,7 +40,7 @@ class AtendimentoController extends Controller
 
     public function index()
     {
-        $chamados = Chamado::orderBy('created_at', 'desc')->get();
+        $chamados = Chamado::orderBy('updated_at', 'desc')->get();
         //Buscar somente empresas que possuem mensagens não lidas
         $empresas = Empresa::whereExists(function ($query) {
             $query->select(DB::raw(1))

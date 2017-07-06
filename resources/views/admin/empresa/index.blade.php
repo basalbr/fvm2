@@ -41,7 +41,7 @@
                             <td>{{$empresa->cnpj}}</td>
                             <td>
                                 <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
-                                            class="fa fa-search"></i> Ver Detalhes</a>
+                                            class="fa fa-search"></i></a>
                                 @if($empresa->status != 'Aprovado')
                                     <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success">
                                         <i class="fa fa-check"></i> Ativar

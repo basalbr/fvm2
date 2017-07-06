@@ -40,7 +40,7 @@ class ProcessoDocumentoContabil extends Model
                 return 'Atenção';
             case 'sem_movimento':
                 return 'Sem Movimento';
-            case 'contabilizado':
+            case 'concluido':
                 return 'Contabilizado';
                 break;
         }

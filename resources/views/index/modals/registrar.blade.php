@@ -22,7 +22,7 @@
                     </div>
                     <div class='form-group'>
                         <label for="email">Telefone ou celular *</label>
-                        <input type='text' class='form-control phone' name='telefone'/>
+                        <input type='text' class='form-control phone phone-mask' name='telefone'/>
                     </div>
                     <div class='form-group'>
                         <label for="senha">Senha *</label>

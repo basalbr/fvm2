@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 
-class Prolabore extends Model {
+class Prolabore extends Model
+{
 
     use SoftDeletes;
-
-    protected $rules = ['pro_labore'=>'required', 'inss'=>'required','valor_pro_labore'=>'required'];
-    protected $errors;
-    protected $niceNames = ['pro_labore' => 'Pró-Labore', 'inss'=>'INSS','irrf'=>'IRRF', 'pro_labore_valo' => 'Valor do Pró-Labore'];
 
     /**
      * The database table used by the model.
@@ -26,30 +23,17 @@ class Prolabore extends Model {
      *
      * @var array
      */
-    protected $fillable = ['id_socio','inss', 'irrf', 'pro_labore', 'valor_pro_labore','competencia'];
+    protected $fillable = ['id_socio', 'inss', 'irrf', 'pro_labore', 'valor_pro_labore', 'competencia'];
+    protected $dates = ['created_at', 'updated_at', 'competencia'];
 
-
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
+    public function socio()
+    {
+        return $this->belongsTo(Socio::class, 'id_socio');
     }
 
-    public function errors() {
-        return $this->errors;
+    public function getProLaboreFormatado()
+    {
+        return number_format($this->valor_pro_labore, 2, ',', '.');
     }
 
-    public function socio(){
-        return $this->belongsTo('App\Socio','id_socio');
-    }
-    
 }

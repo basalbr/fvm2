@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Models\Chamado;
+use App\Models\ProcessoDocumentoContabil;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewChamado extends Notification
+class ProcessoDocumentoContabilFinished extends Notification
 {
     use Queueable;
-    private $chamado;
+    private $processo;
     private $url;
 
     /**
      * Create a new notification instance.
      *
-     * @param Chamado $chamado
+     * @param ProcessoDocumentoContabil $processo
      */
-    public function __construct(Chamado $chamado)
+    public function __construct(ProcessoDocumentoContabil $processo)
     {
-        $this->chamado = $chamado;
-        $this->url = route('showChamadoToAdmin', [$this->chamado->id]);
+        $this->processo = $processo;
+        $this->url = route('showDocumentoContabilToUser', [$this->processo->id]);
     }
 
     /**
@@ -44,12 +44,12 @@ class NewChamado extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá!')
-            ->line('Temos um novo chamado de ' . $this->chamado->usuario->nome)
-            ->line('Para visualizar essa solicitação, clique no botão abaixo:')
-            ->action('Visualizar Chamado', $this->url)
+            ->greeting('Olá '.$this->processo->empresa->usuario->nome.'!')
+            ->line('Informamos que o processo de envio de documentos contábeis do período de '.$this->processo->periodo->format('m/Y').' foi concluído.')
+            ->line('Para visualizar o processo, clique no botão abaixo:')
+            ->action('Visualizar', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Novo chamado')
+            ->subject('Processo de documentos contábeis concluído')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -62,7 +62,7 @@ class NewChamado extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => $this->chamado->usuario->nome.' abriu um novo chamado!',
+            'mensagem' => 'O processo de envio de documentos contábeis do período de '.$this->processo->periodo->format('m/Y').' foi concluído.',
             'url' => $this->url
         ];
     }

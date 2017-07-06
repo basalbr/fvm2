@@ -59,6 +59,7 @@ class EmpresaValidation extends Validation
         'cpf_cnpj' => 'CNPJ',
         'inscricao_estadual' => 'Inscrição Estadual',
         'inscricao_municipal' => 'Inscrição Municipal',
+        'id_enquadramento_empresa' => 'Enquadramento de Empresa',
         'mensalidade.qtde_funcionario' => 'Quantidade de Funcionários',
         'mensalidade.qtde_documento_fiscal' => 'Quantidade de documentos fiscais recebidos e emitidos mensalmente',
         'mensalidade.qtde_documento_contabil' => 'Quantidade de documentos contábeis emitidos mensalmente',
