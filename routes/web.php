@@ -111,6 +111,12 @@ Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'mid
     Route::post('validate', ['as' => 'validateChamado', 'uses' => 'ChamadoController@validateChamado']);
 });
 
+//Dashboard - Processo Folha
+Route::group(['prefix' => 'dashboard/processamento-folha', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+    Route::get('', ['as' => 'listProcessoFolhaToUser', 'uses' => 'ProcessoFolhaController@index']);
+    Route::get('view/{idProcesso}', ['as' => 'showProcessoFolhaToUser', 'uses' => 'ProcessoFolhaController@view']);
+});
+
 //Dashboard - Anexo
 Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
     Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
@@ -201,7 +207,17 @@ Route::group(['prefix' => 'admin/pro-labore', 'namespace' => 'Admin', 'middlewar
     Route::get('', ['as' => 'listProLaboresToAdmin', 'uses' => 'ProLaboreController@index']);
     Route::get('send/{idSocio}', ['as' => 'createProLabore', 'uses' => 'ProLaboreController@create']);
     Route::post('send/{idSocio}', ['uses' => 'ProLaboreController@store']);
-    Route::post('validate', ['as'=>'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
+    Route::post('validate', ['as'=>'validateProLabore', 'uses' => 'ProLaboreController@validateProLabore']);
+    Route::post('validate/guia', ['as'=>'validateGuiaProLabore', 'uses' => 'ProLaboreController@validateGuia']);
+});
+
+//Admin - Processo Folha
+Route::group(['prefix' => 'admin/processamento-folha', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listProcessoFolhaToAdmin', 'uses' => 'ProcessoFolhaController@index']);
+    Route::get('send/{idEmpresa}', ['as' => 'createProcessoFolha', 'uses' => 'ProcessoFolhaController@create']);
+    Route::post('send/{idEmpresa}', ['uses' => 'ProcessoFolhaController@store']);
+    Route::post('validate', ['as'=>'validateProcessoFolha', 'uses' => 'ProcessoFolhaController@validateProcesso']);
+    Route::post('validate/arquivo', ['as'=>'validateProcessoFolhaArquivo', 'uses' => 'ProcessoFolhaController@validateArquivo']);
 });
 
 //Admin - Ordem Pagamento

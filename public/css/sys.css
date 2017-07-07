@@ -1554,3 +1554,25 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     color: #fff;
     background-color: #E53935;
 }
+
+.form-control .upload-file{
+    margin-top: 5px;
+}
+
+.nav-tabs .highlight{
+    background-color: #CDDC39;
+    transition: all 0.15s ease;
+    margin: 0 5px;
+}
+
+.nav-tabs .highlight a{
+    color: #fff;
+}
+
+.nav-tabs .highlight:hover{
+    background-color: #C0CA33;
+}
+
+.nav-tabs .highlight:hover a{
+    color: #fff;
+}

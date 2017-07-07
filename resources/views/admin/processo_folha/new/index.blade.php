@@ -39,9 +39,6 @@
         }
 
         function validateAnexo(elem) {
-            if (elem.val() !== '' && elem.val() && elem.val() !== undefined) {
-                console.log(elem[0].files[0])
-            }
             if ((elem[0].files[0].size / 1024) > 10240) {
                 showModalAlert('O arquivo não pode ser maior que 10MB.');
                 return false;
@@ -108,95 +105,161 @@
                         class="fa fa-info-circle"></i>
                 Informações</a>
         </li>
+        <li role="presentation">
+            <a href="#pessoas" aria-controls="pessoas" role="tab" data-toggle="tab"><i
+                        class="fa fa-users"></i>
+                Pessoas</a>
+        </li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-            <form id="form-principal" method="POST" data-validation-url="{{route('validateProLabore')}}" enctype="multipart/form-data">
+            <form id="form-principal" method="POST" data-validation-url="{{route('validateProcessoFolha')}}"
+                  enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 @include('admin.components.form-alert')
                 @include('admin.components.disable-auto-complete')
-            <div class="col-sm-12">
-                <h3>Informações</h3>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Empresa</label>
-                    <div class="form-control">{{$socio->empresa->nome_fantasia}}</div>
+                <div class="col-sm-12">
+                    <h3>Informações</h3>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Nome do sócio</label>
-                    <div class="form-control">{{$socio->nome}}</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Valor de pró-labore</label>
-                    <div class="form-control">{{$socio->getProLaboreFormatado()}}</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Competência</label>
-                    <div class="form-control">{{$competenciaFormatada}}</div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-
-                <input type="hidden" name="valor_pro_labore" value="{{$socio->pro_labore}}"/>
-                <input type="hidden" name="competencia" value="{{$competencia}}"/>
-                <input type="hidden" name="id_socio" value="{{$socio->id}}"/>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <div class="form-control">
-                            <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
-                                Anexar Pró-Labore
-                            </button>
-                        </div>
-                        <input data-validation-url="{{route('validateGuiaProLabore')}}"
-                               data-upload-url="{{route('sendAnexoToTemp')}}" class="hidden upload-informacao-extra"
-                               data-description="pro_labore"
-                               type='file' value=""/>
-
+                        <label>Empresa</label>
+                        <div class="form-control">{{$empresa->nome_fantasia}}</div>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
+                        <label>Razão Social</label>
+                        <div class="form-control">{{$empresa->razao_social}}</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>CNPJ</label>
+                        <div class="form-control">{{$empresa->cnpj}}</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Competência</label>
+                        <div class="form-control">{{$competenciaFormatada}}</div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <input type="hidden" name="competencia" value="{{$competencia}}"/>
+                <input type="hidden" name="id_empresa" value="{{$empresa->id}}"/>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Folha</label>
+                        <div class="form-control">
+                            <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
+                                Anexar Folha
+                            </button>
+                        </div>
+                        <input data-validation-url="{{route('validateProcessoFolhaArquivo')}}"
+                               data-upload-url="{{route('sendAnexoToTemp')}}" class="hidden upload-informacao-extra"
+                               data-description="recibo_folha"
+                               type='file' value=""/>
+
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>INSS</label>
                         <div class="form-control">
                             <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
                                 Anexar INSS
                             </button>
                         </div>
-                        <input data-validation-url="{{route('validateGuia')}}"
+                        <input data-validation-url="{{route('validateProcessoFolhaArquivo')}}"
                                data-upload-url="{{route('sendAnexoToTemp')}}"
                                data-description="inss" class="hidden upload-informacao-extra"
                                type='file' value=""/>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
+                        <label>IRFF</label>
                         <div class="form-control">
                             <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
                                 Anexar IRRF
                             </button>
                         </div>
-                        <input data-validation-url="{{route('validateGuia')}}"
+                        <input data-validation-url="{{route('validateProcessoFolhaArquivo')}}"
                                data-upload-url="{{route('sendAnexoToTemp')}}"
                                data-description="irrf" class="hidden upload-informacao-extra"
+                               type='file' value=""/>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>FGTS</label>
+                        <div class="form-control">
+                            <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
+                                Anexar FGTS
+                            </button>
+                        </div>
+                        <input data-validation-url="{{route('validateProcessoFolhaArquivo')}}"
+                               data-upload-url="{{route('sendAnexoToTemp')}}"
+                               data-description="fgts" class="hidden upload-informacao-extra"
                                type='file' value=""/>
                     </div>
                 </div>
             </form>
             <div class="clearfix"></div>
         </div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="pessoas">
+            @if($socios->count())
+                <h3>Sócios que retiram pró-labore</h3>
+                <table class="table table-hovered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <div class="clearfix"></div>
+                        @foreach($socios as $socio)
+                            <tr>
+                                <td>{{$socio->nome}}</td>
+                                <td>{{$socio->getProLaboreFormatado()}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+            @if($funcionarios->count())
+                <h3>Funcionários</h3>
+                    <table class="table table-hovered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <div class="clearfix"></div>
+                        @foreach($funcionarios as $funcionario)
+                            <tr>
+                                <td>{{$funcionario->nome_completo}}</td>
+                                <td>{{$funcionario->salario}}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+            @endif
+        </div>
         <hr>
         <div class="col-sm-12">
             <a class="btn btn-default" href="{{route('listDocumentosContabeisToAdmin')}}"><i
                         class="fa fa-angle-left"></i>
                 Voltar para documentos contábeis</a>
-            <button class="btn btn-success" id="submit-form-principal"><i class="fa fa-save"></i> Salvar</button>
+            <button class="btn btn-success" id="submit-form-principal"><i class="fa fa-save"></i> Concluir processo</button>
         </div>
         <div class="clearfix"></div>
     </div>

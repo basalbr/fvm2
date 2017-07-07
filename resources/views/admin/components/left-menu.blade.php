@@ -26,6 +26,12 @@
                 <li><a href="{{route('listApuracoesToAdmin')}}">Listar apurações <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
+        <li>
+            <a href=""><span class="fa fa-users"></span> Desenvolvimento Humano <i class="fa fa-angle-down"></i></a>
+            <ul id="left-menu-list" class="animated fadeInLeft">
+                <li><a href="{{route('listProcessoFolhaToAdmin')}}">Processamento de Folha <i class="fa fa-angle-right"></i></a></li>
+            </ul>
+        </li>
         <li><a href="{{route('listDocumentosContabeisToAdmin')}}"><span class="fa fa-files-o"></span> Documentos contábeis <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listOrdensPagamentoToAdmin')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listSolicitacoesAlteracaoToAdmin')}}"><span class="fa fa-bullhorn"></span> Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>

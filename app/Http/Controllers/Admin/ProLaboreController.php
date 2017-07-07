@@ -30,6 +30,7 @@ use App\Services\UploadAnexo;
 use App\Validation\AnexoValidation;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
+use App\Validation\ProLaboreValidation;
 use App\Validation\SocioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -46,8 +47,18 @@ class ProLaboreController extends Controller
 
     public function create($idSocio){
         $socio = Socio::findOrFail($idSocio);
-        $competencia =date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
-        return view('admin.pro_labore.new.index', compact('socio', 'competencia'));
+        $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
+        $competenciaFormatada = date('m/Y', strtotime(date('Y-m') . " -1 month"));
+
+        return view('admin.pro_labore.new.index', compact('socio', 'competencia', 'competenciaFormatada'));
+    }
+
+    public function store(Request $request){
+        $this->validate($request, ProLaboreValidation::getRules(), [], ProLaboreValidation::getNiceNames());
+        if (SendProLabore::handle($request)) {
+            return redirect()->route('listProLaboresToAdmin')->with('successAlert', 'Apuração atualizada com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function index()
@@ -70,6 +81,10 @@ class ProLaboreController extends Controller
         $rules = ['arquivo' => 'max:10240|required|file|mimes:pdf'];
         $niceNames = ['arquivo' => 'Guia'];
         $this->validate($request, $rules, [], $niceNames);
+    }
+
+    public function validateProLabore(Request $request){
+        $this->validate($request, ProLaboreValidation::getRules(), [], ProLaboreValidation::getNiceNames());
     }
 
     public function update(Request $request, $idApuracao)

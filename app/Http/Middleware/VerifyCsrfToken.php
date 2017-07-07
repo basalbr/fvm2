@@ -18,5 +18,7 @@ class VerifyCsrfToken extends BaseVerifier
         'dashboard/usuario/upload/foto',
         'dashboard/apuracao/validate/anexo',
         'admin/apuracao/validate/guia',
+        'admin/pro-labore/validate/guia',
+        'admin/processamento-folha/validate/arquivo',
     ];
 }

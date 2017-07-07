@@ -8,35 +8,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\AberturaEmpresa;
 use App\Models\Apuracao;
-use App\Models\Chamado;
-use App\Models\Empresa;
-use App\Models\EnquadramentoEmpresa;
-use App\Models\Imposto;
 use App\Models\Mensagem;
-use App\Models\NaturezaJuridica;
-use App\Models\RegimeCasamento;
-use App\Models\TipoTributacao;
-use App\Models\Uf;
-use App\Services\CreateEmpresa;
-use App\Services\CreateEmpresaFromAberturaEmpresa;
-use App\Services\SendInformacaoApuracao;
-use App\Services\SendMessageToAdmin;
 use App\Services\UpdateApuracao;
-use App\Services\UploadAnexo;
-use App\Validation\AnexoValidation;
-use App\Validation\EmpresaValidation;
-use App\Validation\MensagemValidation;
-use App\Validation\SocioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Psr\Http\Message\RequestInterface;
 
 class ApuracaoController extends Controller
 {
@@ -76,6 +55,7 @@ class ApuracaoController extends Controller
         $niceNames = ['arquivo'=>'Guia'];
         $this->validate($request,   $rules, [], $niceNames);
     }
+
 
     public function update(Request $request, $idApuracao){
         if (UpdateApuracao::handle($request, $idApuracao)) {

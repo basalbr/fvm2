@@ -59,7 +59,7 @@
 <div class="col-xs-6">
     <div class="form-group">
         <label for="">Número de registro do CRC do contador atual</label>
-        <div class="form-control">{{$empresa->cnpj}}</div>
+        <div class="form-control">{{$empresa->crc}}</div>
     </div>
 </div>
 <div class="col-xs-5">
