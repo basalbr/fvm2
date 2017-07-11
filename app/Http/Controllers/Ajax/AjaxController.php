@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Ajax;
 
+use App\Models\Chat;
 use App\Models\Cnae;
 use App\Models\Imposto;
 use App\Models\Mensagem;
@@ -25,6 +26,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class AjaxController extends Controller
 {
@@ -113,8 +116,7 @@ class AjaxController extends Controller
     {
         $referenceId = $request->get('id_referencia');
         $reference = $request->get('referencia');
-        $lastMessageId = $request->get('id_ultima_mensagem');
-
+        $lastMessageId = $request->get('id_ultima_mensagem') ? $request->get('id_ultima_mensagem') : 0;
         /** @var Collection $messages */
         $messages = Mensagem::where('id_referencia', '=', $referenceId)
             ->where('referencia', '=', $reference)
@@ -127,9 +129,17 @@ class AjaxController extends Controller
                 $html = view('dashboard.components.chat.messages', ['messages' => $messages])->render();
             }
             $lastMessageId = $messages->last()->id;
-            return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId]);
+            return response()->json(['messages' => $html, 'lastMessageId' => $lastMessageId, 'unreadMessages' => count($messages)]);
         }
-        return response()->json(['messages' => null, 'lastMessageId' => null]);
+        return response()->json(['messages' => null, 'lastMessageId' => null, 'unreadMessages' => 0]);
+    }
+
+    public function readMessages(Request $request)
+    {
+        Mensagem::where('id_referencia', '=', $request->get('id_referencia'))
+            ->where('referencia', '=', $request->get('referencia'))
+            ->where('from_admin', '=', $request->get('from_admin'))
+            ->update(['lida' => 1]);
     }
 
     public function uploadChatFile(Request $request)
@@ -137,6 +147,9 @@ class AjaxController extends Controller
         $rules = ['arquivo' => 'required|file|max:10240', 'id_referencia' => 'required', 'referencia' => 'required'];
         $niceNames = ['arquivo' => 'Arquivo', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
         $this->validate($request, $rules, [], $niceNames);
+        if (!$request->has('from_admin')) {
+            $request->merge(['from_admin' => false]);
+        }
         if ($anexo = UploadChatFile::handle($request)) {
             if ($request->get('from_admin')) {
                 return response()->json(['html' => view('admin.components.anexo.withDownload', ['anexo' => $anexo])->render()]);
@@ -183,6 +196,84 @@ class AjaxController extends Controller
         if (SendContato::handle($request)) {
             return response()->json('Obrigado pelo seu contato, em breve iremos responder :)');
         }
+    }
+
+    public function registerChat(Request $request)
+    {
+        try {
+            $chat = Chat::create($request->all());
+            return response()->json(['id' => $chat->id])->setStatusCode(200);
+        } catch (\Exception $e) {
+            Log::critical($e);
+            return response()->json(['erro' => 'Ocorreu um erro interno'])->setStatusCode(500);
+        }
+    }
+
+    public function updateChat(Request $request)
+    {
+        try {
+            $chat = Chat::find($request->get('chatId'));
+            $mensagens = Mensagem::where('referencia', (new Chat())->getTable())
+                ->where('id_referencia', $request->get('chatId'))
+                ->where('from_admin', 1)
+                ->where('id', '>', $request->get('lastMessageId') ? $request->get('lastMessageId') : 0)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $lastMessage = Mensagem::where('referencia', (new Chat())->getTable())
+                ->where('id_referencia', $request->get('chatId'))->latest()->first();
+            if ($lastMessage instanceof Mensagem) {
+                $lastMessageId = $lastMessage->id;
+            } else {
+                $lastMessageId = null;
+            }
+            $html = view('index.components.message', ['mensagens' => $mensagens])->render();
+            return response()->json([
+                'html' => $html,
+                'lastMessageId' => $lastMessageId,
+                'status' => $chat->status
+            ]);
+        } catch (\Exception $e) {
+            Log::critical($e);
+            return response()->json(['erro' => 'Ocorreu um erro interno'])->setStatusCode(500);
+        }
+    }
+
+    public function sendMessageChat(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $mensagens = [Mensagem::create([
+                'id_referencia' => $request->get('id_referencia'),
+                'referencia' => (new Chat())->getTable(),
+                'mensagem' => $request->get('mensagem'),
+                'id_usuario' => null,
+                'from_admin' => 0,
+                'lida' => 0
+            ])];
+            DB::commit();
+            $html = view('index.components.message', ['mensagens' => $mensagens])->render();
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::critical($e);
+            return response()->json(['erro' => 'Ocorreu um erro interno'])->setStatusCode(500);
+        }
+    }
+
+    public function chatCount(){
+        $total = Chat::count();
+        return response()->json(['total'=>$total]);
+    }
+
+    public function chatNotification(){
+        $total = Chat::count();
+        $ultimoChat = Chat::latest()->first();
+        if ($total > 0) {
+            $url = route('showChatToAdmin', [$ultimoChat->id]);
+            return response()->json(['total' => $total, 'title' => $ultimoChat->nome, 'message' => $ultimoChat->assunto, 'url' => $url]);
+        }
+        return response()->json(['total' => $total, 'title' => '', 'message' => '', 'url' => '']);
     }
 
 }

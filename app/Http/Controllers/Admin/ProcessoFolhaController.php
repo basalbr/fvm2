@@ -66,13 +66,10 @@ class ProcessoFolhaController extends Controller
         $this->validate($request, ProcessoFolhaValidation::getRules(), [], ProcessoFolhaValidation::getNiceNames());
     }
 
-    public function update(Request $request, $idApuracao)
+    public function view($id)
     {
-        if (UpdateApuracao::handle($request, $idApuracao)) {
-            return redirect()->route('showApuracaoToAdmin', [$idApuracao])->with('successAlert', 'Apuração atualizada com sucesso.');
-        }
-        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+        $processo = ProcessoFolha::findOrFail($id);
+        return view('admin.processo_folha.view.index', compact('processo'));
     }
-
 
 }

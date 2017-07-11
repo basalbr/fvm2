@@ -151,7 +151,8 @@
         </li>
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
-                Mensagens <span class="badge">{{$alteracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
+                Mensagens <span
+                        class="badge">{{$alteracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-download"></i>
@@ -161,12 +162,14 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-            <br />
+            <br/>
             @if($alteracao->pagamento->isPending())
                 <div class="col-sm-12">
                     <div class="alert alert-warning" style="display: block;">O pagamento dessa solicitação está com o
-                        status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos dar
-                        início ao processo.<br/><a href='{{$alteracao->pagamento->getBotaoPagamento()}}'>Clique aqui para
+                        status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos
+                        dar
+                        início ao processo.<br/><a href='{{$alteracao->pagamento->getBotaoPagamento()}}'>Clique aqui
+                            para
                             pagar.</a></div>
                 </div>
             @endif
@@ -208,7 +211,11 @@
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
             <div class="col-sm-12">
-                @include('dashboard.components.chat.box', ['model'=>$alteracao])
+                @if($alteracao->status == 'Concluído')
+                    @include('dashboard.components.chat.box', ['model'=>$alteracao, 'lockMessages'=> 'true'])
+                @else
+                    @include('dashboard.components.chat.box', ['model'=>$alteracao])
+                @endif
             </div>
             <div class="clearfix"></div>
         </div>

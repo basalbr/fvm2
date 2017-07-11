@@ -974,23 +974,23 @@ button, a, p {
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     font-weight: 700;
-    outline: none!important;
-    text-decoration: none!important;
+    outline: none !important;
+    text-decoration: none !important;
 }
 
 .btn-acessar:hover, .btn-acessar:active, .btn-acessar:focus {
-    border: 2px solid #48b0f7!important;
-    outline: none!important;
-    text-decoration: none!important;
+    border: 2px solid #48b0f7 !important;
+    outline: none !important;
+    text-decoration: none !important;
 }
 
-.btn-acessar:hover span{
+.btn-acessar:hover span {
     color: #48b0f7;
 }
 
-.btn-acessar span{
+.btn-acessar span {
     color: #179bf5;
-    transition: color ease 0.3s!important;
+    transition: color ease 0.3s !important;
 }
 
 .btn-acessar {
@@ -998,31 +998,31 @@ button, a, p {
     border: 2px solid #179bf5;
     padding: 8px 8px;
     border-radius: 5px;
-    transition: border ease 0.3s!important;
+    transition: border ease 0.3s !important;
 
 }
 
 .btn-registrar:hover, .btn-registrar:active, .btn-registrar:focus {
-    border: 2px solid #f8d053!important;
-    outline: none!important;
-    text-decoration: none!important;
+    border: 2px solid #f8d053 !important;
+    outline: none !important;
+    text-decoration: none !important;
 }
 
-.btn-registrar:hover span{
+.btn-registrar:hover span {
     color: #f8d053;
 }
 
-.btn-registrar span{
+.btn-registrar span {
     color: #00C853;
-    transition: color ease 0.3s!important;
+    transition: color ease 0.3s !important;
 }
 
-.btn-registrar{
+.btn-registrar {
     background-color: transparent;
-    border: 2px solid  #00C853;
+    border: 2px solid #00C853;
     padding: 8px 8px;
     border-radius: 5px;
-    transition: border ease 0.3s!important;
+    transition: border ease 0.3s !important;
 }
 
 .btn-lg {
@@ -1350,7 +1350,7 @@ button, a, p {
     background-color: transparent;
 }
 
-.form .form-group{
+.form .form-group {
     border: 1px solid #4FC3F7;
     border-radius: 5px;
     transition: ease 0.3s;
@@ -1362,7 +1362,7 @@ button, a, p {
     font-weight: bold;
 }
 
-.form [type="checkbox"] + label{
+.form [type="checkbox"] + label {
     padding: 0;
     margin-left: 5px;
     margin-bottom: 20px;
@@ -1385,7 +1385,8 @@ button, a, p {
 .form .form-control:focus {
     background: transparent;
 }
-.form .form-group.focused{
+
+.form .form-group.focused {
     border-color: #01579B;
 }
 
@@ -1462,31 +1463,31 @@ a {
     margin-bottom: 20px;
 }
 
-.modal{
+.modal {
     color: #48b0f7;
 }
 
-.modal-header{
+.modal-header {
     text-align: center;
     border: none;
     padding: 25px 0 5px;
 
 }
 
-h4.modal-title{
-    font-size:22px!important;
+h4.modal-title {
+    font-size: 22px !important;
 }
 
-.modal-body{
+.modal-body {
     padding: 0 15px;
 }
 
-.modal-footer{
+.modal-footer {
     border: none;
     padding: 0px 25px 10px;
 }
 
-form .alert[role=alert]{
+form .alert[role=alert] {
     display: none;
 }
 
@@ -1512,18 +1513,18 @@ form .alert[role=alert]{
 .checkbox label:before {
     top: 1.4px;
     border-radius: 3px;
-    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+    transition: border 0.2s linear 0s, color 0.2s linear 0s;
 }
 
 .checkbox.checkbox-circle label:before {
     border-radius: 99px;
 }
 
-.checkbox input[type=checkbox]:checked+label:before {
+.checkbox input[type=checkbox]:checked + label:before {
     border-width: 8.5px;
 }
 
-.checkbox.check-primary input[type=checkbox]:checked+label:before {
+.checkbox.check-primary input[type=checkbox]:checked + label:before {
     border-color: #6d5cae;
 }
 
@@ -1535,7 +1536,7 @@ form .alert[role=alert]{
     left: 3.2px;
     top: 0px;
     font-size: 11px;
-    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+    transition: border 0.2s linear 0s, color 0.2s linear 0s;
 }
 
 .checkbox label:after {
@@ -1546,22 +1547,22 @@ form .alert[role=alert]{
     border-radius: 99px;
 }
 
-.checkbox input[type=checkbox]:checked+label::after {
+.checkbox input[type=checkbox]:checked + label::after {
     font-family: 'FontAwesome';
     content: "\F00C";
     color: #fff;
 }
 
-.checkbox.check-success input[type=checkbox]:checked+label::after, .checkbox.check-primary input[type=checkbox]:checked+label::after, .checkbox.check-complete input[type=checkbox]:checked+label::after, .checkbox.check-warning input[type=checkbox]:checked+label::after, .checkbox.check-danger input[type=checkbox]:checked+label::after, .checkbox.check-info input[type=checkbox]:checked+label::after {
+.checkbox.check-success input[type=checkbox]:checked + label::after, .checkbox.check-primary input[type=checkbox]:checked + label::after, .checkbox.check-complete input[type=checkbox]:checked + label::after, .checkbox.check-warning input[type=checkbox]:checked + label::after, .checkbox.check-danger input[type=checkbox]:checked + label::after, .checkbox.check-info input[type=checkbox]:checked + label::after {
     color: #ffffff;
 }
 
-#modal-forgot .success{
+#modal-forgot .success {
     display: none;
     padding: 10px;
 }
 
-section#password{
+section#password {
     padding-top: 80px;
     background-color: #2b669a;
 }
@@ -1570,10 +1571,95 @@ section#password h1 {
     color: #fff;
 }
 
-section#password .form-group{
+section#password .form-group {
     background-color: #fff;
 }
 
-#modal-forgot .success .alert{
+#modal-forgot .success .alert {
     margin: 15px;
+}
+
+.btn-chat {
+    padding: 15px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 15px;
+    background-color: #039BE5;
+    transition: all ease 0.15s;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.btn-chat:hover, .btn-chat:active, .btn-chat:focus {
+    background-color: #0277BD;
+    border: none;
+    color: #fff;
+}
+
+#chat-window {
+    border: 2px solid #0277BD;
+    border-radius: 5px;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px;
+    position: fixed;
+    display: none;
+    background-color: #fff;
+    width: 300px;
+    height: 400px;
+}
+
+#chat-window .message-box{
+    height: 250px;
+    border: 1px solid #c0c0c0;
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+#chat-window .user-input textarea{
+    border: 1px solid #c0c0c0;
+    height: 75px;
+}
+
+#chat-window .user-input .btn{
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 7px;
+}
+
+#messages{
+    display: none;
+}
+
+#messages .message{
+    padding: 5px;
+    margin: 10px 30px 10px 10px;
+    border: 1px solid #f1f1f1;
+    background-color: #BDBDBD;
+    color: #fff;
+    font-size: 13px;
+}
+
+#messages .message .nome{
+    font-weight: bold;
+}
+
+#messages .message.from-admin{
+    margin: 10px 10px 10px 30px;
+    background-color: #2196F3;
+}
+
+#information textarea{
+    height: 65px;
+}
+
+.form textarea.form-control {
+    padding-top: 0px!important;
+    margin-top: 0px;
 }

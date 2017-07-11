@@ -1,10 +1,9 @@
-var reference, referenceId, lastMessageId, uploadFileUrl;
+var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null;
 $(function () {
     reference = $('.messages').data('reference');
     referenceId = $('.messages').data('reference-id');
     uploadFileUrl = $('.messages').data('upload-url');
     lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
-
     // organizar mensagens no chat assim que carregar a pagina
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $('#message').on('keypress', function (e) {
@@ -27,9 +26,36 @@ $(function () {
         validateFile($(this));
         $('#file').val(null);
     });
+    $('.nav-tabs li').on('click', function () {
+        if ($(this).find('a[href="#messages"]').length > 0) {
+            setTimeout(function () {
+                $('.messages').scrollTop($('.messages')[0].scrollHeight);
+            }, 500);
+        }
+    });
 
     setInterval(updateChat, 3000);
+    setInterval(readMessages, 10000);
 });
+
+function readMessages() {
+    if (!$('.messages').is(':visible')) {
+        return false;
+    }
+    var info = {
+        referencia: reference,
+        id_referencia: referenceId,
+        from_admin: 0
+    };
+    if (readAjax !== null) {
+        readAjax.abort();
+    }
+    readAjax = $.post($('.messages').data('read-messages-url'), info)
+        .done(function (data, textStatus, jqXHR) {
+            $('.message-badge').text('0')
+        }).fail(function () {
+    });
+}
 
 function sendMessage() {
     var info = {
@@ -44,11 +70,7 @@ function sendMessage() {
         .done(function (data, textStatus, jqXHR) {
             if (data.messages !== null) {
                 $('.no-messages').hide();
-                $('.messages').append(data.messages);
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
-            }
-            if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
-                lastMessageId = data.lastMessageId;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -104,25 +126,24 @@ function updateChat() {
     var info = {
         referencia: reference,
         id_referencia: referenceId,
-        id_ultima_mensagem: lastMessageId
+        id_ultima_mensagem: lastMessageId,
+        from_admin: 1
     };
-    $.post($('.messages').data('update-messages-url'), info)
+    if (updateAjax !== null) {
+        updateAjax.abort();
+    }
+    updateAjax = $.post($('.messages').data('update-messages-url'), info)
         .done(function (data, textStatus, jqXHR) {
             if (data.messages !== null) {
                 $('.no-messages').hide();
                 $('.messages').append(data.messages);
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
+                $('.message-badge').text(parseInt($('.message-badge').text()) + data.unreadMessages)
             }
             if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
                 lastMessageId = data.lastMessageId;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status === 422) {
-                //noinspection JSUnresolvedVariable
-                showFormValidationError($('#message-form'), jqXHR.responseJSON);
-            } else {
-                showFormValidationError($('#message-form'));
-            }
         });
 }

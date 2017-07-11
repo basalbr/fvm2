@@ -82,7 +82,7 @@
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
                             <td>{{$apuracao->status}}</td>
                             <td>
-                                <a class="btn btn-primary" href="" title="Visualizar">
+                                <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar
                                 </a>
                             </td>

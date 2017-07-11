@@ -31,4 +31,9 @@ class ProcessoFolha extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+    public function mensagens()
+    {
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
 }

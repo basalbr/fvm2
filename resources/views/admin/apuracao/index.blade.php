@@ -27,7 +27,7 @@
                     <th>Imposto</th>
                     <th>Competência</th>
                     <th>Vencimento</th>
-                    <th>Novas mensagens</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -41,7 +41,7 @@
                             <td>{{$apuracao->imposto->nome}}</td>
                             <td>{{$apuracao->competencia->format('m/Y')}}</td>
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
-                            <td>{{$apuracao->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
+                            <td>{{$apuracao->status}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showApuracaoToAdmin', $apuracao->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar

@@ -12,7 +12,7 @@
         @include('admin.components.js')
     @show
 </head>
-<body>
+<body data-chat-count-url="{{route('chatCountAjax')}}" data-chat-notification-url="{{route('chatNotificationAjax')}}">
 @include('admin.components.top-menu')
 @include('admin.components.left-menu')
 <div id="content">

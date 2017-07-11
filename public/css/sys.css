@@ -1576,3 +1576,7 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 .nav-tabs .highlight:hover a{
     color: #fff;
 }
+
+.tab-pane{
+    padding-top: 15px;
+}

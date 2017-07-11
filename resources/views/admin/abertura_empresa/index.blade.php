@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
     <div class="col-xs-12">
         <h1>Abertura de empresa</h1>

@@ -143,15 +143,33 @@
 @section('content')
     <h1>Chamado: {{$chamado->tipoChamado->descricao}}</h1>
     <hr>
-    <div class="panel">
-        <div class="col-sm-8">
-            @include('dashboard.components.chat.box', ['model'=>$chamado])
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i
+                        class="fa fa-comments"></i>
+                Mensagens
+                <span class="badge">{{$chamado->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
+                Documentos enviados</a>
+        </li>
+
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active animated fadeIn" id="messages">
+            <div class="col-sm-12">
+                @if($chamado->status == 'Concluído')
+                    @include('dashboard.components.chat.box', ['model'=>$chamado, 'lockMessages'=>'true'])
+                @else
+                    @include('dashboard.components.chat.box', ['model'=>$chamado])
+                @endif
+            </div>
         </div>
-        <div class="col-sm-4">
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">
             <div id="anexos">
-                <div class="col-sm-12">
-                    <h3>Anexos</h3>
-                </div>
                 <div class="list">
                     @if($chamado->anexos)
                         @foreach($chamado->anexos as $anexo)
@@ -172,14 +190,16 @@
             </div>
         </div>
         <div class="clearfix"></div>
+
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listAtendimentosToUser')}}"><i class="fa fa-angle-left"></i>
-                Voltar para atendimento</a>
+            <a class="btn btn-default" href="{{route('listApuracoesToUser')}}"><i
+                        class="fa fa-angle-left"></i>
+                Voltar para apurações</a>
         </div>
         <div class="clearfix"></div>
-        <br/>
     </div>
+
 @stop
 
 @section('modals')

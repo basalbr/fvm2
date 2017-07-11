@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
 
-class Chat extends Model {
+class Chat extends Model
+{
 
     use SoftDeletes;
 
-    protected $rules = ['email' => 'required','nome' => 'required', 'mensagem' => 'required'];
-    protected $errors;
-    protected $niceNames = ['titulo' => 'Título', 'mensagem' => 'Mensagem'];
+    protected $dates = ['created_at', 'updated_at'];
 
     /**
      * The database table used by the model.
@@ -20,40 +18,23 @@ class Chat extends Model {
      * @var string
      */
     protected $table = 'chat';
+    protected $statusNames = ['novo' => 'Novo', 'ativo' => 'Ativo', 'fechado' => 'Fechado'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['nome', 'email', 'mensagem','id_usuario'];
+    protected $fillable = ['assunto', 'nome', 'email', 'status'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
-    }
-
-    public function errors() {
-        return $this->errors;
-    }
-    
-    public function mensagens(){
-        return $this->hasMany('App\ChatMensagem', 'id_chat');
-    }
-    
-    public function usuario()
+    public function mensagens()
     {
-        return $this->belongsTo('App\Usuario','id_usuario');
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function getStatus()
+    {
+        return $this->statusNames[$this->status];
     }
 
 }

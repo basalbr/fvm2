@@ -1,4 +1,38 @@
+var chatId, nome, email, assunto, lastMessageId, updateInterval, updateAjax = null;
+
 $(function () {
+
+    $('.btn-chat').on('click', function (e) {
+        e.preventDefault();
+        openChatWindow();
+    });
+
+    $('#chat-window .btn-default').on('click', function (e) {
+        e.preventDefault();
+        closeChatWindow();
+    });
+
+    $('#chat-window #information .btn-primary').on('click', function (e) {
+        e.preventDefault();
+        nome = $(this).parent().find('[name="nome"]').val();
+        email = $(this).parent().find('[name="email"]').val();
+        assunto = $(this).parent().find('[name="assunto"]').val();
+        loginChat();
+    });
+
+    $('#messages textarea').on('keypress', function (e) {
+        if (e.keyCode == 13 && $(this).val() !== '') {
+            sendMessage();
+        }
+    });
+
+    $('#messages .btn-primary').on('click', function (e) {
+        e.preventDefault();
+        if ($('#messages textarea').val() !== '') {
+            sendMessage();
+        }
+    });
+
 
     $('#contato-form button').on('click', function (e) {
         e.preventDefault();
@@ -202,4 +236,87 @@ function sendContato() {
 function showModalSuccess(text){
     $('#modal-success').find('#text').html(text);
     $('#modal-success').modal('show');
+}
+
+function validateChatInfo() {
+    if (!nome || !email || !assunto) {
+        alert('É necessário preencher todos os campos');
+        return false;
+    }
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(email)) {
+        alert('E-mail inválido');
+        return false;
+    }
+    return true;
+}
+
+function openChatWindow() {
+    $('#chat-window').show()
+}
+function loginChat() {
+    if (!validateChatInfo()) {
+        return false;
+    }
+    $.post($('#chat-window').data('register-chat-url'), {
+        nome: nome,
+        email: email,
+        assunto: assunto
+    }).done(function (data) {
+        chatId = data.id;
+        $('#information').hide();
+        $('#messages').show();
+        updateInterval = setInterval(updateMessages, 3000);
+    }).fail(function () {
+    });
+}
+
+function sendMessage() {
+
+    $.post($('#chat-window').data('send-message-url'), {
+        mensagem: $('#messages textarea').val(),
+        id_referencia: chatId
+    }).done(function (data) {
+        if (data.html !== undefined) {
+            $('#messages .message-box').append(data.html);
+        }
+        $('#messages .message-box').scrollTop($('#messages .message-box')[0].scrollHeight);
+        $('#messages textarea').val(null)
+    }).fail(function () {
+    });
+    $('#messages textarea').val(null)
+}
+
+function updateMessages() {
+    if (!$('#messages').is(':visible')) {
+        clearInterval(updateInterval);
+        return false;
+    }
+    if (updateAjax !== null) {
+        updateAjax.abort();
+    }
+    updateAjax = $.post($('#chat-window').data('update-chat-url'), {
+        chatId: chatId,
+        lastMessageId: lastMessageId
+    }).done(function (data) {
+        $('#messages .message-box').append(data.html);
+        if (data.status == 'ativo') {
+            $('#messages textarea, #messages .btn-primary').prop('disabled', false);
+        }
+        if (data.status == 'fechado') {
+            clearInterval(updateInterval);
+        }
+        if (data.lastMessageId) {
+            lastMessageId = data.lastMessageId;
+        }
+        $('#messages .message-box').scrollTop($('#messages .message-box')[0].scrollHeight);
+    }).fail(function () {
+    });
+}
+
+function closeChatWindow() {
+    $('#chat-window #information form')[0].reset();
+    $('#chat-window #information').show();
+    $('#chat-window #messages').hide();
+    $('#chat-window').hide();
 }

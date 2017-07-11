@@ -111,12 +111,18 @@
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
-                        class="badge">{{$apuracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
+                        class="badge">{{$apuracao->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
                 Documentos enviados</a>
         </li>
+        @if($apuracao->guia)
+            <li class="animated bounceInDown highlight">
+                <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
+                   download><i class="fa fa-download"></i> Guia</a>
+            </li>
+        @endif
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -153,24 +159,6 @@
                         <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
                     </div>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-sm-12">
-                @if($apuracao->guia)
-                    <div class="col-sm-12">
-                        <h3>Download da guia da apuração</h3>
-                    </div>
-                    <div class="list">
-                        <div class='anexo animated bounceIn'>
-                            <div class="big-icon">
-                                <span class="fa fa-file"></span>
-                                <a download class="download"
-                                   href="" title="Clique para fazer download do arquivo"><i class="fa fa-download"></i></a>
-                            </div>
-                            <div class="description" title="">Guia</div>
-                        </div>
-                    </div>
-                @endif
             </div>
             <div class="clearfix"></div>
             @if($apuracao->isPendingInfo())
@@ -233,7 +221,11 @@
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
             <div class="col-sm-12">
-                @include('dashboard.components.chat.box', ['model'=>$apuracao])
+                @if($apuracao->status == 'Concluído')
+                    @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockMessages'=>'true'])
+                @else
+                    @include('dashboard.components.chat.box', ['model'=>$apuracao])
+                @endif
             </div>
             <div class="clearfix"></div>
         </div>

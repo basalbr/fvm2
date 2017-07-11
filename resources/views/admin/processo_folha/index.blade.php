@@ -76,7 +76,7 @@
                             <td>{{$folha->empresa->razao_social}}</td>
                             <td>{{$folha->competencia->format('m/Y')}}</td>
                             <td>
-                                <a class="btn btn-primary" href="" title="Visualizar">
+                                <a class="btn btn-primary" href="{{route('showProcessoFolhaToAdmin', $folha->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar
                                 </a>
                             </td>

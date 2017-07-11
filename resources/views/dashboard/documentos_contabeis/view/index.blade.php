@@ -156,7 +156,7 @@
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
-                        class="badge">{{$processo->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
+                        class="badge">{{$processo->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
@@ -209,9 +209,7 @@
 
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-            <div class="col-sm-12">
                 @include('dashboard.components.chat.box', ['model'=>$processo])
-            </div>
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">

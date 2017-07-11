@@ -1,9 +1,6 @@
 
-<div class="col-xs-6">
-    <div class="col-xs-12">
-        <h3>Resumo</h3>
-    </div>
-
+<div class="col-xs-12">
+    <br />
     <div class="col-xs-12">
         <div class="form-group">
             <label for="">Nome fantasia</label>
@@ -28,10 +25,4 @@
             <div class="form-control">{{$empresa->status}}</div>
         </div>
     </div>
-
-
-
-</div>
-<div class="col-xs-6">
-@include('admin.components.chat.box', ['model'=>$empresa])
 </div>

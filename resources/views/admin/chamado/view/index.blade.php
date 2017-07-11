@@ -116,7 +116,6 @@
 
         function removeAnexo() {
             var arquivo = $('#modal-remover-arquivo .btn-danger').attr('data-arquivo');
-            console.log(arquivo)
             $.post({
                 url: $('#modal-remover-arquivo .btn-danger').data('remove-url'),
                 data: {arquivo: arquivo}
@@ -141,102 +140,16 @@
 @section('content')
     <h1>Chamado: {{$chamado->tipoChamado->descricao}}</h1>
     <hr>
-    <div class="panel">
-        <div class="col-sm-8">
+    <ul class="nav nav-tabs" role="tablist">
+        @include('admin.chamado.view.components.tabs')
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active animated fadeIn" id="mensagens">
             @include('admin.components.chat.box', ['model'=>$chamado])
         </div>
-        <div class="col-sm-4">
-            <div id="anexos">
-                <div class="col-sm-12">
-                    <h3>Anexos</h3>
-                </div>
-                <div class="list">
-                    @if($chamado->anexos)
-                        @foreach($chamado->anexos as $anexo)
-                            <div class="col-sm-4">
-                                @include('admin.components.anexo.withDownload', ['anexo'=>$anexo])
-                            </div>
-                        @endforeach
-                    @endif
-                    @foreach($chamado->mensagens as $message)
-                        @if($message->anexo)
-                            <div class="col-sm-4">
-                                @include('admin.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="clearfix"></div>
-            </div>
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">
+            @include('admin.chamado.view.components.docs')
         </div>
-        <div class="clearfix"></div>
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listAtendimentosToAdmin')}}"><i class="fa fa-angle-left"></i>
-                Voltar para atendimento</a>
-        </div>
-        <div class="clearfix"></div>
-        <br/>
     </div>
-@stop
 
-@section('modals')
-    @parent
-    <div class="modal animated fadeInDown" id="modal-anexar-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Anexar arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <form id="form-anexo" data-anexo-temp-url="{{route('sendAnexoToTemp')}}">
-                        {!! csrf_field() !!}
-                        <div class="col-xs-12">
-                            <p><strong>Atenção:</strong> O arquivo deve ser menor que 10MB.</p>
-                        </div>
-                        @include('dashboard.components.form-alert')
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Descrição</label>
-                                <input type="text" class="form-control" name="descricao" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Arquivo</label>
-                                <input type="file" class="form-control" name="arquivo" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-paperclip"></i> Anexar arquivo
-                            </button>
-                        </div>
-                        <div class=" clearfix"></div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal animated fadeInDown" id="modal-remover-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Remover arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja remover o arquivo <span class="nome-arquivo"></span></p>
-                    @include('dashboard.components.form-alert')
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" data-arquivo="" data-remove-url="{{route('removeAnexoFromTemp')}}"><i
-                                class="fa fa-remove"></i> Sim, desejo remover
-                    </button>
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @stop

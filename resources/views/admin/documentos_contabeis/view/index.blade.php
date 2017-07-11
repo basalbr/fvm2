@@ -148,83 +148,19 @@
     <h1>Envio de documentos contábeis ({{$processo->periodo->format('m/Y')}})</h1>
     <hr>
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
-                        class="fa fa-info-circle"></i>
-                Informações</a>
-        </li>
-        <li role="presentation">
-            <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
-                Mensagens <span
-                        class="badge">{{$processo->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
-        </li>
-        <li role="presentation">
-            <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
-                Documentos enviados <span class="badge"></span></a>
-        </li>
+        @include('admin.documentos_contabeis.view.components.tabs')
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-
-            <div class="col-sm-12">
-                <h3>Informações</h3>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Empresa</label>
-                    <div class="form-control">{{$processo->empresa->nome_fantasia}}</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Status</label>
-                    <div class="form-control">{{$processo->getStatus()}}</div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label>Competência</label>
-                    <div class="form-control">{{$processo->periodo->format('m/Y')}}</div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-
-
+            @include('admin.documentos_contabeis.view.components.informacoes')
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-            <div class="col-sm-12">
-                @include('admin.components.chat.box', ['model'=>$processo])
-            </div>
+            @include('admin.components.chat.box', ['model'=>$processo])
             <div class="clearfix"></div>
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
-            <form method="POST" action="" id="form-principal" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                @include('admin.components.form-alert')
-                <div id="anexos">
-                    <br/>
-                    <div class="col-sm-12">
-                        <p>Aqui estão os arquivos relacionados à esse processo.</p>
-                    </div>
-                    <div class="list">
-                        @foreach($processo->anexos as $anexo)
-                            <div class="col-sm-4">
-                                @include('admin.components.anexo.withDownload', ['anexo'=>$anexo])
-                            </div>
-                        @endforeach
-                        @foreach($processo->mensagens as $message)
-                            @if($message->anexo)
-                                <div class="col-sm-4">
-                                    @include('admin.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </form>
-
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">
+            @include('admin.documentos_contabeis.view.components.docs')
         </div>
         <hr>
         <div class="col-sm-12">
@@ -232,84 +168,10 @@
                         class="fa fa-angle-left"></i>
                 Voltar para documentos contábeis</a>
             @if($processo->isPending())
-                <a class="btn btn-success" href="{{route('contabilizarDocumentoContabil', [$processo->id])}}"><i class="fa fa-check"></i> Contabilizar</a>
+                <a class="btn btn-success" href="{{route('contabilizarDocumentoContabil', [$processo->id])}}"><i
+                            class="fa fa-check"></i> Contabilizar</a>
             @endif
         </div>
         <div class="clearfix"></div>
-    </div>
-@stop
-
-
-@section('modals')
-    @parent
-    <div class="modal animated fadeInDown" id="modal-anexar-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Anexar arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <form id="form-anexo" data-anexo-temp-url="{{route('sendAnexoToTemp')}}">
-                        {!! csrf_field() !!}
-                        <div class="col-xs-12">
-                            <p><strong>Atenção:</strong> O arquivo deve ser menor que 10MB.</p>
-                        </div>
-                        @include('admin.components.form-alert')
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Que tipo de documento quer enviar?</label>
-
-                                <select class="form-control" id="descricao_arquivo">
-                                    <option value="">Selecione uma opção</option>
-                                    @foreach($tiposDocumentos as $tipo)
-                                        <option value="{{$tipo->descricao}}">{{$tipo->descricao}}</option>
-                                    @endforeach
-                                    <option value="outro">Outro</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12" id="descricao_div" style="display: none">
-                            <div class="form-group">
-                                <label>Descrição</label>
-                                <input type="text" class="form-control" name="descricao" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Arquivo</label>
-                                <input type="file" class="form-control" name="arquivo" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-paperclip"></i> Anexar arquivo
-                            </button>
-                        </div>
-                        <div class=" clearfix"></div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal animated fadeInDown" id="modal-remover-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Remover arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja remover o arquivo <span class="nome-arquivo"></span></p>
-                    @include('admin.components.form-alert')
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" data-arquivo="" data-remove-url="{{route('removeAnexoFromTemp')}}"><i
-                                class="fa fa-remove"></i> Sim, desejo remover
-                    </button>
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
     </div>
 @stop

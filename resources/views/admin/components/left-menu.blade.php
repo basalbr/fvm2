@@ -36,5 +36,6 @@
         <li><a href="{{route('listOrdensPagamentoToAdmin')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listSolicitacoesAlteracaoToAdmin')}}"><span class="fa fa-bullhorn"></span> Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>
         <li><a href="{{route('listAtendimentosToAdmin')}}"><span class="fa fa-comments"></span> Atendimento <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="{{route('listChatToAdmin')}}"><span class="fa fa-comment"></span> Chat <i class="fa fa-angle-right"></i></a></li>
     </ul>
 </div>

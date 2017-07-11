@@ -216,6 +216,7 @@ Route::group(['prefix' => 'admin/processamento-folha', 'namespace' => 'Admin', '
     Route::get('', ['as' => 'listProcessoFolhaToAdmin', 'uses' => 'ProcessoFolhaController@index']);
     Route::get('send/{idEmpresa}', ['as' => 'createProcessoFolha', 'uses' => 'ProcessoFolhaController@create']);
     Route::post('send/{idEmpresa}', ['uses' => 'ProcessoFolhaController@store']);
+    Route::get('view/{idProcesso}', ['as' => 'showProcessoFolhaToAdmin', 'uses' => 'ProcessoFolhaController@view']);
     Route::post('validate', ['as'=>'validateProcessoFolha', 'uses' => 'ProcessoFolhaController@validateProcesso']);
     Route::post('validate/arquivo', ['as'=>'validateProcessoFolhaArquivo', 'uses' => 'ProcessoFolhaController@validateArquivo']);
 });
@@ -238,6 +239,14 @@ Route::group(['prefix' => 'admin/chamados', 'namespace' => 'Admin', 'middleware'
     Route::get('view/{id}', ['as' => 'showChamadoToAdmin', 'uses' => 'ChamadoController@view']);
 });
 
+//Admin - Chat
+Route::group(['prefix' => 'admin/chat', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listChatToAdmin', 'uses' => 'ChatController@index']);
+    Route::get('view/{idChat}', ['as' => 'showChatToAdmin', 'uses' => 'ChatController@view']);
+    Route::get('activate/{idChat}', ['as' => 'ativarChat', 'uses' => 'ChatController@activate']);
+    Route::get('terminate/{idChat}', ['as' => 'finalizarChat', 'uses' => 'ChatController@terminate']);
+});
+
 //Ajax
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('cnae/search/code', ['as' => 'searchCnaeByCode', 'uses' => 'AjaxController@searchCnaeByCode']);
@@ -245,15 +254,20 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('messages/send', ['as' => 'sendMessageAjax', 'uses' => 'AjaxController@sendMessage']);
     Route::post('messages/update', ['as' => 'updateMessagesAjax', 'uses' => 'AjaxController@updateMessages']);
     Route::post('messages/upload', ['as' => 'uploadChatFileAjax', 'uses' => 'AjaxController@uploadChatFile']);
+    Route::post('messages/read', ['as' => 'readMessagesAjax', 'uses' => 'AjaxController@readMessages']);
     Route::get('payment/params', ['as' => 'getMonthlyPaymentParams', 'uses' => 'AjaxController@getMonthlyPaymentParams']);
     Route::post('impostos', ['as' => 'getImpostos', 'uses' => 'AjaxController@getImpostos']);
     Route::get('impostos/details', ['as' => 'getDetailsImposto', 'uses' => 'AjaxController@getDetailsImposto']);
     Route::post('contato', ['as' => 'sendContato', 'uses' => 'AjaxController@sendContato']);
     Route::post('contato/validate', ['as' => 'validateContato', 'uses' => 'AjaxController@validateContato']);
+    Route::post('chat/register', ['as' => 'registerChat', 'uses' => 'AjaxController@registerChat']);
+    Route::post('chat/send-message', ['as' => 'sendMessageChatAjax', 'uses' => 'AjaxController@sendMessageChat']);
+    Route::post('chat/update', ['as' => 'updateChatAjax', 'uses' => 'AjaxController@updateChat']);
+    Route::get('chat/count', ['as' => 'chatCountAjax', 'uses' => 'AjaxController@chatCount']);
+    Route::get('chat/notification', ['as' => 'chatNotificationAjax', 'uses' => 'AjaxController@chatNotification']);
 });
 
 //Pagseguro
-
 Route::group(['namespace' => 'Pagseguro', 'middleware' => 'auth'], function () {
     Route::post('notifications', ['as' => 'pagseguroNotification', 'uses' => 'PagseguroController@notifications']);
 });
