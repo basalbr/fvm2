@@ -1,4 +1,5 @@
 var chat;
+
 function notify(title, message, url) {
     if (Notification.permission !== "granted")
         Notification.requestPermission();

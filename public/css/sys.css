@@ -690,9 +690,8 @@ th.cnae-code {
 }
 
 .messages .message.from-admin {
-    padding: 5px 70px 5px 15px;
+    padding: 5px 70px 5px 25px;
     float: right;
-    text-align: right;
     background-color: #daeffd;
 }
 
@@ -1579,4 +1578,12 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 
 .tab-pane{
     padding-top: 15px;
+}
+
+.form-inline label{
+    display: block;
+}
+
+.form-inline .btn{
+    margin-top: 10px;
 }

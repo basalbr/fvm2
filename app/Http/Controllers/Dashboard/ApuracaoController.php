@@ -56,13 +56,13 @@ class ApuracaoController extends Controller
     {
         $apuracoesPendentes = Apuracao::join('empresa', 'apuracao.id_empresa', '=', 'empresa.id')
             ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->whereNotIn('apuracao.status', ['concluido', 'sem_movimento'])
+            ->whereIn('apuracao.status', ['novo', 'informacoes_enviadas', 'atencao'])
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();
         $apuracoesConcluidas = Apuracao::join('empresa', 'apuracao.id_empresa', '=', 'empresa.id')
             ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->whereIn('apuracao.status', ['concluido', 'sem_movimento'])
+            ->whereIn('apuracao.status', ['concluido', 'sem_movimento', 'cancelado'])
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();

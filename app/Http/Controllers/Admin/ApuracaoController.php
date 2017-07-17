@@ -39,11 +39,11 @@ class ApuracaoController extends Controller
 
     public function index()
     {
-        $apuracoesPendentes = Apuracao::where('apuracao.status', '!=', 'concluido')
+        $apuracoesPendentes = Apuracao::whereIn('apuracao.status', ['informacoes_enviadas', 'novo', 'atencao'])
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();
-        $apuracoesConcluidas = Apuracao::where('apuracao.status', '=', 'concluido')
+        $apuracoesConcluidas = Apuracao::whereNotIn('apuracao.status',  ['informacoes_enviadas', 'novo', 'atencao'])
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();
@@ -53,9 +53,8 @@ class ApuracaoController extends Controller
     public function validateGuia(Request $request){
         $rules = ['arquivo'=>'max:10240|required|file|mimes:pdf'];
         $niceNames = ['arquivo'=>'Guia'];
-        $this->validate($request,   $rules, [], $niceNames);
+        $this->validate($request, $rules, [], $niceNames);
     }
-
 
     public function update(Request $request, $idApuracao){
         if (UpdateApuracao::handle($request, $idApuracao)) {
@@ -63,6 +62,5 @@ class ApuracaoController extends Controller
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
-
 
 }

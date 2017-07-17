@@ -27,7 +27,7 @@ $(function () {
         $('#file').val(null);
     });
     $('.nav-tabs li').on('click', function () {
-        if ($(this).find('a[href="#messages"]').length > 0) {
+        if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
             setTimeout(function () {
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
             }, 500);

@@ -34,10 +34,7 @@ class SendInformacaoApuracao
         try {
 
             /* @var Apuracao $apuracao */
-            $apuracao = Apuracao::find($idApuracao);
-            if ($apuracao->empresa->id_usuario !== Auth::user()->id) {
-                return false;
-            }
+            $apuracao = Apuracao::findOrFail($idApuracao);
 
             foreach ($request->get('informacoes_extras') as $idInfoExtra => $info) {
                 $apuracao->informacoes()->create(['id_informacao_extra' => $idInfoExtra, 'informacao' => $info]);

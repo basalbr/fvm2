@@ -44,8 +44,7 @@ class DocumentoContabilController extends Controller
       $processosConcluidos = ProcessoDocumentoContabil::query();
       $processosConcluidos->join('empresa','empresa.id','=','processo_documento_contabil.id_empresa');
       $processosConcluidos->where('empresa.id_usuario','=',Auth::user()->id);
-      $processosConcluidos->orWhere('processo_documento_contabil.status','=','concluido');
-      $processosConcluidos->orWhere('processo_documento_contabil.status','=','sem_movimento');
+      $processosConcluidos->whereIn('processo_documento_contabil.status',['concluido', 'sem_movimento']);
       $processosConcluidos = $processosConcluidos->select('processo_documento_contabil.*')->get();
 
       return view('dashboard.documentos_contabeis.index', compact('processosPendentes' , 'processosConcluidos'));

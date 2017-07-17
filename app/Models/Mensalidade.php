@@ -103,4 +103,9 @@ class Mensalidade extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+    public function getValor()
+    {
+        return 'R$' . number_format($this->valor, 2, ',', '.');
+    }
+
 }

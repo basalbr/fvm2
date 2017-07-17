@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         'ajax*',
         'anexo/removeTemp',
         'anexo/temp',
+        'notifications*',
         'dashboard/usuario/upload/foto',
         'dashboard/apuracao/validate/anexo',
         'admin/apuracao/validate/guia',

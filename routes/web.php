@@ -191,6 +191,8 @@ Route::group(['prefix' => 'admin/funcionarios', 'namespace' => 'Admin', 'middlew
 Route::group(['prefix' => 'admin/solicitar-alteracao', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listSolicitacoesAlteracaoToAdmin', 'uses' => 'AlteracaoController@index']);
     Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToAdmin', 'uses' => 'AlteracaoController@view']);
+    Route::get('cancel/{idAlteracao}', ['as' => 'cancelAlteracao', 'uses' => 'AlteracaoController@cancel']);
+    Route::get('finish/{idAlteracao}', ['as' => 'finishAlteracao', 'uses' => 'AlteracaoController@finish']);
 });
 
 //Admin - Apurações
@@ -200,6 +202,12 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('view/{idApuracao}/upload/guia', ['uses' => 'ApuracaoController@uploadGuia']);
     Route::post('validate/guia', ['as'=>'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
+});
+
+//Admin - Usuários
+Route::group(['prefix' => 'admin/usuarios', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listUsuariosToAdmin', 'uses' => 'UsuarioController@index']);
+    Route::get('view/{idUsuario}', ['as' => 'showUsuarioToAdmin', 'uses' => 'UsuarioController@view']);
 });
 
 //Admin - Pró-labores
@@ -268,6 +276,6 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 });
 
 //Pagseguro
-Route::group(['namespace' => 'Pagseguro', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'Pagseguro'], function () {
     Route::post('notifications', ['as' => 'pagseguroNotification', 'uses' => 'PagseguroController@notifications']);
 });

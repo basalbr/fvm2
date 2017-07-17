@@ -21,6 +21,7 @@ use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
+use App\Validation\SocioValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -44,10 +45,23 @@ class EmpresaController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $empresasAtivas = Empresa::where('status', 'aprovado')->orderBy('nome_fantasia')->get();
-        $empresasPendentes = Empresa::where('status', 'em_analise')->orderBy('nome_fantasia')->get();
+        $empresasAtivas = Empresa::query()->where('status', 'aprovado');
+        if (!$request->has('tab') || $request->get('tab') == 'ativas') {
+            $empresasAtivas = $this->filterForm($empresasAtivas, $request);
+        } else {
+            $empresasAtivas->orderBy('nome_fantasia');
+        }
+        $empresasAtivas = $empresasAtivas->select('empresa.*')->get();
+
+        $empresasPendentes = Empresa::query()->where('status', 'em_analise');
+        if ($request->get('tab') == 'pendentes') {
+            $empresasPendentes = $this->filterForm($empresasPendentes, $request);
+        } else {
+            $empresasPendentes->orderBy('nome_fantasia');
+        }
+        $empresasPendentes = $empresasPendentes->select('empresa.*')->get();
         return view('admin.empresa.index', compact("empresasAtivas", "empresasPendentes"));
     }
 
@@ -136,6 +150,42 @@ class EmpresaController extends Controller
     {
         $this->validate($request, SocioValidation::getRules(), [], SocioValidation::getNiceNames());
         return response()->json('success', 200);
+    }
+
+    /**
+     * @param $query
+     * @param $request
+     * @return mixed
+     */
+    public function filterForm($query, $request)
+    {
+        $query->join('usuario', 'empresa.id_usuario', '=', 'usuario.id');
+        if ($request->get('busca')) {
+            $query->where('empresa.nome_fantasia', 'LIKE', '%' . $request->get('busca') . '%')
+                ->orWhere('empresa.razao_social', 'LIKE', '%' . $request->get('busca') . '%')
+                ->orWhere('empresa.cnpj', 'LIKE', '%' . $request->get('busca') . '%')
+                ->orWhere('usuario.nome', 'LIKE', '%' . $request->get('busca') . '%')
+                ->orWhere('usuario.email', 'LIKE', '%' . $request->get('busca') . '%');
+        }
+        if ($request->get('ordenar')) {
+            switch ($request->get('ordenar')) {
+                case 'empresa_asc':
+                    $query->orderBy('empresa.nome_fantasia');
+                    break;
+                case 'empresa_desc':
+                    $query->orderBy('empresa.nome_fantasia', 'desc');
+                    break;
+                case 'usuario_asc':
+                    $query->orderBy('usuario.nome');
+                    break;
+                case 'usuario_desc':
+                    $query->orderBy('usuario.nome', 'desc');
+                    break;
+                default:
+                    $query->orderBy('empresa.nome_fantasia');
+            }
+        }
+        return $query;
     }
 
 }

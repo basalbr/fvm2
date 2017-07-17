@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewSolicitacaoAlteracao extends Notification
+class SolicitacaoAlteracaoFinished extends Notification
 {
     use Queueable;
     private $alteracao;
@@ -21,7 +21,7 @@ class NewSolicitacaoAlteracao extends Notification
     public function __construct(Alteracao $alteracao)
     {
         $this->alteracao = $alteracao;
-        $this->url = route('showSolicitacaoAlteracaoToAdmin', [$this->alteracao->id]);
+        $this->url = route('showSolicitacaoAlteracaoToUser', [$this->alteracao->id]);
     }
 
     /**
@@ -45,11 +45,11 @@ class NewSolicitacaoAlteracao extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá!')
-            ->line('Temos uma nova solicitação de '.$this->alteracao->tipo->descricao.' de ' . $this->alteracao->usuario->nome)
+            ->line('A solicitação de alteração '.$this->alteracao->tipo->descricao.' para a empresa ' . $this->alteracao->empresa->nome_fantasia. ' foi concluída com sucesso.')
             ->line('Para visualizar essa solicitação, clique no botão abaixo:')
-            ->action('Visualizar Solicitação', $this->url)
+            ->action('Visualizar solicitação', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Nova solicitação de '.$this->alteracao->tipo->descricao)
+            ->subject('Alteração '.$this->alteracao->tipo->descricao. ' foi concluída')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -62,7 +62,7 @@ class NewSolicitacaoAlteracao extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => $this->alteracao->usuario->nome.' abriu um novo alteracao!',
+            'mensagem' => 'A solicitação de alteração '.$this->alteracao->tipo->descricao.' para a empresa ' . $this->alteracao->empresa->nome_fantasia. ' foi concluída com sucesso.',
             'url' => $this->url
         ];
     }

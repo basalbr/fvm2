@@ -33,7 +33,7 @@ class PagseguroController extends Controller
      */
     public function notifications()
     {
-        header("access-control-allow-origin: https://sandbox.pagseguro.uol.com.br");
+        header("access-control-allow-origin: https://www.pagseguro.uol.com.br");
         try {
             if (Xhr::hasPost()) {
                 $nomeStatus = [
