@@ -11,7 +11,7 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="{{!request('tab') || request('tab')=='pendentes' ? 'active' : ''}} tab-pane active animated fadeIn" id="pendentes">
+        <div role="tabpanel" class="{{!request('tab') || request('tab')=='pendentes' ? 'active' : ''}} tab-pane animated fadeIn" id="pendentes">
             @include('admin.apuracao.components.pendentes')
         </div>
         <div role="tabpanel" class="{{request('tab')=='historico' ? 'active' : ''}} tab-pane animated fadeIn" id="historico">
