@@ -70,7 +70,7 @@ $(function () {
     });
 
     $('.phone-mask').mask(SPMaskBehavior, spOptions);
-    $('.date-mask').mask('00/00/0000', {clearIfNotMatch: false, placeholder: "__/__/____"});
+    $('.date-mask').mask('00/00/0000', {clearIfNotMatch: true, placeholder: "__/__/____"});
     $('.time-mask').mask('00:00', {clearIfNotMatch: true, placeholder: "--:--"});
     $('.number-mask').mask('#', {clearIfNotMatch: true});
     $('.date-time-mask').mask('00/00/0000 00:00:00', {clearIfNotMatch: true});

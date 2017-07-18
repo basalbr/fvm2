@@ -117,6 +117,12 @@
             <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
                 Documentos enviados <span class="badge">{{$qtdeDocumentos}}</span></a>
         </li>
+        @if($apuracao->guia)
+            <li class="animated bounceInDown highlight">
+                <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
+                   download><i class="fa fa-download"></i> Guia</a>
+            </li>
+        @endif
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">

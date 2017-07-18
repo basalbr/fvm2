@@ -12,6 +12,9 @@
     @show
     @section('js')
         @include('index.components.js')
+        @if(\Illuminate\Support\Facades\App::environment('production'))
+            <script type="text/javascript" src="{{url(public_path().'js/ga.js')}}"></script>
+        @endif
     @show
 
 </head>

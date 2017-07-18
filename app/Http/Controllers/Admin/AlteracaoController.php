@@ -46,7 +46,7 @@ class AlteracaoController extends Controller
         $alteracoesConcluidas = $alteracoesConcluidas->select('alteracao.*')->get();
 
         /* Return view */
-        return view('admin.alteracao.index', compact( 'alteracoesPendentes', 'alteracoesConcluidas'));
+        return view('admin.alteracao.index', compact('alteracoesPendentes', 'alteracoesConcluidas'));
     }
 
     /**
@@ -88,17 +88,21 @@ class AlteracaoController extends Controller
     {
         $query->join('usuario', 'alteracao.id_usuario', '=', 'usuario.id')
             ->join('empresa', 'alteracao.id_empresa', '=', 'empresa.id');
-        if($request->get('tipo')){
+        if ($request->get('tipo')) {
             $query->where('alteracao.id_tipo_alteracao', $request->get('tipo'));
         }
         if ($request->get('empresa')) {
-            $query->where('empresa.nome_fantasia','LIKE', '%' . $request->get('empresa') . '%')
-                ->orWhere('empresa.razao_social','LIKE', '%' . $request->get('empresa') . '%')
-                ->orWhere('empresa.cnpj','LIKE', '%' . $request->get('empresa') . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('empresa.nome_fantasia', 'LIKE', '%' . $request->get('empresa') . '%')
+                    ->orWhere('empresa.razao_social', 'LIKE', '%' . $request->get('empresa') . '%')
+                    ->orWhere('empresa.cnpj', 'LIKE', '%' . $request->get('empresa') . '%');
+            });
         }
         if ($request->get('usuario')) {
-            $query->where('usuario.nome','LIKE', '%' . $request->get('usuario') . '%')
-                ->orWhere('usuario.email','LIKE', '%' . $request->get('usuario') . '%');
+            $query->$query->where(function ($q) use ($request) {
+                $q->where('usuario.nome', 'LIKE', '%' . $request->get('usuario') . '%')
+                    ->orWhere('usuario.email', 'LIKE', '%' . $request->get('usuario') . '%');
+            });
         }
         if ($request->get('ordenar')) {
             switch ($request->get('ordenar')) {
