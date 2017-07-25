@@ -36,15 +36,124 @@ class PagamentoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function updateMensalidades(){
+    public function updateMensalidades()
+    {
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $pagamentosPendentes = OrdemPagamento::where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->orderBy('created_at')->get();
-        $historicoPagamento = OrdemPagamento::whereIn('status', ['Paga', 'Disponível'])->orderBy('created_at')->get();
+        $pagamentosPendentes = OrdemPagamento::query()->whereNotIn('status', ['Paga', 'Disponível']);
+        if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
+            $pagamentosPendentes = $this->filterForm($pagamentosPendentes, $request);
+        }
+        $pagamentosPendentes = $pagamentosPendentes->select('ordem_pagamento.*')->get();
+
+
+        $historicoPagamento = OrdemPagamento::query()->whereIn('status', ['Paga', 'Disponível']);
+        if (!$request->has('tab') || $request->get('tab') == 'historico') {
+            $historicoPagamento = $this->filterForm($historicoPagamento, $request);
+        }
+        $historicoPagamento = $historicoPagamento->select('ordem_pagamento.*')->get();
+
         return view('admin.pagamentos.index', compact("pagamentosPendentes", 'historicoPagamento'));
+    }
+
+    /**
+     * @param $query
+     * @param $request
+     * @return mixed
+     */
+    public function filterForm($query, $request)
+    {
+        $query->join('usuario', 'usuario.id', '=', 'ordem_pagamento.id_usuario');
+        if ($request->get('tipo')) {
+            $query->join($request->get('tipo'), $request->get('tipo').'.id', '=', 'ordem_pagamento.id_referencia');
+        }
+        if ($request->get('busca')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('usuario.nome', 'LIKE', '%' . $request->get('busca') . '%')
+                    ->orWhere('usuario.telefone', 'LIKE', '%' . $request->get('busca') . '%')
+                    ->orWhere('usuario.email', 'LIKE', '%' . $request->get('busca') . '%');
+                if ($request->get('tipo')) {
+                    switch ($request->get('tipo')) {
+                        case 'abertura_empresa':
+                            $q->orWhere('abertura_empresa.nome_empresarial1', 'LIKE', '%' . $request->get('busca') . '%');
+                            $q->orWhere('abertura_empresa.nome_empresarial2', 'LIKE', '%' . $request->get('busca') . '%');
+                            $q->orWhere('abertura_empresa.nome_empresarial3', 'LIKE', '%' . $request->get('busca') . '%');
+                            break;
+                        case 'empresa':
+                            $q->orWhere('empresa.nome_fantasia', 'LIKE', '%' . $request->get('busca') . '%');
+                            $q->orWhere('empresa.razao_social', 'LIKE', '%' . $request->get('busca') . '%');
+                            $q->orWhere('empresa.cnpj', 'LIKE', '%' . $request->get('busca') . '%');
+                            break;
+                    }
+                }
+            });
+        }
+        if ($request->get('tipo')) {
+            $query->where('ordem_pagamento.referencia', $request->get('tipo'));
+        }
+        if ($request->get('status')) {
+            $query->where('ordem_pagamento.status', $request->get('status'));
+        }
+        if ($request->get('aberto_de')) {
+            $data = explode('/', $request->get('aberto_de'));
+            $query->where('ordem_pagamento.created_at', '>=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('aberto_ate')) {
+            $data = explode('/', $request->get('aberto_ate'));
+            $query->where('ordem_pagamento.created_at', '<=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('pago_de')) {
+            $data = explode('/', $request->get('pago_de'));
+            $query->where('ordem_pagamento.updated_at', '>=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('pago_ate')) {
+            $data = explode('/', $request->get('pago_ate'));
+            $query->where('ordem_pagamento.updated_at', '<=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('vencimento_de')) {
+            $data = explode('/', $request->get('vencimento_de'));
+            $query->where('ordem_pagamento.vencimento', '>=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('vencimento_ate')) {
+            $data = explode('/', $request->get('vencimento_ate'));
+            $query->where('ordem_pagamento.vencimento', '<=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        }
+        if ($request->get('ordenar')) {
+            switch ($request->get('ordenar')) {
+                case 'aberto_asc':
+                    $query->orderBy('ordem_pagamento.created_at');
+                    break;
+                case 'aberto_desc':
+                    $query->orderBy('ordem_pagamento.created_at', 'desc');
+                    break;
+                case 'vencimento_asc':
+                    $query->orderBy('ordem_pagamento.vencimento');
+                    break;
+                case 'vencimento_desc':
+                    $query->orderBy('ordem_pagamento.vencimento', 'desc');
+                    break;
+                case 'pago_asc':
+                    $query->orderBy('ordem_pagamento.updated_at');
+                    break;
+                case 'pago_desc':
+                    $query->orderBy('ordem_pagamento.updated_at', 'desc');
+                    break;
+                case 'usuario_asc':
+                    $query->orderBy('usuario.nome');
+                    break;
+                case 'usuario_desc':
+                    $query->orderBy('usuario.nome', 'desc');
+                    break;
+                default:
+                    $query->orderBy('ordem_pagamento.created_at', 'desc');
+            }
+        } else {
+            $query->orderBy('ordem_pagamento.created_at', 'desc');
+        }
+        return $query;
     }
 
 }

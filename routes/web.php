@@ -245,6 +245,8 @@ Route::group(['prefix' => 'admin/documentos-contabeis', 'namespace' => 'Admin', 
 //Admin - Chamados
 Route::group(['prefix' => 'admin/chamados', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('view/{id}', ['as' => 'showChamadoToAdmin', 'uses' => 'ChamadoController@view']);
+    Route::get('finish/{id}', ['as' => 'finishChamado', 'uses' => 'ChamadoController@finish']);
+    Route::get('reopen/{id}', ['as' => 'reopenChamado', 'uses' => 'ChamadoController@reopen']);
 });
 
 //Admin - Chat

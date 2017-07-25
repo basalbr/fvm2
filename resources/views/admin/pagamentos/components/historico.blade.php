@@ -1,3 +1,4 @@
+@include('admin.pagamentos.components.historico-filter')
 <table class="table table-hovered table-striped">
     <thead>
     <tr>
@@ -26,7 +27,7 @@
         @endforeach
     @else
         <tr>
-            <td colspan="5">Nenhum pagamento efetuado</td>
+            <td colspan="6">Nenhum pagamento efetuado</td>
         </tr>
     @endif
     </tbody>

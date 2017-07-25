@@ -1607,3 +1607,7 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(187, 222, 251, 0.1);
 }
+
+.form-inline .form-group{
+    margin-bottom: 4px;
+}

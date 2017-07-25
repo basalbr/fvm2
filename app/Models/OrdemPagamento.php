@@ -104,4 +104,23 @@ class OrdemPagamento extends Model
         }
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(__NAMESPACE__ . '\\' . studly_case(str_singular($this->referencia)), 'id_referencia');
+    }
+
+    public function getParentName()
+    {
+        switch ($this->referencia) {
+            case 'abertura_empresa':
+                return $this->parent->nome_empresarial1;
+            case 'mensalidade':
+                return $this->parent->empresa->nome_fantasia.' ('.$this->parent->empresa->razao_social.')';
+            case 'alteracao':
+                return $this->parent->tipo->descricao;
+            default:
+                return '';
+        }
+    }
+
 }

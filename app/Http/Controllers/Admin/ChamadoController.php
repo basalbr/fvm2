@@ -12,6 +12,7 @@ use App\Models\Chamado;
 use App\Models\Config;
 use App\Models\TipoChamado;
 use App\Services\CreateChamado;
+use App\Services\ReopenChamado;
 use App\Validation\ChamadoValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -39,6 +40,24 @@ class ChamadoController extends Controller
         $chamado = Chamado::findOrFail($idChamado);
         $tiposChamado = TipoChamado::orderBy('descricao')->get();
         return view('admin.chamado.view.index', compact('chamado', 'tiposChamado'));
+    }
+
+    public function finish($idChamado)
+    {
+        $chamado = Chamado::findOrFail($idChamado);
+        if (FinishChamado::handle($chamado)) {
+            return redirect()->route('listAtendimentosToAdmin')->with('successAlert', 'Chamado finalizado com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+    }
+
+    public function reopen($idChamado)
+    {
+        $chamado = Chamado::findOrFail($idChamado);
+        if (ReopenChamado::handle($chamado)) {
+            return redirect()->route('listAtendimentosToAdmin')->with('successAlert', 'Chamado reaberto com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
 }

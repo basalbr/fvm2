@@ -40,7 +40,7 @@ class AlteracaoController extends Controller
 
         /* Query finished alterations */
         $alteracoesConcluidas = Alteracao::query()->whereIn('alteracao.status', ['Concluído', 'Cancelado']);
-        if ($request->get('tab') == 'historico') {
+        if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $alteracoesConcluidas = $this->filterForm($alteracoesConcluidas, $request);
         }
         $alteracoesConcluidas = $alteracoesConcluidas->select('alteracao.*')->get();

@@ -12,7 +12,7 @@ class ChamadoValidation extends Validation
 {
     protected static $rules = [
         'id_tipo_chamado' => 'required|exists:tipo_chamado,id',
-        'mensagem' => 'required|max:191',
+        'mensagem' => 'required',
         'anexos.*.arquivo' => 'max:191',
         'anexos.*.descricao' => 'max:191'
     ];

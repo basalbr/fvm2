@@ -2,23 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Models\Usuario;
+use App\Models\Chamado;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewUsuario extends Notification implements ShouldQueue
+class NewChamado extends Notification
 {
     use Queueable;
-
-    private $usuario;
+    private $chamado;
     private $url;
 
-    public function __construct(Usuario $usuario)
+    /**
+     * Create a new notification instance.
+     *
+     * @param Chamado $chamado
+     */
+    public function __construct(Chamado $chamado)
     {
-        $this->usuario = $usuario;
-        $this->url = route('showUsuarioToAdmin',$usuario->id);
+        $this->chamado = $chamado;
+        $this->url = route('viewChamado', [$this->chamado->id]);
     }
 
     /**
@@ -29,7 +32,7 @@ class NewUsuario extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -41,12 +44,12 @@ class NewUsuario extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá!')
-            ->line('Temos um novo usuário cadastrado: ' . $this->usuario->nome)
-            ->line('Para visualizar as informações desse usuário clique no botão abaixo:')
-            ->action('Visualizar usuário', $this->url)
+            ->greeting('Olá ' . $this->chamado->usuario->nome . '!')
+            ->line('Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.')
+            ->line('Para visualizar esse chamado, clique no botão abaixo:')
+            ->action('Visualizar Chamado', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Novo usuário')
+            ->subject('Chamado reaberto')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -59,7 +62,7 @@ class NewUsuario extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => $this->usuario->nome.' se cadastrou no sistema!',
+            'Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.',
             'url' => $this->url
         ];
     }

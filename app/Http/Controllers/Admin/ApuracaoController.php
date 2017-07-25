@@ -47,7 +47,7 @@ class ApuracaoController extends Controller
 
 
         $apuracoesConcluidas = Apuracao::query()->whereNotIn('apuracao.status', ['informacoes_enviadas', 'novo', 'atencao']);
-        if ($request->get('tab') == 'historico') {
+        if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $apuracoesConcluidas = $this->filterForm($apuracoesConcluidas, $request);
         }
         $apuracoesConcluidas = $apuracoesConcluidas->select('apuracao.*')->get();
