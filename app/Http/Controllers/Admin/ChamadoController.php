@@ -12,6 +12,7 @@ use App\Models\Chamado;
 use App\Models\Config;
 use App\Models\TipoChamado;
 use App\Services\CreateChamado;
+use App\Services\FinishChamado;
 use App\Services\ReopenChamado;
 use App\Validation\ChamadoValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

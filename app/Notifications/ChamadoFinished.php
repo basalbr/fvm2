@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ChamadoReopened extends Notification
+class ChamadoFinished extends Notification
 {
     use Queueable;
     private $chamado;
@@ -45,11 +45,11 @@ class ChamadoReopened extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->chamado->usuario->nome . '!')
-            ->line('Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.')
+            ->line('Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi concluído.')
             ->line('Para visualizar esse chamado, clique no botão abaixo:')
             ->action('Visualizar Chamado', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Chamado reaberto')
+            ->subject('Chamado concluído')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 

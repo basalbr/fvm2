@@ -17,10 +17,10 @@
         <hr>
         <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
         @if($chamado->status!='Aberto')
-            <a href="" class="btn-primary btn"><i class="fa fa-envelope-open"></i> Reabrir</a>
+            <a href="{{route('reopenChamado', $chamado->id)}}" class="btn-primary btn"><i class="fa fa-envelope-open"></i> Reabrir</a>
         @endif
         @if($chamado->status!='Concluído')
-            <a href="" class="btn-success btn"><i class="fa fa-check"></i> Concluir</a>
+            <a href="{{route('finishChamado', $chamado->id)}}" class="btn-success btn"><i class="fa fa-check"></i> Concluir</a>
         @endif
     </div>
 
