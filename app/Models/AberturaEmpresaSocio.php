@@ -6,58 +6,43 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
-
+/**
+ * @property integer id
+ * @property integer id_abertura_empresa
+ * @property string nome
+ * @property string nome_mae
+ * @property string nome_pai
+ * @property boolean principal
+ * @property \DateTime data_nascimento
+ * @property string estado_civil
+ * @property string email
+ * @property string telefone
+ * @property string cpf
+ * @property string rg
+ * @property string orgao_expedidor
+ * @property string nacionalidade
+ * @property string cep
+ * @property integer id_uf
+ * @property string endereco
+ * @property integer numero
+ * @property string complemento
+ * @property string bairro
+ * @property string cidade
+ * @property double pro_labore
+ * @property integer id_regime_casamento
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
+ * @property \DateTime deleted_at
+ * @property AberturaEmpresa empresa
+ * @property Uf uf
+ * @property RegimeCasamento regimeCasamento
+ * @property Cnae cnae
+ */
 class AberturaEmpresaSocio extends Model {
 
     use SoftDeletes;
 
     protected $dates = ['data_nascimento', 'created_at', 'updated_at', 'deleted_at'];
-    protected $rules = [
-        'id_abertura_empresa' => 'sometimes|required',
-        'nome' => 'required',
-        'nome_mae' => 'required',
-        'nome_pai' => 'required',
-        'principal' => 'required|boolean',
-        'data_nascimento' => 'required|date',
-        'email' => 'required|email',
-        'telefone' => 'required',
-        'estado_civil' => 'required',
-        'regime_casamento' => 'sometimes|required',
-        'cpf' => 'required|size:14',
-        'rg' => 'required',
-        'nacionalidade' => 'required',
-        'endereco' => 'required',
-        'bairro' => 'required',
-        'cep' => 'required|size:9',
-        'cidade' => 'required',
-        'numero' => 'required|numeric',
-        'id_uf' => 'required',
-        'orgao_expedidor' => 'required'
-    ];
-    protected $errors;
-    protected $niceNames = [
-        'nome' => 'required',
-        'nome_mae' => 'Nome da mãe',
-        'nome_pai' => 'Nome do pai',
-        'principal' => 'É o sócio principal?',
-        'data_nascimento' => 'Data de Nascimento',
-        'email' => 'E-mail',
-        'telefone' => 'Telefone',
-        'estado_civil' => 'Estado civil',
-        'regime_casamento' => 'Regime de casamento',
-        'cpf' => 'CPF',
-        'rg' => 'RG',
-        'nacionalidade' => 'Nacionalidade',
-        'endereco' => 'Endereço',
-        'bairro' => 'Bairro',
-        'cep' => 'CEP',
-        'cidade' => 'Cidade',
-        'numero' => 'Número',
-        'complemento' => 'Complemento',
-        'id_uf' => 'Estado',
-        'orgao_expedidor' => 'Órgão Expedidor do RG (Ex: SSP/SC)'
-    ];
-
     /**
      * The database table used by the model.
      *
@@ -94,27 +79,6 @@ class AberturaEmpresaSocio extends Model {
         'orgao_expedidor'
     ];
 
-    public function validate($data, $update = false) {
-        // make a new validator object
-        if ($update) {
-            $this->rules['cpf'] = 'required|unique:abertura_empresa_socio,cpf,' . $data['id'];
-            $this->rules['rg'] = 'required|unique:abertura_empresa_socio,rg,' . $data['id'];
-            $this->rules['id_abertura_empresa'] = '';
-            $this->rules['principal'] = '';
-        }
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
-    }
-
     public function isPrincipal(){
         return $this->principal ? 'Sim': 'Não';
     }
@@ -122,10 +86,6 @@ class AberturaEmpresaSocio extends Model {
     public function setDataNascimentoAttribute($value)
     {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
-    }
-
-    public function errors() {
-        return $this->errors;
     }
 
     public function empresa() {

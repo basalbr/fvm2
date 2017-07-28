@@ -8,6 +8,38 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use laravel\pagseguro\Platform\Laravel5\PagSeguro;
 
+/**
+ * @property integer id
+ * @property integer id_abertura_empresa
+ * @property string nome
+ * @property string nome_mae
+ * @property string nome_pai
+ * @property boolean principal
+ * @property \DateTime data_nascimento
+ * @property string estado_civil
+ * @property string email
+ * @property string telefone
+ * @property string cpf
+ * @property string rg
+ * @property string orgao_expedidor
+ * @property string nacionalidade
+ * @property string cep
+ * @property integer id_uf
+ * @property string endereco
+ * @property integer numero
+ * @property string complemento
+ * @property string bairro
+ * @property string cidade
+ * @property double pro_labore
+ * @property integer id_regime_casamento
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
+ * @property \DateTime deleted_at
+ * @property AberturaEmpresa empresa
+ * @property Uf uf
+ * @property RegimeCasamento regimeCasamento
+ * @property Cnae cnae
+ */
 class Alteracao extends Model
 {
 

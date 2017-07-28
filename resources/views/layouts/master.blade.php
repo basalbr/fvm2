@@ -32,6 +32,7 @@
     @include('index.modals.esqueci')
     @include('index.modals.registrar')
     @include('index.modals.sucesso')
+    @include('index.modals.simular')
 </div>
 </body>
 </html>

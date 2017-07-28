@@ -2,13 +2,13 @@
 <img class="background-img" src="{{asset(public_path('images/contato.jpg'))}}"/>
 <div class="container">
     <div class="col-xs-12">
-        <h1>Entre em contato conosco</h1>
+        <h1 class="hidden-xs">Entre em contato conosco</h1>
+        <h1 class="visible-xs">Contato</h1>
         <h3>Envie uma mensagem pelo formulário ou visite a gente nas redes sociais!</h3>
     </div>
     <div class="clearfix"></div>
 
-    <div class="row row-eq-height">
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-12">
             <form class="form" id="contato-form" data-validation-url="{{route('validateContato')}}"
                   data-url="{{route('sendContato')}}">
                 {!! csrf_field() !!}
@@ -33,14 +33,14 @@
                 </div>
             </form>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-xs-12">
             <div class="col-xs-12">
-                <a href="" class="whatsapp">
+                <a href="whatsapp://send?phone=+55{{\App\Models\Config::getWhatsApp()}}&abid=+55{{\App\Models\Config::getWhatsApp()}}" class="whatsapp">
                     <img src="{{asset(public_path('images/whatsapp.png'))}}"/>
                     <div>Pelo whatsapp<br/> {{\App\Models\Config::getWhatsApp()}}</div>
                 </a>
             </div>
-            <div class="col-xs-12">
+            <div class="col-xs-12 hidden-xs">
                 <div class="clearfix"></div>
                 <div id="fb-root"></div>
 
@@ -51,6 +51,5 @@
                 </div>
             </div>
 
-        </div>
     </div>
 </div>

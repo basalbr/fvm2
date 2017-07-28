@@ -25,6 +25,7 @@ $(function () {
 });
 
 function gatherDataAndSimulate() {
+    $('#modal-simulate .modal-body').empty();
     qtdeFuncionarios = isNaN(parseInt($('[name*="qtde_funcionario"]').val())) ? 0 : $('[name*="qtde_funcionario"]').val();
     qtdeProLabores = isNaN(parseInt($('[name="qtde_pro_labores"]').val())) ? 0 : $('[name="qtde_pro_labores"]').val();
     qtdeDocsContabeis = isNaN(parseInt($('[name*="qtde_documento_contabil"]').val())) ? 0 : $('[name*="qtde_documento_contabil"]').val();
@@ -65,4 +66,5 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeProLabores, qtdeDocContabe
     totalDesconto = totalDesconto.toFixed(2).replace(".", ",");
     $('#valor-mensalidade span').text(minPrice);
     $('#valor-economia span').text(totalDesconto);
+    $('#modal-simulate .modal-body').html($('#mensalidade-box').html())
 }

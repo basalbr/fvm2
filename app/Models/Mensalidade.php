@@ -15,9 +15,6 @@ class Mensalidade extends Model
 
     use SoftDeletes;
 
-    protected $rules = ['id_usuario' => 'required', 'id_pessoa' => 'required', 'duracao' => 'required', 'valor' => 'required|numeric', 'tipo' => 'required'];
-    protected $errors;
-    protected $niceNames = ['descricao' => 'Descrição', 'valor' => 'Valor', 'nome' => 'Nome', 'duracao' => 'Duração'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**

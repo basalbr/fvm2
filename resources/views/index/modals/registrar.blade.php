@@ -35,7 +35,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-complete"><span class="fa fa-check-square-o"></span> Cadastrar</button>
-                    <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Cancelar
+                    <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Fechar
                     </button>
                 </div>
             </form>

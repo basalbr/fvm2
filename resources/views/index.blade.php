@@ -14,9 +14,6 @@
 @section('js')
     @parent
     <script type="text/javascript" src="{{url(public_path().'js/modules/simulate.js')}}"></script>
-    <script type="text/javascript">
-
-    </script>
 @stop
 
 

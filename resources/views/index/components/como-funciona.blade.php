@@ -1,6 +1,7 @@
 <div class="container">
     <div class="col-xs-12">
-        <h1>Oferecemos serviços de contabilidade através da internet</h1>
+        <h1 class="hidden-xs">Oferecemos serviços de contabilidade através da internet</h1>
+        <h1 class="visible-xs">Serviços de contabilidade online</h1>
     </div>
     <div class="clearfix"></div>
     <div class="row row-eq-height">
@@ -20,7 +21,7 @@
                             gratuitamente e criar uma solicitação de abertura de empresa.
                         </p>
                     </div>
-                    <span class="fa fa-child fa-4x"></span>
+                    <span class="fa fa-child fa-4x hidden-xs"></span>
                 </li>
                 <li>
                     <div class="text">
@@ -34,7 +35,7 @@
                             Isso tudo de maneira on-line.
                         </p>
                     </div>
-                    <span class="fa fa-question fa-4x"></span>
+                    <span class="fa fa-question fa-4x hidden-xs"></span>
                 </li>
                 <li>
                     <div class="text">
@@ -47,7 +48,7 @@
                             realizando os serviços de apuração ou abertura de empresa.
                         </p>
                     </div>
-                    <span class="fa fa-money fa-4x"></span>
+                    <span class="fa fa-money fa-4x hidden-xs"></span>
                 </li>
             </ul>
         </div>
