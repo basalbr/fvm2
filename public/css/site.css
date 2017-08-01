@@ -980,7 +980,7 @@ button, a, p {
     background: #00C853;
 }
 
-@media (max-width: 670px ) {
+@media (max-width: 900px ) {
     .banner-content {
         top: calc(50% - 140px);
         bottom: auto;
