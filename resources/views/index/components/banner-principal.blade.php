@@ -1,8 +1,8 @@
 <img class="background-img" src="{{url(public_path('images/banner.jpg'))}}"/>
 <div class="banner-content">
     <div class="banner-text">
-        <p class="callout hidden-xs">Sua contabilidade agora ficou digital
-        <br/>Acesse nossos serviços onde você estiver
+        <p class="callout hidden-xs">Serviços contábeis para
+        <br/>empresas do Simples Nacional
         </p>
         <p class="callout visible-xs">Contabilidade online para sua empresa
         </p>

@@ -218,6 +218,7 @@
                     <tr>
                         <th>Nome</th>
                         <th>Valor</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -227,6 +228,7 @@
                             <tr>
                                 <td>{{$socio->nome}}</td>
                                 <td>{{$socio->getProLaboreFormatado()}}</td>
+                                <td><button type="button" class="open-modal btn btn-primary" data-modal="#modal-socio-{{$socio->id}}"><i class="fa fa-search"></i></button></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -263,4 +265,9 @@
         </div>
         <div class="clearfix"></div>
     </div>
+@stop
+
+@section('modals')
+    @parent
+    @include('admin.components.socios.view', ['socios' => $socios])
 @stop

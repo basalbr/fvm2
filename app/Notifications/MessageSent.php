@@ -119,7 +119,7 @@ class MessageSent extends Notification
             return 'à empresa ('.$this->mensagem->parent->razao_social.')';
         }
         if ($this->mensagem->referencia == 'apuracao') {
-            return 'à apuracao de '.$this->mensagem->parent->imposto->nome.' ('.$this->mensagem->parent->competencia->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'à apuração de '.$this->mensagem->parent->imposto->nome.' ('.$this->mensagem->parent->competencia->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao') {
             return 'à solicitação de alteração ('.$this->mensagem->parent->tipo->descricao.') da empresa '.$this->mensagem->parent->empresa->razao_social;
