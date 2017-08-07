@@ -7,7 +7,7 @@
         @include('admin.chamado.view.components.tabs')
     </ul>
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active animated fadeIn" id="mensagens">
+        <div role="tabpanel" class="tab-pane active animated fadeIn" id="messages">
             @include('admin.components.chat.box', ['model'=>$chamado])
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">

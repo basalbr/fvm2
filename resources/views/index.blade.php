@@ -35,6 +35,7 @@
     <section id="duvidas" class="section">
         @include('index.components.duvidas')
     </section>
+    @if($atendimento)
     <button class="btn-chat btn">
         <i class="fa fa-comment"></i> Fale conosco
     </button>
@@ -75,6 +76,6 @@
             </div>
         </div>
     </div>
-
+@endif
     <div class="clearfix"></div>
 @stop

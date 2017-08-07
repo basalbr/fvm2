@@ -16,6 +16,12 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
+                        <label>Nome</label>
+                        <div class="form-control">{{$chat->email}}</div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
                         <label>Aberto em</label>
                         <div class="form-control">{{$chat->created_at->format('H:i - d/m/Y')}}</div>
                     </div>

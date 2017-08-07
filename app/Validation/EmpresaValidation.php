@@ -35,22 +35,6 @@ class EmpresaValidation extends Validation
         'mensalidade.qtde_funcionario'=> 'required|numeric',
         'mensalidade.qtde_documento_fiscal'=> 'required|numeric',
         'mensalidade.qtde_documento_contabil'=> 'required|numeric',
-        'socios' => 'required|array|min:1',
-        'socios.*.nome' => 'required',
-        'socios.*.principal' => 'required',
-        'socios.*.cpf' => 'required|size:14|unique:socio,cpf',
-        'socios.*.rg' => 'required|unique:socio,rg',
-        'socios.*.endereco' => 'required',
-        'socios.*.bairro' => 'required',
-        'socios.*.cep' => 'required|size:9',
-        'socios.*.cidade' => 'required',
-        'socios.*.numero' => 'numeric',
-        'socios.*.id_uf' => 'required',
-        'socios.*.pro_labore' => 'nullable',
-        'socios.*.orgao_expedidor' => 'required',
-        'socios.*.pis' => 'nullable|size:14',
-        'socios.*.data_nascimento' => 'required|date',
-        'socios.*.titulo_eleitor' => 'required',
         'cnaes' => 'required|array|min:1'
     ];
 

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WEBContabilidade</title>
-    <meta name="description" content="Serviços contábeis com mensalidades a partir de R$39,90">
+    <meta name="description" content="Serviços contábeis com mensalidades a partir de R$39,90 para empresas de Santa Catarina optantes pelo Simples Nacional">
     @section('css')
         @include('index.components.css')
     @show

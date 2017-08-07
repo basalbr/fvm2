@@ -6,6 +6,13 @@
     <div class="col-sm-6">
         <h3 class="text-center animated shake">Atenção</h3>
         <div class="col-sm-12">
+            @if($alteracoesPendentes)
+                <div class="col-sm-12">
+                    <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}" class="alerta animated shake">
+                        Existem {{$alteracoesPendentes}} alterações já pagas em aberto
+                    </a>
+                </div>
+            @endif
             @if($pagamentosPendentes)
                 <div class="col-sm-12">
                     <a href="{{route('listOrdensPagamentoToAdmin')}}" class="alerta animated shake">

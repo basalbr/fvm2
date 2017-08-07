@@ -155,7 +155,7 @@
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
             @include('admin.documentos_contabeis.view.components.informacoes')
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="messages">
             @include('admin.components.chat.box', ['model'=>$processo])
             <div class="clearfix"></div>
         </div>

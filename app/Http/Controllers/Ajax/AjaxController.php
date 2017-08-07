@@ -13,21 +13,22 @@ use App\Models\Cnae;
 use App\Models\Imposto;
 use App\Models\Mensagem;
 use App\Models\Plano;
+use App\Models\Usuario;
+use App\Notifications\NewChat;
 use App\Services\SendContato;
 use App\Services\SendMessage;
 use App\Services\UploadChatFile;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Mockery\Exception;
 
 class AjaxController extends Controller
 {
@@ -202,9 +203,11 @@ class AjaxController extends Controller
     {
         try {
             $chat = Chat::create($request->all());
+            Usuario::notifyAdmins(new NewChat($chat));
             return response()->json(['id' => $chat->id])->setStatusCode(200);
         } catch (\Exception $e) {
             Log::critical($e);
+            DB::rollback();
             return response()->json(['erro' => 'Ocorreu um erro interno'])->setStatusCode(500);
         }
     }

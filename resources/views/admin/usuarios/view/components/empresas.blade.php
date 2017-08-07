@@ -20,7 +20,7 @@
                 <td>{{$empresa->nome_fantasia}}</td>
                 <td>{{$empresa->razao_social}}</td>
                 <td>{{$empresa->socios()->where('principal', 1)->first()->nome}}</td>
-                <td>{{$empresa->status == 'Aprovado' ? $empresa->getMensalidadeAtual()->getValor() : ''}}</td>
+                <td>{{$empresa->mensalidades->count() ? $empresa->getMensalidadeAtual()->getValor() : ''}}</td>
                 <td>{{$empresa->status}}</td>
                 <td>
                     <a class="btn btn-primary"

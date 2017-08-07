@@ -11,7 +11,7 @@
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
             @include('admin.alteracao.view.components.informacoes')
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="messages">
             @include('admin.components.chat.box', ['model'=>$alteracao])
             <div class="clearfix"></div>
 
