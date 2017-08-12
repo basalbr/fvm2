@@ -2,26 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Models\Chamado;
+use App\Models\OrdemPagamento;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ChamadoReopened extends Notification
+class PaymentAlmostPending extends Notification
 {
     use Queueable;
-    private $chamado;
+    private $ordemPagamento;
     private $url;
 
     /**
-     * Create a new notification instance.
-     *
-     * @param Chamado $chamado
+     * OrdemPagamentoPaid constructor.
+     * @param OrdemPagamento $ordemPagamento
      */
-    public function __construct(Chamado $chamado)
+    public function __construct(OrdemPagamento $ordemPagamento)
     {
-        $this->chamado = $chamado;
-        $this->url = route('viewChamado', [$this->chamado->id]);
+        $this->ordemPagamento = $ordemPagamento;
+        $this->url = route('listOrdensPagamentoToUser');
     }
 
     /**
@@ -32,7 +31,7 @@ class ChamadoReopened extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail','database'];
     }
 
     /**
@@ -44,12 +43,12 @@ class ChamadoReopened extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->chamado->usuario->nome . '!')
-            ->line('Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.')
-            ->line('Para visualizar esse chamado, clique no botão abaixo:')
-            ->action('Visualizar Chamado', $this->url)
+            ->greeting('Olá ' . $this->ordemPagamento->usuario->nome.'!')
+            ->line('Sua ordem de pagamento no valor de R$'.$this->ordemPagamento->formattedValue().' vai vencer em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!')
+            ->line('Caso você já tenha efetuado o pagamento, por favor entre em contato conosco.')
+            ->action('Verificar Pagamentos', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Chamado reaberto')
+            ->subject('Sua ordem de pagamento vencerá em breve')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -62,7 +61,7 @@ class ChamadoReopened extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem'=> 'Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.',
+            'mensagem' => 'Sua ordem de pagamento no valor de R$'.$this->ordemPagamento->formattedValue().' vai vencer em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!',
             'url' => $this->url
         ];
     }

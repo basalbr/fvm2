@@ -62,7 +62,7 @@ class ChamadoFinished extends Notification
     public function toArray($notifiable)
     {
         return [
-            'Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.',
+            'mensagem'=> 'Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.',
             'url' => $this->url
         ];
     }

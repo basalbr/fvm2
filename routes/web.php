@@ -70,10 +70,8 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
     Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
     Route::post('new', ['uses' => 'EmpresaController@store']);
     Route::get('view/{id}', ['as' => 'showEmpresaToUser', 'uses' => 'EmpresaController@view']);
-
     Route::post('validate/socio', ['as' => 'validateEmpresaSocio', 'uses' => 'EmpresaController@validateSocio']);
     Route::post('validate/empresa', ['as' => 'validateEmpresa', 'uses' => 'EmpresaController@validateAjax']);
-
 });
 
 //Dashboard - Funcionários
@@ -82,7 +80,6 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
     Route::post('validate', ['as' => 'validateFuncionario', 'uses' => 'FuncionarioController@validateFuncionario']);
     Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
     Route::post('validate/documento', ['as' => 'validateDocumentoFuncionario', 'uses' => 'FuncionarioDocumentoController@validateDocumento']);
-
 });
 
 //Dashboard - Ordem Pagamento
@@ -156,6 +153,9 @@ Route::group(['namespace' => 'Dashboard'], function () {
     Route::get('abrir-apuracoes', ['uses' => 'ApuracaoController@abrirApuracoes']);
     Route::get('abrir-documentos-contabeis', ['uses' => 'DocumentoContabilController@abrirProcessos']);
     Route::get('abrir-pagamento-mensalidades', ['uses' => 'PagamentoController@updateMensalidades']);
+});
+Route::group(['namespace' => 'Cron', 'prefix'=>'cron'], function () {
+    Route::get('daily', ['uses' => 'CronController@dailyCron']);
 });
 
 //Dashboard - Usuário

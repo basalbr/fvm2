@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('dashboard.layouts.master')
 @section('content')
     <div class="col-xs-12">
         <h1>Apuração de Folha</h1>

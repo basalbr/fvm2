@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'ajax*',
+        'cron*',
         'anexo/removeTemp',
         'anexo/temp',
         'notifications*',

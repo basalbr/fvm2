@@ -2,26 +2,23 @@
 
 namespace App\Notifications;
 
-use App\Models\Chamado;
+use App\Models\OrdemPagamento;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ChamadoReopened extends Notification
+class DocumentosContabeisPending extends Notification
 {
     use Queueable;
-    private $chamado;
     private $url;
+    private $empresa;
 
     /**
-     * Create a new notification instance.
-     *
-     * @param Chamado $chamado
      */
-    public function __construct(Chamado $chamado)
+    public function __construct($empresa)
     {
-        $this->chamado = $chamado;
-        $this->url = route('viewChamado', [$this->chamado->id]);
+        $this->empresa = $empresa;
+        $this->url = route('listDocumentosContabeisToUser');
     }
 
     /**
@@ -32,7 +29,7 @@ class ChamadoReopened extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail','database'];
     }
 
     /**
@@ -44,12 +41,13 @@ class ChamadoReopened extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->chamado->usuario->nome . '!')
-            ->line('Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.')
-            ->line('Para visualizar esse chamado, clique no botão abaixo:')
-            ->action('Visualizar Chamado', $this->url)
+            ->greeting('Olá ' . $this->empresa->usuario->nome.'!')
+            ->line('Verificamos que existem processos de envio de documentos contábeis em aberto no nosso sistema que requerem sua atenção.')
+            ->line('Caso você não tenha documentos contábeis para nos enviar, por favor nos informe no sistema que não houve movimentação.')
+            ->line('Para verificar essas pendências, clique no botão abaixo:')
+            ->action('Verificar Documentos Contábeis', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Chamado reaberto')
+            ->subject('Documentos contábeis pendentes')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -62,7 +60,7 @@ class ChamadoReopened extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem'=> 'Seu chamado referente à ' . $this->chamado->tipoChamado->descricao . ' aberto em ' . $this->chamado->created_at->format('d/m/Y') . ' foi reaberto.',
+            'mensagem' => 'Verificamos que existem processos de envio de documentos contábeis em aberto no nosso sistema que requerem sua atenção.',
             'url' => $this->url
         ];
     }
