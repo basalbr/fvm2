@@ -40,12 +40,6 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <div class="form-control">{{$aberturaEmpresa->qtde_documento_contabil}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
         <label for="">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
         <div class="form-control">{{$aberturaEmpresa->qtde_documento_fiscal}}</div>
     </div>

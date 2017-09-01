@@ -38,6 +38,9 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'alteracao') {
                 $this->url = route('showSolicitacaoAlteracaoToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'processo_folha') {
+                $this->url = route('showProcessoFolhaToAdmin', [$this->mensagem->id_referencia]);
+            }
             if ($this->mensagem->referencia == 'processo_documento_contabil') {
                 $this->url = route('showDocumentoContabilToAdmin', [$this->mensagem->id_referencia]);
             }
@@ -56,6 +59,9 @@ class MessageSent extends Notification
             }
             if ($this->mensagem->referencia == 'alteracao') {
                 $this->url = route('showSolicitacaoAlteracaoToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'processo_folha') {
+                $this->url = route('showProcessoFolhaToUser', [$this->mensagem->id_referencia]);
             }
             if ($this->mensagem->referencia == 'processo_documento_contabil') {
                 $this->url = route('showDocumentoContabilToUser', [$this->mensagem->id_referencia]);
@@ -110,7 +116,7 @@ class MessageSent extends Notification
 
     public function getDescricao(){
         if ($this->mensagem->referencia == 'chamado') {
-            return 'ao chamado ('.$this->mensagem->parent->tipoChamado->descricao.').';
+            return 'ao chamado ('.$this->mensagem->parent->tipoChamado->descricao.')';
         }
         if ($this->mensagem->referencia == 'abertura_empresa') {
             return 'à abertura de empresa ('.$this->mensagem->parent->nome_empresarial1.')';
@@ -123,6 +129,9 @@ class MessageSent extends Notification
         }
         if ($this->mensagem->referencia == 'alteracao') {
             return 'à solicitação de alteração ('.$this->mensagem->parent->tipo->descricao.') da empresa '.$this->mensagem->parent->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'processo_folha') {
+            return 'à apuração de folha de pagamento ('.$this->mensagem->parent->competencia->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_documento_contabil') {
             return 'à apuração de documentos contábeis ('.$this->mensagem->parent->periodo->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;

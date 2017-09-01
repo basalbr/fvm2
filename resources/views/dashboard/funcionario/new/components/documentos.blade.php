@@ -64,7 +64,7 @@
 <div class="col-sm-6">
     <div class="form-group">
         <label for="titulo_eleitor">Número do título eleitoral</label>
-        <input type="text" class="form-control" value="" name="titulo_eleitor"/>
+        <input type="text" class="form-control" value="" name="titulo_eleitoral"/>
     </div>
 </div>
 <div class="col-sm-6">
@@ -105,6 +105,7 @@
 </div>
 <div class="col-sm-12 text-right">
     <hr>
-    <button class="btn btn-primary next">Avançar - Estrangeiro <span class="fa fa-angle-right"></span>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar</button>
+    <button class="btn btn-primary next">Avançar <span class="fa fa-angle-right"></span>
     </button>
 </div>

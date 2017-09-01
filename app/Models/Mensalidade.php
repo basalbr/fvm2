@@ -44,7 +44,6 @@ class Mensalidade extends Model
         $attributes['valor'] = $this->calculateMonthlyPayment();
         return tap($this->related->newInstance($attributes), function ($instance) {
             $instance->setAttribute($this->getForeignKeyName(), $this->getParentKey());
-
             $instance->save();
         });
     }
@@ -82,8 +81,6 @@ class Mensalidade extends Model
     public static function calculateMonthlyPayment($data)
     {
         $plano = Plano::where('total_documento_fiscal', '>=', $data['qtde_documento_fiscal'])
-            ->where('total_documento_contabil', '>=', $data['qtde_documento_contabil'])
-            ->where('total_pro_labore', '>=', $data['qtde_pro_labore'])
             ->orderBy('valor', 'asc')
             ->select('valor')
             ->first();

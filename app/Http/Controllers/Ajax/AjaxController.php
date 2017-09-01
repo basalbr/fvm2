@@ -17,7 +17,9 @@ use App\Models\Usuario;
 use App\Notifications\NewChat;
 use App\Services\SendContato;
 use App\Services\SendMessage;
+use App\Services\UploadAnexo;
 use App\Services\UploadChatFile;
+use App\Services\UploadFile;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -141,6 +143,22 @@ class AjaxController extends Controller
             ->where('referencia', '=', $request->get('referencia'))
             ->where('from_admin', '=', $request->get('from_admin'))
             ->update(['lida' => 1]);
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $rules = ['arquivo' => 'required|file|max:10240', 'descricao'=>'required|max:191', 'id_referencia' => 'required', 'referencia' => 'required'];
+        $niceNames = ['arquivo' => 'Arquivo','descricao'=>'Descrição', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
+        $this->validate($request, $rules, [], $niceNames);
+        if ($anexo = UploadFile::handle($request)) {
+            return response()->json([
+                'file' => $anexo->arquivo,
+                'filepath'=>asset(public_path().'storage/anexos/'. $request->get('referencia') . '/'.$request->get('id_referencia').'/'.$anexo->arquivo),
+                'date'=>$anexo->created_at->format('d/m/Y'),
+                'description'=>$anexo->descricao
+            ]);
+        }
+        return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
 
     public function uploadChatFile(Request $request)

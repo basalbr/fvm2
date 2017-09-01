@@ -21,8 +21,8 @@ class EmpresaValidation extends Validation
         'id_tipo_tributacao' => 'required',
         'id_enquadramento_empresa' => 'required',
         'cnpj' => 'required|unique:empresa,cnpj|size:18',
-        'inscricao_estadual' => 'unique:empresa,inscricao_estadual',
-        'inscricao_municipal' => 'unique:empresa,inscricao_municipal',
+        'inscricao_estadual' => 'nullable|unique:empresa,inscricao_estadual',
+        'inscricao_municipal' => 'nullable|unique:empresa,inscricao_municipal',
         'endereco' => 'required',
         'bairro' => 'required',
         'cep' => 'required|size:9',
@@ -34,7 +34,6 @@ class EmpresaValidation extends Validation
         'razao_social' => 'required|unique:empresa,razao_social',
         'mensalidade.qtde_funcionario'=> 'required|numeric',
         'mensalidade.qtde_documento_fiscal'=> 'required|numeric',
-        'mensalidade.qtde_documento_contabil'=> 'required|numeric',
         'cnaes' => 'required|array|min:1'
     ];
 

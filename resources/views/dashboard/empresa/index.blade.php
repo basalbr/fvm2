@@ -31,10 +31,9 @@
                         <div class="item-description">Status da empresa</div>
                     </div>
                     <div class="col-xs-12">
-                        <i class="fa fa-envelope item-icon"></i>
-                        <div class="item-value">Nenhuma nova mensagem</div>
-                        <div class="item-link-description"><a href="">Ver mensagens <i
-                                        class="fa fa-angle-right"></i></a>
+                        <i class="fa fa-credit-card item-icon"></i>
+                        <div class="item-value">{{$empresa->getMensalidadeAtual()->getValor()}}</div>
+                        <div class="item-link-description">Valor da mensalidade
                         </div>
                     </div>
                 </div>

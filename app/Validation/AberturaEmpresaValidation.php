@@ -18,7 +18,6 @@ class AberturaEmpresaValidation extends Validation
         'id_enquadramento_empresa' => 'required',
         'qtde_funcionario' => 'required|numeric',
         'qtde_documento_fiscal' => 'required|numeric',
-        'qtde_documento_contabil' => 'required|numeric',
         'capital_social' => 'required',
         'id_natureza_juridica' => 'required|numeric',
         'id_tipo_tributacao' => 'required|numeric',

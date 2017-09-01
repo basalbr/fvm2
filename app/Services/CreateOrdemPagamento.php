@@ -49,9 +49,6 @@ class CreateOrdemPagamento
             //Notifica o usuário que existe uma nova ordem de pagamento
             $usuario->notify(new OrdemPagamentoCreated($ordemPagamento));
 
-            //Notifica admins de uma nova ordem de pagamento
-            Usuario::notifyAdmins(new OrdemPagamentoNewStatusAdmin($ordemPagamento));
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

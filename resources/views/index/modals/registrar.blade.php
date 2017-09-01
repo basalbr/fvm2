@@ -32,9 +32,13 @@
                         <label for="senha_confirmation">Confirme sua senha *</label>
                         <input type='password' class='form-control' name='senha_confirmation'/>
                     </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input type="checkbox" value="1" name="contrato" id="contrato_chk" required>
+                        <label for="contrato_chk"> Eu aceito os termos do contrato (<span id="contrato">ver contrato</span>)</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="goog_report_conversion('{{route('registerUser')}}')" class="btn btn-complete"><span
+                    <button type="button" onclick="goog_report_conversion('{{route('registerUser')}}')" class="btn btn-complete"><span
                                 class="fa fa-check-square-o"></span> Cadastrar
                     </button>
                     <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Fechar

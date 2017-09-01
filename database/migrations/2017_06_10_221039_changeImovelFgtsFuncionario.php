@@ -15,7 +15,7 @@ class ChangeImovelFgtsFuncionario extends Migration
     {
         Schema::table('funcionario', function (Blueprint $table) {
             $table->dropColumn(['imovel_recurso_fgts']);
-            $table->boolean('imovel_fgts');
+            $table->boolean('imovel_fgts')->nullable();
         });
     }
 

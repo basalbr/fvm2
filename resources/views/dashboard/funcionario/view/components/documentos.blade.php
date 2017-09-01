@@ -1,7 +1,3 @@
-<div class="col-sm-12">
-    <h3>Documentos</h3>
-    <hr>
-</div>
 <div class="col-sm-3">
     <div class="form-group">
         <label for="cpf">CPF *</label>
@@ -102,9 +98,4 @@
         <label for="categoria_carteira_reservista">Categoria de reservista</label>
         <input type="text" class="form-control" value="{{$funcionario->categoria_carteira_reservista}}" name="categoria_carteira_reservista"/>
     </div>
-</div>
-<div class="col-sm-12 text-right">
-    <hr>
-    <button class="btn btn-primary next">Avançar - Estrangeiro <span class="fa fa-angle-right"></span>
-    </button>
 </div>

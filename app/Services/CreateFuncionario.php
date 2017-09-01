@@ -61,12 +61,13 @@ class CreateFuncionario
             if ($request->hasFile('documentos')) {
                 /** @var UploadedFile $file */
                 $file = $request->file('documentos')['exame_admissional'];
-                $filename = md5(random_bytes(5)) . 'exame_admissional.' . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('funcionarios/' . $funcionario->id . '/documentos', $filename, 'public');
-                $funcionario->documentos()->create(['documento' => $filename, 'nome' => 'exame_admissional', 'descricao' => 'Exame admissional do funcionário']);
+                $filename =  'exame_admissional' .md5(random_bytes(5)). '.' . $file->getClientOriginalExtension();
+                $file->storeAs('anexos/' . 'funcionario' . '/' . $funcionario->id . '/', $filename, 'public');
+                $funcionario->anexos()->create(['arquivo' => $filename, 'id_referencia' => $funcionario->id, 'referencia'=>'funcionario', 'descricao' => 'Exame admissional']);
             }
             //Notifica admins que existe um novo funcionario cadastrado
             Usuario::notifyAdmins(new NewFuncionario($funcionario));
+            $funcionario->save();
             DB::commit();
 
         } catch (\Exception $e) {

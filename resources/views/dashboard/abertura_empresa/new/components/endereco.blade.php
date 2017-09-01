@@ -14,7 +14,7 @@
         <select class="form-control" name="id_uf">
             <option value="">Selecione uma opção</option>
             @foreach($ufs as $uf)
-                <option value="{{$uf->id}}">{{$uf->nome}}</option>
+                <option value="{{$uf->id}}" data-sigla="{{$uf->sigla}}">{{$uf->nome}}</option>
             @endforeach
         </select>
     </div>

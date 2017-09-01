@@ -93,9 +93,9 @@
         </div>
         <hr>
         <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listDocumentosContabeisToUser')}}"><i
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para documentos contábeis</a>
+                Voltar</a>
         </div>
         <div class="clearfix"></div>
     </div>

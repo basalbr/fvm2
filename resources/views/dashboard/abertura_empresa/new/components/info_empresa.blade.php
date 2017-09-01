@@ -53,13 +53,7 @@
         <input type="text" class="form-control number-mask" value="" name="qtde_funcionario"/>
     </div>
 </div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="qtde_documento_contabil">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <input type="text" class="form-control number-mask" value="" name="qtde_documento_contabil"/>
-    </div>
-</div>
-<div class="col-xs-6">
+<div class="col-xs-12">
     <div class="form-group">
         <label for="qtde_documento_fiscal">Quantidade de documentos fiscais recebidos e emitidos mensalmente *</label>
         <input type="text" class="form-control number-mask" value="" name="qtde_documento_fiscal"/>

@@ -59,7 +59,7 @@ class FuncionarioContrato extends Model
 
     public function setCompetenciaSindicatoAttribute($value)
     {
-        $this->attributes['competencia_sindicato'] = Carbon::createFromFormat('d/m/Y', $value);
+        $this->attributes['competencia_sindicato'] = $value ? Carbon::createFromFormat('d/m/Y', $value) : null;
     }
     public function setDataAdmissaoAttribute($value)
     {
@@ -73,6 +73,10 @@ class FuncionarioContrato extends Model
     }
     public function setSalarioAttribute($value){
         $this->attributes['salario'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+
+    public function getSalario(){
+        return number_format($this->salario, 2, ',', '.');
     }
 
     /**

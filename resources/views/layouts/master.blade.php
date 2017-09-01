@@ -33,7 +33,7 @@ chosen link or button. -->
                         var opt = new Object();
                         opt.onload_callback = function() {
                             if (typeof(url) != 'undefined') {
-                                window.location = url;
+                                //window.location = url;
                             }
                         }
                         var conv_handler = window['google_trackConversion'];
@@ -67,6 +67,8 @@ chosen link or button. -->
     @include('index.modals.registrar')
     @include('index.modals.sucesso')
     @include('index.modals.simular')
+    @include('index.modals.aviso')
+    @include('index.modals.contrato')
 </div>
 </body>
 </html>

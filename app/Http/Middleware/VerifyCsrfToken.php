@@ -19,6 +19,8 @@ class VerifyCsrfToken extends BaseVerifier
         'notifications*',
         'dashboard/usuario/upload/foto',
         'dashboard/apuracao/validate/anexo',
+        'dashboard/demissao/validate',
+        'dashboard/funcionarios/alteracao-contratual/validate',
         'admin/apuracao/validate/guia',
         'admin/pro-labore/validate/guia',
         'admin/processamento-folha/validate/arquivo',

@@ -1,7 +1,3 @@
-<div class="col-xs-12">
-    <h3>Estrangeiro</h3>
-    <hr>
-</div>
 <div class="col-xs-6">
     <div class="form-group">
         <label for="id_condicao_trabalhador_estrangeiro">Condição *</label>
@@ -62,9 +58,4 @@
         <input type="checkbox" checked="checked" value="1" name="filho_estrangeiro" id="filho_estrangeiro">
         <label for="filho_estrangeiro"> Filho(s) com brasileiro(a)</label>
     </div>
-</div>
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-primary next">Avançar - Deficiências <span class="fa fa-angle-right"></span>
-    </button>
 </div>

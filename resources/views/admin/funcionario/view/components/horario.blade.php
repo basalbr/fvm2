@@ -1,10 +1,4 @@
 <div class="col-xs-12">
-    <h3>Horários de trabalho</h3>
-    <hr>
-</div>
-
-
-<div class="col-xs-12">
     <p>Escolha o dia do descanso semanal remunerado (D.S.R)</p>
 
     <div class="form-group">
@@ -26,11 +20,5 @@
         <div class="clearfix"></div>
     </div>
 </div>
-@include('dashboard.components.horario.view', ['contrato'=>$contrato, 'horarios'=>$contrato->horarios])
+@include('admin.components.horario.view', ['contrato'=>$contrato, 'horarios'=>$contrato->horarios])
 
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - CNAEs</button>
-    <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> Finalizar e Pagar
-    </button>
-</div>

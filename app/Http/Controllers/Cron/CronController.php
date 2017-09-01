@@ -11,12 +11,18 @@ namespace App\Http\Controllers\Cron;
 use App\Http\Controllers\Admin\ApuracaoController;
 use App\Models\Apuracao;
 use App\Models\DocumentoContabil;
+use App\Models\Empresa;
+use App\Models\Funcionario;
 use App\Models\OrdemPagamento;
+use App\Models\Ponto;
 use App\Models\ProcessoDocumentoContabil;
+use App\Models\Usuario;
 use App\Notifications\ApuracaoPending;
 use App\Notifications\DocumentosContabeisPending;
 use App\Notifications\PaymentAlmostPending;
 use App\Notifications\PaymentPending;
+use App\Services\OpenPontosRequest;
+use App\Services\SendMendalidadeAdjustment;
 use DateInterval;
 use DateTime;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -51,6 +57,13 @@ class CronController extends Controller
                 Log::critical($e);
             }
         }
+    }
+
+    public function openPontosRequest()
+    {
+//        if (date('d') == '01') {
+            OpenPontosRequest::handle();
+//        }
     }
 
     public function verifyAlmostPendingPayments()
@@ -92,6 +105,12 @@ class CronController extends Controller
                 Log::critical($e);
             }
         }
+    }
+
+    public function AdjustmentInMensalidade()
+    {
+        $usuarios = Usuario::all();
+        SendMendalidadeAdjustment::handle($usuarios);
     }
 
 }

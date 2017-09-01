@@ -37,7 +37,6 @@ class CreateEmpresa
             $empresa->socios()->createMany($data['socios']);
 
             //Cadastra Mensalidade
-            $data['mensalidade']['qtde_pro_labore'] = $empresa->getQtdeProLabores();
             $data['mensalidade']['id_usuario'] = $empresa->usuario->id;
             $data['mensalidade']['valor'] = Mensalidade::calculateMonthlyPayment($data['mensalidade']);
             $empresa->mensalidades()->create($data['mensalidade']);

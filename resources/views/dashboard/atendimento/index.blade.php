@@ -226,7 +226,7 @@
                         <td>{{$processo->getUltimaMensagem()}}</td>
                         <td>{{$processo->getQtdeMensagensNaoLidas()}}</td>
                         <td><a class="btn btn-primary"
-                               href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}"
+                               href="{{route('showDocumentoContabilToUser', [$processo->id])}}"
                                title="Visualizar"><i class="fa fa-search"></i></a></td>
                     </tr>
                 @endforeach

@@ -11,15 +11,11 @@ class CalculateMonthlyPayment
     /**
      * @param int $qtdeFuncionarios
      * @param int $qtdeDocFiscal
-     * @param int $qtdeDocContabil
-     * @param int $qtdeProLabore
      * @return bool|float
      */
-    public static function handle(int $qtdeFuncionarios, int $qtdeDocFiscal, int $qtdeDocContabil, int $qtdeProLabore)
+    public static function handle(int $qtdeFuncionarios, int $qtdeDocFiscal)
     {
         $plano = Plano::where('total_documento_fiscal', '>=', $qtdeDocFiscal)
-            ->where('total_documento_contabil', '>=', $qtdeDocContabil)
-            ->where('total_pro_labore', '>=', $qtdeProLabore)
             ->orderBy('valor', 'asc')
             ->first();
         if ($plano instanceof Plano) {

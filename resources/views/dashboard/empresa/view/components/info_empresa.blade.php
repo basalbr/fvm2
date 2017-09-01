@@ -62,19 +62,13 @@
         <div class="form-control">{{$empresa->crc}}</div>
     </div>
 </div>
-<div class="col-xs-5">
+<div class="col-xs-4">
     <div class="form-group">
-        <label for="">Quantidade de funcionários</label>
+        <label for="">Funcionários</label>
         <div class="form-control">{{$empresa->getMensalidadeAtual()->qtde_funcionario}}</div>
     </div>
 </div>
-<div class="col-xs-7">
-    <div class="form-group">
-        <label for="">Quantidade de documentos contábeis emitidos mensalmente</label>
-        <div class="form-control">{{$empresa->getMensalidadeAtual()->qtde_documento_contabil}}</div>
-    </div>
-</div>
-<div class="col-xs-12">
+<div class="col-xs-8">
     <div class="form-group">
         <label for="">Quantidade de documentos fiscais recebidos e emitidos mensalmente</label>
         <div class="form-control">{{$empresa->getMensalidadeAtual()->qtde_documento_fiscal}}</div>

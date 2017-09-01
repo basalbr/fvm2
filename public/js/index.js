@@ -73,6 +73,7 @@ $(function () {
     //Validar login
     $("#modal-access button.btn-complete").on('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
         $.post($('#login-form').data('validation-url'), $('#login-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
                 window.location.href = data;
@@ -196,7 +197,7 @@ $(function () {
     $('.form .form-control').on('blur', function () {
         $(this).parent().removeClass('focused');
     });
-
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 

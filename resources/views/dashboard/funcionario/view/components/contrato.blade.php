@@ -1,7 +1,3 @@
-<div class="col-sm-12">
-    <h3>Contrato de Trabalho</h3>
-    <hr>
-</div>
 <div class="col-sm-6">
     <div class="form-group">
         <label for="contrato[cargo]">Cargo *</label>
@@ -125,61 +121,63 @@
         <div class="clearfix"></div>
     </div>
 </div>
-<div id="contrato-experiencia" style="display: none;">
-    <div class="col-sm-12">
-        <h3>Contrato de Experiência</h3>
-        <hr>
-    </div>
-    <div class="col-sm-12">
-        <div class="form-group no-border">
-            <label class="checkbox checkbox-styled radio-success">
-                <input type="checkbox" value="1" name="contrato[experiencia]" id="experiencia" {{$contrato->experiencia ? 'checked="checked"' : ''}}><span></span> Desejo emitir o
-                contrato de experiência
-            </label>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <div id="contrato-experiencia-info">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="qtde_dias_experiencia">Quantidade de dias *</label>
-            <input type="text" class="form-control number-mask" value="{{$contrato->qtde_dias_experiencia}}" name="contrato[qtde_dias_experiencia]"/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group disabled">
-            <label for="data_inicio_experiencia">Data de início</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_inicio_experiencia"/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group disabled">
-            <label for="data_final_experiencia">Data de término</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_experiencia"/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="qtde_dias_prorrogacao_experiencia">Quantidade de dias de prorrogação</label>
-            <input type="text" class="form-control number-mask" value="{{$contrato->qtde_dias_prorrogacao_experiencia}}" name="contrato[qtde_dias_prorrogacao_experiencia]"/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group disabled">
-            <label for="data_inicio_prorrogacao">Data de início</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_inicio_prorrogacao"/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group disabled">
-            <label for="data_final_prorrogacao">Data de término</label>
-            <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_prorrogacao"/>
-        </div>
-    </div>
+<div class="col-sm-12">
+    <h3>Contrato de Experiência</h3>
+    <hr>
+</div>
+
+<div class="col-sm-12">
+    <div class="form-group no-border">
+        <label class="checkbox checkbox-styled radio-success">
+            <input type="checkbox" value="1" name="contrato[experiencia]"
+                   id="experiencia" {{$contrato->experiencia ? 'checked="checked"' : ''}}><span></span> Possui contrato
+            de experiência
+        </label>
+        <div class="clearfix"></div>
     </div>
 </div>
-<div class="col-sm-12 text-right">
-    <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Informações da empresa</button>
-    <button class="btn btn-primary next">Avançar - Sócios <i class="fa fa-angle-right"></i></button>
+
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="qtde_dias_experiencia">Quantidade de dias *</label>
+        <input type="text" class="form-control number-mask" value="{{$contrato->qtde_dias_experiencia}}"
+               name="contrato[qtde_dias_experiencia]"/>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group disabled">
+        <label for="data_inicio_experiencia">Data de início</label>
+        <input type="text" class="form-control date-mask" disabled="disabled"
+               value="{{$contrato->data_admissao->format('d/m/Y')}}" id="data_inicio_experiencia"/>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group disabled">
+        <label for="data_final_experiencia">Data de término</label>
+        <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_experiencia"/>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="qtde_dias_prorrogacao_experiencia">Quantidade de dias de prorrogação</label>
+        <input type="text" class="form-control number-mask" value="{{$contrato->qtde_dias_prorrogacao_experiencia}}"
+               name="contrato[qtde_dias_prorrogacao_experiencia]"/>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group disabled">
+        <label for="data_inicio_prorrogacao">Data de início</label>
+        <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_inicio_prorrogacao"/>
+    </div>
+</div>
+
+<div class="col-sm-4">
+    <div class="form-group disabled">
+        <label for="data_final_prorrogacao">Data de término</label>
+        <input type="text" class="form-control date-mask" disabled="disabled" value="" id="data_final_prorrogacao"/>
+    </div>
 </div>

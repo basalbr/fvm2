@@ -98,13 +98,6 @@
 </div>
 <div class="clearfix"></div>
 
-<div class="col-sm-8">
-    <div class="form-group">
-        <label for="qtde_documento_contabil">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <input type="text" class="form-control number-mask" value="" name="mensalidade[qtde_documento_contabil]"/>
-    </div>
-</div>
-<div class="clearfix"></div>
 
 
 <div class="col-sm-12 text-right">

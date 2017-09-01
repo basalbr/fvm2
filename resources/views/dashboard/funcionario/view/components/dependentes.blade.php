@@ -1,32 +1,42 @@
 @include('dashboard.components.dependentes.add', ['validationUrl'=>route('validateDependente')])
-<div class="col-xs-12">
-    <h3>Dependentes</h3>
-    <hr>
-</div>
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $('.show-dependente').on('click', function (e) {
+                e.preventDefault();
+                $('#modal-dependente-' + $(this).data('id')).modal('show');
+            });
+        });
+    </script>
+@stop
 <div class="col-xs-12">
     <table class="table table-hover table-striped">
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Opções</th>
+            <th>Tipo</th>
+            <th></th>
         </tr>
 
         </thead>
         <tbody id="list-dependentes">
-        <tr>
-            <td colspan="2" class="none">Nenhum dependente cadastrado</td>
-        </tr>
+        @if(count($funcionario->dependentes))
+            @foreach($funcionario->dependentes as $dependente)
+                <tr>
+                    <td>{{$dependente->nome}}</td>
+                    <td>{{$dependente->tipo->descricao}}</td>
+                    <td>
+                        <button class="btn btn-primary show-dependente" data-id="{{$dependente->id}}"><i class="fa fa-search"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="3" class="none">Nenhum dependente cadastrado</td>
+            </tr>
+        @endif
         </tbody>
     </table>
-</div>
-<div class="col-xs-12">
-    <button type="button" class="btn btn-primary open-modal" data-modal="#modal-dependente"><i class="fa fa-plus"></i>
-        Adicionar dependente
-    </button>
-</div>
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Endereço</button>
-    <button class="btn btn-primary next">Avançar - CNAEs <i class="fa fa-angle-right"></i>
-    </button>
 </div>

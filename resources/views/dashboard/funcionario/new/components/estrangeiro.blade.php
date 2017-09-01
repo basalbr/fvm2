@@ -65,6 +65,6 @@
 </div>
 <div class="col-xs-12 text-right">
     <hr>
-    <button class="btn btn-primary next">Avançar - Deficiências <span class="fa fa-angle-right"></span>
+    <button class="btn btn-primary next">Avançar <span class="fa fa-angle-right"></span>
     </button>
 </div>

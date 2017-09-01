@@ -180,6 +180,6 @@
 </div>
 <div class="col-sm-12 text-right">
     <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Informações da empresa</button>
-    <button class="btn btn-primary next">Avançar - Sócios <i class="fa fa-angle-right"></i></button>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar</button>
+    <button class="btn btn-primary next">Avançar <i class="fa fa-angle-right"></i></button>
 </div>

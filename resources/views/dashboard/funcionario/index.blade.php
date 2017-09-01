@@ -59,10 +59,7 @@
                         <div class="col-xs-12 options">
                             <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
                                class="btn btn-primary">
-                                <i class="fa fa-search"></i> Ver Detalhes</a>
-                            <a href="{{route('listDocumentosFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
-                               class="btn btn-success">
-                                <i class="fa fa-files-o"></i> Documentos</a>
+                                <i class="fa fa-search"></i> Visualizar</a>
                         </div>
                         <div class="clearfix"></div>
                         <br/>

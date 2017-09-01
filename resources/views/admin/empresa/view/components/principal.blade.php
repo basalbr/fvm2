@@ -1,15 +1,16 @@
-
 <div class="col-xs-12">
-    <br />
-
-
-    <div class="col-xs-12">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="">Usuário</label>
+            <div class="form-control"><a href="{{route('showUsuarioToAdmin', $empresa->usuario->id)}}">{{$empresa->usuario->nome}}</a></div>
+        </div>
+    </div><div class="col-xs-6">
         <div class="form-group">
             <label for="">Nome fantasia</label>
             <div class="form-control">{{$empresa->nome_fantasia}}</div>
         </div>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-6">
         <div class="form-group">
             <label for="">Sócio principal</label>
             <div class="form-control">{{$empresa->getSocioPrincipal()->nome}}</div>
@@ -35,8 +36,8 @@
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="">Pró-labores</label>
-            <div class="form-control">Possui {{$empresa->getQtdeProLabores()}} com limite de {{$empresa->getMensalidadeAtual()->qtde_pro_labore}}</div>
+            <label for="">Mensalidade</label>
+            <div class="form-control">{{$empresa->getMensalidadeAtual()->getValor()}}</div>
         </div>
     </div>
 </div>

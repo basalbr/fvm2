@@ -6,7 +6,7 @@
 
 <div class="col-xs-12 text-right">
     <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Endereço</button>
-    <button class="btn btn-primary next">Avançar - CNAEs <i class="fa fa-angle-right"></i>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar</button>
+    <button class="btn btn-primary next">Avançar <i class="fa fa-angle-right"></i>
     </button>
 </div>

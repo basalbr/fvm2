@@ -20,7 +20,6 @@
             <ul id="left-menu-list" class="animated fadeInLeft">
                 <li><a href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="{{route('listEmpresaToAdmin')}}">Listar/Migrar empresa <i class="fa fa-angle-right"></i></a></li>
-                <li><a href="{{route('listFuncionarioToAdmin')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
@@ -35,7 +34,11 @@
         <li>
             <a href=""><span class="fa fa-users"></span> Gestão de Pessoas <i class="fa fa-angle-down"></i></a>
             <ul id="left-menu-list" class="animated fadeInLeft">
+                <li><a href="{{route('listFuncionarioToAdmin')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listDemissaoToAdmin')}}">Demissões <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listPontosToAdmin')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="{{route('listProcessoFolhaToAdmin')}}">Apurações <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listAlteracaoContratualToAdmin')}}">Alterações Contratuais <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
         <li><a href="{{route('listOrdensPagamentoToAdmin')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>

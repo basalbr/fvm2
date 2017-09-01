@@ -15,7 +15,8 @@ class UsuarioValidation extends Validation
         'email' => 'required|unique:usuario,email|email',
         'telefone' => 'required|min:13|max:16',
         'senha' => 'required|confirmed',
-        'senha_confirmed' => 'sometimes|required'
+        'senha_confirmed' => 'sometimes|required',
+        'contrato'=>'accepted'
     ];
 
     protected static $niceNames = [
@@ -23,7 +24,8 @@ class UsuarioValidation extends Validation
         'email' => 'E-mail',
         'senha' => 'Senha',
         'senha_confirmed' => 'Confirmar sua senha',
-        'telefone' => 'Telefone ou celular'
+        'telefone' => 'Telefone ou celular',
+        'contrato'=>'O Contrato'
     ];
 
 

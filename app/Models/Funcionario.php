@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Funcionario
  * @package App\Models
+ * @property Empresa empresa
  */
 class Funcionario extends Model
 {
@@ -80,8 +81,14 @@ class Funcionario extends Model
         'id_estado_civil'
     ];
 
+
+
     protected $dates = ['data_nascimento','data_emissao_ctps','vencimento_cnh', 'data_chegada_estrangeiro', 'data_expedicao_rne', 'data_validade_rne', 'validade_carteira_trabalho','data_emissao_rg','data_cadastro_pis', 'created_at', 'updated_at', 'deleted_at'];
-    protected $statusNiceNames = ['pendente' => '<span class="text-danger">Pendente</span>'];
+    protected $statusNiceNames = [
+        'pendente' => '<span class="text-danger">Pendente</span>',
+        'demitido' =>'<span class="text-disabled">Demitido</span>',
+        'ativo'=>'<span class="text-success">Ativo</span>'
+    ];
 
     public function getStatus()
     {
@@ -181,9 +188,24 @@ class Funcionario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function alteracoes()
+    {
+        return $this->hasMany(AlteracaoContratual::class, 'id_funcionario');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documentos()
     {
         return $this->hasMany(FuncionarioDocumento::class, 'id_funcionario');
     }
+
+    public function anexos()
+    {
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
 
 }

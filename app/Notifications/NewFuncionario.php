@@ -21,7 +21,7 @@ class NewFuncionario extends Notification
     public function __construct(Funcionario $funcionario)
     {
         $this->funcionario = $funcionario;
-        $this->url = route('showFuncionarioToAdmin', [$this->funcionario->id]);
+        $this->url = route('showFuncionarioToAdmin', [$this->funcionario->empresa->id, $this->funcionario->id]);
     }
 
     /**

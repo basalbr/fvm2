@@ -31,7 +31,8 @@
             <ul id="left-menu-list" class="animated fadeInLeft">
                 <li><a href="{{route('listFuncionarioToUser')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a href="{{route('listProcessoFolhaToUser')}}">Apurações <i class="fa fa-angle-right"></i></a></li>
-
+                <li><a href="{{route('listDemissaoToUser')}}">Demissões <i class="fa fa-angle-right"></i></a></li>
+                <li><a href="{{route('listPontosToUser')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
         <li><a href="{{route('listDocumentosContabeisToUser')}}"><span class="fa fa-files-o"></span> Documentos contábeis <i class="fa fa-angle-right"></i></a></li>

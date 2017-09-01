@@ -17,7 +17,7 @@ class FuncionarioDependente extends Model {
      * @var string
      */
     protected $table = 'funcionario_dependente';
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'data_nascimento'];
 
     /**
      * The attributes that are mass assignable.
@@ -50,4 +50,7 @@ class FuncionarioDependente extends Model {
         return $this->belongsTo(Funcionario::class, 'id_funcionario');
     }
 
+    public function tipo(){
+        return $this->belongsTo(TipoDependencia::class, 'id_tipo_dependencia');
+    }
 }

@@ -1,7 +1,3 @@
-<div class="col-xs-12">
-    <h3>Informações pessoais</h3>
-    <hr>
-</div>
 <div class='clearfix'></div>
 <div class="col-sm-6">
     <div class="form-group">
@@ -177,8 +173,3 @@
         </div>
     </div>
 @endif
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-primary next">Avançar - Endereço <span class="fa fa-angle-right"></span>
-    </button>
-</div>

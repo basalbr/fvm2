@@ -1,7 +1,3 @@
-<div class="col-xs-12">
-    <h3>Endereço</h3>
-    <hr>
-</div>
 <div class="col-sm-3">
     <div class="form-group">
         <label for="cep">CEP *</label>
@@ -74,9 +70,4 @@
         </label>
         <div class="clearfix"></div>
     </div>
-</div>
-<div class="col-xs-12 text-right">
-    <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - Informações pessoais</button>
-    <button class="btn btn-primary next">Avançar - Contrato de trabalho <i class="fa fa-angle-right"></i></button>
 </div>

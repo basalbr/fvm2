@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Validator;
 
 /**
  * @property boolean admin
+ * @property string nome
+ * @property string telefone
+ * @property string email
+ * @property \Datetime created_at
+ * @property \Datetime updated_at
+ * @property \Datetime deleted_at
  */
 class Usuario extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
@@ -67,6 +73,12 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(Chamado::class, 'id_usuario');
     }
 
+
+    public function demissoes()
+    {
+        return $this->hasMany(Demissao::class, 'id_usuario');
+    }
+
     public function empresas()
     {
         return $this->hasMany(Empresa::class, 'id_usuario');
@@ -115,6 +127,17 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
     {
         return $this->hasManyThrough(
             Funcionario::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
+    }
+
+    public function pontos()
+    {
+        return $this->hasManyThrough(
+            Ponto::class,
             Empresa::class,
             'id_usuario',
             'id_empresa',

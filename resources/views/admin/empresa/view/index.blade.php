@@ -1,6 +1,8 @@
 @extends('admin.layouts.master')
 @section('content')
-    <h1>{{$empresa->nome_fantasia}}</h1>
+    <h1>{{$empresa->nome_fantasia}}
+        <small>{{$empresa->razao_social}}</small>
+    </h1>
     <hr>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -86,10 +88,12 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr/>
-        <div class="col-xs-12">
-            <a href="{{route('listEmpresaToAdmin')}}" class="btn btn-info"><i class="fa fa-th"></i> Voltar para
-                listagem</a>
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
+            <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
+            @if($empresa->status != 'Aprovado')
+                <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i> Ativar empresa</a>
+            @endif
         </div>
     </div>
 
