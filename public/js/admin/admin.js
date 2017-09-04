@@ -13,6 +13,7 @@ function notify(title, message, url) {
         };
     }
 }
+
 function inicializaChatNotifications() {
     $.get($('body').data('chat-count-url'), function (data) {
         chat = data.total;
@@ -26,6 +27,7 @@ function inicializaChatNotifications() {
         }, 15000);
     });
 }
+
 function askPermission() {
     if (Notification.permission !== "granted") {
         Notification.requestPermission();
@@ -36,7 +38,23 @@ $(function () {
     askPermission();
 });
 
+function checkIfInView(element){
+    var offset =( element.offset().top + 50 ) - $(window).scrollTop();
+
+    if(offset > window.innerHeight){
+        return false;
+    }
+    return true;
+}
+
 $(function () {
+    if(!checkIfInView($('#left-menu a.active'))){
+        $('#left-menu').animate({
+            scrollTop:  $("#left-menu a.active").offset().top
+        }, 0);
+    }
+
+    $("#left-menu ul li ul a.active").parent().parent().addClass('open').parent();
     $('#left-menu ul a').on('click', function (e) {
         if ($(this).parent().has('ul').length > 0) {
             e.preventDefault();
