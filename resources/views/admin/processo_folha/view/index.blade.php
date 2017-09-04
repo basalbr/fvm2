@@ -1,7 +1,11 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listProcessoFolhaToAdmin')}}">Apurações de Folha</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToAdmin', $processo->empresa->id)}}">{{$processo->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> Apuração - {{$processo->competencia->format('m/Y')}}
+@stop
 @section('content')
-    <h1>Apuração de Folha ({{$processo->competencia->format('m/Y')}})</h1>
-    <hr>
+
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
@@ -46,13 +50,10 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
 
-            <div class="col-sm-12">
-                <h3>Informações</h3>
-            </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Nome Fantasia</label>
-                    <div class="form-control">{{$processo->empresa->nome_fantasia}}</div>
+                    <div class="form-control"><a href="{{route('showEmpresaToAdmin', $processo->empresa->id)}}">{{$processo->empresa->nome_fantasia}}</a></div>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -65,6 +66,12 @@
                 <div class="form-group">
                     <label>Competência</label>
                     <div class="form-control">{{$processo->competencia->format('m/Y')}}</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Usuário</label>
+                    <div class="form-control"><a href="{{route('showUsuarioToAdmin', $processo->empresa->usuario->id)}}">{{$processo->empresa->usuario->nome}}</a></div>
                 </div>
             </div>
             <div class="clearfix"></div>

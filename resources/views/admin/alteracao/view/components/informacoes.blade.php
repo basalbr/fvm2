@@ -3,7 +3,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label>Usuário</label>
-                <div class="form-control">{{$alteracao->usuario->nome}}</div>
+                <div class="form-control"><a href="{{route('showUsuarioToAdmin', $alteracao->usuario->id)}}">{{$alteracao->usuario->nome}}</a></div>
             </div>
         </div>
         <div class="col-sm-6">

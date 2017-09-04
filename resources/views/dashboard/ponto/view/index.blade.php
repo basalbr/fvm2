@@ -1,8 +1,10 @@
 @extends('dashboard.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listPontosToUser')}}">Registros de Ponto</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToUser', $ponto->empresa->id)}}">{{$ponto->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> Envio de Pontos
+@stop
 @section('content')
-    <h1>Envio de registro de ponto<small> {{$ponto->periodo->format('m/Y')}}</small></h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#envio" aria-controls="envio" role="tab" data-toggle="tab"><i
@@ -73,12 +75,12 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr>
-        <div class="col-sm-12">
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
 
-            <a class="btn btn-default" href="{{route('listPontosToUser')}}"><i
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para listagem</a>
+                Voltar</a>
             @if($ponto->status == 'pendente')
                 <a class="btn btn-success" href="{{route('sendPontos', $ponto->id)}}"><i
                             class="fa fa-check"></i>

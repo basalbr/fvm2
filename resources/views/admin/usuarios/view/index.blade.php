@@ -1,8 +1,9 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listUsuariosToAdmin')}}">Usuários</a> <i class="fa fa-angle-right"></i> {{$usuario->nome}}
+@stop
 @section('content')
-    <h1>{{$usuario->nome}}</h1>
-    <hr>
-    <!-- Nav tabs -->
+        <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#principal" aria-controls="principal" role="tab" data-toggle="tab"><i class="fa fa-home"></i>

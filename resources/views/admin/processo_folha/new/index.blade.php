@@ -95,11 +95,13 @@
 
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listProcessoFolhaToAdmin')}}">Apurações de Folha</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> Apuração - {{$competenciaFormatada}}
+@stop
 @section('content')
-    <h1>Envio de Pró-Labore ({{$competenciaFormatada}})</h1>
-    <hr>
-    <ul class="nav nav-tabs" role="tablist">
+       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
                         class="fa fa-info-circle"></i>
@@ -119,13 +121,10 @@
                 {!! csrf_field() !!}
                 @include('admin.components.form-alert')
                 @include('admin.components.disable-auto-complete')
-                <div class="col-sm-12">
-                    <h3>Informações</h3>
-                </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label>Empresa</label>
-                        <div class="form-control">{{$empresa->nome_fantasia}}</div>
+                        <div class="form-control"><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}}</a></div>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -138,6 +137,12 @@
                     <div class="form-group">
                         <label>CNPJ</label>
                         <div class="form-control">{{$empresa->cnpj}}</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Usuário</label>
+                        <div class="form-control"><a href="{{route('showUsuarioToAdmin', $empresa->usuario->id)}}">{{$empresa->usuario->nome}}</a></div>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -212,7 +217,6 @@
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="pessoas">
             @if($socios->count())
-                <h3>Sócios que retiram pró-labore</h3>
                 <table class="table table-hovered table-striped">
                     <thead>
                     <tr>

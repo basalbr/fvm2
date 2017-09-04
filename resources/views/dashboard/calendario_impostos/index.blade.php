@@ -71,12 +71,11 @@
 
     </script>
 @stop
+@section('top-title')
+    Calendário de Impostos
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Calendário de impostos</h1>
-        <p>Aqui você encontra o calendário com quais impostos e quando que empresas do Simples Nacional devem pagar.</p>
-        <hr>
-    </div>
+
     <div class="col-sm-12">
         <div class="panel">
             <div id="calendar" data-impostos-url="{{route('getImpostos')}}"

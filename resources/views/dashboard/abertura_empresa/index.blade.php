@@ -1,8 +1,9 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Abertura de empresa
+@stop
 @section('content')
-    <h1>Abertura de empresa</h1>
-    <hr>
-    @foreach($aberturaEmpresas as $aberturaEmpresa)
+     @foreach($aberturaEmpresas as $aberturaEmpresa)
         <div class="col-lg-6">
             <div class="panel">
                 <div class="col-xs-12">

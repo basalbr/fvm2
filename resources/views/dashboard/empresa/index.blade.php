@@ -1,12 +1,9 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Empresas
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Empresas</h1>
-        <p>Nesta área você pode solicitar uma migração de empresa de sua contabilidade atual para a WEBContabilidade e
-            visualizar suas empresas cadastradas no sistema.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
+
     <div class="col-xs-12">
         <div class="list-group">
             <a href="{{route('newEmpresa')}}" class="btn btn-primary"><span class="fa fa-exchange"></span> Clique aqui para migrar uma empresa</a>

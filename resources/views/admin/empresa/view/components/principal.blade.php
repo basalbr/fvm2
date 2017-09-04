@@ -13,7 +13,7 @@
     <div class="col-xs-6">
         <div class="form-group">
             <label for="">Sócio principal</label>
-            <div class="form-control">{{$empresa->getSocioPrincipal()->nome}}</div>
+            <div class="form-control"><a href="" class="show-socio" data-id="{{$empresa->getSocioPrincipal()->id}}">{{$empresa->getSocioPrincipal()->nome}}</a></div>
         </div>
     </div>
     <div class="col-sm-6">

@@ -44,15 +44,13 @@
         }
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listSolicitacoesAlteracaoToUser')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$tipoAlteracao->descricao}} - {{$tipoAlteracao->getValorFormatado()}}
+@stop
 @section('content')
-    <h1>Solicitação de Alteração</h1>
-    <hr>
+
     <div class="panel">
-        <div class="col-sm-12">
-            <h3>Solicitar {{$tipoAlteracao->descricao}} ({{$tipoAlteracao->getValorFormatado()}})</h3>
-            <br/>
-        </div>
+
         <form class="form" method="POST" action="" id="form-principal"
               data-validation-url="{{route('validateAlteracao')}}" enctype="multipart/form-data">
             @include('dashboard.components.form-alert')

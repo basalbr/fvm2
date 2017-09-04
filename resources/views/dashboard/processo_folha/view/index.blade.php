@@ -1,4 +1,9 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    <a href="{{route('listProcessoFolhaToUser')}}">Apurações de Folha</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToUser', $processo->empresa->id)}}">{{$processo->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> Apuração - {{$processo->competencia->format('m/Y')}}
+@stop
 @section('content')
     <h1>Apuração de Folha ({{$processo->competencia->format('m/Y')}})</h1>
     <hr>
@@ -91,8 +96,9 @@
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="col-sm-12">
+        <div class="clearfix"></div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
             <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
                 Voltar</a>

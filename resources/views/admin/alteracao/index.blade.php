@@ -1,9 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Alterações
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Solicitações de alteração</h1>
-        <hr>
-    </div>
     <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.alteracao.components.tabs')

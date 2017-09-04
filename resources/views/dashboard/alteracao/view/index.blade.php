@@ -1,5 +1,7 @@
 @extends('dashboard.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listSolicitacoesAlteracaoToUser')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->tipo->descricao}}
+@stop
 @section('js')
     @parent
     <script type="text/javascript">
@@ -141,8 +143,6 @@
 @stop
 
 @section('content')
-    <h1>{{$alteracao->tipo->descricao}}</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i

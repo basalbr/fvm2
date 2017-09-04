@@ -1,11 +1,8 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Registros de Ponto
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Registro de Ponto</h1>
-        <p>Aqui você poderá ver os períodos pendentes de envio do registro de ponto do seus funcionários e também os períodos já concluídos.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i

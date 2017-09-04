@@ -1,8 +1,8 @@
 @extends('admin.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->tipo->descricao}}
+@stop
 @section('content')
-    <h1>{{$alteracao->tipo->descricao}}</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.alteracao.view.components.tabs')
     </ul>

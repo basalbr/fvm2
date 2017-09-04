@@ -1,11 +1,8 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Atendimento
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Atendimento</h1>
-        <p>Aqui você encontra todas as suas conversas com nossa equipe.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <div class="col-xs-12">
         <div class="list-group">
             <a href="{{route('newChamado')}}" class="btn btn-primary"><i class="fa fa-envelope"></i> Clique para abrir

@@ -1,10 +1,11 @@
 @extends('admin.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listDemissaoToAdmin')}}">Demissões</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToAdmin', $demissao->funcionario->empresa->id)}}">{{$demissao->funcionario->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> <a
+            href="{{route('showFuncionarioToAdmin', [$demissao->funcionario->empresa->id, $demissao->funcionario->id])}}">{{$demissao->funcionario->nome_completo}}</a>
+@stop
 @section('content')
-    <h1>Solicitação de Demissão
-        <small>{{$demissao->funcionario->nome_completo}}</small>
-    </h1>
-    <hr>
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">

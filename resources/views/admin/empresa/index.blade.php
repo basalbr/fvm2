@@ -1,11 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Empresas
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Empresas</h1>
-        <p>Nesta área você pode solicitar uma migração de empresa de sua contabilidade atual para a WEBContabilidade e
-            visualizar suas empresas cadastradas no sistema.</p>
-        <hr>
-    </div>
     <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.empresa.components.tabs')

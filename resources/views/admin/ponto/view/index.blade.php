@@ -1,8 +1,9 @@
 @extends('admin.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listPontosToAdmin')}}">Registros de Ponto</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToAdmin', $ponto->empresa->id)}}">{{$ponto->empresa->nome_fantasia}}</a>
+@stop
 @section('content')
-    <h1>Envio de registro de ponto<small> {{$ponto->periodo->format('m/Y')}}</small></h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#envio" aria-controls="envio" role="tab" data-toggle="tab"><i
@@ -16,7 +17,8 @@
         </li>
         @if($ponto->isFinished())
             <li class="animated bounceInDown highlight">
-                <a href="{{route('showProcessoFolhaToAdmin', $ponto->getProcesso()->id)}}"><i class="fa fa-external-link"></i> Ver guias</a>
+                <a href="{{route('showProcessoFolhaToAdmin', $ponto->getProcesso()->id)}}"><i
+                            class="fa fa-external-link"></i> Ver guias</a>
             </li>
         @endif
     </ul>

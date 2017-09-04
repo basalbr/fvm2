@@ -60,10 +60,10 @@
         }
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listEmpresaToUser')}}">Empresas</a> <i class="fa fa-angle-right"></i> Migrar Empresa
+@stop
 @section('content')
-    <h1>Migrar empresa</h1>
-    <hr>
     <form class="form" method="POST" action="" id="form-principal"
           data-validation-url="{{route('validateEmpresa')}}">
     @include('dashboard.components.form-alert')

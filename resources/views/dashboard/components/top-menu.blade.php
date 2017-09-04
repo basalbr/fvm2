@@ -5,3 +5,6 @@
         <li><a href="{{route('logout')}}"><span class="fa fa-sign-outg"></span> Sair</a></li>
     </ul>
 </div>
+<div id="top-title" class="animated slideInRight">
+    <i class="fa fa-map-signs"></i> @yield('top-title')
+</div>

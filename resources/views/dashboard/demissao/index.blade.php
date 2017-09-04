@@ -1,11 +1,9 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Demissões
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Demissões</h1>
-        <p>Aqui você poderá ver os pedidos de demissão em processamento e os pedidos de demissão já concluídos.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
+
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i

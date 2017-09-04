@@ -1,11 +1,8 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Pagamentos
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Pagamentos</h1>
-        <p>Aqui você encontra todos os pagamentos em aberto e também seu histórico de pagamento.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i

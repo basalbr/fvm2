@@ -37,18 +37,12 @@
         }
     </script>
 @stop
+@section('top-title')
+    Meu Perfil
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Editar perfil</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <div class="col-sm-12">
         <div class="panel">
-            <div class="col-sm-12">
-                <h3>Informações pessoais</h3>
-                <p>Campos com * são obrigatórios</p>
-            </div>
             <form action="" method="POST" data-upload-foto-url="{{route('uploadUsuarioFoto')}}">
                 <input type="hidden" name="foto" value="" />
                 {!! csrf_field() !!}
@@ -98,8 +92,8 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <hr>
-                <div class="col-sm-12">
+                <div class="navigation-space"></div>
+                <div class="navigation-options">
                     <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
                     <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Salvar informações
                     </button>

@@ -1,7 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listChatToAdmin')}}">Chats</a> <i class="fa fa-angle-right"></i> {{$chat->nome}}
+@stop
 @section('content')
-    <h1>Chat</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.chat.view.components.tabs')
     </ul>
@@ -16,7 +17,7 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label>Nome</label>
+                        <label>E-mail</label>
                         <div class="form-control">{{$chat->email}}</div>
                     </div>
                 </div>

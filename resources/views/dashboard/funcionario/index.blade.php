@@ -10,13 +10,11 @@
         })
     </script>
 @stop
+@section('top-title')
+    Funcionários
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Funcionários</h1>
-        <p>Selecione uma empresa na lista abaixo para visualizar os funcionários dela.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
+
     <div class="col-xs-12">
         <div class="list-group">
             <button type="button" id="cadastrar-funcionario" class="btn btn-primary"><span

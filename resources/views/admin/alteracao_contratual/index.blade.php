@@ -1,10 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Alterações Contratuais
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Alterações contratuais</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i
@@ -37,7 +35,7 @@
                 @if($pendentes->count())
                     @foreach($pendentes as $alteracao)
                         <tr>
-                            <td><a href="{{route('showFuncionarioToAdmin',  [$alteracao->funcionario->empresa->id, $alteracao->funcionario->id])}}">{{$alteracao->funcionario->nome_completo}}</td>
+                            <td><a href="{{route('showFuncionarioToAdmin',  [$alteracao->funcionario->empresa->id, $alteracao->funcionario->id])}}">{{$alteracao->funcionario->nome_completo}}</a></td>
                             <td><a href="{{route('showEmpresaToAdmin', $alteracao->funcionario->empresa->id)}}">{{$alteracao->funcionario->empresa->nome_fantasia}}</a></td>
                             <td><a href="{{route('showUsuarioToAdmin', $alteracao->funcionario->empresa->usuario->id)}}">{{$alteracao->funcionario->empresa->usuario->nome}}</a></td>
                             <td>{{$alteracao->tipo->descricao}}</td>
@@ -75,7 +73,7 @@
                 @if($concluidas->count())
                     @foreach($concluidas as $alteracao)
                         <tr>
-                            <td><a href="{{route('showFuncionarioToAdmin', $alteracao->funcionario->id)}}">{{$alteracao->funcionario->nome_completo}}</td>
+                            <td><a href="{{route('showFuncionarioToAdmin', $alteracao->funcionario->id)}}">{{$alteracao->funcionario->nome_completo}}</a></td>
                             <td><a href="{{route('showEmpresaToAdmin', $alteracao->funcionario->empresa->id)}}">{{$alteracao->funcionario->empresa->nome_fantasia}}</a></td>
                             <td><a href="{{route('showUsuarioToAdmin', $alteracao->funcionario->empresa->usuario->id)}}">{{$alteracao->funcionario->empresa->usuario->nome}}</a></td>
                             <td>{{$alteracao->tipo->descricao}}</td>

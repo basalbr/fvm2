@@ -1,10 +1,11 @@
 @extends('dashboard.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listDemissaoToUser')}}">Demissões</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToUser', $demissao->funcionario->empresa->id)}}">{{$demissao->funcionario->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> <a
+            href="{{route('showFuncionarioToUser', [$demissao->funcionario->empresa->id, $demissao->funcionario->id])}}">{{$demissao->funcionario->nome_completo}}</a>
+@stop
 @section('content')
-    <h1>Solicitação de Demissão
-        <small>{{$demissao->funcionario->nome_completo}}</small>
-    </h1>
-    <hr>
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -96,7 +97,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
-        <div class="col-xs-12 navigation-options">
+        <div class="animated slideInUp navigation-options">
             <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>
     </div>

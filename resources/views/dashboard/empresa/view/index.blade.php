@@ -1,7 +1,8 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    <a href="{{route('listEmpresaToUser')}}">Empresas</a> <i class="fa fa-angle-right"></i> {{$empresa->nome_fantasia}} <span class="hidden-xs">({{$empresa->razao_social}})</span>
+@stop
 @section('content')
-    <h1>{{$empresa->nome_fantasia}}</h1>
-    <hr>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -86,10 +87,9 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr/>
-        <div class="col-xs-12">
-            <a href="{{route('listEmpresaToUser')}}" class="btn btn-info"><i class="fa fa-th"></i> Voltar para
-                listagem</a>
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
+            <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>
     </div>
 

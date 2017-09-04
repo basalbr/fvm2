@@ -1,18 +1,17 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Abertura de empresa
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Abertura de empresa</h1>
-        <hr>
-    </div>
     <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#aprovadas" aria-controls="chamados" role="tab" data-toggle="tab"><i class="fa fa-check"></i>
-                Empresas ativas</a>
+            <a href="#aprovadas" aria-controls="chamados" role="tab" data-toggle="tab"><i class="fa fa-warning"></i>
+                Pendentes</a>
         </li>
         <li role="presentation">
-            <a href="#pendentes" aria-controls="empresas" role="tab" data-toggle="tab"><i class="fa fa-hourglass-1"></i>
-                Empresas em análise</a>
+            <a href="#pendentes" aria-controls="empresas" role="tab" data-toggle="tab"><i class="fa fa-check"></i>
+                Concluídas</a>
         </li>
     </ul>
     <div class="tab-content">

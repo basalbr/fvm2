@@ -1,9 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listEmpresaToAdmin')}}">Empresas</a> <i class="fa fa-angle-right"></i> {{$empresa->nome_fantasia}} <span class="hidden-xs">({{$empresa->razao_social}})</span>
+@stop
 @section('content')
-    <h1>{{$empresa->nome_fantasia}}
-        <small>{{$empresa->razao_social}}</small>
-    </h1>
-    <hr>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">

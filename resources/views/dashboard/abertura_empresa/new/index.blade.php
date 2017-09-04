@@ -5,10 +5,11 @@
     <script type="text/javascript"
             src="{{url(public_path().'js/dashboard/abertura_empresa/new/index.js')}}"></script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listAberturaEmpresaToUser')}}">Abertura de empresa</a> <i class="fa fa-angle-right"></i> Solicitar Abertura de Empresa
+@stop
 @section('content')
-    <h1>Abrir empresa</h1>
-    <hr>
+
     <form class="form" method="POST" action="" id="form-principal"
           data-validation-url="{{route('validateAberturaEmpresa')}}">
     @include('dashboard.components.form-alert')

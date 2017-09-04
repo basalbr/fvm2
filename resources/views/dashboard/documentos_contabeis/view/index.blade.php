@@ -143,10 +143,10 @@
 
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listDocumentosContabeisToUser')}}">Documentos Contábeis</a> <i class="fa fa-angle-right"></i> {{$processo->empresa->nome_fantasia}} <i class="fa fa-angle-right"></i> Enviar Documentos - {{$processo->periodo->format('m/Y')}}
+@stop
 @section('content')
-    <h1>Envio de documentos contábeis ({{$processo->periodo->format('m/Y')}})</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i

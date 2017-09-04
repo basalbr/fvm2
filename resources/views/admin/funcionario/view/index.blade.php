@@ -4,16 +4,10 @@
     <script type="text/javascript"
             src="{{url(public_path().'js/admin/funcionario/view/index.js')}}"></script>
 @stop
+@section('top-title')
+    <a href="{{route('listFuncionarioToAdmin')}}">Funcionários</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToAdmin', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> {{$funcionario->nome_completo}}
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>{{$funcionario->nome_completo}}
-            <small> ({!! $funcionario->getStatus() !!})</small>
-        </h1>
-        <h4><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}}</a></h4>
-        <hr>
-    </div>
-
-    <div class="clearfix"></div>
     <form class="form" method="POST" action="" id="form-principal"
           data-validation-url="{{route('validateFuncionario')}}"
           enctype="multipart/form-data">

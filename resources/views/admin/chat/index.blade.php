@@ -1,9 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listChatToAdmin')}}">Chats</a>
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Atendimento</h1>
-        <hr>
-    </div>
     <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.chat.components.tabs')

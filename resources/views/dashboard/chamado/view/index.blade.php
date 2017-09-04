@@ -1,5 +1,7 @@
 @extends('dashboard.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listAtendimentosToUser')}}">Atendimento</a> <i class="fa fa-angle-right"></i> Chamado ({{$chamado->tipoChamado->descricao}})
+@stop
 @section('js')
     @parent
     <script type="text/javascript">
@@ -141,9 +143,6 @@
 @stop
 
 @section('content')
-    <h1>Chamado: {{$chamado->tipoChamado->descricao}}</h1>
-    <hr>
-
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i
@@ -190,12 +189,11 @@
             </div>
         </div>
         <div class="clearfix"></div>
-
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listApuracoesToUser')}}"><i
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para apurações</a>
+                Voltar</a>
         </div>
         <div class="clearfix"></div>
     </div>

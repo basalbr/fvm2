@@ -19,7 +19,7 @@
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
                 <li><a class="{{Route::current()->getPrefix() == '/admin/abertura-empresa' ? 'active':''}}" href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa <i class="fa fa-angle-right"></i></a></li>
-                <li><a class="{{Route::current()->getPrefix() == '/admin/empresas' ? 'active':''}}" href="{{route('listEmpresaToAdmin')}}">Listar/Migrar empresa <i class="fa fa-angle-right"></i></a></li>
+                <li><a class="{{Route::current()->getPrefix() == '/admin/empresas' ? 'active':''}}" href="{{route('listEmpresaToAdmin')}}">Listar empresas <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/admin/solicitar-alteracao' ? 'active':''}}" href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Solicitações de Alteração <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>

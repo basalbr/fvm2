@@ -1,10 +1,9 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Alterações
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Solicitações de alteração</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
+
     <div class="col-xs-12">
         <div class="list-group">
             <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i

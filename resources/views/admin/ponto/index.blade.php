@@ -1,11 +1,9 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Registros de Ponto
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Registro de Ponto</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
-    <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i
                         class="fa fa-exclamation-circle"></i>

@@ -143,10 +143,11 @@
 
     </script>
 @stop
+@section('top-title')
+    <a href="{{route('listDocumentosContabeisToAdmin')}}">Documentos Contábeis</a> <i class="fa fa-angle-right"></i> {{$processo->empresa->nome_fantasia}} - {{$processo->periodo->format('m/Y')}}
+@stop
 
 @section('content')
-    <h1>Envio de documentos contábeis ({{$processo->periodo->format('m/Y')}})</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.documentos_contabeis.view.components.tabs')
     </ul>

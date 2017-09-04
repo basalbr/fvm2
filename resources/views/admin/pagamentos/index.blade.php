@@ -1,10 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Pagamentos
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Pagamentos</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.pagamentos.components.tabs')
     </ul>

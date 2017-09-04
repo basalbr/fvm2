@@ -93,6 +93,7 @@ body {
 }
 
 #top-menu-brand {
+    display: inline-block;
     padding: 8px 15px;
     transition: 0.15s margin ease-in;
 }
@@ -246,16 +247,20 @@ body {
     position: absolute;
     z-index: 2;
     left: 260px;
-    top: 50px;
+    top: 95px;
     overflow: auto;
     right: 10px;
     bottom: 0;
-    padding: 0 10px 15px;
+    padding: 15px 0 15px;
 }
 
 @media (max-width: 1200px ) {
     #content {
-        left: 10px;
+        left: 0px;
+    }
+
+    #top-title {
+        left: 0px!important;
     }
 
     #left-menu {
@@ -1630,4 +1635,37 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 
 .navigation-space {
     margin-bottom: 60px;
+}
+
+#top-title {
+    border-top: 1px solid #21252d;
+    border-left: 1px solid #21252d;
+    /*background-color: #21252d !important;*/
+    background:
+        /* On "top" */
+            repeating-linear-gradient(
+                    60deg,
+                    transparent,
+                    transparent 5px,
+                    #21252d 5px,
+                    #21252d 10px
+            ),
+                /* on "bottom" */
+            linear-gradient(
+                    to bottom,
+                    #2b303b,
+                    #2b303b
+            );
+    position: fixed;
+    padding: 10px;
+    left: 250px;
+    color: #fff;
+    top: 50px;
+    right: 0;
+    z-index: 150;
+    font-size: 16px
+}
+
+#top-title a {
+    color: #fff;
 }

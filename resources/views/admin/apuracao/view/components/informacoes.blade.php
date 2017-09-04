@@ -1,9 +1,14 @@
-<br/>
 <div class="list">
     <div class="col-sm-4">
         <div class="form-group">
             <label>Empresa</label>
-            <div class="form-control">{{$apuracao->empresa->nome_fantasia}}</div>
+            <div class="form-control"><a href="{{route('showEmpresaToAdmin', $apuracao->empresa->id)}}">{{$apuracao->empresa->nome_fantasia}}</a></div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Usuário</label>
+            <div class="form-control"><a href="{{route('showUsuarioToAdmin', $apuracao->empresa->usuario->id)}}">{{$apuracao->empresa->usuario->nome}}</a></div>
         </div>
     </div>
     <div class="col-sm-4">

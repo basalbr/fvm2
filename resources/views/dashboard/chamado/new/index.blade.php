@@ -137,17 +137,11 @@
 
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listAtendimentosToUser')}}">Atendimento</a> <i class="fa fa-angle-right"></i> Novo chamado
+@stop
 @section('content')
-    <h1>Chamado</h1>
-    <hr>
     <div class="panel">
-        <div class="col-sm-12">
-            <h3>Abrir chamado</h3>
-            <p>Campos com * são obrigatórios.</p>
-
-            <br/>
-        </div>
         <form class="form" method="POST" action="" id="form-principal"
               data-validation-url="{{route('validateChamado')}}">
             @include('dashboard.components.form-alert')
@@ -188,15 +182,14 @@
                 <div class="clearfix"></div>
 
             </div>
-            <hr>
-            <div class="col-sm-12">
+            <div class="clearfix"></div>
+            <div class="navigation-space"></div>
+            <div class="navigation-options">
                 <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
 
                 <button type="submit" class="btn btn-success"><i class="fa fa-envelope"></i> Abrir chamado</button>
             </div>
         </form>
-        <div class="clearfix"></div>
-        <br/>
     </div>
 @stop
 

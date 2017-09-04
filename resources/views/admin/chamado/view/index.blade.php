@@ -1,5 +1,7 @@
 @extends('admin.layouts.master')
-
+@section('top-title')
+    <a href="{{route('listAtendimentosToAdmin')}}">Atendimento</a> <i class="fa fa-angle-right"></i> <a href="{{route('showChamadoToAdmin', $chamado->id)}}">Chamado ({{$chamado->tipoChamado->descricao}})</a>
+@stop
 @section('content')
     <h1>Chamado: {{$chamado->tipoChamado->descricao}}</h1>
     <hr>

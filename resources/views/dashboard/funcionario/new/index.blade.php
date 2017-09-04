@@ -4,13 +4,10 @@
     <script type="text/javascript"
             src="{{url(public_path().'js/dashboard/funcionario/new/index.js')}}"></script>
 @stop
+@section('top-title')
+    <a href="{{route('listFuncionarioToUser')}}">Funcionários</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToUser', $empresa->id)}}">{{$empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> Cadastrar Funcionário
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Cadastrar novo funcionário</h1>
-        <h3>{{$empresa->nome_fantasia}}</h3>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <form class="form" method="POST" action="" id="form-principal"
           data-validation-url="{{route('validateFuncionario')}}"
           enctype="multipart/form-data">

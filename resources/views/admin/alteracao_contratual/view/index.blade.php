@@ -1,10 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listAlteracaoContratualToAdmin')}}">Alterações Contratuais</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToAdmin', $alteracao->funcionario->empresa->id)}}">{{$alteracao->funcionario->empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> <a href="{{route('showFuncionarioToAdmin', [$alteracao->funcionario->empresa->id, $alteracao->funcionario->id])}}">{{$alteracao->funcionario->nome_completo}}</a>
+@stop
 @section('content')
-    <h1>Alteração Contratual
-        <small>{{$alteracao->funcionario->nome_completo}}</small>
-    </h1>
-    <hr>
-
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><i class="fa fa-info"></i>

@@ -99,9 +99,11 @@
     </script>
 @stop
 
+@section('top-title')
+    <a href="{{route('listApuracoesToAdmin')}}">Apurações</a> <i class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
+@stop
+
 @section('content')
-    <h1>{{$apuracao->imposto->nome}}({{$apuracao->competencia->format('m/Y')}})</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i

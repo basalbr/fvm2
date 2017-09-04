@@ -32,13 +32,14 @@
         }
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listDemissaoToUser')}}">Demissões</a> <i class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> <a
+            href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}">{{$funcionario->nome_completo}}</a>
+    <i class="fa fa-angle-right"></i> Solicitar Demissão
+@stop
 @section('content')
-    <h1>Solicitar Demissão
-        <small>{{$funcionario->nome_completo}}</small>
-    </h1>
-    <hr>
-
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
@@ -109,7 +110,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="navigation-space"></div>
-            <div class="col-xs-12 navigation-options">
+            <div class="animated slideInUp navigation-options">
                 <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
                <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Solicitar Demissão</button>
             </div>

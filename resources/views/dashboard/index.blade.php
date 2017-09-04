@@ -1,4 +1,7 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Início
+@stop
 @section('content')
     <h3 class="text-center">Olá {{Auth::user()->nome}}, o que você precisa?</h3>
     @if(!Auth::user()->empresas->count() && !Auth::user()->aberturasEmpresa->count())

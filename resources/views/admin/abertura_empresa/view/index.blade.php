@@ -1,7 +1,8 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    <a href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa</a> <i class="fa fa-angle-right"></i> {{$aberturaEmpresa->nome_empresarial1}}
+@stop
 @section('content')
-    <h1>Abertura de Empresa</h1>
-    <hr>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">

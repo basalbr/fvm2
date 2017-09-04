@@ -46,12 +46,10 @@
         }
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listAlteracaoContratualToUser')}}">Alterações Contratuais</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}">{{$funcionario->nome_completo}}</a>
+@stop
 @section('content')
-    <h1>Alteração Contratual
-        <small>{{$funcionario->nome_completo}}</small>
-    </h1>
-    <hr>
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">

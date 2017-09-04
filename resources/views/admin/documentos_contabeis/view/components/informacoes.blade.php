@@ -1,7 +1,13 @@
 <div class="col-sm-4">
     <div class="form-group">
         <label>Empresa</label>
-        <div class="form-control">{{$processo->empresa->nome_fantasia}}</div>
+        <div class="form-control"><a href='{{route('showEmpresaToAdmin', $processo->empresa->id)}}'>{{$processo->empresa->nome_fantasia}}</a></div>
+    </div>
+</div>
+<div class="col-sm-4">
+    <div class="form-group">
+        <label>Usuário</label>
+        <div class="form-control"><a href="{{route('showUsuarioToAdmin', $processo->empresa->usuario->id)}}">{{$processo->empresa->usuario->nome}}</a></div>
     </div>
 </div>
 <div class="col-sm-4">

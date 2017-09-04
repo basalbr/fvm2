@@ -1,20 +1,17 @@
 @extends('dashboard.layouts.master')
+@section('top-title')
+    Apurações
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Apurações</h1>
-        <p>Aqui você encontra todos as apurações em aberto e também seu histórico de apurações.</p>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i
                         class="fa fa-exclamation-circle"></i>
-                Apurações pendentes <span class="badge">{{$apuracoesPendentes->count()}}</span></a>
+                Pendentes <span class="badge">{{$apuracoesPendentes->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#historico" aria-controls="historico" role="tab" data-toggle="tab"><i class="fa fa-history"></i>
-                Apurações concluídas</a>
+                Concluídas</a>
         </li>
     </ul>
 

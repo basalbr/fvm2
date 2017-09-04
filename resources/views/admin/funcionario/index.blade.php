@@ -1,11 +1,9 @@
 @extends('admin.layouts.master')
+@section('top-title')
+    Funcionários
+@stop
 @section('content')
-    <div class="col-xs-12">
-        <h1>Funcionários</h1>
-        <hr>
-    </div>
-    <div class="clearfix"></div>
-    <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist">
         @include('admin.funcionario.components.tabs')
     </ul>
 
