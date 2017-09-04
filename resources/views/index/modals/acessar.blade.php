@@ -7,7 +7,7 @@
                 </h4>
             </div>
             <form class="form" method="POST" id="login-form" data-validation-url="{{route('loginUser')}}"
-                  action="{{route('loginUser')}}">
+                  action="{{isset($intended) ? $intended : route('dashboard')}}">
                 <div class="modal-body">
                     @include('index.components.form-alert')
                     {!! csrf_field() !!}

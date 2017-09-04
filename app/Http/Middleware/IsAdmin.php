@@ -19,6 +19,10 @@ class IsAdmin
         if (Auth::user() &&  Auth::user()->admin == 1) {
             return $next($request);
         }
-        return redirect('/');
+        if(Auth::user()){
+            return redirect()->route('dashboard');
+        }
+        return redirect('/login')->with('url.intended', route('adminHome'));
+
     }
 }

@@ -31,12 +31,12 @@ Route::get('/login', ['as' => 'login', 'uses' => function () {
     $horario2 = \DateTime::createFromFormat('H:i a', '12:00 pm');
     $horario3 = \DateTime::createFromFormat('H:i a', '1:30 pm');
     $horario4 = \DateTime::createFromFormat('H:i a', '6:00 pm');
-
+    $intended = redirect()->intended()->getTargetUrl();
     $horario_atual = \DateTime::createFromFormat('H:i a', date('h:i A'));
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-    return view('index', ['login' => 'true', 'atendimento' => $atendimento]);
+    return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended'=>$intended]);
 }]);
 
 //Registro e login de usuários
@@ -230,7 +230,7 @@ Route::group(['prefix' => 'admin/demissao', 'namespace' => 'Admin', 'middleware'
 
 //Admin - Alteração Contratual
 Route::group(['prefix' => 'admin/alteracao-contratual', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
-    Route::get('',['as' => 'listAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@index']);
+    Route::get('', ['as' => 'listAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@index']);
     Route::get('view/{idAlteracao}', ['as' => 'showAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@view']);
     Route::post('view/{idAlteracao}', ['uses' => 'AlteracaoContratualController@update']);
 });

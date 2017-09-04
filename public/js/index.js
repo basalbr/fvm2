@@ -76,7 +76,9 @@ $(function () {
         e.stopPropagation();
         $.post($('#login-form').data('validation-url'), $('#login-form').serializeArray())
             .done(function (data, textStatus, jqXHR) {
-                window.location.href = data;
+                $('#login-form').submit();
+                // console.log(data);
+                window.location.href = $('#login-form').attr('action');
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status === 422) {
