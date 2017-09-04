@@ -62,7 +62,7 @@ class NewApuracao extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => 'Você tem uma nova apuração de ' . $this->apuracao->imposto->nome . 'com vencimento no dia '.$this->apuracao->vencimento,
+            'mensagem' => 'Você tem uma nova apuração de ' . $this->apuracao->imposto->nome . 'com vencimento no dia '.$this->apuracao->vencimento->format('d/m/Y'),
             'url' => $this->url
         ];
     }

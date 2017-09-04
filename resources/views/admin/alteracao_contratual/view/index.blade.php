@@ -103,7 +103,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
-        <div class="col-xs-12 navigation-options">
+        <div class="navigation-options animated slideInUp">
             <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>
     </div>

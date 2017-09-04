@@ -16,5 +16,5 @@
         <div class="form-control">{{$processo->periodo->format('m/Y')}}</div>
     </div>
 </div>
-<div class="clearfix"></div>
+
 

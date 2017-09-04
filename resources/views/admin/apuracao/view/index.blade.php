@@ -140,10 +140,11 @@
         </div>
         <div class="clearfix"></div>
         <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listApuracoesToAdmin')}}"><i
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para apurações</a>
+                Voltar</a>
         </div>
         <div class="clearfix"></div>
     </div>

@@ -16,7 +16,6 @@
     <script type="text/javascript" src="{{url(public_path().'js/modules/simulate.js')}}"></script>
     <script type="text/javascript">
         $(function () {
-            $('#modal-aviso').modal('show');
             $('#contrato').on('click', function(){
                 $('#modal-contrato').modal('show');
             })

@@ -89,8 +89,8 @@
         </div>
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
-        <div class="navigation-options">
-            <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
             @if($empresa->status != 'Aprovado')
                 <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i> Ativar empresa</a>
             @endif

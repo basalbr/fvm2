@@ -38,18 +38,21 @@
                         <div class="form-control">{{$chat->assunto}}</div>
                     </div>
                 </div>
-                <div class="col-sm-12">
-                    @if($chat->status !== 'ativo')
-                        <a href="{{route('ativarChat', $chat->id)}}" class="btn btn-success"><i class="fa fa-check"></i> Ativar</a>
-                    @endif
-                    @if($chat->status !=='fechado')
-                        <a href="{{route('finalizarChat', $chat->id)}}" class="btn btn-danger"><i class="fa fa-close"></i> Fechar</a>
-                    @endif
-                </div>
             </div>
             <div class="col-sm-6">
                 @include('admin.components.chat.box', ['model'=>$chat])
             </div>
+        </div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
+            @if($chat->status !== 'ativo')
+                <a href="{{route('ativarChat', $chat->id)}}" class="btn btn-success"><i class="fa fa-check"></i> Ativar</a>
+            @endif
+            @if($chat->status !=='fechado')
+                <a href="{{route('finalizarChat', $chat->id)}}" class="btn btn-danger"><i class="fa fa-close"></i>
+                    Fechar</a>
+            @endif
         </div>
     </div>
 

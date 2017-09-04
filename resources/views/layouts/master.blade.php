@@ -67,7 +67,6 @@ chosen link or button. -->
     @include('index.modals.registrar')
     @include('index.modals.sucesso')
     @include('index.modals.simular')
-    @include('index.modals.aviso')
     @include('index.modals.contrato')
 </div>
 </body>

@@ -97,7 +97,7 @@
 @stop
 
 @section('content')
-    <h1>Envio de Pró-Labore ({{$competencia}})</h1>
+    <h1>Envio de Pró-Labore ({{$competenciaFormatada}})</h1>
     <hr>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -256,12 +256,11 @@
                     </table>
             @endif
         </div>
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listDocumentosContabeisToAdmin')}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar para documentos contábeis</a>
-            <button class="btn btn-success" id="submit-form-principal"><i class="fa fa-save"></i> Concluir processo</button>
+        <div class="clearfix"></div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
+            <button class="btn btn-success" id="submit-form-principal"><i class="fa fa-check"></i> Concluir processo</button>
         </div>
         <div class="clearfix"></div>
     </div>

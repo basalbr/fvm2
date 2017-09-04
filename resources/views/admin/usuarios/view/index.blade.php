@@ -54,10 +54,9 @@
             @include('admin.usuarios.view.components.pagamentos')
         </div>
         <div class="clearfix"></div>
-        <hr/>
-        <div class="col-xs-12">
-            <a href="{{route('listUsuariosToAdmin')}}" class="btn btn-default"><i class="fa fa-th"></i> Voltar para
-                listagem</a>
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>
     </div>
 

@@ -226,11 +226,10 @@
             </form>
 
         </div>
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listDocumentosContabeisToAdmin')}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar para documentos contábeis</a>
+        <div class="clearfix"></div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
             @if($processo->isPending())
                 <a class="btn btn-success" href="{{route('contabilizarDocumentoContabil', [$processo->id])}}"><i class="fa fa-check"></i> Contabilizar</a>
             @endif

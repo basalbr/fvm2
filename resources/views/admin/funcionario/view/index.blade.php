@@ -67,9 +67,10 @@
                 @include('admin.funcionario.view.components.deficiencias')
                 <div class="clearfix"></div>
             </div>
-            <hr>
-            <div class="col-xs-12">
-                <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
+            <div class="clearfix"></div>
+            <div class="navigation-space"></div>
+            <div class="navigation-options animated slideInUp">
+                <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
                 @if($funcionario->status == 'pendente')
                     <a class="btn btn-success"
                        href="{{route('activateFuncionario', [$empresa->id, $funcionario->id])}}">

@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <h1>{{$alteracao->tipo->descricao}}</h1>
@@ -20,10 +20,11 @@
             @include('admin.alteracao.view.components.docs')
         </div>
         <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listSolicitacoesAlteracaoToAdmin')}}"><i
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para solicitações</a>
+                Voltar</a>
             @if($alteracao->status == 'Pendente')
                 <a class="btn btn-success" href="{{route('finishAlteracao', $idAlteracao)}}"><i
                             class="fa fa-check"></i>

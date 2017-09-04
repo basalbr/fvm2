@@ -62,12 +62,9 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr>
-        <div class="col-sm-12">
-
-            <a class="btn btn-default" href="{{route('listPontosToUser')}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar para listagem</a>
+        <div class="navigation-space"></div>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
             @if($ponto->status == 'pendente')
                 <a class="btn btn-success" href="{{route('sendPontos', $ponto->id)}}"><i
                             class="fa fa-check"></i>
