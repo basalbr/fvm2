@@ -38,12 +38,16 @@ class OpenPontosRequest
     {
         DB::beginTransaction();
         try {
-            $empresas = Empresa::whereHas('funcionarios', function ($q) {
-                $q->where('status', 'ativo');
+            $periodo = date('Y-m-d', strtotime('first day of last month'));
+
+            $empresas = Empresa::whereDoesntHave('pontos', function ($query) use ($periodo) {
+                $query->where('periodo', '=', $periodo);
+            })->whereHas('funcionarios', function ($query) {
+                $query->where('status', 'ativo');
             })->get();
-            foreach($empresas as $empresa){
-                $periodo = date('Y-m-d', strtotime('first day of last month'));
-                $ponto = Ponto::create(['id_empresa'=>$empresa->id, 'periodo'=>$periodo]);
+
+            foreach ($empresas as $empresa) {
+                $ponto = Ponto::create(['id_empresa' => $empresa->id, 'periodo' => $periodo]);
                 $empresa->usuario->notify(new PontosRequested($ponto));
             }
             DB::commit();

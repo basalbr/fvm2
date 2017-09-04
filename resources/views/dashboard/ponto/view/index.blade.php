@@ -30,7 +30,7 @@
                     <p>Olá {{Auth::user()->nome}}, precisamos que você envie <strong>todos</strong> os pontos dos
                         funcionários e após enviar <strong>todos</strong> eles, clique no botão <strong>concluir
                             envio</strong>.<br/> Somente após você concluir o envio dos documentos é que poderemos
-                        continuidade no processo.</p>
+                        dar continuidade no processo.</p>
                 @else
                     <p>{{Auth::user()->nome}}, abaixo estão os registros que você enviou, clique em download para baixar
                         e visualizar.</p>

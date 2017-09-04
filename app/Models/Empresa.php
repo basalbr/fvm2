@@ -185,6 +185,11 @@ class Empresa extends Model
         return $this->hasMany(Funcionario::class, 'id_empresa');
     }
 
+    public function pontos()
+    {
+        return $this->hasMany(Ponto::class, 'id_empresa');
+    }
+
     public function processosFolha(){
         return $this->hasMany(ProcessoFolha::class, 'id_empresa');
     }

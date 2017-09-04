@@ -62,7 +62,7 @@ class CronController extends Controller
     public function openPontosRequest()
     {
 //        if (date('d') == '01') {
-            OpenPontosRequest::handle();
+        OpenPontosRequest::handle();
 //        }
     }
 
