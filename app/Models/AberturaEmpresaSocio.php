@@ -88,6 +88,22 @@ class AberturaEmpresaSocio extends Model {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
+    public function getNomeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNomePaiAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNomeMaeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNacionalidadeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
     public function empresa() {
         return $this->belongsTo(AberturaEmpresa::class, 'id_abertura_empresa');
     }

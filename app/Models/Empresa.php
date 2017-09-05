@@ -130,6 +130,14 @@ class Empresa extends Model
         return $this->socios()->where('pro_labore', '>', 0)->count();
     }
 
+    public function getNomeFantasiaAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getRazaoSocialAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
     public function getStatusAttribute($status)
     {
         return self::$status[$status];

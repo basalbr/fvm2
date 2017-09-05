@@ -3,8 +3,6 @@
     <a href="{{route('listAtendimentosToAdmin')}}">Atendimento</a> <i class="fa fa-angle-right"></i> <a href="{{route('showChamadoToAdmin', $chamado->id)}}">Chamado ({{$chamado->tipoChamado->descricao}})</a>
 @stop
 @section('content')
-    <h1>Chamado: {{$chamado->tipoChamado->descricao}}</h1>
-    <hr>
     <ul class="nav nav-tabs" role="tablist">
         @include('admin.chamado.view.components.tabs')
     </ul>

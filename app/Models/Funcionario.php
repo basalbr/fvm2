@@ -95,6 +95,22 @@ class Funcionario extends Model
     return $this->statusNiceNames[$this->status];
     }
 
+    public function getNomeCompletoAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNomePaiAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNomeMaeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
+    public function getNacionalidadeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
+
     public function setDataNascimentoAttribute($value)
     {
         if (!empty($value)) {

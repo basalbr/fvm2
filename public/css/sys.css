@@ -1662,7 +1662,7 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     color: #fff;
     top: 50px;
     right: 0;
-    z-index: 150;
+    z-index: 1;
     font-size: 16px
 }
 

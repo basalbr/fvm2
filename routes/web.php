@@ -246,6 +246,14 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/ativar', ['as' => 'activateFuncionario', 'uses' => 'FuncionarioController@activate']);
 });
 
+//Admin - Analytics
+Route::group(['prefix' => 'admin/analytics', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('users/registered', ['as' => 'getRegisteredUsersHistory', 'uses' => 'AdminController@getRegisteredUsersHistory']);
+    Route::get('history/new', ['as' => 'getHistorySeries', 'uses' => 'AdminController@getHistorySeries']);
+    Route::get('view/{idAlteracao}', ['as' => 'showAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@view']);
+    Route::post('view/{idAlteracao}', ['uses' => 'AlteracaoContratualController@update']);
+});
+
 //Admin - Funcionários
 Route::group(['prefix' => 'admin/funcionarios', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listFuncionarioToAdmin', 'uses' => 'FuncionarioController@index']);

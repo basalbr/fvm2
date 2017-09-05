@@ -141,7 +141,6 @@
             @include('admin.apuracao.view.components.documentos')
         </div>
         <div class="clearfix"></div>
-        <hr>
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i

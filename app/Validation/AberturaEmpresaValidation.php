@@ -31,28 +31,6 @@ class AberturaEmpresaValidation extends Validation
         'area_total' => 'required|numeric',
         'area_ocupada' => 'required|numeric',
         'cpf_cnpj_proprietario' => 'required',
-        'socios' => 'required|array',
-        'socios.*.nome' => 'required',
-        'socios.*.nome_mae' => 'required',
-        'socios.*.nome_pai' => 'required',
-        'socios.*.principal' => 'required|boolean',
-        'socios.*.data_nascimento' => 'required|date',
-        'socios.*.email' => 'required|email',
-        'socios.*.telefone' => 'required',
-        'socios.*.estado_civil' => 'required',
-        'socios.*.regime_casamento' => 'sometimes|required',
-        'socios.*.cpf' => 'required|size:14',
-        'socios.*.rg' => 'required',
-        'socios.*.nacionalidade' => 'required',
-        'socios.*.endereco' => 'required',
-        'socios.*.bairro' => 'required',
-        'socios.*.cep' => 'required|size:9',
-        'socios.*.cidade' => 'required',
-        'socios.*.numero' => 'required|numeric',
-        'socios.*.id_uf' => 'required',
-        'socios.*.orgao_expedidor' => 'required',
-        'socios.*.titulo_eleitor' => 'required',
-        'cnaes.*' => 'required'
     ];
 
     protected static $niceNames = [

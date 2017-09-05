@@ -63,7 +63,7 @@ class OrdemPagamentoNewStatusAdmin extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => 'A ordem de pagamento de '.$this->ordemPagamento->usuario->nome.' foi alterada para:'.$this->ordemPagamento->status,
+            'mensagem' => 'A ordem de pagamento de '.$this->ordemPagamento->usuario->nome.' foi alterada para: '.$this->ordemPagamento->status,
             'url' => $this->url
         ];
     }

@@ -65,7 +65,7 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
 
     public function getAuthPassword()
     {
-        return $this->attributes['senha']; //change the 'passwordFieldinYourTable' with the name of your field in the table
+        return $this->attributes['senha'];
     }
 
     public function chamados()
@@ -73,6 +73,13 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(Chamado::class, 'id_usuario');
     }
 
+    public function getEmailAttribute($attr){
+        return strtolower($attr);
+    }
+
+    public function getNomeAttribute($attr){
+        return ucwords(strtolower($attr));
+    }
 
     public function demissoes()
     {
