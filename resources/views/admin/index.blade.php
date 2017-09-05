@@ -31,9 +31,14 @@
             return data
         }
 
+
+        var chart;
         $(function () {
+            $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                chart.reflow()
+            });
             $.getJSON($('#registered-users-history').data('url'), function (data) {
-                Highcharts.chart('registered-users-history', {
+                chart = Highcharts.chart('registered-users-history', {
                     chart: {
                         type: 'area'
                     },
@@ -62,7 +67,8 @@
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#alertas" aria-controls="alertas" role="tab" data-toggle="tab"><i class="fa fa-bell"></i>Alertas</a>
+            <a href="#alertas" aria-controls="alertas" role="tab" data-toggle="tab"><i
+                        class="fa fa-bell"></i>Alertas</a>
         </li>
         <li role="presentation">
             <a href="#graficos" aria-controls="graficos" role="tab" data-toggle="tab"><i class="fa fa-area-chart"></i>Gráficos</a>
@@ -120,11 +126,11 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="graficos">
             <div class="col-xs-12">
-                <div class="panel">
-                    <div id="registered-users-history" data-url="{{route('getRegisteredUsersHistory')}}"></div>
-                    <div class="clearfix"></div>
-                </div>
+                <div id="registered-users-history" data-url="{{route('getRegisteredUsersHistory')}}"></div>
+                <div class="clearfix"></div>
             </div>
+            <div class="clearfix"></div>
+
         </div>
     </div>
 
