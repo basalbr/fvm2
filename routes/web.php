@@ -326,7 +326,7 @@ Route::group(['prefix' => 'admin/chamados', 'namespace' => 'Admin', 'middleware'
 Route::group(['prefix' => 'admin/pontos', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listPontosToAdmin', 'uses' => 'PontoController@index']);
     Route::get('view/{idPonto}', ['as' => 'showPontoToAdmin', 'uses' => 'PontoController@view']);
-    Route::get('send/{idPonto}', ['as' => 'sendPontos', 'uses' => 'PontoController@send']);
+    Route::get('finish/{idPonto}', ['as' => 'finishPontos', 'uses' => 'PontoController@finish']);
 });
 
 //Admin - Chat

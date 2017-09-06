@@ -67,10 +67,10 @@
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if($ponto->status == 'pendente')
-                <a class="btn btn-success" href="{{route('sendPontos', $ponto->id)}}"><i
+            @if($ponto->status != 'concluido')
+                <a class="btn btn-success" href="{{route('finishPontos', $ponto->id)}}"><i
                             class="fa fa-check"></i>
-                    Concluir envio</a>
+                    Concluir</a>
             @endif
         </div>
         <div class="clearfix"></div>

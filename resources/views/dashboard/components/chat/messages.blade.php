@@ -9,7 +9,7 @@
                 <p><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}
                         - {{$message->created_at->format('d/m/y H:i')}}</strong>
                 </p>
-                <p>{{$message->mensagem}}
+                <p>{!!nl2br($message->mensagem)!!}
                     @if($message->anexo)
                         <a download
                            href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
@@ -29,7 +29,7 @@
                     <p><strong>{{$message->parent->nome}}
                             - {{$message->created_at->format('d/m/y H:i')}}</strong>
                     </p>
-                    <p>{{$message->mensagem}}
+                    <p>{!! nl2br($message->mensagem) !!}
                         @if($message->anexo)
                             <a download
                                href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">

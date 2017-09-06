@@ -18,6 +18,7 @@
             <label for="mensagem">Mensagem</label>
             <textarea class="form-control" id="message"
                       placeholder="Digite sua mensagem..."></textarea>
+            <small>Pressione Shift+Enter para criar uma nova linha</small>
         </div>
         <button class="btn-success btn" id="send-message"><i class="fa fa-send"></i> Enviar mensagem</button>
         <button class="btn-primary btn" id="send-file"><i class="fa fa-upload"></i> Enviar arquivo</button>

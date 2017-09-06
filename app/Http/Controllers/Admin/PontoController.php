@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Empresa;
+use App\Models\Ponto;
 use App\Services\SendPontos;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -31,12 +32,10 @@ class PontoController extends Controller
 
     public function index()
     {
-        $pontosPendentes = Auth::user()->pontos()
-            ->whereIn('ponto.status', ['pendente', 'informacoes_enviadas', 'atencao'])
+        $pontosPendentes = Ponto::whereIn('ponto.status', ['pendente', 'informacoes_enviadas', 'atencao'])
             ->orderBy('ponto.periodo', 'desc')
             ->get();
-        $pontosConcluidos = Auth::user()->pontos()
-            ->whereIn('ponto.status', ['concluido', 'sem_movimento', 'cancelado'])
+        $pontosConcluidos = Ponto::whereIn('ponto.status', ['concluido', 'sem_movimento', 'cancelado'])
             ->orderBy('ponto.periodo', 'desc')
             ->get();
         return view('admin.ponto.index', compact('pontosPendentes', 'pontosConcluidos'));
@@ -52,9 +51,16 @@ class PontoController extends Controller
 
     public function view($idPonto)
     {
-        $ponto = Auth::user()->pontos()->findOrFail($idPonto);
+        $ponto = Ponto::findOrFail($idPonto);
         return view('admin.ponto.view.index', compact('ponto'));
     }
 
+    public function finish($idPonto)
+    {
+        $ponto = Ponto::findOrFail($idPonto);
+        $ponto->status = 'concluido';
+        $ponto->save();
+        return redirect()->route('listPontosToAdmin')->with('successAlert', 'Registro de pontos concluído com sucesso!');
+    }
 
 }

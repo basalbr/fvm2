@@ -8,10 +8,16 @@ $(function () {
     // organizar mensagens no chat assim que carregar a pagina
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $('#message').on('keypress', function (e) {
-        console.log('a');
         if (e.keyCode == 13) {
             e.preventDefault();
-            sendMessage();
+            var content = this.value;
+            var caret = getCaret(this);
+            if(event.shiftKey){
+                this.value = content.substring(0, caret) + "\n" + content.substring(caret, content.length);
+                event.stopPropagation();
+            }else{
+                sendMessage();
+            }
         }
     });
     $('#send-message').on('click', function (e) {

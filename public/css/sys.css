@@ -670,7 +670,7 @@ th.cnae-code {
     padding: 15px 20px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     margin-bottom: 5px;
-    max-height: 250px;
+    max-height: 200px;
 }
 
 .messages .message {
@@ -683,6 +683,8 @@ th.cnae-code {
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
     backface-visibility: hidden;
+    font-size: 13px;
+
 }
 
 .messages .message:last-child {
@@ -1668,4 +1670,12 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 
 #top-title a {
     color: #fff;
+}
+
+.mce-notification{
+    z-index: -100!important;
+}
+
+.mce-edit-area, .mce-container {
+    border: 0!important;
 }

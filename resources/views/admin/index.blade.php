@@ -10,28 +10,6 @@
     @parent
     <script type="text/javascript" src="{{url(public_path().'vendor/js/highcharts.js')}}"></script>
     <script type="text/javascript">
-        function translateMonth(data) {
-            monthArray = {
-                'January': 'Janeiro',
-                'February': 'Fevereiro',
-                'March': 'Março',
-                'April': 'Abril',
-                'May': 'Maio',
-                'June': 'Junho',
-                'July': 'Julho',
-                'August': 'Agosto',
-                'September': 'Setembro',
-                'October': 'Outubro',
-                'November': 'Novembro',
-                'December': 'Dezembro'
-            }
-            for (i in data) {
-                data[i] = monthArray[data[i]];
-            }
-            return data
-        }
-
-
         var chart;
         $(function () {
             $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
@@ -79,7 +57,6 @@
             @if(($pagamentosPendentes + $apuracoesPendentes + $processosPendentes) > 0)
                 <div class="col-sm-6">
                     <h3 class="text-center animated shake">Atenção</h3>
-                    <div class="col-sm-12">
                         @if($alteracoesPendentes)
                             <div class="col-sm-12">
                                 <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}" class="alerta animated shake">
@@ -108,7 +85,6 @@
                                 </a>
                             </div>
                         @endif
-                    </div>
                 </div>
             @endif
             @if(Auth::user()->unreadNotifications->count())
