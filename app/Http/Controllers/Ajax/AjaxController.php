@@ -20,6 +20,7 @@ use App\Services\SendMessage;
 use App\Services\UploadAnexo;
 use App\Services\UploadChatFile;
 use App\Services\UploadFile;
+use App\Services\UploadImage;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -157,6 +158,13 @@ class AjaxController extends Controller
                 'date'=>$anexo->created_at->format('d/m/Y'),
                 'description'=>$anexo->descricao
             ]);
+        }
+        return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
+    }
+
+    public function uploadImage(Request $request){
+        if($location = UploadImage::handle($request)) {
+            return response()->json(['location'=>$location]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }

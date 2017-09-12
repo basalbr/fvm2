@@ -254,13 +254,23 @@ body {
     padding: 15px 0 15px;
 }
 
+div.mce-fullscreen {
+    position: fixed;
+    top: 78px!important;
+    left: 250px!important;
+}
 @media (max-width: 1200px ) {
     #content {
         left: 0px;
     }
 
-    #top-title {
+    div.mce-fullscreen {
+        position: fixed;
         left: 0px!important;
+    }
+
+    #top-title {
+        left: 0px !important;
     }
 
     #left-menu {
@@ -1643,21 +1653,18 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     border-top: 1px solid #21252d;
     border-left: 1px solid #21252d;
     /*background-color: #21252d !important;*/
-    background:
-        /* On "top" */
-            repeating-linear-gradient(
-                    60deg,
-                    transparent,
-                    transparent 5px,
-                    #21252d 5px,
-                    #21252d 10px
-            ),
-                /* on "bottom" */
-            linear-gradient(
-                    to bottom,
-                    #2b303b,
-                    #2b303b
-            );
+    background: /* On "top" */ repeating-linear-gradient(
+            60deg,
+            transparent,
+            transparent 5px,
+            #21252d 5px,
+            #21252d 10px
+    ),
+        /* on "bottom" */ linear-gradient(
+            to bottom,
+            #2b303b,
+            #2b303b
+    );
     position: fixed;
     padding: 10px;
     left: 250px;
@@ -1672,10 +1679,15 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     color: #fff;
 }
 
-.mce-notification{
-    z-index: -100!important;
+.mce-notification {
+    z-index: -100 !important;
 }
 
-.mce-edit-area, .mce-container {
-    border: 0!important;
+.mce-tinymce {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+.mce-content-body {
+    padding: 15px;
 }

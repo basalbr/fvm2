@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
-class Noticia extends Model {
+class Noticia extends Model
+{
 
     use SoftDeletes;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-    protected $rules = ['titulo' => 'required', 'texto' => 'required', 'imagem' => 'required', 'created_at' => 'required'];
-    protected $errors;
-    protected $niceNames = ['titulo' => 'Título', 'texto' => 'Texto', 'imagem' => 'Imagem', 'created_at' => 'Data de Publicação'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'data_publicacao'];
 
     /**
      * The database table used by the model.
@@ -27,25 +27,37 @@ class Noticia extends Model {
      *
      * @var array
      */
-    protected $fillable = ['titulo', 'texto', 'imagem', 'created_at'];
+    protected $fillable = ['titulo', 'titulo_destaque', 'slug', 'subtitulo', 'capa', 'data_publicacao', 'conteudo'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
+    public function setDataPublicacaoAttribute($value)
+    {
+        $this->attributes['data_publicacao'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    public function errors() {
-        return $this->errors;
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getCapaUrl($type){
+        return asset(public_path().'storage/noticias/'.($type=='destaque' ? '' : 'thumb/').$this->capa);
+    }
+
+    public static function storeCapa($file){
+        $filename = md5(random_bytes(5)) . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('noticias/', $filename, 'public');
+        $filePath = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix().'noticias/'.$filename;
+        $img = Image::make($filePath);
+        $img->resize(null, 500, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $img->save();
+        $thumb = Image::make($filePath);
+        $thumb->resize(null, 250, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        Storage::disk('public')->put('noticias/thumb/'.$filename, (string)$thumb->encode('jpg'));
+        return $filename;
     }
 
 }

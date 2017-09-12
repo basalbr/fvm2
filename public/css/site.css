@@ -880,6 +880,7 @@ button, a, p {
 }
 
 #nav-menu {
+    top: 0;
     z-index: 150;
     position: fixed;
     width: 100%;
@@ -1283,7 +1284,7 @@ button, a, p {
     background-color: transparent;
 }
 
-#modal-simulate .modal-footer{
+#modal-simulate .modal-footer {
     text-align: center;
 }
 
@@ -1305,8 +1306,6 @@ button, a, p {
 
 .section h3 {
     font-family: 'Muli', sans-serif;
-    font-size: 16px;
-    color: #fff;
     text-align: center;
     margin-bottom: 60px;
     font-size: 18px;
@@ -1762,3 +1761,177 @@ section#password .form-group {
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(187, 222, 251, 0.1);
 }
+
+#noticias {
+    background: #222;
+}
+
+#noticias h1 {
+    color: #fff;
+}
+
+#noticias .hidden-xs .destaque {
+    width: 66.6%;
+    height: 400px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    border: 5px solid transparent;
+}
+
+#noticias .hidden-xs .destaque img {
+    min-height: 400px;
+    min-width: 100%;
+}
+
+#noticias .hidden-xs .normal {
+    width: 33.3%;
+    height: 200px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    border: 5px solid transparent;
+}
+
+#noticias .hidden-xs .normal ~ .normal {
+    margin-bottom: 0px;
+}
+
+#noticias .hidden-xs .normal img {
+    min-height: 200px;
+    min-width: 100%;
+}
+
+#noticias .hidden-xs .destaque .title {
+    position: absolute;
+    bottom: 30px;
+    right: 0px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    font-size: 25px;
+}
+
+#noticias .hidden-xs .normal .title {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 10px;
+    font-size: 15px;
+}
+
+#noticias .hidden-xs .normal a img, #noticias .hidden-xs .destaque a img {
+    opacity: 0.7;
+    transition: all 0.2s ease-out;
+}
+
+#noticias .hidden-xs .normal a:hover img, #noticias .hidden-xs .destaque a:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+#noticia {
+    background-color: #2b303b !important;
+    padding-top: 65px;
+}
+
+#noticia h2 {
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+}
+
+#noticia h3 {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+#noticia .noticia h2{
+    color: #333;
+}
+
+#noticia .noticia .enviado {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#noticia > div.noticia {
+    background-color: #fff;
+    padding: 5px 20px 10px;
+}
+
+#noticias .hidden-xs .normal ~ .normal {
+    margin-bottom: 0px;
+}
+
+#noticia > div:first-of-type{
+    padding: 5px 20px
+}
+
+#noticia{
+    position: relative;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+#noticia .ultimas {
+
+    position: relative;
+    background-color: transparent;
+}
+
+#noticia .ultimas > a {
+    display: block;
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border: 5px solid transparent;
+}
+
+#noticia .ultimas > a .title {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 10px;
+    font-size: 15px;
+}
+
+#noticia .ultimas > a img {
+    min-height: 200px;
+    min-width: 100%;
+}
+
+#noticia .todas {
+
+    position: relative;
+    background-color: transparent;
+}
+
+#noticia .todas > a {
+    display: block;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border: 5px solid transparent;
+}
+
+#noticia .todas > a .title {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 10px;
+    font-size: 15px;
+}
+
+#noticia .todas > a img {
+    min-height: 200px;
+    min-width: 100%;
+}
+

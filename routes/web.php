@@ -11,6 +11,8 @@
 |
 */
 //Home
+use App\Models\Noticia;
+
 Route::get('/', ['as' => 'home', 'uses' => function () {
     $atendimento = false;
     $horario1 = \DateTime::createFromFormat('H:i a', '8:00 am');
@@ -22,7 +24,9 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-    return view('index', compact('atendimento'));
+
+    $noticias = Noticia::orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    return view('index', compact('atendimento', 'noticias'));
 }]);
 
 Route::get('/login', ['as' => 'login', 'uses' => function () {
@@ -36,8 +40,15 @@ Route::get('/login', ['as' => 'login', 'uses' => function () {
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-    return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended'=>$intended]);
+    $noticias = Noticia::orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended'=>$intended, 'noticias'=>$noticias]);
 }]);
+
+//Noticias
+Route::group(['namespace' => 'Home', 'prefix'=>'blog'], function () {
+    Route::get('{noticia}', ['as' => 'showNoticiaToUser', 'uses' => 'NoticiaController@view']);
+    Route::get('', ['as' => 'listNoticiasToUser', 'uses' => 'NoticiaController@index']);
+});
 
 //Registro e login de usuários
 Route::group(['namespace' => 'Auth'], function () {
@@ -337,6 +348,17 @@ Route::group(['prefix' => 'admin/chat', 'namespace' => 'Admin', 'middleware' => 
     Route::get('terminate/{idChat}', ['as' => 'finalizarChat', 'uses' => 'ChatController@terminate']);
 });
 
+//Admin - Notícias
+Route::group(['prefix' => 'admin/noticias', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listNoticiasToAdmin', 'uses' => 'NoticiaController@index']);
+    Route::get('new', ['as' => 'newNoticia', 'uses' => 'NoticiaController@new']);
+    Route::get('view/{id}', ['as' => 'showNoticiaToAdmin', 'uses' => 'NoticiaController@view']);
+    Route::post('view/{id}', ['uses' => 'NoticiaController@update']);
+    Route::post('new', ['uses' => 'NoticiaController@store']);
+    Route::post('validate', ['as' => 'validateNoticia', 'uses' => 'NoticiaController@validateNoticia']);
+});
+
+
 //Ajax
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('cnae/search/code', ['as' => 'searchCnaeByCode', 'uses' => 'AjaxController@searchCnaeByCode']);
@@ -356,6 +378,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::get('chat/count', ['as' => 'chatCountAjax', 'uses' => 'AjaxController@chatCount']);
     Route::get('chat/notification', ['as' => 'chatNotificationAjax', 'uses' => 'AjaxController@chatNotification']);
     Route::post('files/upload', ['as' => 'uploadFile', 'uses' => 'AjaxController@uploadFile']);
+    Route::post('images/upload', ['as' => 'uploadImage', 'uses' => 'AjaxController@uploadImage']);
 });
 
 //Pagseguro

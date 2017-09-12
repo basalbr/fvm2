@@ -38,7 +38,9 @@
     <section id="mensalidade" class="section">
         @include('index.components.mensalidade')
     </section>
-
+    <section id="noticias" class="section">
+        @include('index.components.noticias')
+    </section>
     <section id="duvidas" class="section">
         @include('index.components.duvidas')
     </section>

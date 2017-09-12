@@ -40,4 +40,3 @@
         <div class="form-control">Pagamento {{$aberturaEmpresa->getPaymentStatus()}}</div>
     </div>
 </div>
-

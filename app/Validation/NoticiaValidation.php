@@ -11,11 +11,16 @@ namespace App\Validation;
 class NoticiaValidation extends Validation
 {
     protected static $rules = [
-        'titulo' => 'required', 'texto' => 'required', 'imagem' => 'required', 'created_at' => 'required'
+        'titulo_destaque' => 'required',
+        'titulo' => 'required',
+        'subtitulo' => 'required',
+        'data_publicacao' => 'required|date_format:d/m/Y',
+        'capa' => 'required',
+        'conteudo' => 'required'
     ];
 
     protected static $niceNames = [
-        'titulo' => 'Título', 'texto' => 'Texto', 'imagem' => 'Imagem', 'created_at' => 'Data de Publicação'
+        'titulo_destaque' => 'Título de destaque', 'conteudo' => 'Conteúdo', 'titulo' => 'Título', 'subtitulo' => 'Subtítulo', 'capa' => 'Capa', 'data_publicacao' => 'Data de publicação'
     ];
 
 
