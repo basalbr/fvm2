@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 @section('top-title')
-    <a href="{{route('listEmpresaToAdmin')}}">Empresas</a> <i class="fa fa-angle-right"></i> {{$empresa->nome_fantasia}} <span class="hidden-xs">({{$empresa->razao_social}})</span>
+    <a href="{{route('listEmpresaToAdmin')}}">Empresas</a> <i class="fa fa-angle-right"></i> {{$empresa->nome_fantasia}}
+    <span class="hidden-xs">({{$empresa->razao_social}})</span>
 @stop
 @section('content')
     <!-- Nav tabs -->
@@ -90,8 +91,15 @@
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if($empresa->status != 'Aprovado')
-                <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i> Ativar empresa</a>
+            @if($empresa->status != 'Aprovado' && $empresa->ativacao_programada == null)
+                <a href="{{route('activateEmpresa', $empresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i>
+                    Ativar empresa agora</a>
+                <a href="" class="btn btn-primary open-modal" data-modal="#modal-agendar-ativacao"><i
+                            class="fa fa-clock-o"></i> Agendar ativação</a>
+            @endif
+            @if($empresa->status != 'Aprovado' && $empresa->ativacao_programada)
+                <a href="" class="btn btn-success open-modal" data-modal="#modal-cancelar-ativacao"><i
+                            class="fa-clock-o fa"></i> Ativação agendada para {{$empresa->ativacao_programada->format('d/m/Y')}}</a>
             @endif
         </div>
     </div>
@@ -101,4 +109,8 @@
 @section('modals')
     @parent
     @include('admin.components.socios.view', ['socios' => $empresa->socios])
+    @include('admin.empresa.view.modals.agendar-ativacao')
+    @if($empresa->status != 'Aprovado' && $empresa->ativacao_programada)
+        @include('admin.empresa.view.modals.cancelar-ativacao')
+    @endif
 @stop

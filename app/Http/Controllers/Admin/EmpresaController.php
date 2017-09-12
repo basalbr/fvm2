@@ -44,6 +44,21 @@ class EmpresaController extends Controller
         return redirect()->back();
     }
 
+    public function ativacaoProgramada(Request $request, $idEmpresa)
+    {
+        $empresa = Empresa::find($idEmpresa);
+        $empresa->ativacao_programada = $request->get('ativacao_programada');
+        $empresa->save();
+        return redirect()->back()->with('successAlert', 'Ativação programada com sucesso para '.$request->get('ativacao_programada'));
+    }
+
+    public function cancelarAtivacao($idEmpresa)
+    {
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $empresa->ativacao_programada = null;
+        $empresa->save();
+        return redirect()->back()->with('successAlert', 'Ativação cancelada com sucesso!');
+    }
 
     public function index(Request $request)
     {

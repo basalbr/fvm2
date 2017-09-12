@@ -12,6 +12,7 @@ use App\Models\Noticia;
 use App\Services\CreateNoticia;
 use App\Services\UpdateNoticia;
 use App\Validation\NoticiaValidation;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -24,7 +25,7 @@ class NoticiaController extends Controller
 
     public function index()
     {
-        $noticias = Noticia::orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->get();
+        $noticias = Noticia::where('data_publicacao','<=',Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->get();
         return view('noticias.index', compact('noticias'));
     }
 

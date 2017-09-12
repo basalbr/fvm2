@@ -2,6 +2,12 @@ html, body {
     height: 100%;
 }
 
+#nav-menu-items a:focus {
+    outline: none!important;
+    outline-offset: 0!important;
+    text-decoration: none;
+}
+
 .btn {
     font-family: "Open Sans", sans-serif;
     font-size: 14px;
@@ -1809,7 +1815,7 @@ section#password .form-group {
     color: #fff;
     background-color: rgba(0, 0, 0, 0.3);
     padding: 10px 15px;
-    font-size: 25px;
+    font-size: 35px;
 }
 
 #noticias .hidden-xs .normal .title {
@@ -1819,7 +1825,7 @@ section#password .form-group {
     color: #fff;
     background-color: rgba(0, 0, 0, 0.3);
     padding: 10px 10px;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 #noticias .hidden-xs .normal a img, #noticias .hidden-xs .destaque a img {

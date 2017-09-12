@@ -12,6 +12,7 @@
 */
 //Home
 use App\Models\Noticia;
+use Carbon\Carbon;
 
 Route::get('/', ['as' => 'home', 'uses' => function () {
     $atendimento = false;
@@ -25,7 +26,7 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
         $atendimento = true;
     }
 
-    $noticias = Noticia::orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    $noticias = Noticia::where('data_publicacao','<=',Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
     return view('index', compact('atendimento', 'noticias'));
 }]);
 
@@ -40,7 +41,7 @@ Route::get('/login', ['as' => 'login', 'uses' => function () {
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-    $noticias = Noticia::orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    $noticias = Noticia::where('data_publicacao','<=',Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
     return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended'=>$intended, 'noticias'=>$noticias]);
 }]);
 
@@ -250,7 +251,9 @@ Route::group(['prefix' => 'admin/alteracao-contratual', 'namespace' => 'Admin', 
 Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listEmpresaToAdmin', 'uses' => 'EmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
+    Route::post('activate/scheduled/{id}', ['as' => 'scheduleEmpresaActivation', 'uses' => 'EmpresaController@ativacaoProgramada']);
     Route::get('activate/{idEmpresa}', ['as' => 'activateEmpresa', 'uses' => 'EmpresaController@ativar']);
+    Route::get('activate/cancel/{idEmpresa}', ['as' => 'unscheduleEmpresaActivation', 'uses' => 'EmpresaController@cancelarAtivacao']);
     Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@view']);
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToAdmin', 'uses' => 'FuncionarioDocumentoController@index']);
     Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);

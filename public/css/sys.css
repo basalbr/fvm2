@@ -712,6 +712,7 @@ th.cnae-code {
 
 .messages .message.from-admin {
     padding: 5px 70px 5px 25px;
+    margin-left:70px;
     float: right;
     background-color: #daeffd;
 }

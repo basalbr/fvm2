@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\NewApuracao;
 use App\Notifications\NewProcessoDocumentosContabeis;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +18,7 @@ class Empresa extends Model
 
     use SoftDeletes;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'ativacao_programada'];
 
     /**
      * The database table used by the model.
@@ -33,6 +34,7 @@ class Empresa extends Model
      */
     protected $fillable = [
         'id_usuario',
+        'ativacao_programada',
         'id_natureza_juridica',
         'id_tipo_tributacao',
         'cnpj',
@@ -92,6 +94,15 @@ class Empresa extends Model
             DB::rollback();
             Log::critical($e);
             return false;
+        }
+    }
+
+    public function setAtivacaoProgramadaAttribute($value)
+    {
+        if($value){
+            $this->attributes['ativacao_programada'] = Carbon::createFromFormat('d/m/Y', $value);
+        }else{
+            $this->attributes['ativacao_programada'] = null;
         }
     }
 

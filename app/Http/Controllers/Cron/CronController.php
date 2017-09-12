@@ -21,8 +21,10 @@ use App\Notifications\ApuracaoPending;
 use App\Notifications\DocumentosContabeisPending;
 use App\Notifications\PaymentAlmostPending;
 use App\Notifications\PaymentPending;
+use App\Services\ActivateEmpresa;
 use App\Services\OpenPontosRequest;
 use App\Services\SendMendalidadeAdjustment;
+use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -40,6 +42,7 @@ class CronController extends Controller
         $this->verifyPendingPayments();
         $this->verifyApuracoesPending();
         $this->verifyDocumentosContabeisPending();
+        $this->activateScheduledEmpresas();
     }
 
     /**
@@ -56,6 +59,15 @@ class CronController extends Controller
             } catch (\Exception $e) {
                 Log::critical($e);
             }
+        }
+    }
+
+    public function activateScheduledEmpresas(){
+        $today = Carbon::today()->format('Y-m-d');
+        $empresas = Empresa::whereIn('status',['em_analise'])->where('ativacao_programada','<=',$today)->get();
+        foreach($empresas as $empresa){
+            /* @var Empresa $empresa */
+            ActivateEmpresa::handle($empresa);
         }
     }
 

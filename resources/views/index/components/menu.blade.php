@@ -2,6 +2,7 @@
 <ul id="nav-menu-items" class="hidden-xs">
     <li><a class='page-scroll' href="#como-funciona ">Como funciona</a></li>
     <li><a class='page-scroll' href="#mensalidade">Mensalidade</a></li>
+    <li><a class='page-scroll' href="#noticias">Novidades</a></li>
     <li><a class='page-scroll' href="#duvidas">Dúvidas</a></li>
     <li><a class='page-scroll' href="#contato">Contato</a></li>
     @if(Auth::check())
