@@ -46,10 +46,11 @@
 </div>
 <div class="col-sm-4">
     <div class="form-group">
-        <label for="data_emissao_ctps">Data de emissão CTPS *</label>
-        <input type="text" class="form-control date-mask" value="" name="data_emissao_ctps"/>
+        <label for="serie_ctps">Série da CTPS *</label>
+        <input type="text" class="form-control" value="" name="serie_ctps"/>
     </div>
 </div>
+
 <div class="col-sm-4">
     <div class="form-group">
         <label for="id_uf_ctps">UF de emissão CTPS *</label>
@@ -61,13 +62,19 @@
         </select>
     </div>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="data_emissao_ctps">Data de emissão CTPS *</label>
+        <input type="text" class="form-control date-mask" value="" name="data_emissao_ctps"/>
+    </div>
+</div>
+<div class="col-sm-4">
     <div class="form-group">
         <label for="titulo_eleitor">Número do título eleitoral</label>
         <input type="text" class="form-control" value="" name="titulo_eleitoral"/>
     </div>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-4">
     <div class="form-group">
         <label for="zona_secao_eleitoral">Zona e seção eleitoral</label>
         <input type="text" class="form-control" value="" name="zona_secao_eleitoral"/>

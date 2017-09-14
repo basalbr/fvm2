@@ -11,10 +11,10 @@ $(function () {
             e.preventDefault();
             var content = this.value;
             var caret = getCaret(this);
-            if(event.shiftKey){
+            if (event.shiftKey) {
                 this.value = content.substring(0, caret) + "\n" + content.substring(caret, content.length);
                 event.stopPropagation();
-            }else{
+            } else {
                 sendMessage();
             }
         }
@@ -29,27 +29,23 @@ $(function () {
         $('#file').click();
     });
     $('#file').on('change', function () {
-        validateFile($(this));
+        validateMessengerFile($(this));
         $('#file').val(null);
     });
     $('.nav-tabs li').on('click', function () {
         if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
+            readMessages();
             setTimeout(function () {
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
             }, 500);
         }
     });
-
     setInterval(updateChat, 3000);
     setInterval(readMessages, 10000);
 });
 
 
-
 function readMessages() {
-    if (!$('.messages').is(':visible')) {
-        return false;
-    }
     var info = {
         referencia: reference,
         id_referencia: referenceId,
@@ -60,9 +56,9 @@ function readMessages() {
     }
     readAjax = $.post($('.messages').data('read-messages-url'), info)
         .done(function (data, textStatus, jqXHR) {
-            $('.message-badge').text('0')
+            $('a[href="#messages"] .badge, a[href="#mensagens"] .badge').text('0')
         }).fail(function () {
-    });
+        });
 }
 
 function sendMessage() {
@@ -86,7 +82,7 @@ function sendMessage() {
         });
 }
 
-function validateFile(file) {
+function validateMessengerFile(file) {
     if (file.val() !== '' &&
         file.val() &&
         file.val() !== undefined) {
@@ -100,9 +96,9 @@ function validateFile(file) {
         formData.append('id_referencia', referenceId);
         formData.append('from_admin', 1);
         if ($('#anexos').find('.list').length > 0) {
-            uploadFile(formData, $('#anexos .list'));
+            uploadMessengerFile(formData, $('#anexos .list'));
         } else {
-            uploadFile(formData, false);
+            uploadMessengerFile(formData, false);
         }
 
     } else {
@@ -111,7 +107,7 @@ function validateFile(file) {
     }
 }
 
-function uploadFile(formData, target) {
+function uploadMessengerFile(formData, target) {
     $.post({
         url: uploadFileUrl,
         data: formData,
@@ -130,6 +126,7 @@ function uploadFile(formData, target) {
         }
     });
 }
+
 function updateChat() {
     var info = {
         referencia: reference,

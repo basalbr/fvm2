@@ -44,6 +44,18 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'processo_documento_contabil') {
                 $this->url = route('showDocumentoContabilToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'funcionario') {
+                $this->url = route('showFuncionarioToAdmin', [$this->mensagem->parent->id_empresa, $this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'demissao') {
+                $this->url = route('showDemissaoToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'processo_folha') {
+                $this->url = route('showProcessoFolhaToAdmin', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'alteracao_contratual') {
+                $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
+            }
         }elseif(!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -65,6 +77,18 @@ class MessageSent extends Notification
             }
             if ($this->mensagem->referencia == 'processo_documento_contabil') {
                 $this->url = route('showDocumentoContabilToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'funcionario') {
+                $this->url = route('showFuncionarioToUser', [$this->mensagem->parent->id_empresa, $this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'demissao') {
+                $this->url = route('showDemissaoToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'processo_folha') {
+                $this->url = route('showProcessoFolhaToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'alteracao_contratual') {
+                $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
             }
         }else{
             $this->url = null;
@@ -135,6 +159,18 @@ class MessageSent extends Notification
         }
         if ($this->mensagem->referencia == 'processo_documento_contabil') {
             return 'à apuração de documentos contábeis ('.$this->mensagem->parent->periodo->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'funcionario') {
+            return 'ao funcionário '.$this->mensagem->parent->nome_completo.' da empresa '.$this->mensagem->parent->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'demissao') {
+            return 'à solicitação de demissão do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'processo_folha') {
+            return 'ao processo de folha do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'alteracao_contratual') {
+            return 'à solicitação de alteração contratual do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
         }
         return 'à um processo';
     }

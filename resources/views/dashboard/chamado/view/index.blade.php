@@ -148,7 +148,7 @@
             <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i
                         class="fa fa-comments"></i>
                 Mensagens
-                <span class="badge">{{$chamado->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span>
+                <span class="badge message-badge">{{$chamado->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span>
             </a>
         </li>
         <li role="presentation">

@@ -78,7 +78,8 @@ class Funcionario extends Model
         'data_expedicao_rne',
         'data_emissao_ctps',
         'status',
-        'id_estado_civil'
+        'id_estado_civil',
+        'serie_ctps'
     ];
 
 
@@ -89,6 +90,12 @@ class Funcionario extends Model
         'demitido' =>'<span class="text-disabled">Demitido</span>',
         'ativo'=>'<span class="text-success">Ativo</span>'
     ];
+
+    public function mensagens()
+    {
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
 
     public function getStatus()
     {

@@ -8,13 +8,10 @@
 
 namespace App\Http\Controllers\Cron;
 
-use App\Http\Controllers\Admin\ApuracaoController;
 use App\Models\Apuracao;
-use App\Models\DocumentoContabil;
 use App\Models\Empresa;
-use App\Models\Funcionario;
+use App\Models\Mensagem;
 use App\Models\OrdemPagamento;
-use App\Models\Ponto;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\Usuario;
 use App\Notifications\ApuracaoPending;
@@ -24,6 +21,8 @@ use App\Notifications\PaymentPending;
 use App\Services\ActivateEmpresa;
 use App\Services\OpenPontosRequest;
 use App\Services\SendMendalidadeAdjustment;
+use App\Services\WarnMessageNotReadToAdmin;
+use App\Services\WarnMessageNotReadToUser;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
@@ -43,6 +42,7 @@ class CronController extends Controller
         $this->verifyApuracoesPending();
         $this->verifyDocumentosContabeisPending();
         $this->activateScheduledEmpresas();
+        $this->unreadMessages();
     }
 
     /**
@@ -52,7 +52,7 @@ class CronController extends Controller
     {
         $date = new DateTime('now');
         $date->sub(new DateInterval('P3D'));
-        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente','Cancelada'])->where('vencimento', '<', $date->format('Y-m-d'))->get();
+        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente', 'Cancelada'])->where('vencimento', '<', $date->format('Y-m-d'))->get();
         foreach ($pagamentos as $pagamento) {
             try {
                 $pagamento->usuario->notify(new PaymentPending($pagamento));
@@ -62,10 +62,24 @@ class CronController extends Controller
         }
     }
 
-    public function activateScheduledEmpresas(){
+    public function unreadMessages()
+    {
+        $mensagens = Mensagem::where('lida', '=', 0)->where('referencia','!=','chat')->groupBy('referencia','id_referencia','from_admin','id_usuario')->get(['referencia', 'id_referencia','from_admin','id_usuario']);
+        foreach ($mensagens as $mensagem) {
+            if($mensagem->from_admin){
+                WarnMessageNotReadToUser::handle($mensagem);
+            }else{
+                WarnMessageNotReadToAdmin::handle($mensagem);
+            }
+
+        }
+    }
+
+    public function activateScheduledEmpresas()
+    {
         $today = Carbon::today()->format('Y-m-d');
-        $empresas = Empresa::whereIn('status',['em_analise'])->where('ativacao_programada','<=',$today)->get();
-        foreach($empresas as $empresa){
+        $empresas = Empresa::whereIn('status', ['em_analise'])->where('ativacao_programada', '<=', $today)->get();
+        foreach ($empresas as $empresa) {
             /* @var Empresa $empresa */
             ActivateEmpresa::handle($empresa);
         }
@@ -80,7 +94,7 @@ class CronController extends Controller
 
     public function verifyAlmostPendingPayments()
     {
-        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente','Cancelada'])->where('vencimento', '>', '( CURDATE() - INTERVAL 3 DAY )')->get();
+        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente', 'Cancelada'])->where('vencimento', '>', '( CURDATE() - INTERVAL 3 DAY )')->get();
 
         foreach ($pagamentos as $pagamento) {
             try {

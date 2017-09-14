@@ -1799,6 +1799,13 @@ section#password .form-group {
     border: 5px solid transparent;
 }
 
+#noticias .visible-xs .normal{
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border: 5px solid transparent;
+}
+
 #noticias .hidden-xs .normal ~ .normal {
     margin-bottom: 0px;
 }
@@ -1819,6 +1826,16 @@ section#password .form-group {
 }
 
 #noticias .hidden-xs .normal .title {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 10px 10px;
+    font-size: 20px;
+}
+
+#noticias .visible-xs .normal .title {
     position: absolute;
     bottom: 10px;
     right: 0px;
@@ -1883,7 +1900,6 @@ section#password .form-group {
 }
 
 #noticia .ultimas {
-
     position: relative;
     background-color: transparent;
 }
@@ -1910,6 +1926,10 @@ section#password .form-group {
 #noticia .ultimas > a img {
     min-height: 200px;
     min-width: 100%;
+}
+#noticia .btn-block {
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 #noticia .todas {

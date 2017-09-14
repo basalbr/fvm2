@@ -13,6 +13,21 @@
 
 @section('js')
     @parent
+    @if($atendimento)
+        <!--Start of Tawk.to Script-->
+        <script type="text/javascript">
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/59b975184854b82732fefd9f/default';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
+        </script>
+        <!--End of Tawk.to Script-->
+        @endif
     <script type="text/javascript" src="{{url(public_path().'js/modules/simulate.js')}}"></script>
     <script type="text/javascript">
         $(function () {
@@ -44,49 +59,6 @@
     <section id="duvidas" class="section">
         @include('index.components.duvidas')
     </section>
-    @if($atendimento)
-        <button class="btn-chat btn">
-            <i class="fa fa-comment"></i> Fale conosco
-        </button>
-        <div id="chat-window" class="animated fadeInUp"
-             data-send-message-url="{{route('sendMessageChatAjax')}}"
-             data-update-chat-url="{{route('updateChatAjax')}}"
-             data-register-chat-url="{{route('registerChat')}}">
-            <div id="information">
-                <form class="form">
-                    @include('admin.components.disable-auto-complete')
-                    <div class="form-group">
-                        <label>Seu nome</label>
-                        <input class="form-control" name="nome" placeholder="Digite seu nome"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Seu e-mail</label>
-                        <input class="form-control" name="email" placeholder="Digite seu e-mail"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Assunto</label>
-                        <textarea class="form-control" name="assunto"
-                                  placeholder="Sobre o que deseja falar?"></textarea>
-                    </div>
-                    <button class="btn btn-primary btn-block"><i class="fa fa-comment"></i> Solicitar atendimento
-                    </button>
-                    <button class="btn btn-default btn-block"><i class="fa fa-close"></i> Cancelar</button>
-                </form>
-            </div>
-            <div id="messages" class="animated fadeIn">
-                <div class="message-box">
-                    <div class="message from-admin animated fadeInRight">
-                        <div class="nome">Sistema</div>
-                        Por favor aguarde, logo você será atendido.
-                    </div>
-                </div>
-                <div class="user-input">
-                    <textarea disabled="disabled" class="form-control"></textarea>
-                    <button class="btn btn-primary" disabled="disabled"><i class="fa fa-send"></i> Enviar</button>
-                    <button class="btn btn-default"><i class="fa fa-close"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    @endif
+
     <div class="clearfix"></div>
 @stop

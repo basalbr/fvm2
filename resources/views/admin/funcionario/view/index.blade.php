@@ -25,6 +25,11 @@
                 @include('admin.funcionario.view.components.principal')
                 <div class="clearfix"></div>
             </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <div class="col-xs-12">
+                    @include('admin.components.chat.box', ['model'=>$funcionario])
+                </div>
+            </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos-enviados">
                 @include('admin.funcionario.view.components.documentos_enviados')
                 <div class="clearfix"></div>

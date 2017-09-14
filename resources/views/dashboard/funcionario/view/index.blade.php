@@ -26,7 +26,12 @@
                 @include('dashboard.funcionario.view.components.pessoal')
                 <div class="clearfix"></div>
             </div>
-            <div role="tabpanel" class="tab-pane active animated fadeIn" id="documentos-enviados">
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <div class="col-xs-12">
+                    @include('dashboard.components.chat.box', ['model'=>$funcionario])
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos-enviados">
                 @include('dashboard.funcionario.view.components.documentos_enviados')
                 <div class="clearfix"></div>
             </div>

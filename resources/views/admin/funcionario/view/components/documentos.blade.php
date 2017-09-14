@@ -42,8 +42,8 @@
 </div>
 <div class="col-sm-4">
     <div class="form-group">
-        <label for="data_emissao_ctps">Data de emissão CTPS *</label>
-        <input type="text" class="form-control date-mask" value="{{$funcionario->data_emissao_ctps->format('d/m/Y')}}" name="data_emissao_ctps"/>
+        <label for="serie_ctps">Série da CTPS *</label>
+        <input type="text" class="form-control" value="{{$funcionario->serie_ctps}}" name="serie_ctps"/>
     </div>
 </div>
 <div class="col-sm-4">
@@ -57,13 +57,19 @@
         </select>
     </div>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-4">
+    <div class="form-group">
+        <label for="data_emissao_ctps">Data de emissão CTPS *</label>
+        <input type="text" class="form-control date-mask" value="{{$funcionario->data_emissao_ctps->format('d/m/Y')}}" name="data_emissao_ctps"/>
+    </div>
+</div>
+<div class="col-sm-4">
     <div class="form-group">
         <label for="titulo_eleitoral">Número do título eleitoral</label>
         <input type="text" class="form-control" value="{{$funcionario->titulo_eleitoral}}" name="titulo_eleitoral"/>
     </div>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-4">
     <div class="form-group">
         <label for="zona_secao_eleitoral">Zona e seção eleitoral</label>
         <input type="text" class="form-control" value="{{$funcionario->zona_secao_eleitoral}}" name="zona_secao_eleitoral"/>
