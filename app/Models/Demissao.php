@@ -46,6 +46,12 @@ class Demissao extends Model
             $this->attributes['data_demissao'] = Carbon::createFromFormat('d/m/Y', $value);
         }
     }
+
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
     public function getStatus()
     {
         return $this->statusNiceNames[$this->status];

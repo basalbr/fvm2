@@ -34,8 +34,8 @@ function askPermission() {
     }
 }
 $(function () {
-    inicializaChatNotifications();
-    askPermission();
+    // inicializaChatNotifications();
+    // askPermission();
 });
 
 function checkIfInView(element){

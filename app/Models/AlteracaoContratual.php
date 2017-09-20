@@ -25,6 +25,13 @@ class AlteracaoContratual extends Model
 
     use SoftDeletes;
 
+
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'data_alteracao'];
 
     /**

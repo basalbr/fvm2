@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$alteracao])
 @section('top-title')
     <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->tipo->descricao}}
 @stop

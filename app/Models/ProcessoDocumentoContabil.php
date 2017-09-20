@@ -46,6 +46,11 @@ class ProcessoDocumentoContabil extends Model
         }
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'id_empresa');

@@ -6,7 +6,7 @@
                 <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
             <div class="text">
-                <p><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}
+                <p><a href="{{route('showUsuarioToAdmin', $message->id_usuario)}}"><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}</a>
                         - {{$message->created_at->format('d/m/y H:i')}}</strong>
                 </p>
                 <p>{!!nl2br($message->mensagem)!!}

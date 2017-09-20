@@ -32,6 +32,11 @@ class Apuracao extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
     public function isPendingInfo()
     {
         return $this->imposto->informacoesExtras->count()

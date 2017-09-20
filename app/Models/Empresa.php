@@ -116,6 +116,11 @@ class Empresa extends Model
         return $this->hasMany(Apuracao::class, 'id_empresa');
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
     public function mensagens()
     {
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());

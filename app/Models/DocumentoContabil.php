@@ -30,20 +30,11 @@ class DocumentoContabil extends Model {
      */
     protected $fillable = ['descricao', 'anexo', 'id_processo_documento_contabil'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
+
 
     
 

@@ -83,12 +83,11 @@ class Funcionario extends Model
     ];
 
 
-
-    protected $dates = ['data_nascimento','data_emissao_ctps','vencimento_cnh', 'data_chegada_estrangeiro', 'data_expedicao_rne', 'data_validade_rne', 'validade_carteira_trabalho','data_emissao_rg','data_cadastro_pis', 'created_at', 'updated_at', 'deleted_at'];
+    protected $dates = ['data_nascimento', 'data_emissao_ctps', 'vencimento_cnh', 'data_chegada_estrangeiro', 'data_expedicao_rne', 'data_validade_rne', 'validade_carteira_trabalho', 'data_emissao_rg', 'data_cadastro_pis', 'created_at', 'updated_at', 'deleted_at'];
     protected $statusNiceNames = [
         'pendente' => '<span class="text-danger">Pendente</span>',
-        'demitido' =>'<span class="text-disabled">Demitido</span>',
-        'ativo'=>'<span class="text-success">Ativo</span>'
+        'demitido' => '<span class="text-disabled">Demitido</span>',
+        'ativo' => '<span class="text-success">Ativo</span>'
     ];
 
     public function mensagens()
@@ -96,25 +95,34 @@ class Funcionario extends Model
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
 
     public function getStatus()
     {
-    return $this->statusNiceNames[$this->status];
+        return $this->statusNiceNames[$this->status];
     }
 
-    public function getNomeCompletoAttribute($attr){
+    public function getNomeCompletoAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomePaiAttribute($attr){
+    public function getNomePaiAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomeMaeAttribute($attr){
+    public function getNomeMaeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNacionalidadeAttribute($attr){
+    public function getNacionalidadeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 

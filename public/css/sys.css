@@ -256,9 +256,10 @@ body {
 
 div.mce-fullscreen {
     position: fixed;
-    top: 78px!important;
-    left: 250px!important;
+    top: 78px !important;
+    left: 250px !important;
 }
+
 @media (max-width: 1200px ) {
     #content {
         left: 0px;
@@ -266,7 +267,7 @@ div.mce-fullscreen {
 
     div.mce-fullscreen {
         position: fixed;
-        left: 0px!important;
+        left: 0px !important;
     }
 
     #top-title {
@@ -673,7 +674,7 @@ th.cnae-code {
     vertical-align: middle;
 }
 
-.messages {
+.messages, .anotacoes {
     background: #fafafa;
     min-height: 100px;
     overflow: auto;
@@ -681,6 +682,30 @@ th.cnae-code {
     border: 1px solid rgba(0, 0, 0, 0.15);
     margin-bottom: 5px;
     max-height: 200px;
+}
+
+.anotacoes {
+    margin-top: 15px;
+}
+
+.anotacoes .anotacao {
+    border: 1px solid #c0c0c0;
+    background: #fff;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.anotacoes .anotacao + .anotacao {
+    margin-top: 5px;
+}
+
+.anotacoes .anotacao .mensagem {
+    font-size: 14px;
+    font-style: italic;
+}
+
+.anotacoes .anotacao .quem {
+    font-weight: bold;
 }
 
 .messages .message {
@@ -712,7 +737,7 @@ th.cnae-code {
 
 .messages .message.from-admin {
     padding: 5px 70px 5px 25px;
-    margin-left:70px;
+    margin-left: 70px;
     float: right;
     background-color: #daeffd;
 }
@@ -750,7 +775,7 @@ th.cnae-code {
     position: relative;
 }
 
-.messages .no-messages {
+.messages .no-messages, .anotacoes .no-messages {
     color: #1E88E5;
     font-weight: bold;
     margin-top: 25px;

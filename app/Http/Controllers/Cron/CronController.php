@@ -14,6 +14,7 @@ use App\Models\Mensagem;
 use App\Models\OrdemPagamento;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\Usuario;
+use App\Notifications\ApuracaoCritical;
 use App\Notifications\ApuracaoPending;
 use App\Notifications\DocumentosContabeisPending;
 use App\Notifications\PaymentAlmostPending;
@@ -42,7 +43,7 @@ class CronController extends Controller
         $this->verifyApuracoesPending();
         $this->verifyDocumentosContabeisPending();
         $this->activateScheduledEmpresas();
-        $this->unreadMessages();
+        $this->notifyUnreadMessages();
     }
 
     /**
@@ -62,16 +63,15 @@ class CronController extends Controller
         }
     }
 
-    public function unreadMessages()
+    public function notifyUnreadMessages()
     {
-        $mensagens = Mensagem::where('lida', '=', 0)->where('referencia','!=','chat')->groupBy('referencia','id_referencia','from_admin','id_usuario')->get(['referencia', 'id_referencia','from_admin','id_usuario']);
+        $mensagens = Mensagem::where('lida', '=', 0)->where('referencia', '!=', 'chat')->groupBy('referencia', 'id_referencia', 'from_admin', 'id_usuario')->get(['referencia', 'id_referencia', 'from_admin', 'id_usuario']);
         foreach ($mensagens as $mensagem) {
-            if($mensagem->from_admin){
+            if ($mensagem->from_admin) {
                 WarnMessageNotReadToUser::handle($mensagem);
-            }else{
+            } else {
                 WarnMessageNotReadToAdmin::handle($mensagem);
             }
-
         }
     }
 
@@ -110,9 +110,20 @@ class CronController extends Controller
         $date = new DateTime('now');
         $date->sub(new DateInterval('P3D'));
         $apuracoes = Apuracao::whereIn('status', ['novo', 'atencao'])->where('created_at', '<', $date->format('Y-m-d'))->groupBy(['id_empresa'])->select(['id_empresa'])->get();
+        $criticas = Apuracao::whereIn('status', ['novo', 'atencao'])->where('created_at', '<', $date->format('Y-m-d'))->get();
         foreach ($apuracoes as $apuracao) {
             try {
                 $apuracao->empresa->usuario->notify(new ApuracaoPending($apuracao->empresa));
+            } catch (\Exception $e) {
+                Log::critical($e);
+            }
+        }
+        foreach ($criticas as $apuracao) {
+            try {
+                $diff = $apuracao->vencimento->diffInDays(Carbon::today());
+                if ($diff <= 3 && $apuracao->vencimento->isFuture()) {
+                    $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
+                }
             } catch (\Exception $e) {
                 Log::critical($e);
             }

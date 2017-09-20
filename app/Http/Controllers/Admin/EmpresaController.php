@@ -44,6 +44,15 @@ class EmpresaController extends Controller
         return redirect()->back();
     }
 
+    public function cnaes($id){
+        $empresa = Empresa::findOrFail($id);
+        $ret = [];
+        foreach($empresa->cnaes as $cnae){
+            $ret[intval(preg_replace('/[^0-9]+/', '', $cnae->cnae->codigo), 10)] = $cnae->cnae->descricao;
+        }
+        dd($ret);
+    }
+
     public function ativacaoProgramada(Request $request, $idEmpresa)
     {
         $empresa = Empresa::find($idEmpresa);

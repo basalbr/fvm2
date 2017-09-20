@@ -7,6 +7,9 @@
 </div>
 <div class="clearfix"></div>
 <div class="col-xs-12">
+    <a class="btn btn-primary" href="{{route('getCnaesSemFormatacao', $empresa->id)}}">Pegar cnaes</a>
+</div>
+<div class="col-xs-12">
     <table class="table table-hover table-striped">
         <thead>
         <tr>

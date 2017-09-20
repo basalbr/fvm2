@@ -246,11 +246,12 @@ Route::group(['prefix' => 'admin/alteracao-contratual', 'namespace' => 'Admin', 
     Route::get('view/{idAlteracao}', ['as' => 'showAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@view']);
     Route::post('view/{idAlteracao}', ['uses' => 'AlteracaoContratualController@update']);
 });
-
 //Admin - Empresa
 Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listEmpresaToAdmin', 'uses' => 'EmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
+    Route::get('cnaes/{id}', ['as' => 'getCnaesSemFormatacao', 'uses' => 'EmpresaController@cnaes']);
+
     Route::post('activate/scheduled/{id}', ['as' => 'scheduleEmpresaActivation', 'uses' => 'EmpresaController@ativacaoProgramada']);
     Route::get('activate/{idEmpresa}', ['as' => 'activateEmpresa', 'uses' => 'EmpresaController@ativar']);
     Route::get('activate/cancel/{idEmpresa}', ['as' => 'unscheduleEmpresaActivation', 'uses' => 'EmpresaController@cancelarAtivacao']);
@@ -367,6 +368,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('cnae/search/code', ['as' => 'searchCnaeByCode', 'uses' => 'AjaxController@searchCnaeByCode']);
     Route::post('cnae/search/description', ['as' => 'searchCnaeByDescription', 'uses' => 'AjaxController@searchCnaeByDescription']);
     Route::post('messages/send', ['as' => 'sendMessageAjax', 'uses' => 'AjaxController@sendMessage']);
+    Route::post('annotations/send', ['as' => 'sendAnnotationAjax', 'uses' => 'AjaxController@sendAnnotation']);
     Route::post('messages/update', ['as' => 'updateMessagesAjax', 'uses' => 'AjaxController@updateMessages']);
     Route::post('messages/upload', ['as' => 'uploadChatFileAjax', 'uses' => 'AjaxController@uploadChatFile']);
     Route::post('messages/read', ['as' => 'readMessagesAjax', 'uses' => 'AjaxController@readMessages']);

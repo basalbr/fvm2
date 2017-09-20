@@ -31,6 +31,11 @@ class Prolabore extends Model
         return $this->belongsTo(Socio::class, 'id_socio');
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
     public function getProLaboreFormatado()
     {
         return number_format($this->valor_pro_labore, 2, ',', '.');

@@ -56,7 +56,7 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
             }
-        }elseif(!$admin) {
+        } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
             }
@@ -90,7 +90,7 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
             }
-        }else{
+        } else {
             $this->url = null;
         }
     }
@@ -109,14 +109,14 @@ class MessageSent extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
             ->greeting('Olá!')
-            ->line('Você recebeu uma mensagem de '.$this->mensagem->usuario->nome.' referente '.$this->getDescricao().'.')
+            ->line('Você recebeu uma mensagem de ' . $this->mensagem->usuario->nome . ' referente ' . $this->getDescricao() . '.')
             ->line('Clique no botão abaixo para visualizar essa mensagem.')
             ->action('Visualizar', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
@@ -133,44 +133,45 @@ class MessageSent extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => 'Você recebeu uma mensagem de '.$this->mensagem->usuario->nome.' referente '.$this->getDescricao().'.',
+            'mensagem' => 'Você recebeu uma mensagem de ' . $this->mensagem->usuario->nome . ' referente ' . $this->getDescricao() . '.',
             'url' => $this->url
         ];
     }
 
-    public function getDescricao(){
+    public function getDescricao()
+    {
         if ($this->mensagem->referencia == 'chamado') {
-            return 'ao chamado ('.$this->mensagem->parent->tipoChamado->descricao.')';
+            return 'ao chamado (' . $this->mensagem->parent->tipoChamado->descricao . ') de ' . $this->mensagem->parent->usuario->nome . '.';
         }
         if ($this->mensagem->referencia == 'abertura_empresa') {
-            return 'à abertura de empresa ('.$this->mensagem->parent->nome_empresarial1.')';
+            return 'à abertura de empresa (' . $this->mensagem->parent->nome_empresarial1 . ')';
         }
         if ($this->mensagem->referencia == 'empresa') {
-            return 'à empresa ('.$this->mensagem->parent->razao_social.')';
+            return 'à empresa (' . $this->mensagem->parent->razao_social . ')';
         }
         if ($this->mensagem->referencia == 'apuracao') {
-            return 'à apuração de '.$this->mensagem->parent->imposto->nome.' ('.$this->mensagem->parent->competencia->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'à apuração de ' . $this->mensagem->parent->imposto->nome . ' (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao') {
-            return 'à solicitação de alteração ('.$this->mensagem->parent->tipo->descricao.') da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'à solicitação de alteração (' . $this->mensagem->parent->tipo->descricao . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_folha') {
-            return 'à apuração de folha de pagamento ('.$this->mensagem->parent->competencia->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'à apuração de folha de pagamento (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_documento_contabil') {
-            return 'à apuração de documentos contábeis ('.$this->mensagem->parent->periodo->format('m/Y').') da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'à apuração de documentos contábeis (' . $this->mensagem->parent->periodo->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'funcionario') {
-            return 'ao funcionário '.$this->mensagem->parent->nome_completo.' da empresa '.$this->mensagem->parent->empresa->razao_social;
+            return 'ao funcionário ' . $this->mensagem->parent->nome_completo . ' da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'demissao') {
-            return 'à solicitação de demissão do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+            return 'à solicitação de demissão do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_folha') {
-            return 'ao processo de folha do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+            return 'ao processo de folha do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
-            return 'à solicitação de alteração contratual do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+            return 'à solicitação de alteração contratual do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
         }
         return 'à um processo';
     }

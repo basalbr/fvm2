@@ -24,6 +24,7 @@
                 <tr>
                     <th>Empresa</th>
                     <th>Período</th>
+                    <th>Status</th>
                     <th>Novas mensagens</th>
                     <th></th>
                 </tr>
@@ -37,6 +38,7 @@
                             <td>{{$documento->empresa->nome_fantasia}}</td>
                             <td>{{$documento->periodo->format('m/Y')}}</td>
                             <td>{{$documento->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
+                            <td>{{$documento->getStatus()}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showDocumentoContabilToAdmin', $documento->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar

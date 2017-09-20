@@ -109,6 +109,12 @@ class AberturaEmpresa extends Model
 
     }
 
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+
     public function getNomeEmpresarial1Attribute($attr){
         return ucwords(strtolower($attr));
     }

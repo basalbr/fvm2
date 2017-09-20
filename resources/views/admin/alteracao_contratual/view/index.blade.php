@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$alteracao])
 @section('top-title')
     <a href="{{route('listAlteracaoContratualToAdmin')}}">Alterações Contratuais</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToAdmin', $alteracao->funcionario->empresa->id)}}">{{$alteracao->funcionario->empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> <a href="{{route('showFuncionarioToAdmin', [$alteracao->funcionario->empresa->id, $alteracao->funcionario->id])}}">{{$alteracao->funcionario->nome_completo}}</a>
 @stop

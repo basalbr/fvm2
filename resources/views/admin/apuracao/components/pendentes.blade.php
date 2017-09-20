@@ -17,7 +17,7 @@
     @if($apuracoesPendentes->count())
         @foreach($apuracoesPendentes as $apuracao)
             <tr>
-                <td>{{$apuracao->empresa->nome_fantasia}}</td>
+                <td>{{$apuracao->empresa->razao_social}}</td>
                 <td>{{$apuracao->imposto->nome}}</td>
                 <td>{{$apuracao->competencia->format('m/Y')}}</td>
                 <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>

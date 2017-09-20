@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+@include('admin.components.annotation-menu', ['model'=>$apuracao])
 @section('js')
     @parent
     <script type="text/javascript">

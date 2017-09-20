@@ -15,12 +15,14 @@ use App\Models\Mensagem;
 use App\Models\Plano;
 use App\Models\Usuario;
 use App\Notifications\NewChat;
+use App\Services\SendAnnotation;
 use App\Services\SendContato;
 use App\Services\SendMessage;
 use App\Services\UploadAnexo;
 use App\Services\UploadChatFile;
 use App\Services\UploadFile;
 use App\Services\UploadImage;
+use App\Validation\AnnotationValidation;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -98,6 +100,13 @@ class AjaxController extends Controller
         $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
         $this->authorizeMessage($request->get('referencia'), $request->get('id_referencia'));
         return SendMessage::handle($request->all());
+    }
+
+    public function sendAnnotation(Request $request)
+    {
+        $request->merge(['id_usuario' => Auth::user()->id]);
+        $this->validate($request, AnnotationValidation::getRules(), [], AnnotationValidation::getNiceNames());
+        return SendAnnotation::handle($request->all());
     }
 
     public function authorizeMessage($reference, $referenceId)

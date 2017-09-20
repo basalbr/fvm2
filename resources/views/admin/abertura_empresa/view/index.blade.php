@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$aberturaEmpresa])
 @section('top-title')
     <a href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa</a> <i class="fa fa-angle-right"></i> {{$aberturaEmpresa->nome_empresarial1}}
 @stop

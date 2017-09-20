@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$processo])
 @section('top-title')
     <a href="{{route('listProcessoFolhaToAdmin')}}">Apurações de Folha</a> <i class="fa fa-angle-right"></i> <a
             href="{{route('showEmpresaToAdmin', $processo->empresa->id)}}">{{$processo->empresa->nome_fantasia}}</a>

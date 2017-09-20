@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$ponto])
 @section('top-title')
     <a href="{{route('listPontosToAdmin')}}">Registros de Ponto</a> <i class="fa fa-angle-right"></i> <a
             href="{{route('showEmpresaToAdmin', $ponto->empresa->id)}}">{{$ponto->empresa->nome_fantasia}}</a>

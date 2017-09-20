@@ -76,6 +76,13 @@ class Alteracao extends Model
         return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
+
+    public function anotacoes()
+    {
+        return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+
     public function usuario(){
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }

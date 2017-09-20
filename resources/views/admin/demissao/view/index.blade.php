@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.annotation-menu', ['model'=>$demissao])
 @section('top-title')
     <a href="{{route('listDemissaoToAdmin')}}">Demissões</a> <i class="fa fa-angle-right"></i> <a
             href="{{route('showEmpresaToAdmin', $demissao->funcionario->empresa->id)}}">{{$demissao->funcionario->empresa->nome_fantasia}}</a>
