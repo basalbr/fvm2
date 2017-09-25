@@ -962,7 +962,7 @@ button, a, p {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: calc(50% - 94px);
+    bottom: calc(50% - 110px);
     text-align: center;
 }
 
@@ -1089,9 +1089,8 @@ button, a, p {
 }
 
 #como-funciona {
-    height: auto;
     background-color: #fff;
-    position: relative;
+    padding-bottom: 25px;
 }
 
 .container {
@@ -1961,3 +1960,37 @@ section#password .form-group {
     min-width: 100%;
 }
 
+.card{
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    padding: 15px;
+}
+
+.fa-destaque {
+    background-color: transparent;
+    border: 5px solid #48b0f7;
+    color: #48b0f7;
+    width: 90px;
+    height: 90px;
+    line-height: 80px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    text-align: center;
+    transition: transform .8s ease-in-out;
+    margin-top:10px;
+}
+
+.card:hover .fa-destaque {
+    transform: rotate(360deg);
+}
+
+.card h2{
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card .btn{
+    margin-top: 15px;
+}

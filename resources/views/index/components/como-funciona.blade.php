@@ -1,69 +1,56 @@
 <div class="container">
     <div class="col-xs-12">
-        <h1 class="hidden-xs">Oferecemos serviços de contabilidade através da internet</h1>
-        <h1 class="visible-xs">Serviços de contabilidade online</h1>
+        <h1>Serviços online de contabilidade</h1>
     </div>
     <div class="clearfix"></div>
-    <div class="row row-eq-height">
-        <div class="col-sm-6">
-            <ul class="how-list">
-                <li>
-                    <div class="text">
-                        <h2><span class="fa fa-circle"></span>Público alvo</h2>
-                        <p>
-                            Para você que tem uma empresa em Santa Catarina, optante pelo Simples Nacional,
-                            fornecemos
-                            um
-                            método econômico e dinâmico para que você realize sua contabilidade.
-                            <br/>
-                            Oferecemos também serviço de abertura de empresa em toda Santa Catarina. Basta se
-                            cadastrar
-                            gratuitamente e criar uma solicitação de abertura de empresa.
-                        </p>
-                    </div>
-                    <span class="fa fa-child fa-4x hidden-xs"></span>
-                </li>
-                <li>
-                    <div class="text">
-                        <h2><span class="fa fa-circle"></span>Como funciona</h2>
-                        <p>
-                            Você realiza o cadastro em nosso sistema, cadastra sua empresa e a partir disso nos
-                            envia os
-                            documentos necessários para realizarmos as apurações.
-                            <br/>
-                            Nós lhe entregamos as guias para pagamento e lembramos a data de vencimento.
-                            Isso tudo de maneira on-line.
-                        </p>
-                    </div>
-                    <span class="fa fa-question fa-4x hidden-xs"></span>
-                </li>
-                <li>
-                    <div class="text">
-                        <h2><span class="fa fa-circle"></span>Quanto custa?</h2>
-                        <p>
-                            Nossa mensalidade custa a partir de R$39,90 por mês e ainda o primeiro mês é totalmente
-                            gratuito.
-                            <br/>
-                            O cadastro é totalmente gratuito, as cobranças serão feitas somente quando estivermos
-                            realizando os serviços de apuração ou abertura de empresa.
-                        </p>
-                    </div>
-                    <span class="fa fa-money fa-4x hidden-xs"></span>
-                </li>
-            </ul>
-        </div>
-        <div class="col-sm-6">
-            <div class="img-holder">
-                <img src="{{asset(public_path('images/como-funciona.png'))}}"/>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="text-center">
+                <span class="fa fa-question fa-destaque fa-4x"></span>
+            </div>
+            <h2 class="text-center">
+                O que é?
+            </h2>
+            <p class="text-center">
+                Somos uma plataforma online que oferece serviços contábeis com preços acessíveis, entre eles abertura de empresa, alterações contratuais, encerramento, folha de pagamento, etc
+            </p>
+            <div class="text-center">
+                <a class="btn btn-primary page-scroll" href="#duvidas">Ver dúvidas comuns</a>
             </div>
         </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="text-center">
+                <span class="fa fa-cog fa-destaque fa-4x"></span>
+            </div>
+            <h2 class="text-center">
+                Mas como funciona?
+            </h2>
+            <p class="text-center">
+                Após realizar o cadastro em nosso sistema, você terá acesso a vários serviços contábeis que ficarão disponíveis após você abrir sua empresa conosco ou migrar sua empresa já existente
+            </p>
+            <div class="text-center">
+                <button data-target="#modal-register" data-toggle="modal" class="btn btn-success">Cadastre-se agora</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="text-center">
+                <span class="fa fa-building fa-destaque fa-4x"></span>
+            </div>
+            <h2 class="text-center">
+                Quais empresas vocês atendem?
+            </h2>
+            <p class="text-center">
+                Atendemos empresas optantes pelo Simples Nacional situadas em qualquer cidade de Santa Catarina, caso tenha dúvidas se atendemos sua empresa, converse com um atendente ou <a class="page-scroll" href="contato">envie-nos uma mensagem
+            </p>
+            <div class="text-center">
+                <a href="#mensalidade" class="page-scroll btn btn-warning">Veja nossos planos</a>
+            </div>
+        </div>
+    </div>
 
-    </div>
     <div class="clearfix"></div>
-    <div class="col-xs-12 text-center">
-        <br/>
-        <a href="" data-toggle="modal" data-target="#modal-register" class="btn btn-lg btn-complete">Crie sua conta</a>
-        <a href="#mensalidade" class="page-scroll btn btn-lg btn-warning">Simule sua mensalidade</a>
-    </div>
 </div>
-<div class="clearfix"></div>

@@ -1,5 +1,4 @@
 
-<img class="background-img" src="{{asset(public_path('images/contato.jpg'))}}"/>
 <div class="container">
     <div class="col-xs-12">
         <h1 class="hidden-xs">Entre em contato conosco</h1>
@@ -40,16 +39,5 @@
                     <div>Pelo whatsapp<br/> {{\App\Models\Config::getWhatsApp()}}</div>
                 </a>
             </div>
-            <div class="col-xs-12 hidden-xs">
-                <div class="clearfix"></div>
-                <div id="fb-root"></div>
-
-                <div class="fb-page" style="height: 260px; width: 340px"
-                     data-href="https://www.facebook.com/WEBContabilidade-1762521307351768/"
-                     data-tabs="messages" data-height="260" data-small-header="true"
-                     data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-                </div>
-            </div>
-
     </div>
 </div>
