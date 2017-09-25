@@ -4,7 +4,8 @@
             <span class="fa fa-pencil"></span> {{$model->anotacoes->count()}}
         </a>
     </li>
-@show
+@stop
+
 @section('modals')
 @parent
 @include('admin.modals.annotations', $model)

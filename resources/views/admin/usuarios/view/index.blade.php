@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-@include('admin.components.annotation-menu', ['model'=>$usuario])
 @section('top-title')
     <a href="{{route('listUsuariosToAdmin')}}">Usuários</a> <i class="fa fa-angle-right"></i> {{$usuario->nome}}
 @stop
@@ -32,7 +31,6 @@
             <a href="#pagamentos" aria-controls="pagamentos" role="tab" data-toggle="tab"><i class="fa fa-info"></i>Pagamentos
                 <span class="badge">{{$ordensPagamento->count()}}</span></a>
         </li>
-
     </ul>
 
     <!-- Tab panes -->

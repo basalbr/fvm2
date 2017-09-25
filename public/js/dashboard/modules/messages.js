@@ -36,7 +36,7 @@ $(function () {
 
     $('.nav-tabs li').on('click', function () {
         if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
-            readMessages();
+            readMessages(true);
             setTimeout(function () {
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
             }, 500);
@@ -47,7 +47,10 @@ $(function () {
     setInterval(readMessages, 3000);
 });
 
-function readMessages() {
+function readMessages(bypass) {
+    if (!$('.messages').is(':visible') && !bypass) {
+        return false;
+    }
     var info = {
         referencia: reference,
         id_referencia: referenceId,
@@ -130,6 +133,9 @@ function uploadMessengerFile(formData, target) {
     });
 }
 function updateChat() {
+    if (!$('.messages').is(':visible')) {
+        return false;
+    }
     var info = {
         referencia: reference,
         id_referencia: referenceId,

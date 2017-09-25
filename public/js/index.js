@@ -49,7 +49,6 @@ $(function () {
         $('html, body').stop().animate({
             scrollTop: $(anchor.attr('href')).offset().top - 70
         }, 1000, 'easeInOutExpo');
-        console.log($(anchor.attr('href')).offset().top)
         event.preventDefault();
     });
 
