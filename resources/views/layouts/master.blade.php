@@ -74,5 +74,6 @@ chosen link or button. -->
     @include('index.modals.simular')
     @include('index.modals.contrato')
 </div>
+<div class="clearfix"></div>
 </body>
 </html>

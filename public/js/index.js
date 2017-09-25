@@ -1,7 +1,6 @@
 var chatId, nome, email, assunto, lastMessageId, updateInterval, updateAjax = null;
 
 $(function () {
-
     $('.btn-chat').on('click', function (e) {
         e.preventDefault();
         openChatWindow();
@@ -108,11 +107,11 @@ $(function () {
     });
 
     //Adicionar background no navbar
-    if ($("body").scrollTop() > 0) {
+    if ($(window).scrollTop() > 0) {
         $('#nav-menu').removeClass('transparent');
     }
     $(window).on('scroll', function () {
-        if ($("body").scrollTop() == 0) {
+        if ($(window).scrollTop() == 0) {
             $('#nav-menu').addClass('transparent');
         } else {
             $('#nav-menu').removeClass('transparent');
