@@ -10,8 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //Home
 use App\Models\Noticia;
+use App\Models\Plano;
 use Carbon\Carbon;
 
 Route::get('/', ['as' => 'home', 'uses' => function () {
@@ -20,13 +22,12 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
     $horario2 = \DateTime::createFromFormat('H:i a', '12:00 pm');
     $horario3 = \DateTime::createFromFormat('H:i a', '1:30 pm');
     $horario4 = \DateTime::createFromFormat('H:i a', '6:00 pm');
-
     $horario_atual = \DateTime::createFromFormat('H:i a', date('h:i A'));
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
 
-    $noticias = Noticia::where('data_publicacao','<=',Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    $noticias = Noticia::where('data_publicacao', '<=', Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
     return view('index', compact('atendimento', 'noticias'));
 }]);
 
@@ -41,12 +42,12 @@ Route::get('/login', ['as' => 'login', 'uses' => function () {
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-    $noticias = Noticia::where('data_publicacao','<=',Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
-    return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended'=>$intended, 'noticias'=>$noticias]);
+    $noticias = Noticia::where('data_publicacao', '<=', Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
+    return view('index', ['login' => 'true', 'atendimento' => $atendimento, 'intended' => $intended, 'noticias' => $noticias]);
 }]);
 
 //Noticias
-Route::group(['namespace' => 'Home', 'prefix'=>'blog'], function () {
+Route::group(['namespace' => 'Home', 'prefix' => 'blog'], function () {
     Route::get('{noticia}', ['as' => 'showNoticiaToUser', 'uses' => 'NoticiaController@view']);
     Route::get('', ['as' => 'listNoticiasToUser', 'uses' => 'NoticiaController@index']);
 });

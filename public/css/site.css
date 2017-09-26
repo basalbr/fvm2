@@ -1205,17 +1205,15 @@ button, a, p {
 }
 
 #mensalidade form {
-    border: #48b0f7 1px solid;
-    color: #fff;
     padding: 15px;
-    border-radius: 25px;
     font-family: 'Muli', sans-serif;
     background-color:transparent;
 }
 
 #mensalidade form label {
-    font-size: 15px;
-    padding: 10px 10px 0px;
+    font-family: 'Muli', sans-serif;
+    font-size: 14px;
+    margin: 0;
 }
 
 #mensalidade form label span {
@@ -1226,11 +1224,12 @@ button, a, p {
 }
 
 #mensalidade form input {
-    color: #B3E5FC;
-    background-color: transparent;
-    padding: 20px 10px;
-    border: 1px solid #B3E5FC;
-    border-radius: 10px;
+    padding: 0;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 3px solid #B3E5FC;
+    border-radius: 0px;
     font-weight: bold;
     transition: all ease-in 0.32s;
 }
@@ -1243,9 +1242,8 @@ button, a, p {
 }
 
 #mensalidade-box {
-    border: #48b0f7 1px solid;
+    padding: 15px;
     color: #01579B;
-    padding: 22px;
     border-radius: 25px;
     font-family: 'Muli', sans-serif;
     background-color: transparent;
@@ -1266,7 +1264,7 @@ button, a, p {
 
 #valor-mensalidade {
     margin-bottom: 35px;
-    color: #fff;
+    color: #01579B;
 }
 
 #valor-economia {
@@ -1970,6 +1968,7 @@ section#password .form-group {
     border-radius: 3px;
     box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
     padding: 15px;
+    background: #fff;
 }
 
 .fa-destaque {
@@ -1985,6 +1984,7 @@ section#password .form-group {
     text-align: center;
     transition: transform .8s ease-in-out;
     margin-top:10px;
+    margin-bottom:10px;
 }
 
 .card:hover .fa-destaque {
