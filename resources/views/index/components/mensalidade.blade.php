@@ -32,22 +32,28 @@
                     <input type='text' class='form-control money-mask' id='contabilidade' data-mask-placeholder='0'
                            value="499,99"/>
                 </div>
+
                 <div class="clearfix"></div>
+                <div class="text-center">
+                <a href="#contato" class="page-scroll btn btn-warning hidden-xs">Dúvidas? Entre em
+                    contato</a>
+                </div>
             </div>
         </form>
     </div>
     <div class="col-sm-6 hidden-xs">
         <div id="mensalidade-box">
             <div class="card">
-                <h2 class='text-center'>Máximo de Documentos Fiscais</h2>
-                <div id="maximo-docs-fiscais" class="text-center"><strong><span class="maximo_docs_fiscais">10</span></strong></div>
-                <div class="by-month">por mês</div>
                 <h2 class='text-center'>Sua mensalidade será</h2>
                 <div id="valor-mensalidade" class='text-center'>R$ <span>0,00</span></div>
                 <h2 class='text-center'>Você <b>economizará</b></h2>
                 <div id='valor-economia' class='text-center'>R$ <span>0,00</span></div>
                 <div class="by-year">por ano</div>
                 <div class="clearfix"></div>
+                <div class="text-center">
+                <a href="" data-toggle="modal" data-target="#modal-register"
+                   class="btn btn-success hidden-xs">Gostou? Crie sua conta</a>
+                </div>
             </div>
 
         </div>
@@ -59,11 +65,7 @@
             <a href="" data-toggle="modal" data-target="#modal-simulate"
                class="btn btn-lg btn-complete visible-xs transparent">Simular mensalidade</a>
             <a href="" data-toggle="modal" data-target="#modal-register"
-               class="btn btn-lg btn-success transparent hidden-xs">Gostou? Crie sua conta</a>
-            <a href="" data-toggle="modal" data-target="#modal-register"
                class="btn btn-lg btn-success transparent visible-xs">Crie sua conta</a>
-            <a href="#contato" class="page-scroll btn btn-lg btn-warning hidden-xs transparent">Dúvidas? Entre em
-                contato</a>
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@
                 Somos uma plataforma online que oferece serviços contábeis com preços acessíveis, entre eles abertura de empresa, alterações contratuais, encerramento, folha de pagamento, etc
             </p>
             <div class="text-center">
-                <a class="btn btn-primary page-scroll" href="#duvidas">Ver dúvidas comuns</a>
+                <a class="btn btn-primary page-scroll" href="#duvidas">Tire suas dúvidas</a>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="pt-br">
 <head>
     @section('meta')
         <title>WEBContabilidade</title>
@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="{{url(public_path().'favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{url(public_path().'favicon.ico')}}" type="image/x-icon">
     <meta charset="utf-8">
+    <meta name="theme-color" content="#01579B"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @section('css')

@@ -43,7 +43,6 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
     for (var i in planos) {
         if (qtdeDocFiscais <= parseInt(planos[i].total_documento_fiscal)
             && parseFloat(planos[i].valor) < minPrice) {
-            $('.maximo_docs_fiscais').text(planos[i].total_documento_fiscal);
             minPrice = parseFloat(planos[i].valor);
         }
     }

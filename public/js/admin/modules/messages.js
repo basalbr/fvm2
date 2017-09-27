@@ -111,6 +111,7 @@ function validateMessengerFile(file) {
 }
 
 function uploadMessengerFile(formData, target) {
+    $('#send-file').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando, aguarde...');
     $.post({
         url: uploadFileUrl,
         data: formData,
@@ -120,6 +121,7 @@ function uploadMessengerFile(formData, target) {
         if (target) {
             target.append($('<div>').addClass('col-sm-4').append(data.html));
         }
+        $('#send-file').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
     }).fail(function (jqXHR) {
         if (jqXHR.status === 422) {
             //noinspection JSUnresolvedVariable
@@ -127,6 +129,7 @@ function uploadMessengerFile(formData, target) {
         } else {
             showModalAlert('Ocorreu um erro ao tentar enviar o arquivo.');
         }
+        $('#send-file').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
     });
 }
 

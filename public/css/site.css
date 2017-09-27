@@ -3,8 +3,8 @@ html, body {
 }
 
 #nav-menu-items a:focus {
-    outline: none!important;
-    outline-offset: 0!important;
+    outline: none !important;
+    outline-offset: 0 !important;
     text-decoration: none;
 }
 
@@ -1146,7 +1146,7 @@ button, a, p {
 }
 
 .section h1 {
-    font-family: 'Muli', sans-serif;
+    font-family: 'Oswald', sans-serif;
     text-align: center;
     padding: 25px;
     margin: 25px;
@@ -1171,7 +1171,7 @@ button, a, p {
 
 #mensalidade {
     overflow: hidden;
-    background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('../images/banner-simular.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/banner-simular.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     -webkit-background-size: cover;
@@ -1201,9 +1201,8 @@ button, a, p {
 }
 
 #mensalidade form {
-    padding: 15px;
     font-family: 'Muli', sans-serif;
-    background-color:transparent;
+    background-color: transparent;
 }
 
 #mensalidade form label {
@@ -1235,11 +1234,9 @@ button, a, p {
     border-color: #4FC3F7;
     background-color: transparent;
     color: #4FC3F7;
-
 }
 
 #mensalidade-box {
-    padding: 15px;
     color: #01579B;
     border-radius: 25px;
     font-family: 'Muli', sans-serif;
@@ -1264,7 +1261,7 @@ button, a, p {
     color: #01579B;
 }
 
-#maximo-docs-fiscais{
+#maximo-docs-fiscais {
     color: #f8d053;
 }
 
@@ -1273,7 +1270,7 @@ button, a, p {
 }
 
 #valor-mensalidade span, #valor-economia span, #maximo-docs-fiscais span {
-    font-size: 75px;
+    font-size: 65px;
     font-weight: normal;
 }
 
@@ -1311,7 +1308,13 @@ button, a, p {
 }
 
 #duvidas {
-    background-color: #fff;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('../images/duvidas3.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 #duvidas .col-xs-12 {
@@ -1343,8 +1346,9 @@ button, a, p {
 }
 
 .panel.panel-default .panel-heading {
-    border-radius: 10px;
-    padding: 20px 15px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+    padding: 15px;
     background-color: #2196F3;
     color: #fff;
     font-weight: bold;
@@ -1356,18 +1360,21 @@ button, a, p {
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
     border-top-color: #ddd;
     font-size: 15px;
-    color: #01579B;
+    color: #2196F3;
     border: none;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding-right: 25px;
 }
 
 .panel.panel-default:hover .panel-heading {
-    background-color: #1976D2;
+    background-color: #2196F3;
+    color: #fff;
 }
 
 .panel.panel-default .panel-heading[aria-expanded=true] {
-    background-color: #1976D2;
+    background-color: #2196F3;
+    color: #fff;
 }
 
 .panel-group {
@@ -1807,7 +1814,7 @@ section#password .form-group {
     border: 5px solid transparent;
 }
 
-#noticias .visible-xs .normal{
+#noticias .visible-xs .normal {
     height: 200px;
     overflow: hidden;
     position: relative;
@@ -1880,7 +1887,7 @@ section#password .form-group {
     margin-bottom: 10px;
 }
 
-#noticia .noticia h2{
+#noticia .noticia h2 {
     color: #333;
 }
 
@@ -1898,13 +1905,13 @@ section#password .form-group {
     margin-bottom: 0px;
 }
 
-#noticia > div:first-of-type{
+#noticia > div:first-of-type {
     padding: 5px 20px
 }
 
-#noticia{
+#noticia {
     position: relative;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 #noticia .ultimas {
@@ -1935,6 +1942,7 @@ section#password .form-group {
     min-height: 200px;
     min-width: 100%;
 }
+
 #noticia .btn-block {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -1969,9 +1977,9 @@ section#password .form-group {
     min-width: 100%;
 }
 
-.card{
+.card {
     border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
     padding: 15px;
     background: #fff;
 }
@@ -1988,20 +1996,20 @@ section#password .form-group {
     border-radius: 50px;
     text-align: center;
     transition: transform .8s ease-in-out;
-    margin-top:10px;
-    margin-bottom:10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .card:hover .fa-destaque {
     transform: rotate(360deg);
 }
 
-.card h2{
+.card h2 {
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-.card .btn{
+.card .btn {
     margin-top: 15px;
 }
