@@ -1180,10 +1180,6 @@ button, a, p {
     background-size: cover;
 }
 
-#mensalidade p {
-    color: #fff;
-}
-
 .background-img {
     z-index: -1;
     position: absolute;
@@ -1224,6 +1220,7 @@ button, a, p {
 }
 
 #mensalidade form input {
+    width: 30%;
     padding: 0;
     border-top: 0px;
     border-left: 0px;
@@ -1251,11 +1248,11 @@ button, a, p {
 
 #mensalidade-box h2 {
     font-family: 'Muli', sans-serif;
-    font-size: 26px;
+    font-size: 22px;
     color: #48b0f7;
 }
 
-#valor-mensalidade, #valor-economia {
+#valor-mensalidade, #valor-economia, #maximo-docs-fiscais {
     line-height: 0.7;
     font-weight: bold;
     font-size: 42px;
@@ -1267,22 +1264,26 @@ button, a, p {
     color: #01579B;
 }
 
+#maximo-docs-fiscais{
+    color: #f8d053;
+}
+
 #valor-economia {
     color: #00E676;
 }
 
-#valor-mensalidade span, #valor-economia span {
+#valor-mensalidade span, #valor-economia span, #maximo-docs-fiscais span {
     font-size: 75px;
     font-weight: normal;
 }
 
-#modal-simulate #valor-mensalidade span, #modal-simulate #valor-economia span {
+#modal-simulate #valor-mensalidade span, #modal-simulate #valor-economia span, #modal-simulate #maximo-docs-fiscais span {
     font-size: 50px;
 }
 
-#modal-simulate .by-year {
-    margin-left: 75%;
+#modal-simulate .by-year, #modal-simulate .by-month {
     margin-bottom: 25px;
+    text-align: center;
 }
 
 #modal-simulate #valor-mensalidade {
@@ -1297,12 +1298,16 @@ button, a, p {
     text-align: center;
 }
 
-#mensalidade-box .by-year {
+#mensalidade-box .by-year, #mensalidade-box .by-month {
     color: #00E676;
     font-weight: bold;
-    margin-left: 80%;
     margin-bottom: 15px;
     margin-top: 10px;
+    text-align: center;
+}
+
+#mensalidade-box .by-month {
+    color: #f8d053;
 }
 
 #duvidas {

@@ -1,17 +1,13 @@
-<img class="background-img" src="{{url(public_path('images/banner-simular.jpg'))}}"/>
 <div class="container">
     <div class="col-xs-12">
         <h1 class="hidden-xs">Contabilidade com mensalidade acessível</h1>
         <h1 class="visible-xs">Mensalidade acessível</h1>
     </div>
-    <div class="col-xs-12 text-center">
-        <p>Para saber quanto custará sua mensalidade, basta completar o formulário ao lado.<br/> O valor da
-            mensalidade será atualizado
-            automaticamente.</p>
-    </div>
     <div class="col-sm-6 col-xs-12">
         <form>
             <div class="card">
+                <p class="text-primary"><strong>Para calcular o valor da sua mensalidade basta preencher o formulário
+                        abaixo com base em informações da sua empresa.</strong></p>
                 <div class='form-group'>
                     <label for="funcionarios">Quantidade de funcionários <span data-trigger="hover"
                                                                                class="text-info hidden-xs"
@@ -41,14 +37,16 @@
         </form>
     </div>
     <div class="col-sm-6 hidden-xs">
-            <div id="mensalidade-box">
-                <div class="card">
-
+        <div id="mensalidade-box">
+            <div class="card">
+                <h2 class='text-center'>Máximo de Documentos Fiscais</h2>
+                <div id="maximo-docs-fiscais" class="text-center"><strong><span class="maximo_docs_fiscais">10</span></strong></div>
+                <div class="by-month">por mês</div>
                 <h2 class='text-center'>Sua mensalidade será</h2>
                 <div id="valor-mensalidade" class='text-center'>R$ <span>0,00</span></div>
                 <h2 class='text-center'>Você <b>economizará</b></h2>
                 <div id='valor-economia' class='text-center'>R$ <span>0,00</span></div>
-                <div class="by-year">por ano*</div>
+                <div class="by-year">por ano</div>
                 <div class="clearfix"></div>
             </div>
 

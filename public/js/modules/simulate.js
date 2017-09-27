@@ -31,6 +31,7 @@ function gatherDataAndSimulate() {
 function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
     var acrescimoFuncionarios = 0;
     minPrice = maxPrice;
+
     if (qtdeDocFiscais > maxDocsFiscais) {
         $('[name*="qtde_documento_fiscal"]').val(maxDocsFiscais);
     }
@@ -42,6 +43,7 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
     for (var i in planos) {
         if (qtdeDocFiscais <= parseInt(planos[i].total_documento_fiscal)
             && parseFloat(planos[i].valor) < minPrice) {
+            $('.maximo_docs_fiscais').text(planos[i].total_documento_fiscal);
             minPrice = parseFloat(planos[i].valor);
         }
     }
