@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
+
 /**
  * @property integer id
  * @property integer id_abertura_empresa
@@ -38,7 +39,8 @@ use Illuminate\Support\Facades\Validator;
  * @property RegimeCasamento regimeCasamento
  * @property Cnae cnae
  */
-class AberturaEmpresaSocio extends Model {
+class AberturaEmpresaSocio extends Model
+{
 
     use SoftDeletes;
 
@@ -79,8 +81,9 @@ class AberturaEmpresaSocio extends Model {
         'orgao_expedidor'
     ];
 
-    public function isPrincipal(){
-        return $this->principal ? 'Sim': 'Não';
+    public function isPrincipal()
+    {
+        return $this->principal ? 'Sim' : 'Não';
     }
 
     public function setDataNascimentoAttribute($value)
@@ -88,38 +91,48 @@ class AberturaEmpresaSocio extends Model {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    public function getNomeAttribute($attr){
+    public function getNomeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomePaiAttribute($attr){
+    public function getNomePaiAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomeMaeAttribute($attr){
+    public function getNomeMaeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNacionalidadeAttribute($attr){
+    public function getNacionalidadeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function empresa() {
+    public function empresa()
+    {
         return $this->belongsTo(AberturaEmpresa::class, 'id_abertura_empresa');
     }
 
-    public function uf() {
+    public function uf()
+    {
         return $this->hasOne(Uf::class, 'id', 'id_uf');
     }
-    public function regimeCasamento() {
-        return $this->hasOne(RegimeCasamento::class, 'id','id_regime_casamento');
+
+    public function regimeCasamento()
+    {
+        return $this->hasOne(RegimeCasamento::class, 'id', 'id_regime_casamento');
     }
 
-    public function pro_labore_formatado() {
+    public function pro_labore_formatado()
+    {
         return number_format($this->pro_labore, 2, ',', '.');
     }
 
-    public function getProLaboreFormatado() {
+    public function getProLaboreFormatado()
+    {
         return number_format($this->pro_labore, 2, ',', '.');
     }
 
