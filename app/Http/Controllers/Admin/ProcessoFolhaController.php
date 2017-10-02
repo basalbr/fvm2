@@ -42,7 +42,8 @@ class ProcessoFolhaController extends Controller
 
     public function index()
     {
-        $empresasPendentes = Empresa::whereHas('socios', function($q){
+        $empresasPendentes = Empresa::where('status', 'aprovado')
+            ->whereHas('socios', function($q){
                 $q->where('pro_labore','>',0);
             })
             ->OrWhereHas('funcionarios', function($q){
@@ -51,7 +52,6 @@ class ProcessoFolhaController extends Controller
             ->whereDoesntHave('processosFolha', function($q){
                 $q->whereMonth('created_at', '=', date('m'));
             })
-            ->where('status', 'aprovado')
             ->orderBy('nome_fantasia', 'asc')
             ->get();
         $historicoFolha = ProcessoFolha::orderBy('created_at', 'desc')->get();
