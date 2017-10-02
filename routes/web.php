@@ -230,6 +230,7 @@ Route::group(['prefix' => 'admin/atendimento', 'namespace' => 'Admin', 'middlewa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);
+    Route::get('finish/{id}', ['as' => 'createEmpresaFromAberturaEmpresa', 'uses' => 'AberturaEmpresaController@createEmpresa']);
 });
 
 //Admin - Demissão

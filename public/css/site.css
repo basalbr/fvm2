@@ -616,13 +616,11 @@ form legend {
     -webkit-appearance: none;
     color: #2c2c2c;
     outline: 0;
-    height: 35px;
-    padding: 9px 12px;
+    height: 25px;
     line-height: normal;
     font-size: 14px;
     font-weight: normal;
     vertical-align: middle;
-    min-height: 35px;
     -webkit-transition: all 0.12s ease;
     transition: all 0.12s ease;
     -webkit-box-shadow: none;
@@ -1431,15 +1429,18 @@ button, a, p {
 }
 
 .form .form-group {
-    border: 1px solid #4FC3F7;
+    border: 0px solid #4FC3F7;
     border-radius: 5px;
     transition: ease 0.3s;
+    margin-bottom: 5px;
 }
 
 .form label {
-    font-size: 15px;
-    padding: 5px 10px 0px;
+    font-family: 'Muli', sans-serif;
+    font-size: 14px;
+    padding: 5px 0px 0px;
     font-weight: bold;
+    margin-bottom: 0px;
 }
 
 .form [type="checkbox"] + label {
@@ -1451,15 +1452,18 @@ button, a, p {
 .form input.form-control, form textarea.form-control {
     color: #4FC3F7;
     background-color: transparent;
-    padding: 0px 10px 10px;
-    border: none;
-    border-radius: 5px;
+    padding: 0px 0px 5px!important;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 3px solid #B3E5FC;
+    border-radius: 0px;
     transition: all ease-in 0.32s;
 }
 
 .form textarea.form-control {
     padding: 10px;
-    height: 80px;
+    height: 70px;
 }
 
 .form .form-control:focus {

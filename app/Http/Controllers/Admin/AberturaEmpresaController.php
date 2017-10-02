@@ -76,13 +76,13 @@ class AberturaEmpresaController extends Controller
 
     /**
      * Cria uma empresa a partir de um processo de abertura de empresa
-     * @param Request $request
+     * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createEmpresa(Request $request)
+    public function createEmpresa($id)
     {
-        $this->validate($request, EmpresaValidation::getRules(), [], EmpresaValidation::getNiceNames());
-        if (CreateEmpresaFromAberturaEmpresa::handle($request->all())) {
+        $aberturaEmpresa = AberturaEmpresa::findOrFail($id);
+        if (CreateEmpresaFromAberturaEmpresa::handle($aberturaEmpresa)) {
             return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'A empresa foi criada com sucesso e o processo de abertura de empresa foi encerrado.');
         }
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);

@@ -85,9 +85,12 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr />
-        <div class="col-xs-12">
-            <a href="{{route('listAberturaEmpresaToUser')}}" class="btn btn-info"><i class="fa fa-list"></i> Voltar para listagem</a>
+        <div class="navigation-options animated slideInUp">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
+            @if($aberturaEmpresa->status != 'Aprovado')
+                <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i>
+                    Transformar em empresa</a>
+            @endif
         </div>
     </div>
 
