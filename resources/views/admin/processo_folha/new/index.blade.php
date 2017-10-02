@@ -252,8 +252,8 @@
                         <div class="clearfix"></div>
                         @foreach($funcionarios as $funcionario)
                             <tr>
-                                <td>{{$funcionario->nome_completo}}</td>
-                                <td>{{$funcionario->salario}}</td>
+                                <td><a href="{{route('showFuncionarioToAdmin', [$funcionario->id_empresa, $funcionario->id])}}">{{$funcionario->nome_completo}}</a></td>
+                                <td>{{$funcionario->contratos()->latest()->first()->getSalario()}}</td>
                             </tr>
                         @endforeach
                         </tbody>

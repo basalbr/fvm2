@@ -26,7 +26,7 @@ class ProcessoFolhaController extends Controller
     public function create($idEmpresa){
         $empresa = Empresa::findOrFail($idEmpresa);
         $socios = $empresa->socios()->where('pro_labore','>',0)->orderBy('nome')->get();
-        $funcionarios = $empresa->funcionarios()->orderBy('nome_completo')->get();
+        $funcionarios = $empresa->funcionarios()->where('status','ativo')->orderBy('nome_completo')->get();
         $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
         $competenciaFormatada = date('m/Y', strtotime(date('Y-m') . " -1 month"));
         return view('admin.processo_folha.new.index', compact('empresa', 'competencia', 'competenciaFormatada', 'socios', 'funcionarios'));
@@ -44,6 +44,9 @@ class ProcessoFolhaController extends Controller
     {
         $empresasPendentes = Empresa::whereHas('socios', function($q){
                 $q->where('pro_labore','>',0);
+            })
+            ->OrWhereHas('funcionarios', function($q){
+                $q->where('status','ativo');
             })
             ->whereDoesntHave('processosFolha', function($q){
                 $q->whereMonth('created_at', '=', date('m'));
