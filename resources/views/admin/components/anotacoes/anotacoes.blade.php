@@ -1,5 +1,5 @@
 @if(count($anotacoes))
-    @foreach($anotacoes as $anotacao)
+    @foreach($anotacoes->reverse() as $anotacao)
         <div class="anotacao animated fadeIn">
             <div class="mensagem">{{$anotacao->mensagem}}</div>
             <div class="quem">{{$anotacao->usuario->nome}} - {{$anotacao->created_at->format('d.m.Y H:i')}}</div>

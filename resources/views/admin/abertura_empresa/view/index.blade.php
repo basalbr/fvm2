@@ -85,6 +85,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
+        <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
             @if($aberturaEmpresa->status != 'Aprovado')
