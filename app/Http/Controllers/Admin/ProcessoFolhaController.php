@@ -23,16 +23,18 @@ class ProcessoFolhaController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function create($idEmpresa){
+    public function create($idEmpresa)
+    {
         $empresa = Empresa::findOrFail($idEmpresa);
-        $socios = $empresa->socios()->where('pro_labore','>',0)->orderBy('nome')->get();
-        $funcionarios = $empresa->funcionarios()->where('status','ativo')->orderBy('nome_completo')->get();
+        $socios = $empresa->socios()->where('pro_labore', '>', 0)->orderBy('nome')->get();
+        $funcionarios = $empresa->funcionarios()->where('status', 'ativo')->orderBy('nome_completo')->get();
         $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
         $competenciaFormatada = date('m/Y', strtotime(date('Y-m') . " -1 month"));
         return view('admin.processo_folha.new.index', compact('empresa', 'competencia', 'competenciaFormatada', 'socios', 'funcionarios'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, ProcessoFolhaValidation::getRules(), [], ProcessoFolhaValidation::getNiceNames());
         if (SendProcessoFolha::handle($request)) {
             return redirect()->route('listProcessoFolhaToAdmin')->with('successAlert', 'Documentos enviados com sucesso.');
@@ -43,13 +45,15 @@ class ProcessoFolhaController extends Controller
     public function index()
     {
         $empresasPendentes = Empresa::where('status', 'aprovado')
-            ->whereHas('socios', function($q){
-                $q->where('pro_labore','>',0);
+            ->where(function ($query) {
+                $query->whereHas('socios', function ($q) {
+                    $q->where('pro_labore', '>', 0);
+                })->OrWhereHas('funcionarios', function ($q) {
+                    $q->where('status', 'ativo');
+                });
+
             })
-            ->OrWhereHas('funcionarios', function($q){
-                $q->where('status','ativo');
-            })
-            ->whereDoesntHave('processosFolha', function($q){
+            ->whereDoesntHave('processosFolha', function ($q) {
                 $q->whereMonth('created_at', '=', date('m'));
             })
             ->orderBy('nome_fantasia', 'asc')
@@ -65,7 +69,8 @@ class ProcessoFolhaController extends Controller
         $this->validate($request, $rules, [], $niceNames);
     }
 
-    public function validateProcesso(Request $request){
+    public function validateProcesso(Request $request)
+    {
         $this->validate($request, ProcessoFolhaValidation::getRules(), [], ProcessoFolhaValidation::getNiceNames());
     }
 

@@ -4,6 +4,7 @@
         $(function () {
             $('#file-upload-form button').on('click', function (e) {
                 e.preventDefault();
+                $(this).addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando, aguarde...');
                 uploadFile($('#file-upload-form [type="file"]'));
             });
         });
@@ -24,6 +25,7 @@
                     addRow(data.description, data.date, data.filepath);
                     showModalAlert('Arquivo enviado com sucesso!')
                     clearUploadForm();
+                    $('#file-upload-form button').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
                 }).fail(function (jqXHR) {
                     if (jqXHR.status === 422) {
                         //noinspection JSUnresolvedVariable
@@ -35,6 +37,7 @@
                     } else {
                         showModalAlert('Ocorreu um erro inesperado');
                     }
+                    $('#file-upload-form button').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
                 });
             }
         }

@@ -4,6 +4,7 @@
         $(function () {
             $('#file-upload-form button').on('click', function (e) {
                 e.preventDefault();
+                $(this).addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando, aguarde...');
                 uploadFile($('#file-upload-form [type="file"]'));
             });
         });
@@ -24,6 +25,8 @@
                     addRow(data.description, data.date, data.filepath);
                     showModalAlert('Arquivo enviado com sucesso!')
                     clearUploadForm();
+                    $('#file-upload-form button').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
+
                 }).fail(function (jqXHR) {
                     if (jqXHR.status === 422) {
                         //noinspection JSUnresolvedVariable
@@ -35,11 +38,13 @@
                     } else {
                         showModalAlert('Ocorreu um erro inesperado');
                     }
+                    $('#file-upload-form button').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
+
                 });
             }
         }
 
-        function clearUploadForm(){
+        function clearUploadForm() {
             $('#file-upload-form input[type="text"], #file-upload-form input[type="file"]').val(null);
         }
 
@@ -65,27 +70,27 @@
     </script>
 @stop
 @if(!isset($lock) || !$lock )
-<div class="col-xs-12"><p>Complete os campos abaixo e clique em "Enviar arquivo" para enviar o arquivo</p></div>
-<div class="clearfix"></div>
-<div class="col-xs-12">
-    <div class="form-inline" id="file-upload-form" data-upload-url="{{route('uploadFile')}}">
-        @include('admin.components.disable-auto-complete')
-        <input type="hidden" name="id_referencia" value="{{$idReferencia}}">
-        <input type="hidden" name="referencia" value="{{$referencia}}">
-        <div class="form-group">
-            <label>Descrição</label>
-            <input name="descricao" style="width: 300px" class="form-control" value=""/>
+    <div class="col-xs-12"><p>Complete os campos abaixo e clique em "Enviar arquivo" para enviar o arquivo</p></div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12">
+        <div class="form-inline" id="file-upload-form" data-upload-url="{{route('uploadFile')}}">
+            @include('admin.components.disable-auto-complete')
+            <input type="hidden" name="id_referencia" value="{{$idReferencia}}">
+            <input type="hidden" name="referencia" value="{{$referencia}}">
+            <div class="form-group">
+                <label>Descrição</label>
+                <input name="descricao" style="width: 300px" class="form-control" value=""/>
+            </div>
+            <div class="form-group">
+                <label>Selecione um arquivo</label>
+                <input type="file" name="arquivo" class="form-control" value=""/>
+            </div>
+            <div class="clearfix"></div>
+            <button type="button" class="btn btn-primary"><i class="fa fa-upload"></i> Enviar arquivo</button>
         </div>
-        <div class="form-group">
-            <label>Selecione um arquivo</label>
-            <input type="file" name="arquivo" class="form-control" value=""/>
-        </div>
-        <div class="clearfix"></div>
-        <button type="button" class="btn btn-primary"><i class="fa fa-upload"></i> Enviar arquivo</button>
     </div>
-</div>
-<div class="clearfix"></div>
-<hr>
+    <div class="clearfix"></div>
+    <hr>
 @endif
 <div class="col-xs-12">
     <table class="table table-hover table-striped">
