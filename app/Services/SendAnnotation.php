@@ -24,8 +24,8 @@ class SendAnnotation
         try {
             /** @var Mensagem $message */
             $anotacao = Anotacao::create($data);
-            $anotacao = collect($anotacao);
-            $html = view('admin.components.anotacoes.anotacoes', ['anotacoes' => [$anotacao]])->render();
+            $anotacao = collect([$anotacao]);
+            $html = view('admin.components.anotacoes.anotacoes', ['anotacoes' => $anotacao])->render();
             DB::commit();
             return response()->json(['anotacao' => $html]);
         } catch (\Exception $e) {
