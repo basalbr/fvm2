@@ -76,13 +76,14 @@ function calculateDaysOfExperience() {
             var qtdeDiasProrrogacao = $('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val() !== '' ? parseInt($('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val()) : 0;
             $('#data_final_experiencia').val(parseDateToString(addDaysToDate(dataInicioExperiencia, qtdeDiasExperiencia)));
             var dataFinalExperiencia = parseStringToDate($('#data_final_experiencia').val());
-            $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 1)));
+            $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 2)));
             var dataInicioProrrogacao = parseStringToDate($('#data_inicio_prorrogacao').val());
             $('#data_final_prorrogacao').val(parseDateToString(addDaysToDate(dataInicioProrrogacao, qtdeDiasProrrogacao)));
         }
     }
 
 }
+
 function parseStringToDate(string) {
     try {
         var dsplit = string.split("/");
@@ -91,19 +92,22 @@ function parseStringToDate(string) {
         throw (new Error('Formato de data inválido'));
     }
 }
+
 function addDaysToDate(date, days) {
     try {
-        return new Date(date.setDate(date.getDate() + days));
+        return new Date(date.setDate(date.getDate() + (days - 1)));
     } catch (e) {
         throw (new Error('Formato de data inválido'));
     }
 }
+
 function parseDateToString(date) {
 
     var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1).toString() : (date.getMonth() + 1).toString();
     var day = date.getDate() < 10 ? "0" + date.getDate().toString() : date.getDate().toString();
     return day + '/' + month + '/' + date.getFullYear().toString();
 }
+
 function isValidDate(s) {
     var bits = s.split('/');
     var d = new Date(bits[2], bits[1] - 1, bits[0]);
@@ -112,7 +116,7 @@ function isValidDate(s) {
 
 function validateFormPrincipal() {
     var formData = new FormData();
-    if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null  && $('[name="documentos[exame_admissional]"]').val() !== undefined) {
+    if ($('[name="documentos[exame_admissional]"]').val() !== '' && $('[name="documentos[exame_admissional]"]').val() !== null && $('[name="documentos[exame_admissional]"]').val() !== undefined) {
         formData.append('documentos[exame_admissional]', $('[name="documentos[exame_admissional]"]')[0].files[0])
     }
     var params = $('#form-principal').serializeArray();

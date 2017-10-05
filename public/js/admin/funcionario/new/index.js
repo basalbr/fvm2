@@ -76,7 +76,7 @@ function calculateDaysOfExperience() {
             var qtdeDiasProrrogacao = $('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val() !== '' ? parseInt($('[name="contrato[qtde_dias_prorrogacao_experiencia]"]').val()) : 0;
             $('#data_final_experiencia').val(parseDateToString(addDaysToDate(dataInicioExperiencia, qtdeDiasExperiencia)));
             var dataFinalExperiencia = parseStringToDate($('#data_final_experiencia').val());
-            $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 1)));
+            $('#data_inicio_prorrogacao').val(parseDateToString(addDaysToDate(dataFinalExperiencia, 2)));
             var dataInicioProrrogacao = parseStringToDate($('#data_inicio_prorrogacao').val());
             $('#data_final_prorrogacao').val(parseDateToString(addDaysToDate(dataInicioProrrogacao, qtdeDiasProrrogacao)));
         }
@@ -93,7 +93,7 @@ function parseStringToDate(string) {
 }
 function addDaysToDate(date, days) {
     try {
-        return new Date(date.setDate(date.getDate() + days));
+        return new Date(date.setDate(date.getDate() + (days - 1)));
     } catch (e) {
         throw (new Error('Formato de data inválido'));
     }
