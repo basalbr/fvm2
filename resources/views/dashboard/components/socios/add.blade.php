@@ -90,13 +90,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
+                            <div class='form-group'>
+                                <label for="municipio">Cidade em que nasceu *</label>
+                                <input type='text' class='form-control' name='municipio'/>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
                             <div class='form-group'>
                                 <label for="nacionalidade">Nacionalidade *</label>
                                 <input type='text' class='form-control' name='nacionalidade'/>
                             </div>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-4">
                             <div class='form-group'>
                                 <label for="email">E-mail *</label>
                                 <input type='text' class='form-control' name='email'/>

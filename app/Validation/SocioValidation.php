@@ -31,6 +31,7 @@ class SocioValidation extends Validation
         'endereco' => 'required',
         'numero' => 'required|numeric',
         'titulo_eleitor' => 'required',
+        'municipio' => 'required',
     ];
 
     protected static $niceNames = [
@@ -54,7 +55,8 @@ class SocioValidation extends Validation
         'complemento' => 'Complemento',
         'id_uf' => 'UF',
         'orgao_expedidor' => 'Órgão expedidor do RG',
-        'titulo_eleitor'=>'Título de Eleitor'
+        'titulo_eleitor'=>'Título de Eleitor',
+        'municipio'=>'Cidade em que nasceu',
     ];
 
 }

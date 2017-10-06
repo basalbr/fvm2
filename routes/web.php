@@ -207,6 +207,7 @@ Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('daily', ['uses' => 'CronController@dailyCron']);
     Route::get('mensalidade/adjustmentMessage', ['uses' => 'CronController@AdjustmentInMensalidade']);
     Route::get('funcionarios/requestPontos', ['uses' => 'CronController@openPontosRequest']);
+    Route::get('send/rodada-negocios', ['uses' => 'CronController@sendRodadaNegociosEmail']);
 });
 
 //Dashboard - Usuário

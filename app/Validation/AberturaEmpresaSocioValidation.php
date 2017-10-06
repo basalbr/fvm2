@@ -31,7 +31,8 @@ class AberturaEmpresaSocioValidation extends Validation
         'bairro' => 'required',
         'endereco' => 'required',
         'numero' => 'required|numeric',
-        'titulo_eleitor' => 'required'
+        'titulo_eleitor' => 'required',
+        'municipio'=>'required'
     ];
 
     protected static $niceNames = [
@@ -55,7 +56,8 @@ class AberturaEmpresaSocioValidation extends Validation
         'complemento' => 'Complemento',
         'id_uf' => 'UF',
         'orgao_expedidor' => 'Órgão expedidor do RG',
-        'titulo_eleitor' => 'Título de Eleitor'
+        'titulo_eleitor' => 'Título de Eleitor',
+        'municipio'=>'Cidade em que nasceu'
     ];
 
 

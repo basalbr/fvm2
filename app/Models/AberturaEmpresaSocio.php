@@ -78,6 +78,7 @@ class AberturaEmpresaSocio extends Model
         'numero',
         'complemento',
         'id_uf',
+        'municipio',
         'orgao_expedidor'
     ];
 
