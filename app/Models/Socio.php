@@ -29,6 +29,7 @@ class Socio extends Model {
      */
     protected $fillable = [
         'id_pessoa',
+        'municipio',
         'nome',
         'nome_mae',
         'nome_pai',

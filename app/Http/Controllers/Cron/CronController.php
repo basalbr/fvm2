@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Cron;
 
+use App\Mail\AgradecimentoRodadaNegocios;
 use App\Models\Apuracao;
 use App\Models\Empresa;
 use App\Models\Mensagem;
@@ -32,6 +33,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Mockery\Exception;
 
 class CronController extends Controller
 {
@@ -148,6 +151,79 @@ class CronController extends Controller
     {
         $usuarios = Usuario::all();
         SendMendalidadeAdjustment::handle($usuarios);
+    }
+
+    public function sendRodadaNegociosEmail()
+    {
+        $participantes = collect([['name' => 'Rodnei', 'email' => 'rodnei.almeida@sc.senac.br'],
+                ['name' => 'Katiê', 'email' => 'katie@cadeviagens.net'],
+                ['name' => 'Carlos', 'email' => 'Andreydinizrp@gmail.com '],
+                ['name' => 'Jefferson', 'email' => 'jefferson.godoy@vilage.com.br'],
+                ['name' => 'Rodrigo', 'email' => 'ponsoni@ponsoni.com.br'],
+                ['name' => 'Fabíola', 'email' => 'FABIOLAMARIANA@HOTMAIL.COM'],
+                ['name' => 'Arthur', 'email' => 'arthur_blu@hotmail.com'],
+                ['name' => 'Alexandre', 'email' => 'alexandre@ideiaobjetiva.com.br'],
+                ['name' => 'Junior Borges', 'email' => 'diretoria@premiumpartners.com.br'],
+                ['name' => 'Lindomar', 'email' => 'jefferson.belissimo@gmail.com'],
+                ['name' => 'Marcelo', 'email' => 'marcelo@a7b.com.br'],
+                ['name' => 'Lilian', 'email' => 'lyly_meurer@yahoo.com.br'],
+                ['name' => 'Sidnei', 'email' => 'Sidneia.cota@rogga.com.br'],
+                ['name' => 'Eduardo', 'email' => 'eduardo@sorellaseguros.com.br'],
+                ['name' => 'Uwe', 'email' => 'uwe@zelt.com.br'],
+                ['name' => 'Jansle', 'email' => 'jansle@localcert.net.br'],
+                ['name' => 'Salvino', 'email' => 'comercial@baher.com.br'],
+                ['name' => 'Juliana', 'email' => 'juliana.cunha@plazahoteis.com.br'],
+                ['name' => 'Carlos', 'email' => 'carlos.rogerio@nutrindoclub.com.br'],
+                ['name' => 'Dan', 'email' => 'comercial@grupodm3.com.br'],
+                ['name' => 'Ana', 'email' => 'vale@cerumar.com.br'],
+                ['name' => 'Thomas', 'email' => 'thomas@tjwork.com.br'],
+                ['name' => 'Vilma', 'email' => 'amoroacessorios@gmail.com'],
+                ['name' => 'Jackson', 'email' => 'jackson@easyittraining.com.br'],
+                ['name' => 'Daniela', 'email' => 'daniela@90fmblumenau.com.br'],
+                ['name' => 'Giovanni', 'email' => 'Diretoria@7ases.com.br'],
+                ['name' => 'Douglas', 'email' => 'ambientesobmedida@gmail.com'],
+                ['name' => 'Alex', 'email' => 'contato@alexsoaresfilmes.com.br'],
+                ['name' => 'Paulo', 'email' => 'paulo.soares@paros.com.br'],
+                ['name' => 'Rodrigo', 'email' => 'administracao02@gruporivage.com.br'],
+                ['name' => 'Eliseu', 'email' => 'comercial@aguiarconsultoria.com'],
+                ['name' => 'Allan', 'email' => 'allan@onlince.com.br'],
+                ['name' => 'Bruno', 'email' => 'mastersetteatd@gmail.com'],
+                ['name' => 'Alex', 'email' => 'alexreparabrisa@bol.com.br'],
+                ['name' => 'Renato', 'email' => 'renato.deus@rdseguranca.com.br'],
+                ['name' => 'Fabio', 'email' => 'fabiosilvaimoveis3@gmail.com'],
+                ['name' => 'João', 'email' => 'Taumaturgobnu@gmail.com '],
+                ['name' => 'Valmir', 'email' => 'valmir@graficakasburg.com.br'],
+                ['name' => 'Deise', 'email' => 'demarch_diversoes@hotmail.com'],
+                ['name' => 'Rodrigo', 'email' => 'rodrigo@omunicipioblumenau.com.br'],
+                ['name' => 'Leonardo', 'email' => 'leonardo.casas@onlysolution.com.br'],
+                ['name' => 'Andreza', 'email' => 'Financeiro@topquadros.com.br'],
+                ['name' => 'Alexandre', 'email' => 'Alexandre@correparti-sc.com.br'],
+                ['name' => 'Rogério', 'email' => 'rogerio@maxintec.com.br'],
+                ['name' => 'Ênio', 'email' => 'enioservice@gmail.com'],
+                ['name' => 'Sacha', 'email' => 'sacha@hfdeco.com.br'],
+                ['name' => 'Gerson', 'email' => 'gersonrmedeiros@gmail.com'],
+                ['name' => 'Ricardo', 'email' => 'ricardo@brgweb.com.br'],
+                ['name' => 'Daniele', 'email' => 'Daniele.volpi@ganhejuntoeconomias.com.br'],
+                ['name' => 'Maria Cristina', 'email' => 'mendofit@hotmail.com'],
+                ['name' => 'Thiago', 'email' => 'Executivo@knowhowtreinamentos.com.br'],
+                ['name' => 'Paulo', 'email' => 'paulo@perfilrevista.com.br'],
+                ['name' => 'Norton', 'email' => 'norton.rosa@somosnsc.com.br'],
+                ['name' => 'Alexandre', 'email' => 'Alexandra@dresslike.moda'],
+                ['name' => 'João', 'email' => 'joao@grupocomunique.com'],
+                ['name' => 'Lucas', 'email' => 'lucas@innovamkt.com.br'],
+                ['name' => 'Paulo', 'email' => 'paulo_piske@outlook.com '],
+                ['name' => 'Ramon', 'email' => 'greenplacesk8@gmail.com'],
+                ['name' => 'Rui', 'email' => 'ruireinert@gmail.com'],
+                ['name' => 'Moacir', 'email' => 'comercial@jfcdivulgacoes.com.br'],
+                ['name' => 'Jackeline', 'email' => 'Jackhawa@gmail.com']]
+        );
+        foreach ($participantes as $participante) {
+            try {
+                Mail::to($participante['email'])->send(new AgradecimentoRodadaNegocios($participante['name']));
+            } catch (\Exception $e) {
+                Log::critical($e);
+            }
+        }
     }
 
 }
