@@ -57,14 +57,21 @@
 
                         </div>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-4">
                         <div class='form-group'>
                             <label for="nacionalidade">Nacionalidade</label>
                             <div class='form-control'>{{$socio->nacionalidade}}</div>
 
                         </div>
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-xs-4">
+                        <div class='form-group'>
+                            <label for="nacionalidade">Nacionalidade</label>
+                            <div class='form-control'>{{$socio->nacionalidade}}</div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
                         <div class='form-group'>
                             <label for="email">E-mail</label>
                             <div class='form-control'>{{$socio->email}}</div>
