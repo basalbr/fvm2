@@ -1,5 +1,5 @@
 body {
-    font-family: 'Muli', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #fafafa;
 }
 
@@ -1717,4 +1717,17 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
 
 .mce-content-body {
     padding: 15px;
+}
+
+.panel-footer{
+    padding: 0;
+}
+.panel-footer .btn{
+    border-radius: 0;
+}
+.panel-heading{
+    background-color:#1E88E5 !important;
+}
+.panel-title{
+    font-size: 15px!important;
 }

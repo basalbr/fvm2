@@ -38,59 +38,41 @@ class AtendimentoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $chamados = Auth::user()->chamados()->orderBy('created_at', 'desc')->get();
+        $chamados = Auth::user()->chamados();
         //Buscar somente empresas que possuem mensagens não lidas
-        $empresas = Auth::user()->empresas()->whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = empresa.id')
-                ->where('mensagem.referencia', '=', 'empresa')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->get();
-        $aberturaEmpresas = Auth::user()->aberturasEmpresa()->whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = abertura_empresa.id')
-                ->where('mensagem.referencia', '=', 'abertura_empresa')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->get();
+        $chamados = $this->filterForm($chamados, $request);
 
-        $solicitacoes = Auth::user()->alteracoes()->whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = alteracao.id')
-                ->where('mensagem.referencia', '=', 'alteracao')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->orderBy('created_at', 'desc')->get();
+        $chamados = $chamados->select('chamado.*')->get();
+        return view('dashboard.atendimento.index', compact('chamados'));
+    }
 
-        $apuracoes = Apuracao::join('empresa', 'empresa.id', '=', 'apuracao.id_empresa')
-            ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('mensagem')
-                    ->whereRaw('mensagem.id_referencia = apuracao.id')
-                    ->where('mensagem.referencia', '=', 'apuracao')
-                    ->where('mensagem.lida', '=', 0)
-                    ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('apuracao.*')->get();
-
-        $documentosContabeis = ProcessoDocumentoContabil::join('empresa', 'empresa.id', '=', 'processo_documento_contabil.id_empresa')
-            ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('mensagem')
-                    ->whereRaw('mensagem.id_referencia = processo_documento_contabil.id')
-                    ->where('mensagem.referencia', '=', 'processo_documento_contabil')
-                    ->where('mensagem.lida', '=', 0)
-                    ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('processo_documento_contabil.*')->get();
-
-        return view('dashboard.atendimento.index', compact("empresas", 'chamados', 'solicitacoes', 'aberturaEmpresas', 'apuracoes', 'documentosContabeis'));
+    /**
+     * @param $query
+     * @param $request
+     * @return mixed
+     */
+    public function filterForm($query, $request)
+    {
+        if ($request->get('busca')) {
+            $query->where('mensagem.mensagem', 'LIKE', '%' . $request->get('busca') . '%');
+        }
+        if ($request->get('ordenar')) {
+            switch ($request->get('ordenar')) {
+                case 'created_asc':
+                    $query->orderBy('chamado.created_at');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('chamado.created_at', 'desc');
+                    break;
+                default:
+                    $query->orderBy('chamado.created_at', 'desc');
+            }
+        }else{
+            $query->orderBy('chamado.created_at', 'desc');
+        }
+        return $query;
     }
 
 }

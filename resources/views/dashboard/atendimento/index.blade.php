@@ -3,275 +3,86 @@
     Atendimento
 @stop
 @section('content')
-    <div class="col-xs-12">
-        <div class="list-group">
-            <a href="{{route('newChamado')}}" class="btn btn-primary"><i class="fa fa-envelope"></i> Clique para abrir
-                um chamado </a>
-        </div>
-    </div>
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#chamados" aria-controls="chamados" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
-                Chamados</a>
-        </li>
-        <li role="presentation">
-            <a href="#empresas" aria-controls="empresas" role="tab" data-toggle="tab"><i class="fa fa-building"></i>
-                Empresas</a>
-        </li>
-        <li role="presentation">
-            <a href="#abertura-empresas" aria-controls="abertura-empresas" role="tab" data-toggle="tab"><i
-                        class="fa fa-child"></i>
-                Abertura de Empresa</a>
-        </li>
-        <li role="presentation">
-            <a href="#solicitacoes" aria-controls="solicitacoes" role="tab" data-toggle="tab"><i
-                        class="fa fa-bullhorn"></i>
-                Solicitações</a>
-        </li>
-        <li role="presentation">
-            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i
-                        class="fa fa-calendar-check-o"></i>
-                Apurações</a>
-        </li>
-        <li role="presentation">
-            <a href="#documentos-contabeis" aria-controls="documentos-contabeis" role="tab" data-toggle="tab"><i
-                        class="fa fa-files-o"></i>
-                Documentos contábeis</a>
-        </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active animated fadeIn" id="chamados">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Assunto</th>
-                    <th>Status</th>
-                    <th>Aberto em</th>
-                    <th>Última mensagem</th>
-                    <th>Recebida em</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <div class="clearfix"></div>
-                @if($chamados->count())
-                    @foreach($chamados as $chamado)
-                        <tr>
-                            <td>{{$chamado->tipoChamado->descricao}}</td>
-                            <td>{{$chamado->status}}</td>
-                            <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
-                            <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
-                            <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
-                            <td><a class="btn btn-primary" href="{{route('viewChamado', [$chamado->id])}}"
-                                   title="Visualizar"><i class="fa fa-search"></i></a></td>
-                        </tr>
-
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="6">Nenhum chamado encontrado</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="empresas">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Última mensagem</th>
-                    <th>Novas mensagens?</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($empresas->count())
-                    @foreach($empresas as $empresa)
-                        <tr>
-                            <td>{{$empresa->nome_fantasia}}</td>
-                            <td>{{$empresa->mensagens()->latest()->first()->mensagem}}</td>
-                            <td>{{$empresa->getQtdeMensagensNaoLidas()}}</td>
-                            <td><a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}"
-                                   title="Visualizar"><i class="fa fa-search"></i></a></td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="4">Nenhuma mensagem encontrada</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-            <div class="clearfix"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="abertura-empresas">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Última mensagem</th>
-                    <th>Novas mensagens?</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($aberturaEmpresas->count())
-                @foreach($aberturaEmpresas as $aberturaEmpresa)
-                    <tr>
-                        <td>{{$aberturaEmpresa->nome_empresarial1}}</td>
-                        <td>{{$aberturaEmpresa->mensagens()->latest()->first()->mensagem}}</td>
-                        <td>{{$aberturaEmpresa->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary"
-                               href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}" title="Visualizar"><i
-                                        class="fa fa-search"></i></a></td>
-                    </tr>
-                @endforeach
-                @else
-                    <tr>
-                        <td colspan="4">Nenhuma mensagem encontrada</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-            <div class="clearfix"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="solicitacoes">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Solicitação</th>
-                    <th>Última mensagem</th>
-                    <th>Novas mensagens?</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($solicitacoes->count())
-                @foreach($solicitacoes as $solicitacao)
-                    <tr>
-                        <td>{{$solicitacao->tipo->descricao}}</td>
-                        <td>{{$solicitacao->getUltimaMensagem()}}</td>
-                        <td>{{$solicitacao->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary"
-                               href="{{route('showSolicitacaoAlteracaoToUser', [$solicitacao->id])}}"
-                               title="Visualizar"><i class="fa fa-search"></i></a></td>
-                    </tr>
-                @endforeach
-                @else
-                    <tr>
-                        <td colspan="4">Nenhuma mensagem encontrada</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-            <div class="clearfix"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="apuracoes">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Apuração</th>
-                    <th>Competência</th>
-                    <th>Última mensagem</th>
-                    <th>Novas mensagens?</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($apuracoes->count())
-                @foreach($apuracoes as $apuracao)
-                    <tr>
-                        <td>{{$apuracao->imposto->nome}}</td>
-                        <td>{{$apuracao->competencia->format('m/Y')}}</td>
-                        <td>{{$apuracao->getUltimaMensagem()}}</td>
-                        <td>{{$apuracao->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary"
-                               href="{{route('showApuracaoToUser', [$apuracao->id])}}" title="Visualizar"><i
-                                        class="fa fa-search"></i></a></td>
-                    </tr>
-                @endforeach
-                @else
-                    <tr>
-                        <td colspan="5">Nenhuma mensagem encontrada</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-            <div class="clearfix"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos-contabeis">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Período</th>
-                    <th>Última mensagem</th>
-                    <th>Novas mensagens?</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($documentosContabeis->count())
-                @foreach($documentosContabeis as $processo)
-                    <tr>
-                        <td>{{$processo->empresa->nome_fantasia}}</td>
-                        <td>{{$processo->periodo->format('m/Y')}}</td>
-                        <td>{{$processo->getUltimaMensagem()}}</td>
-                        <td>{{$processo->getQtdeMensagensNaoLidas()}}</td>
-                        <td><a class="btn btn-primary"
-                               href="{{route('showDocumentoContabilToUser', [$processo->id])}}"
-                               title="Visualizar"><i class="fa fa-search"></i></a></td>
-                    </tr>
-                @endforeach
-                @else
-                    <tr>
-                        <td colspan="5">Nenhuma mensagem encontrada</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
-@stop
-@section('modals')
-    @parent
-    <div class="modal animated fadeInDown" id="modal-escolha-empresa" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Cadastrar funcionário</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="col-xs-12">
-                        <p>Para cadastrar um funcionário é necessário selecionar uma empresa primeiro.<br/>
-                            Escolha uma empresa na lista abaixo e clique em avançar.</p>
-                    </div>
-                    <div class="col-xs-12">
+    @if($chamados->count())
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        @include('dashboard.components.disable-auto-complete')
+                        <input type="hidden" name="tab" value="pendentes">
                         <div class="form-group">
-                            @if($empresas->count())
-                                @foreach($empresas as $empresa)
-                                    <a href="{{route('newFuncionario',[$empresa->id])}}">{{$empresa->nome_fantasia}}</a>
-                                @endforeach
-                            @else
-                                <p>Você não cadastrou nenhuma empresa ainda.<br/>Caso queira abrir uma empresa, <a
-                                            href="{{route('newAberturaEmpresa')}}">clique aqui.</a><br/>Para migrar uma
-                                    empresa, <a href="{{route('newEmpresa')}}">clique aqui</a></p>
-                            @endif
+                            <label>Buscar por</label>
+                            <input name="busca" class="form-control" value="{{request('busca')}}"/>
                         </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control">
+                                <option value="" {{request('status')=='' || !request('status') ? 'selected':''}}>Todos
+                                </option>
+                                <option value="empresa_desc" {{request('status')=='aberto' ? 'selected':''}}>Aberto
+                                </option>
+                                <option value="usuario_asc" {{request('status')=='concluido' ? 'selected':''}}>Concluído
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ordenar por</label>
+                            <select name="ordenar" class="form-control">
+                                <option value="created_asc" {{request('ordenar')=='created_asc'  ? 'selected':''}}>
+                                    Aberto em
+                                    (A-Z)
+                                </option>
+                                <option value="created_desc" {{request('ordenar')=='created_desc' || !request('ordenar')? 'selected':''}}>
+                                    Aberto em (Z-A)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                        <button class="btn btn-primary"><i class="fa fa-search"></i> Pesquisar</button>
+                    </form>
                 </div>
             </div>
         </div>
+        @foreach($chamados as $chamado)
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h3 class="panel-title"><i
+                                    class="{{$chamado->status == 'Aberto' ? 'fa fa-envelope-open' : 'fa fa-check'}}"></i>
+                            Assunto:
+                            <strong>{{$chamado->tipoChamado->descricao}}</strong></h3></div>
+                    <div class="panel-body">
+                        <div><strong>Aberto em</strong> {{$chamado->created_at->format('d/m/Y à\s H:i')}}</div>
+                        <div><strong>Status:</strong> {{$chamado->status}}</div>
+                        <div><strong>Descrição:</strong><i>{{'"'.str_limit($chamado->mensagens()->first()->mensagem, 70, '...').'"'}}
+                            </i></div>
+                        <div><strong>Última
+                                mensagem:</strong><i>{{'"'.str_limit($chamado->mensagens()->latest()->first()->mensagem, 70, '...').'"'}}
+                            </i>
+                            de <strong>{{$chamado->mensagens()->latest()->first()->usuario->nome}}</strong> em
+                            <strong>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y à\s H:i')}}</strong>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-primary" href="{{route('viewChamado', [$chamado->id])}}"
+                           title="Visualizar"><i class="fa fa-search"></i> Visualizar</a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @else
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <strong>Você não possui nenhum chamado</strong>, <a href="{{route('newChamado')}}">clique aqui</a>
+                    para abrir um novo chamado.
+                </div>
+            </div>
+        </div>
+    @endif
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <a href="{{route('newChamado')}}" class="btn btn-primary"><i class="fa fa-envelope-open"></i> Quero abrir um
+            novo chamado</a>
     </div>
 @stop
