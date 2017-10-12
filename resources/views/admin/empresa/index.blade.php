@@ -15,7 +15,5 @@
             @include('admin.empresa.components.pendentes')
         </div>
     </div>
-
-
 @stop
 
