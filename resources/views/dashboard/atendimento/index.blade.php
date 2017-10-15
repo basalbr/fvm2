@@ -26,6 +26,14 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>De</label>
+                            <input style="max-width: 90px" name="de" class="form-control date-mask" value="{{request('de')}}"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Até</label>
+                            <input style="max-width: 90px" name="ate" class="form-control date-mask" value="{{request('ate')}}"/>
+                        </div>
+                        <div class="form-group">
                             <label>Ordenar por</label>
                             <select name="ordenar" class="form-control">
                                 <option value="created_asc" {{request('ordenar')=='created_asc'  ? 'selected':''}}>

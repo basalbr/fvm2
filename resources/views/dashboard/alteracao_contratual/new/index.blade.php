@@ -8,13 +8,13 @@
                 e.preventDefault();
                 validateFormPrincipal();
             });
-            $("[name='id_tipo_alteracao_contratual']").on('change', function(){
-                if($(this).val() == '1'){
+            $("[name='id_tipo_alteracao_contratual']").on('change', function () {
+                if ($(this).val() == '1') {
                     $('.salario-option').show();
                     $('.jornada-option').hide();
                     $('.salario-option input').prop('disabled', false);
                     $('.jornada-option input, .jornada-option select').prop('disabled', true);
-                }else{
+                } else {
                     $('.salario-option').hide();
                     $('.jornada-option').show();
                     $('.salario-option input').prop('disabled', true);
@@ -22,6 +22,7 @@
                 }
             })
         });
+
         function validateFormPrincipal() {
             var formData = new FormData();
             var params = $('#form-principal').serializeArray();
@@ -47,7 +48,11 @@
     </script>
 @stop
 @section('top-title')
-    <a href="{{route('listAlteracaoContratualToUser', $funcionario->id)}}">Alterações Contratuais</a> <i class="fa fa-angle-right"></i> <a href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a> <i class="fa fa-angle-right"></i> <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}">{{$funcionario->nome_completo}}</a>
+    <a href="{{route('listAlteracaoContratualToUser', $funcionario->id)}}">Alterações Contratuais</a> <i
+            class="fa fa-angle-right"></i> <a
+            href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a>
+    <i class="fa fa-angle-right"></i> <a
+            href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}">{{$funcionario->nome_completo}}</a>
 @stop
 @section('content')
 
@@ -58,13 +63,15 @@
         </li>
     </ul>
     <div class="tab-content">
-        <form method="POST" action="" id="form-principal" data-validation-url="{{route('validateAlteracaoContratual')}}">
+        <form method="POST" action="" id="form-principal"
+              data-validation-url="{{route('validateAlteracaoContratual')}}">
             @include('dashboard.components.form-alert')
             @include('dashboard.components.disable-auto-complete')
             {{csrf_field()}}
             <div role="tabpanel" class="tab-pane animated fadeIn active" id="docs">
                 <div class="col-sm-12">
-                    <p>{{Auth::user()->nome}}, complete os campos abaixo e após isso clique em <strong>Solicitar Alteração</strong> para concluir o pedido de alteração contratual.</p>
+                    <p>{{Auth::user()->nome}}, complete os campos abaixo e após isso clique em <strong>Solicitar
+                            Alteração</strong> para concluir o pedido de alteração contratual.</p>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -91,8 +98,8 @@
                         <label>Tipo de alteração *</label>
                         <select class="form-control" name="id_tipo_alteracao_contratual">
                             @foreach($tiposAlteracoes as $tipoAlteracao)
-                                <option value="{{$tipoAlteracao->id}}">{{$tipoAlteracao->descricao}}</option>
-                                @endforeach
+                                <option value="{{$tipoAlteracao->id}}" {{$tipoAlteracao->id == 1 ? 'selected' : ''}}>{{$tipoAlteracao->descricao}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -109,27 +116,28 @@
                     </div>
                 </div>
                 <div class="col-xs-12 salario-option">
-                        <div class="form-group">
-                            <label>Valor do novo salário *</label>
-                            <input class="form-control money-mask" name="salario"/>
-                        </div>
+                    <div class="form-group">
+                        <label>Valor do novo salário *</label>
+                        <input class="form-control money-mask" name="salario"/>
+                    </div>
                 </div>
                 <div class="jornada-option" style="display: none">
                     <div class="col-xs-12">
-                    <p>Escolha o dia do descanso semanal remunerado (D.S.R)</p>
+                        <p>Escolha o dia do descanso semanal remunerado (D.S.R)</p>
                     </div>
                     <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="id_grau_instrucao">D.S.R *</label>
-                        <select class="form-control" id='dsr' name='dsr'>
-                            @foreach($dow as $n => $dia)
-                                <option value="{{$n}}" {{$n == $contrato->dsr ? 'selected="selected"' : ''}}>{{$dia}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="form-group">
+                            <label for="id_grau_instrucao">D.S.R *</label>
+                            <select class="form-control" id='dsr' name='dsr'>
+                                @foreach($dow as $n => $dia)
+                                    <option value="{{$n}}" {{$n == $contrato->dsr ? 'selected="selected"' : ''}}>{{$dia}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-xs-12">
-                    <p>Digite na tabela abaixo o horário de trabalho do funcionário de acordo com o dia da semana.</p>
+                        <p>Digite na tabela abaixo o horário de trabalho do funcionário de acordo com o dia da
+                            semana.</p>
                     </div>
                     @include('dashboard.components.horario.view', ['contrato'=>$contrato, 'horarios'=>$contrato->horarios])
                 </div>
@@ -138,7 +146,7 @@
             <div class="navigation-space"></div>
             <div class="col-xs-12 navigation-options">
                 <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
-               <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Solicitar Alteração</button>
+                <button class="btn btn-success" type="submit"><i class="fa fa-check"></i> Solicitar Alteração</button>
             </div>
         </form>
     </div>

@@ -268,8 +268,7 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
 Route::group(['prefix' => 'admin/analytics', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('users/registered', ['as' => 'getRegisteredUsersHistory', 'uses' => 'AdminController@getRegisteredUsersHistory']);
     Route::get('history/new', ['as' => 'getHistorySeries', 'uses' => 'AdminController@getHistorySeries']);
-    Route::get('view/{idAlteracao}', ['as' => 'showAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@view']);
-    Route::post('view/{idAlteracao}', ['uses' => 'AlteracaoContratualController@update']);
+
 });
 
 //Admin - Funcionários
