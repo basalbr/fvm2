@@ -56,7 +56,7 @@ class Empresa extends Model
         'id_enquadramento_empresa',
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado','cancelado'=>'Cancelado'];
 
     public function abrirApuracoes()
     {

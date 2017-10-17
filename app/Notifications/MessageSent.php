@@ -147,7 +147,7 @@ class MessageSent extends Notification
             return 'à abertura de empresa (' . $this->mensagem->parent->nome_empresarial1 . ')';
         }
         if ($this->mensagem->referencia == 'empresa') {
-            return 'à empresa (' . $this->mensagem->parent->razao_social . ')';
+            return 'à ' . $this->mensagem->parent->razao_social;
         }
         if ($this->mensagem->referencia == 'apuracao') {
             return 'à apuração de ' . $this->mensagem->parent->imposto->nome . ' (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
