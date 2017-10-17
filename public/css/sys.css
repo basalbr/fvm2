@@ -475,7 +475,7 @@ a.shortcut h3.text-center {
 .alert-warning {
     background-color: #FFA726;
     border-color: #FF9800;
-    color: black;
+    color: #fff;
 }
 
 .alert-warning a {

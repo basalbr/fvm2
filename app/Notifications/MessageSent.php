@@ -141,7 +141,7 @@ class MessageSent extends Notification
     public function getDescricao()
     {
         if ($this->mensagem->referencia == 'chamado') {
-            return 'ao chamado (' . $this->mensagem->parent->tipoChamado->descricao . ') de ' . $this->mensagem->parent->usuario->nome . '.';
+            return 'ao chamado (' . $this->mensagem->parent->tipoChamado->descricao . ') de ' . $this->mensagem->parent->usuario->nome;
         }
         if ($this->mensagem->referencia == 'abertura_empresa') {
             return 'à abertura de empresa (' . $this->mensagem->parent->nome_empresarial1 . ')';

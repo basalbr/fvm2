@@ -56,7 +56,10 @@ class AtendimentoController extends Controller
     public function filterForm($query, $request)
     {
         if ($request->get('busca')) {
-            $query->where('mensagem.mensagem', 'LIKE', '%' . $request->get('busca') . '%');
+            $query->whereHas('mensagens', function($query) use ($request){
+                $query->where('mensagem.mensagem', 'LIKE', '%' . $request->get('busca') . '%');
+            });
+
         }
         if ($request->get('ordenar')) {
             switch ($request->get('ordenar')) {

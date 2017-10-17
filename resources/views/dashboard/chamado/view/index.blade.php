@@ -1,6 +1,7 @@
 @extends('dashboard.layouts.master')
 @section('top-title')
-    <a href="{{route('listAtendimentosToUser')}}">Atendimento</a> <i class="fa fa-angle-right"></i> Chamado ({{$chamado->tipoChamado->descricao}})
+    <a href="{{route('listAtendimentosToUser')}}">Atendimento</a> <i
+            class="fa fa-angle-right"></i> Chamado ({{$chamado->tipoChamado->descricao}})
 @stop
 @section('js')
     @parent
@@ -159,19 +160,24 @@
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="messages">
-            <div class="col-sm-12">
-                @if($chamado->status == 'Concluído')
-                    @include('dashboard.components.chat.box', ['model'=>$chamado, 'lockMessages'=>'true'])
-                @else
-                    @include('dashboard.components.chat.box', ['model'=>$chamado])
-                @endif
-            </div>
+            @if($chamado->status == 'Concluído')
+                <div class="col-xs-12">
+                    <div class="alert alert-warning" style="display: block">
+                        <strong>Atenção:</strong> esse chamado está fechado, você não poderá enviar novas mensagens.
+                    </div>
+                </div>
+                @include('dashboard.components.chat.box', ['model'=>$chamado, 'lockMessages'=>'true'])
+            @else
+                @include('dashboard.components.chat.box', ['model'=>$chamado])
+            @endif
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">
             <div id="anexos">
                 <div class="list">
+                    @php($hasAnexo = false)
                     @if($chamado->anexos)
                         @foreach($chamado->anexos as $anexo)
+                            @php($hasAnexo = true)
                             <div class="col-sm-4">
                                 @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
                             </div>
@@ -179,11 +185,17 @@
                     @endif
                     @foreach($chamado->mensagens as $message)
                         @if($message->anexo)
+                            @php($hasAnexo = true)
                             <div class="col-sm-4">
                                 @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
                             </div>
                         @endif
                     @endforeach
+                    @if(!$hasAnexo)
+                        <div class="col-xs-12 text-center">
+                            <h3>Nenhum documento enviado</h3>
+                        </div>
+                    @endif
                 </div>
                 <div class="clearfix"></div>
             </div>
