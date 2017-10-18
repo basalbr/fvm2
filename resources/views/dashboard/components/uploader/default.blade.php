@@ -23,7 +23,6 @@
                     processData: false
                 }).done(function (data, textStatus, jqXHR) {
                     addRow(data.description, data.date, data.filepath);
-                    showModalAlert('Arquivo enviado com sucesso!')
                     clearUploadForm();
                     $('#file-upload-form button').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
                 }).fail(function (jqXHR) {

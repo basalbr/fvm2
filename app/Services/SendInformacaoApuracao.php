@@ -35,15 +35,15 @@ class SendInformacaoApuracao
 
             /* @var Apuracao $apuracao */
             $apuracao = Apuracao::findOrFail($idApuracao);
-
-            foreach ($request->get('informacoes_extras') as $idInfoExtra => $info) {
-                $apuracao->informacoes()->create(['id_informacao_extra' => $idInfoExtra, 'informacao' => $info]);
-                $tipoApuracao = ImpostoInformacaoExtra::find($idInfoExtra);
-                if ($tipoApuracao->tipo == 'anexo') {
-                    Storage::move('temp/' . $info, 'public/anexos/' . $apuracao->getTable() . '/' . $apuracao->id . '/' . $info);
+            if (count($request->get('informacoes_extras'))) {
+                foreach ($request->get('informacoes_extras') as $idInfoExtra => $info) {
+                    $apuracao->informacoes()->create(['id_informacao_extra' => $idInfoExtra, 'informacao' => $info]);
+                    $tipoApuracao = ImpostoInformacaoExtra::find($idInfoExtra);
+                    if ($tipoApuracao->tipo == 'anexo') {
+                        Storage::move('temp/' . $info, 'public/anexos/' . $apuracao->getTable() . '/' . $apuracao->id . '/' . $info);
+                    }
                 }
             }
-
             Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
             $apuracao->status = 'informacoes_enviadas';
             $apuracao->save();

@@ -60,12 +60,14 @@ class ApuracaoController extends Controller
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();
+
         $apuracoesConcluidas = Apuracao::join('empresa', 'apuracao.id_empresa', '=', 'empresa.id')
             ->where('empresa.id_usuario', '=', Auth::user()->id)
             ->whereIn('apuracao.status', ['concluido', 'sem_movimento', 'cancelado'])
             ->orderBy('apuracao.competencia', 'desc')
             ->select('apuracao.*')
             ->get();
+
         return view('dashboard.apuracao.index', compact('apuracoesConcluidas', 'apuracoesPendentes'));
     }
 
@@ -73,7 +75,6 @@ class ApuracaoController extends Controller
     {
         return view('dashboard.calendario_impostos.index');
     }
-
 
     public function update(Request $request, $idApuracao)
     {
@@ -104,7 +105,6 @@ class ApuracaoController extends Controller
             ->first();
         return view('dashboard.apuracao.view.index', compact('apuracao'));
     }
-
 
     public function validateAnexo(Request $request)
     {

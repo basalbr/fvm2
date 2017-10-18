@@ -120,6 +120,7 @@ function validateMessengerFile(file) {
         formData.append('arquivo', file[0].files[0]);
         formData.append('referencia', reference);
         formData.append('id_referencia', referenceId);
+        formData.append('from_admin', 1);
         if ($('#anexos').find('.list').length > 0) {
             uploadMessengerFile(formData, $('#anexos .list'));
         } else {

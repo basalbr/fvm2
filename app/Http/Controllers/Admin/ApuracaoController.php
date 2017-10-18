@@ -34,6 +34,7 @@ class ApuracaoController extends Controller
             ->where('mensagem.referencia', 'apuracao')
             ->where('mensagem.id_referencia', $idApuracao)
             ->count();
+        $qtdeDocumentos += $apuracao->anexos()->count();
         return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos'));
     }
 

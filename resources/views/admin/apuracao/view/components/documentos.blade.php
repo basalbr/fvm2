@@ -1,9 +1,4 @@
-
 <div id="anexos">
-    <br/>
-    <div class="col-sm-12">
-        <p>Aqui estão os arquivos relacionados à esse processo.</p>
-    </div>
     <div class="list">
         @foreach($apuracao->informacoes as $informacao)
             @if($informacao->tipo->tipo == 'anexo')
@@ -11,6 +6,11 @@
                     @include('admin.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
                 </div>
             @endif
+        @endforeach
+        @foreach($apuracao->anexos as $anexo)
+            <div class="col-sm-4">
+                @include('admin.components.anexo.withDownload', ['anexo'=>$anexo])
+            </div>
         @endforeach
         @foreach($apuracao->mensagens as $message)
             @if($message->anexo)

@@ -27,11 +27,13 @@
                         </div>
                         <div class="form-group">
                             <label>De</label>
-                            <input style="max-width: 90px" name="de" class="form-control date-mask" value="{{request('de')}}"/>
+                            <input style="max-width: 90px" name="de" class="form-control date-mask"
+                                   value="{{request('de')}}"/>
                         </div>
                         <div class="form-group">
                             <label>Até</label>
-                            <input style="max-width: 90px" name="ate" class="form-control date-mask" value="{{request('ate')}}"/>
+                            <input style="max-width: 90px" name="ate" class="form-control date-mask"
+                                   value="{{request('ate')}}"/>
                         </div>
                         <div class="form-group">
                             <label>Ordenar por</label>
@@ -61,7 +63,8 @@
                     <div class="panel-body">
                         <div><strong>Aberto em</strong> {{$chamado->created_at->format('d/m/Y à\s H:i')}}</div>
                         <div><strong>Status:</strong> {{$chamado->status}}</div>
-                        <div><strong>Descrição:</strong><i>{{'"'.str_limit($chamado->mensagens()->first()->mensagem, 70, '...').'"'}}
+                        <div>
+                            <strong>Descrição:</strong><i>{{'"'.str_limit($chamado->mensagens()->first()->mensagem, 70, '...').'"'}}
                             </i></div>
                         <div><strong>Última
                                 mensagem:</strong><i>{{'"'.str_limit($chamado->mensagens()->latest()->first()->mensagem, 70, '...').'"'}}

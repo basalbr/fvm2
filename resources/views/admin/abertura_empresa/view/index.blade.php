@@ -1,7 +1,8 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$aberturaEmpresa])
 @section('top-title')
-    <a href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa</a> <i class="fa fa-angle-right"></i> {{$aberturaEmpresa->nome_empresarial1}}
+    <a href="{{route('listAberturaEmpresaToAdmin')}}">Abertura de empresa</a> <i
+            class="fa fa-angle-right"></i> {{$aberturaEmpresa->nome_empresarial1}}
 @stop
 @section('content')
     <!-- Nav tabs -->
@@ -42,9 +43,9 @@
             @include('admin.abertura_empresa.view.components.principal')
             <div class="clearfix"></div>
         </div>
-            <div role="tabpanel" class="tab-pane" id="messages">
-                @include('admin.components.chat.box', ['model'=>$aberturaEmpresa])
-            </div>
+        <div role="tabpanel" class="tab-pane" id="messages">
+            @include('admin.components.chat.box', ['model'=>$aberturaEmpresa])
+        </div>
         <div role="tabpanel" class="tab-pane" id="empresa">
             @include('admin.abertura_empresa.view.components.info_empresa')
             <div class="clearfix"></div>
@@ -88,17 +89,16 @@
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if($aberturaEmpresa->status != 'Aprovado')
-                <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i class="fa fa-check"></i>
+            @if($aberturaEmpresa->status != 'Concluído')
+                <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i
+                            class="fa fa-check"></i>
                     Transformar em empresa</a>
             @endif
         </div>
     </div>
-
 @stop
 
 @section('modals')
     @parent
     @include('admin.components.socios.view', ['socios' => $aberturaEmpresa->socios])
-
 @stop
