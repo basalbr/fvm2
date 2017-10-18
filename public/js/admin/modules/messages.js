@@ -1,4 +1,4 @@
-var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null;
+var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null, preventSend = false;
 $(function () {
     reference = $('.messages').data('reference');
     referenceId = $('.messages').data('reference-id');
@@ -11,10 +11,10 @@ $(function () {
             e.preventDefault();
             var content = this.value;
             var caret = getCaret(this);
-            if (event.shiftKey) {
+            if(event.shiftKey){
                 this.value = content.substring(0, caret) + "\n" + content.substring(caret, content.length);
                 event.stopPropagation();
-            } else {
+            }else{
                 sendMessage();
             }
         }
@@ -25,13 +25,14 @@ $(function () {
         sendMessage();
     });
     $('#send-file').on('click', function (e) {
-        e.preventDefault();
+        e.preventDefault()
         $('#file').click();
     });
     $('#file').on('change', function () {
         validateMessengerFile($(this));
         $('#file').val(null);
     });
+
     $('.nav-tabs li').on('click', function () {
         if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
             readMessages(true);
@@ -40,12 +41,15 @@ $(function () {
             }, 500);
         }
     });
-    setInterval(updateChat, 3000);
-    setInterval(readMessages, 10000);
+
+    setInterval(updateChat, 5000);
+    setInterval(readMessages, 5000);
 });
 
-
 function readMessages(bypass) {
+    if(preventSend){
+        return false;
+    }
     if (!$('.messages').is(':visible') && !bypass) {
         return false;
     }
@@ -65,23 +69,42 @@ function readMessages(bypass) {
 }
 
 function sendMessage() {
+    if(preventSend){
+        return false;
+    }
+    preventSend = true;
     var info = {
         referencia: reference,
         id_referencia: referenceId,
         mensagem: $('#message').val(),
         from_admin: 1
     };
+    $('#send-message').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando mensagem...');
     $('#message').val(null);
-
+    if(readAjax!==null){
+        readAjax.abort();
+    }
+    if(updateAjax!==null) {
+        updateAjax.abort();
+    }
     $.post($('.messages').data('send-message-url'), info)
         .done(function (data, textStatus, jqXHR) {
+
             if (data.messages !== null) {
                 $('.no-messages').hide();
+                $('.messages').append(data.messages);
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
             }
+            if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
+                lastMessageId = data.lastMessageId;
+            }
+            $('#send-message').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-send"></i> Enviar mensagem');
+            preventSend = false;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             showModalValidationError(jqXHR.responseJSON)
+            $('#send-message').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar mensagem');
+            preventSend = false;
         });
 }
 
@@ -97,7 +120,6 @@ function validateMessengerFile(file) {
         formData.append('arquivo', file[0].files[0]);
         formData.append('referencia', reference);
         formData.append('id_referencia', referenceId);
-        formData.append('from_admin', 1);
         if ($('#anexos').find('.list').length > 0) {
             uploadMessengerFile(formData, $('#anexos .list'));
         } else {
@@ -132,16 +154,17 @@ function uploadMessengerFile(formData, target) {
         $('#send-file').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
     });
 }
-
 function updateChat() {
+    if(preventSend){
+        return false;
+    }
     if (!$('.messages').is(':visible')) {
         return false;
     }
     var info = {
         referencia: reference,
         id_referencia: referenceId,
-        id_ultima_mensagem: lastMessageId,
-        from_admin: 1
+        id_ultima_mensagem: lastMessageId
     };
     if (updateAjax !== null) {
         updateAjax.abort();

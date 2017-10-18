@@ -37,6 +37,12 @@ class Apuracao extends Model
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function anexos()
+    {
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+
     public function isPendingInfo()
     {
         return $this->imposto->informacoesExtras->count()

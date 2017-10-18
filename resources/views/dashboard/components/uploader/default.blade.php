@@ -68,8 +68,6 @@
     </script>
 @stop
 @if(!isset($lock) || !$lock )
-<div class="col-xs-12"><p>Complete os campos abaixo e clique em "Enviar arquivo" para enviar o arquivo</p></div>
-<div class="clearfix"></div>
 <div class="col-xs-12">
     <div class="form-inline" id="file-upload-form" data-upload-url="{{route('uploadFile')}}">
         @include('admin.components.disable-auto-complete')

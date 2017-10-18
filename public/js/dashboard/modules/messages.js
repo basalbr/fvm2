@@ -1,10 +1,9 @@
-var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null;
+var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null, preventSend = false;
 $(function () {
     reference = $('.messages').data('reference');
     referenceId = $('.messages').data('reference-id');
     uploadFileUrl = $('.messages').data('upload-url');
     lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
-
     // organizar mensagens no chat assim que carregar a pagina
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     $('#message').on('keypress', function (e) {
@@ -43,11 +42,14 @@ $(function () {
         }
     });
 
-    setInterval(updateChat, 3000);
-    setInterval(readMessages, 3000);
+    setInterval(updateChat, 5000);
+    setInterval(readMessages, 5000);
 });
 
 function readMessages(bypass) {
+    if(preventSend){
+        return false;
+    }
     if (!$('.messages').is(':visible') && !bypass) {
         return false;
     }
@@ -67,25 +69,41 @@ function readMessages(bypass) {
 }
 
 function sendMessage() {
+    if(preventSend){
+        return false;
+    }
+    preventSend = true;
     var info = {
         referencia: reference,
         id_referencia: referenceId,
         mensagem: $('#message').val()
     };
+    $('#send-message').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando mensagem...');
     $('#message').val(null);
-
+    if(readAjax!==null){
+    readAjax.abort();
+    }
+    if(updateAjax!==null) {
+        updateAjax.abort();
+    }
     $.post($('.messages').data('send-message-url'), info)
         .done(function (data, textStatus, jqXHR) {
+
             if (data.messages !== null) {
                 $('.no-messages').hide();
+                $('.messages').append(data.messages);
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
             }
             if (data.lastMessageId !== null && data.lastMessageId !== lastMessageId) {
                 lastMessageId = data.lastMessageId;
             }
+            $('#send-message').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-send"></i> Enviar mensagem');
+            preventSend = false;
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             showModalValidationError(jqXHR.responseJSON)
+            $('#send-message').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar mensagem');
+            preventSend = false;
         });
 }
 
@@ -136,6 +154,9 @@ function uploadMessengerFile(formData, target) {
     });
 }
 function updateChat() {
+    if(preventSend){
+        return false;
+    }
     if (!$('.messages').is(':visible')) {
         return false;
     }

@@ -99,7 +99,8 @@
     </script>
 @stop
 @section('top-title')
-    <a href="{{route('listApuracoesToUser')}}">Apurações</a> <i class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
+    <a href="{{route('listApuracoesToUser')}}">Apurações</a> <i
+            class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
 @stop
 @section('content')
 
@@ -126,145 +127,131 @@
         @endif
     </ul>
     <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
+    <form method="POST" action="" id="form-principal" enctype="multipart/form-data">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
 
-            <div class="list">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Empresa</label>
-                        <div class="form-control">{{$apuracao->empresa->nome_fantasia}}</div>
+                <div class="list">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Empresa</label>
+                            <div class="form-control">{{$apuracao->empresa->nome_fantasia}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Imposto</label>
+                            <div class="form-control">{{$apuracao->imposto->nome}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Status da apuração</label>
+                            <div class="form-control">{{$apuracao->status}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Competência</label>
+                            <div class="form-control">{{$apuracao->competencia->format('m/Y')}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Vencimento</label>
+                            <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Imposto</label>
-                        <div class="form-control">{{$apuracao->imposto->nome}}</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Status da apuração</label>
-                        <div class="form-control">{{$apuracao->status}}</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Competência</label>
-                        <div class="form-control">{{$apuracao->competencia->format('m/Y')}}</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label>Vencimento</label>
-                        <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            @if($apuracao->isPendingInfo())
-                <div class="col-sm-12">
-                    <form method="POST" action="" id="form-principal" enctype="multipart/form-data">
+                <div class="clearfix"></div>
+                @if($apuracao->isPendingInfo())
+                    <div class="col-sm-12">
+
                         {{ csrf_field() }}
 
-                        <div class="col-sm-12">
-                            <h3>Informações adicionais</h3>
+                        <h3>Envio de documentos</h3>
+                        <div class="col-xs-12">
                             <p>É necessário enviar algumas informações adicionais para que possamos dar
                                 continuidade no processo de apuração.<br/>
-                                <strong>Clique em enviar informações após enviar todas as informações. Após enviar não
-                                    será
-                                    possível modificá-las.</strong><br/>
-                                <strong>Se não houve movimentação, clique no botão "Não houve movimentação".</strong>
+                                Clique em <strong>finalizar</strong> após enviar todos os arquivos. Após finalizar o
+                                envio, não será possível enviar novos documentos.<br/>
+                                Se não houve movimentação, clique no botão <strong>sem movimento</strong>.
                             </p>
                         </div>
+                        <div class="col-xs-12">
+                            <p>Por favor nos envie os seguintes documentos:</p>
 
-                        <div class="col-sm-12">
-                            @foreach($apuracao->imposto->informacoesExtras as $informacaoExtra)
-                                @if($informacaoExtra->tipo == 'anexo')
-                                    <div class='form-group'>
-                                        <label>{{$informacaoExtra->nome}} <i class="fa fa-question-circle"
-                                                                             data-toggle="tooltip" data-placement="top"
-                                                                             title="{{$informacaoExtra->descricao}}"></i></label>
-                                        <div class="form-control">
-                                            <br/>
-                                            <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
-                                                Enviar
-                                                arquivo
-                                            </button>
-                                        </div>
-                                        <input data-validation-url="{{route('validateApuracaoAnexo')}}"
-                                               data-upload-url="{{route('sendAnexoToTemp')}}"
-                                               data-id="{{$informacaoExtra->id}}" class="hidden upload-informacao-extra"
-                                               type='file' value=""/>
-                                    </div>
-                                @endif
-                                @if($informacaoExtra->tipo == 'informacao_adicional')
-                                    <div class='form-group'>
-                                        <label>{{$informacaoExtra->nome}}</label>
-                                        <input type='text' class='form-control'
-                                               name="informacoes_extras[{{$informacaoExtra->id}}]"/>
-                                    </div>
-                                @endif
-                            @endforeach
+                            <ul>
+                                @foreach($apuracao->imposto->informacoesExtras as $informacoesExtra)
+                                    <li>{{$informacoesExtra->nome}}</li>
+                                @endforeach
+                            </ul>
                         </div>
+                        @include('dashboard.components.uploader.default', ['idReferencia'=>$apuracao->id, 'referencia'=>'apuracao', 'anexos'=>$apuracao->anexos])
                         <div class="clearfix"></div>
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Finalizar
-                            </button>
-                            <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
-                               class="btn btn-danger"><i class="fa fa-remove"></i> Não houve movimentação
-                            </a>
-                        </div>
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-            @endif
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-            <div class="col-sm-12">
-                @if($apuracao->status == 'Concluído')
-                    @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockMessages'=>'true'])
-                @else
-                    @include('dashboard.components.chat.box', ['model'=>$apuracao])
+
+
+                    </div>
                 @endif
             </div>
-            <div class="clearfix"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
-
-            <div id="anexos">
-                <br/>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
                 <div class="col-sm-12">
-                    <p>Aqui estão os arquivos relacionados à esse processo.</p>
-                </div>
-                <div class="list">
-                    @foreach($apuracao->informacoes as $informacao)
-                        @if($informacao->tipo->tipo == 'anexo')
-                            <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
-                            </div>
-                        @endif
-                    @endforeach
-                    @foreach($apuracao->mensagens as $message)
-                        @if($message->anexo)
-                            <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                            </div>
-                        @endif
-                    @endforeach
+                    @if($apuracao->status == 'Concluído')
+                        @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockMessages'=>'true'])
+                    @else
+                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
+                    @endif
                 </div>
                 <div class="clearfix"></div>
             </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
 
-        </div>
-        <div class="clearfix"></div>
+                <div id="anexos">
+                    <br/>
+                    <div class="col-sm-12">
+                        <p>Aqui estão os arquivos relacionados à esse processo.</p>
+                    </div>
+                    <div class="list">
+                        @foreach($apuracao->informacoes as $informacao)
+                            @if($informacao->tipo->tipo == 'anexo')
+                                <div class="col-sm-4">
+                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
+                                </div>
+                            @endif
+                        @endforeach
+                            @foreach($apuracao->anexos as $anexo)
+                                <div class="col-sm-4">
+                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
+                                </div>
+                            @endforeach
+                        @foreach($apuracao->mensagens as $message)
+                            @if($message->anexo)
+                                <div class="col-sm-4">
+                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
+                                </div>
+                            @endif
+                        @endforeach
 
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listApuracoesToUser')}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar para apurações</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="navigation-space"></div>
+            <div class="navigation-options">
+                <div class="col-sm-12">
+                    <a class="btn btn-default" href="{{URL::previous()}}"><i
+                                class="fa fa-angle-left"></i>
+                        Voltar</a>
+
+                    <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
+                       class="btn btn-danger"><i class="fa fa-remove"></i> Sem movimento
+                    </a>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Finalizar
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </div>
+    </form>
 @stop
