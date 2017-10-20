@@ -1,4 +1,5 @@
 var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null, preventSend = false;
+
 $(function () {
     reference = $('.messages').data('reference');
     referenceId = $('.messages').data('reference-id');
@@ -6,6 +7,7 @@ $(function () {
     lastMessageId = $('.messages .message').last().data('id') ? $('.messages .message').last().data('id') : 0;
     // organizar mensagens no chat assim que carregar a pagina
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
+
     $('#message').on('keypress', function (e) {
         if (e.keyCode == 13) {
             e.preventDefault();
@@ -19,15 +21,18 @@ $(function () {
             }
         }
     });
+
     $('#send-message').on('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
         sendMessage();
     });
+
     $('#send-file').on('click', function (e) {
-        e.preventDefault()
+        e.preventDefault();
         $('#file').click();
     });
+
     $('#file').on('change', function () {
         validateMessengerFile($(this));
         $('#file').val(null);
@@ -41,7 +46,6 @@ $(function () {
             }, 500);
         }
     });
-
     setInterval(updateChat, 5000);
     setInterval(readMessages, 5000);
 });

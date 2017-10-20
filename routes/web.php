@@ -68,17 +68,21 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
     Route::get('user/logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
+
+});
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => ['auth']], function () {
+    Route::get('/blocked/payment', ['as' => 'blockedByPendingPayment', 'uses' => 'DashboardController@blockedByPendingPayment']);
 });
 
 //Dashboard - Notificações
-Route::group(['prefix' => 'notificacao', 'namespace' => 'Notificacao', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'notificacao', 'namespace' => 'Notificacao', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('ler/{id}', ['as' => 'lerNotificacao', 'uses' => 'NotificacaoController@ler']);
 });
 
 //Dashboard - Abertura de Empresa
-Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listAberturaEmpresaToUser', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('new', ['as' => 'newAberturaEmpresa', 'uses' => 'AberturaEmpresaController@new']);
     Route::post('new', ['uses' => 'AberturaEmpresaController@store']);
@@ -88,7 +92,7 @@ Route::group(['prefix' => 'dashboard/abertura-empresa', 'namespace' => 'Dashboar
 });
 
 //Dashboard - Empresa
-Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listEmpresaToUser', 'uses' => 'EmpresaController@index']);
     Route::get('new', ['as' => 'newEmpresa', 'uses' => 'EmpresaController@new']);
     Route::post('new', ['uses' => 'EmpresaController@store']);
@@ -98,7 +102,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
 });
 
 //Dashboard - Funcionários
-Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listFuncionarioToUser', 'uses' => 'FuncionarioController@index']);
     Route::post('validate', ['as' => 'validateFuncionario', 'uses' => 'FuncionarioController@validateFuncionario']);
     Route::post('validate/dependente', ['as' => 'validateDependente', 'uses' => 'FuncionarioController@validateDependente']);
@@ -111,7 +115,7 @@ Route::group(['prefix' => 'dashboard/pagamentos', 'namespace' => 'Dashboard', 'm
 });
 
 //Dashboard - Funcionários
-Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('{idEmpresa}/funcionarios/new', ['as' => 'newFuncionario', 'uses' => 'FuncionarioController@new']);
     Route::post('{idEmpresa}/funcionarios/new', ['uses' => 'FuncionarioController@store']);
     Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToUser', 'uses' => 'FuncionarioController@view']);
@@ -120,7 +124,7 @@ Route::group(['prefix' => 'dashboard/empresas', 'namespace' => 'Dashboard', 'mid
 });
 
 //Dashboard - Demissão
-Route::group(['prefix' => 'dashboard/demissao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/demissao', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listDemissaoToUser', 'uses' => 'DemissaoController@index']);
     Route::get('new/{idFuncionario}', ['as' => 'newDemissao', 'uses' => 'DemissaoController@new']);
     Route::post('new/{idFuncionario}', ['uses' => 'DemissaoController@store']);
@@ -129,7 +133,7 @@ Route::group(['prefix' => 'dashboard/demissao', 'namespace' => 'Dashboard', 'mid
 });
 
 //Dashboard - Alterações contratuais
-Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('{idFuncionario}/alteracao-contratual', ['as' => 'listAlteracaoContratualToUser', 'uses' => 'AlteracaoContratualController@index']);
     Route::get('{idFuncionario}/alteracao-contratual/new', ['as' => 'newAlteracaoContratual', 'uses' => 'AlteracaoContratualController@new']);
     Route::post('{idFuncionario}/alteracao-contratual/new', ['uses' => 'AlteracaoContratualController@store']);
@@ -138,14 +142,14 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
 });
 
 //Dashboard - Ponto
-Route::group(['prefix' => 'dashboard/pontos', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/pontos', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listPontosToUser', 'uses' => 'PontoController@index']);
     Route::get('view/{idPonto}', ['as' => 'showPontoToUser', 'uses' => 'PontoController@view']);
     Route::get('send/{idPonto}', ['as' => 'sendPontos', 'uses' => 'PontoController@send']);
 });
 
 //Dashboard - Alterações
-Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listSolicitacoesAlteracaoToUser', 'uses' => 'AlteracaoController@index']);
     Route::get('new/{idTipo}', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
     Route::post('new/{idTipo}', ['uses' => 'AlteracaoController@store']);
@@ -154,12 +158,12 @@ Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashb
 });
 
 //Dashboard - Atendimento
-Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listAtendimentosToUser', 'uses' => 'AtendimentoController@index']);
 });
 
 //Dashboard - Chamados
-Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('new', ['as' => 'newChamado', 'uses' => 'ChamadoController@new']);
     Route::post('new', ['uses' => 'ChamadoController@store']);
     Route::get('view/{id}', ['as' => 'viewChamado', 'uses' => 'ChamadoController@view']);
@@ -167,19 +171,19 @@ Route::group(['prefix' => 'dashboard/chamados', 'namespace' => 'Dashboard', 'mid
 });
 
 //Dashboard - Processo Folha
-Route::group(['prefix' => 'dashboard/processamento-folha', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/processamento-folha', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listProcessoFolhaToUser', 'uses' => 'ProcessoFolhaController@index']);
     Route::get('view/{idProcesso}', ['as' => 'showProcessoFolhaToUser', 'uses' => 'ProcessoFolhaController@view']);
 });
 
 //Dashboard - Anexo
-Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'anexo', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::post('temp', ['as' => 'sendAnexoToTemp', 'uses' => 'AnexoController@sendToTemp']);
     Route::post('removeTemp', ['as' => 'removeAnexoFromTemp', 'uses' => 'AnexoController@removeFromTemp']);
 });
 
 //Dashboard - Apurações
-Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('calendario', ['as' => 'showCalendarioImpostos', 'uses' => 'ApuracaoController@calendario']);
     Route::get('', ['as' => 'listApuracoesToUser', 'uses' => 'ApuracaoController@index']);
     Route::get('view/{idApuracao}', ['as' => 'showApuracaoToUser', 'uses' => 'ApuracaoController@view']);
@@ -189,7 +193,7 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
 });
 
 //Dashboard - Documentos contábeis
-Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listDocumentosContabeisToUser', 'uses' => 'DocumentoContabilController@index']);
     Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToUser', 'uses' => 'DocumentoContabilController@view']);
     Route::get('view/{idProcesso}/sem-movimento', ['as' => 'flagDocumentosContabeisAsSemMovimento', 'uses' => 'DocumentoContabilController@semMovimento']);
@@ -211,7 +215,7 @@ Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
 });
 
 //Dashboard - Usuário
-Route::group(['prefix' => 'dashboard/usuario', 'namespace' => 'Dashboard', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'dashboard/usuario', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'editPerfil', 'uses' => 'UsuarioController@view']);
     Route::post('', ['uses' => 'UsuarioController@update']);
     Route::post('upload/foto', ['as' => 'uploadUsuarioFoto', 'uses' => 'UsuarioController@uploadFoto']);

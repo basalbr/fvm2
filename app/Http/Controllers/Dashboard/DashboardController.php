@@ -25,6 +25,7 @@ use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
 use App\Validation\SocioValidation;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -32,6 +33,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -44,11 +46,20 @@ class DashboardController extends Controller
             ->where('empresa.id_usuario', '=', Auth::user()->id)
             ->whereNotIn('apuracao.status', ['concluido', 'sem_movimento'])
             ->count();
-        $processosPendentes = ProcessoDocumentoContabil::join('empresa','empresa.id','=','processo_documento_contabil.id_empresa')
-        ->where('empresa.id_usuario','=',Auth::user()->id)
-        ->where('processo_documento_contabil.status','!=','concluido')
-        ->where('processo_documento_contabil.status','!=','sem_movimento')->count();
+        $processosPendentes = ProcessoDocumentoContabil::join('empresa', 'empresa.id', '=', 'processo_documento_contabil.id_empresa')
+            ->where('empresa.id_usuario', '=', Auth::user()->id)
+            ->where('processo_documento_contabil.status', '!=', 'concluido')
+            ->where('processo_documento_contabil.status', '!=', 'sem_movimento')->count();
         return view('dashboard.index', compact("pagamentosPendentes", 'apuracoesPendentes', 'processosPendentes'));
     }
 
+    public function blockedByPendingPayment()
+    {
+        $date = Carbon::today()->subDays(31)->format('Y-m-d');
+        $pagamentos = Auth::user()->ordensPagamento()->whereNotIn('status', ['Paga', 'Disponível'])->where('vencimento', '<=', $date)->where('referencia', 'mensalidade')->get();
+        if (count($pagamentos)) {
+            return view('dashboard.pending-payment', compact("pagamentos"));
+        }
+        return redirect()->route('dashboard');
+    }
 }
