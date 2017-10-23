@@ -10,14 +10,16 @@
                 Pendentes <span class="badge">{{$apuracoesPendentes->count()}}</span></a>
         </li>
         <li role="presentation">
-            <a href="#historico" aria-controls="historico" role="tab" data-toggle="tab"><i class="fa fa-history"></i>
+            <a href="#historico" aria-controls="historico" role="tab" data-toggle="tab"><i class="fa fa-check"></i>
                 Concluídas</a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
+
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="pendentes">
+            <p>{{Auth::user()->nome}}, abaixo estão as apurações pendentes de envio de notas fiscais emitidas e recebidas.<br />Para enviar as notas fiscais clique em visualizar.</p>
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
@@ -25,7 +27,7 @@
                     <th>Imposto</th>
                     <th>Competência</th>
                     <th>Vencimento</th>
-                    <th>Novas mensagens</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -39,10 +41,10 @@
                             <td>{{$apuracao->imposto->nome}}</td>
                             <td>{{$apuracao->competencia->format('m/Y')}}</td>
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
-                            <td>{{$apuracao->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
+                            <td>{{$apuracao->status}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
-                                    <i class="fa fa-search"></i> Visualizar
+                                    <i class="fa fa-search"></i>
                                 </a>
                             </td>
                         </tr>
@@ -56,6 +58,7 @@
             </table>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="historico">
+            <p>{{Auth::user()->nome}}, abaixo estão as apurações sem movimento e/ou concluídas (com as guias geradas para pagamento).<br />Para acessar a guia ou ver outras informações, clique em visualizar.</p>
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
@@ -80,7 +83,7 @@
                             <td>{{$apuracao->status}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
-                                    <i class="fa fa-search"></i> Visualizar
+                                    <i class="fa fa-search"></i>
                                 </a>
                             </td>
                         </tr>

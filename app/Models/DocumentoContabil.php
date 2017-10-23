@@ -11,9 +11,6 @@ class DocumentoContabil extends Model {
 
     use SoftDeletes;
 
-    protected $rules = ['descricao' => 'required', 'anexo' => 'required', 'id_processo_documento_contabil'=>'required'];
-    protected $errors;
-    protected $niceNames = ['descricao' => 'Descrição', 'anexo' => 'Anexo', 'id_processo_documento_contabil' => 'Processo de Documentos Contábeis'];
     protected $dates = ['created_at', 'updated_at'];
 
     /**

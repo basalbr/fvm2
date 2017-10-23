@@ -18,12 +18,14 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="pendentes">
+            <p>{{Auth::user()->nome}}, aqui é onde você vai enviar todos os documentos das suas empresas cadastradas em nosso sistema para contabilizarmos.<br /> Para enviar seus documentos, basta clicar em visualizar na listagem abaixo.<br />Se não houve movimentação ou não possui documentos para enviar, pedimos para que informe que não houve movimentação clicando no botão "sem movimento" que vai aparecer após clicar em visualizar.</p>
+            <p><strong>Atenção:</strong> As notas de entrada e saída devem ser enviadas nas <a href="{{route('listApuracoesToUser')}}">apurações</a>, não aqui.</p>
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
                     <th>Empresa</th>
                     <th>Período</th>
-                    <th>Novas mensagens</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -33,9 +35,9 @@
                 @if($processosPendentes->count())
                     @foreach($processosPendentes as $documento)
                         <tr>
-                            <td>{{$documento->empresa->nome_fantasia}}</td>
+                            <td><a href="{{route('showEmpresaToUser', $documento->empresa->id)}}">{{$documento->empresa->nome_fantasia}} ({{$documento->empresa->razao_social}})</a></td>
                             <td>{{$documento->periodo->format('m/Y')}}</td>
-                            <td>{{$documento->mensagens->where('lida', '=', 0)->where('admin', '=', 1)->count()}}</td>
+                            <td>{{$documento->getStatus()}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showDocumentoContabilToUser', $documento->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i> Visualizar
@@ -45,7 +47,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="4">Nenhum processo encontrado</td>
+                        <td colspan="4">Nenhum período pendente</td>
                     </tr>
                 @endif
                 </tbody>

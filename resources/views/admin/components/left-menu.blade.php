@@ -22,11 +22,7 @@
             </ul>
         </li>
         <li>
-            <a href=""><span class="fa fa-calendar-check-o"></span> Apurações <i class="fa fa-angle-down"></i></a>
-            <ul class="left-menu-listanimated fadeInLeft">
-                <li><a class="{{Route::current()->getPrefix() == '/admin/apuracao' ? 'active':''}}" href="{{route('listApuracoesToAdmin')}}">Listar apurações <i class="fa fa-angle-right"></i></a></li>
-            </ul>
-        </li>
+        <li><a class="{{Route::current()->getPrefix() == '/admin/apuracao' ? 'active':''}}" href="{{route('listApuracoesToAdmin')}}"><span class="fa fa-calendar-check-o"></span> Listar apurações <i class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/documentos-contabeis' ? 'active':''}}" href="{{route('listDocumentosContabeisToAdmin')}}"><span class="fa fa-files-o"></span> Documentos contábeis <i class="fa fa-angle-right"></i></a></li>
 
         <li>

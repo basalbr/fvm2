@@ -46,7 +46,7 @@
 
         function validateFormPrincipal() {
             if ($('#anexos').find('.big-icon').length < 1) {
-                showModalAlert('É necessário anexar pelo menos um documento. Caso não tenha documentos para enviar, clique em "Não houve movimentação nesse período');
+                showModalAlert('É necessário anexar pelo menos um documento. Caso não tenha documentos para enviar, clique em "Sem movimento"');
                 return false;
             }
             $('#form-principal').submit();
@@ -151,7 +151,7 @@
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
                         class="fa fa-info-circle"></i>
-                Informações</a>
+                Informações / Enviar documentos</a>
         </li>
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
@@ -166,10 +166,6 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-
-            <div class="col-sm-12">
-                <h3>Informações</h3>
-            </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Empresa</label>
@@ -204,12 +200,11 @@
 
                 </div>
                 <div class="clearfix"></div>
-
             @endif
 
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-                @include('dashboard.components.chat.box', ['model'=>$processo])
+                @include('dashboard.components.chat.box', ['model'=>$processo, 'lockUpload'=>true])
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
@@ -240,19 +235,18 @@
             </form>
 
         </div>
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listDocumentosContabeisToUser')}}"><i
+        <div class="clearfix"></div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
-                Voltar para documentos contábeis</a>
+                Voltar</a>
             @if($processo->isPending())
                 <button class="btn btn-success" type="button" id="update"><i class="fa fa-send"></i> Enviar documentos
                 </button>
-                <a class="btn btn-warning" href="{{route('flagDocumentosContabeisAsSemMovimento', [$processo->id])}}"><i class="fa fa-remove"></i> Não houve movimentação nesse
-                    período</a>
+                <a class="btn btn-danger" href="{{route('flagDocumentosContabeisAsSemMovimento', [$processo->id])}}"><i class="fa fa-remove"></i> Sem movimento</a>
             @endif
         </div>
-        <div class="clearfix"></div>
     </div>
 @stop
 

@@ -13,7 +13,7 @@
 <div class="col-xs-12">
     <div class="form-group">
         <label for="">Usuário</label>
-        <div class="form-control"><a href="{{route('showUsuarioToAdmin', $aberturaEmpresa->id_usuario)}}">{{$aberturaEmpresa->nome_empresarial1}}</a></div>
+        <div class="form-control"><a href="{{route('showUsuarioToAdmin', $aberturaEmpresa->id_usuario)}}">{{$aberturaEmpresa->usuario->nome}}</a></div>
     </div>
 </div>
 <div class="col-xs-12">
