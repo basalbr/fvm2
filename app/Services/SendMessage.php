@@ -55,6 +55,12 @@ class SendMessage
     private static function shouldNotify($data, $lastId, $admin)
     {
         $now = Carbon::now();
+        $totalMessages = Mensagem::where('id_referencia', $data['id_referencia'])
+            ->where('referencia', $data['referencia'])
+            ->count();
+        if($totalMessages <= 1){
+            return true;
+        }
         $lastMessage = Mensagem::where('id_referencia', $data['id_referencia'])
             ->where('referencia', $data['referencia'])
             ->where('from_admin', $admin)

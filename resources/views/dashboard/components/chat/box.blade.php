@@ -13,16 +13,18 @@
         @include('dashboard.components.chat.messages',['messages'=>$model->mensagens])
     </div>
     @if(!isset($lockMessages))
-    <div>
-        <div class="form-group">
-            <label for="mensagem">Mensagem</label>
-            <textarea class="form-control" id="message"
-                      placeholder="Digite sua mensagem..."></textarea>
-            <small>Pressione Shift+Enter para criar uma nova linha</small>
+        <div>
+            <div class="form-group">
+                <label for="mensagem">Mensagem</label>
+                <textarea class="form-control" id="message"
+                          placeholder="Digite sua mensagem..."></textarea>
+                <small>Pressione Shift+Enter para criar uma nova linha</small>
+            </div>
+            <button class="btn-success btn" id="send-message"><i class="fa fa-send"></i> Enviar mensagem</button>
+            @if(!isset($lockUpload))
+                <button class="btn-primary btn" id="send-file"><i class="fa fa-upload"></i> Enviar arquivo</button>
+                <input type="file" id="file" class="hidden"/>
+            @endif
         </div>
-        <button class="btn-success btn" id="send-message"><i class="fa fa-send"></i> Enviar mensagem</button>
-        <button class="btn-primary btn" id="send-file"><i class="fa fa-upload"></i> Enviar arquivo</button>
-        <input type="file" id="file" class="hidden"/>
-    </div>
     @endif
 </div>

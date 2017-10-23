@@ -45,12 +45,7 @@ class Apuracao extends Model
 
     public function isPendingInfo()
     {
-        return $this->imposto->informacoesExtras->count()
-            && $this->status !== 'Sem movimento'
-            && $this->status !== 'Informações Enviadas'
-            && $this->status !== 'Cancelado'
-            && $this->status !== 'Concluído'
-            && !$this->informacoes->count();
+        return in_array($this->status, ['Novo', 'Atenção']);
     }
 
     public function imposto()

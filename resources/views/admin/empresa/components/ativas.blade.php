@@ -3,8 +3,7 @@
     <thead>
     <tr>
         <th>Usuário</th>
-        <th>Nome Fantasia</th>
-        <th>Razão Social</th>
+        <th>Empresa</th>
         <th>CNPJ</th>
         <th></th>
     </tr>
@@ -15,9 +14,8 @@
     @if($empresasAtivas->count())
         @foreach($empresasAtivas as $empresa)
             <tr>
-                <td>{{$empresa->usuario->nome}}</td>
-                <td>{{$empresa->nome_fantasia}}</td>
-                <td>{{$empresa->razao_social}}</td>
+                <td><a href="{{route('showUsuarioToAdmin', $empresa->usuario->nome)}}">{{$empresa->usuario->nome}}</a></td>
+                <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}} ({{$empresa->razao_social}})</a></td>
                 <td>{{$empresa->cnpj}}</td>
                 <td>
                     <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i

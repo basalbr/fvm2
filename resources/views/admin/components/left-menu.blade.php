@@ -13,8 +13,6 @@
             <a class="{{Route::currentRouteNamed('adminHome') ? 'active' : ''}}" href="{{route('adminHome')}}"><span class="fa fa-home"></span> Início <i class="fa fa-angle-right"></i></a>
         </li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/atendimento' ? 'active':''}}" href="{{route('listAtendimentosToAdmin')}}"><span class="fa fa-comments"></span> Atendimento <i class="fa fa-angle-right"></i></a></li>
-
-        <li><a class="{{Route::current()->getPrefix() == '/admin/chat' ? 'active':''}}" href="{{route('listChatToAdmin')}}"><span class="fa fa-comment"></span> Chat <i class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
@@ -42,8 +40,6 @@
             </ul>
         </li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/pagamentos' ? 'active':''}}" href="{{route('listOrdensPagamentoToAdmin')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
-
-
         <li><a class="{{Route::current()->getPrefix() == '/admin/usuarios' ? 'active':''}}" href="{{route('listUsuariosToAdmin')}}"><span class="fa fa-user-circle"></span> Usuários <i class="fa fa-angle-right"></i></a></li>
     </ul>
 </div>

@@ -6,17 +6,27 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
 
-                       $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
+            $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
                 e.preventDefault();
                 validateFormPrincipal();
             });
-
         });
 
         function validateFormPrincipal() {
+            $('.nav-tabs a[href="#informacoes"]').tab('show');
+            $('.modal, html, body, #content').animate({
+                scrollTop: $('#file-upload-form').offset().top - 50
+            }, 500);
+            $('#form-principal').find('.btn-success[type="submit"]').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass"></i> Validando dados, aguarde...');
+            if($('#list-files tr').length < 2){
+                $('#form-principal').find('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-check"></i> Finalizar');
+                showModalAlert('Precisamos que você nos envie suas notas fiscais.<br />Caso não tenha havido movimentação nesse período, clique em "Sem movimento".<br />Se tiver dúvidas de como proceder, entre em contato conosco.');
+                return false;
+            }
             var formData = $('#form-principal').serializeArray();
             $.post($('#form-principal').data('validation-url'), formData)
                 .done(function () {
+                    $('#form-principal').find('.btn-success[type="submit"]').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass"></i> Salvando informações, aguarde...');
                     $('#form-principal').submit();
                 })
                 .fail(function (jqXHR) {
@@ -26,6 +36,7 @@
                     } else {
                         showFormValidationError($('#form-principal'));
                     }
+                    $('#form-principal').find('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-check"></i> Finalizar');
                 });
         }
     </script>
@@ -40,7 +51,7 @@
         <li role="presentation" class="active">
             <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
                         class="fa fa-info-circle"></i>
-                Informações</a>
+                Informações/Enviar documentos</a>
         </li>
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
@@ -131,7 +142,7 @@
                     @if($apuracao->status == 'Concluído')
                         @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockMessages'=>'true'])
                     @else
-                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
+                        @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockUpload'=>true])
                     @endif
                 </div>
                 <div class="clearfix"></div>
@@ -151,11 +162,11 @@
                                 </div>
                             @endif
                         @endforeach
-                            @foreach($apuracao->anexos as $anexo)
-                                <div class="col-sm-4">
-                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
-                                </div>
-                            @endforeach
+                        @foreach($apuracao->anexos as $anexo)
+                            <div class="col-sm-4">
+                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
+                            </div>
+                        @endforeach
                         @foreach($apuracao->mensagens as $message)
                             @if($message->anexo)
                                 <div class="col-sm-4">
@@ -176,12 +187,13 @@
                     <a class="btn btn-default" href="{{URL::previous()}}"><i
                                 class="fa fa-angle-left"></i>
                         Voltar</a>
-
-                    <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
-                       class="btn btn-danger"><i class="fa fa-remove"></i> Sem movimento
-                    </a>
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Finalizar
-                    </button>
+                    @if($apuracao->isPendingInfo())
+                        <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
+                           class="btn btn-danger"><i class="fa fa-remove"></i> Sem movimento
+                        </a>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Finalizar
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
