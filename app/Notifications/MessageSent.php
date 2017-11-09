@@ -56,6 +56,9 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'decimo_terceiro') {
+                $this->url = route('showDecimoTerceiroToAdmin', [$this->mensagem->id_referencia]);
+            }
         } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -89,6 +92,9 @@ class MessageSent extends Notification
             }
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'decimo_terceiro') {
+                $this->url = route('showDecimoTerceiroToUser', [$this->mensagem->id_referencia]);
             }
         } else {
             $this->url = null;
@@ -172,6 +178,9 @@ class MessageSent extends Notification
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             return 'à solicitação de alteração contratual do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'decimo_terceiro') {
+            return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
         }
         return 'à um processo';
     }

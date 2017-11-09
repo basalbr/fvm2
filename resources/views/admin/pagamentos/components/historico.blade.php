@@ -16,7 +16,7 @@
     @if($historicoPagamento->count())
         @foreach($historicoPagamento as $pagamento)
             <tr>
-                <td>{{$pagamento->usuario->nome}}</td>
+                <td>{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</td>
                 <td>{{$pagamento->getDescricao()}}</td>
                 <td>{{$pagamento->formattedValue()}}</td>
                 <td>{{$pagamento->status}}</td>

@@ -46,7 +46,7 @@ class ActivateEmpresa
                 'id_referencia' => $mensalidade->id,
                 'referencia' => $mensalidade->getTable(),
                 'id_usuario' => $mensalidade->id_usuario,
-                'valor' => $mensalidade->valor,
+                'valor' => 0,
                 'vencimento' => date('Y-m-d H:i:s', strtotime("+5 days")),
                 'status' => 'Paga'
             ]);

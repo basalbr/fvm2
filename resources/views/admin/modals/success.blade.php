@@ -4,6 +4,7 @@
             $('#modal-success').modal('show');
         });
     </script>
+@endif
     <div class="modal animated fadeIn" id="modal-success" tabindex="-1" role="dialog">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
@@ -24,4 +25,4 @@
             </div>
         </div>
     </div>
-@endif
+

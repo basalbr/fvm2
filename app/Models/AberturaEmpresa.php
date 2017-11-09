@@ -229,4 +229,11 @@ class AberturaEmpresa extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
+    public function getQtdMensagensNaoLidas($isAdmin = false){
+        if($isAdmin){
+            return $this->mensagens()->where('from_admin', 1)->where('lida', 0)->count();
+        }
+        return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();
+    }
+
 }

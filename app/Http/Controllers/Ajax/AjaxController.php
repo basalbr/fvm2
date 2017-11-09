@@ -22,6 +22,7 @@ use App\Services\UploadAnexo;
 use App\Services\UploadChatFile;
 use App\Services\UploadFile;
 use App\Services\UploadImage;
+use App\Services\UploadTempFile;
 use App\Validation\AnnotationValidation;
 use App\Validation\MensagemValidation;
 use Illuminate\Database\Eloquent\Collection;
@@ -166,6 +167,20 @@ class AjaxController extends Controller
                 'filepath'=>asset(public_path().'storage/anexos/'. $request->get('referencia') . '/'.$request->get('id_referencia').'/'.$anexo->arquivo),
                 'date'=>$anexo->created_at->format('d/m/Y'),
                 'description'=>$anexo->descricao
+            ]);
+        }
+        return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
+    }
+
+    public function uploadTempFile(Request $request)
+    {
+        $rules = ['arquivo' => 'required|file|max:10240', 'descricao'=>'required|max:191'];
+        $niceNames = ['arquivo' => 'Arquivo','descricao'=>'Descrição'];
+        $this->validate($request, $rules, [], $niceNames);
+        if ($anexo = UploadTempFile::handle($request)) {
+            return response()->json([
+                'file' => $anexo,
+                'description'=>$request->get('descricao')
             ]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);

@@ -4,13 +4,6 @@
 @stop
 @section('content')
 
-    <div class="col-xs-12">
-        <div class="list-group">
-            <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i
-                        class="fa fa-plus"></i> Clique aqui para cadastrar uma solicitação
-            </button>
-        </div>
-    </div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#pendentes" aria-controls="pendentes" role="tab" data-toggle="tab"><i
@@ -111,7 +104,12 @@
         </div>
     </div>
     <div class="clearfix"></div>
-
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i
+                    class="fa fa-plus"></i> Solicitar alteração
+        </button>
+    </div>
 @stop
 @section('modals')
     @parent

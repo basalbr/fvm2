@@ -216,6 +216,10 @@ class Funcionario extends Model
         return $this->hasMany(FuncionarioContrato::class, 'id_funcionario');
     }
 
+    public function getSalario(){
+        return $this->contratos()->latest()->first()->getSalario();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -30,6 +30,7 @@
             <ul  class="left-menu-list animated fadeInLeft">
                 <li><a class="{{Route::current()->getPrefix() == '/admin/funcionarios' ? 'active':''}}" href="{{route('listFuncionarioToAdmin')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/admin/demissao' ? 'active':''}}" href="{{route('listDemissaoToAdmin')}}">Demissões <i class="fa fa-angle-right"></i></a></li>
+                <li><a class="{{Route::current()->getPrefix() == '/admin/decimo-terceiro' ? 'active':''}}" href="{{route('listDecimoTerceiroToAdmin')}}">Décimo Terceiro <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/admin/pontos' ? 'active':''}}" href="{{route('listPontosToAdmin')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/admin/processamento-folha' ? 'active':''}}" href="{{route('listProcessoFolhaToAdmin')}}">Apurações <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/admin/alteracao-contratual' ? 'active':''}}" href="{{route('listAlteracaoContratualToAdmin')}}">Alterações Contratuais <i class="fa fa-angle-right"></i></a></li>

@@ -141,6 +141,17 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         );
     }
 
+    public function decimosTerceiro()
+    {
+        return $this->hasManyThrough(
+            DecimoTerceiro::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
+    }
+
     public function pontos()
     {
         return $this->hasManyThrough(

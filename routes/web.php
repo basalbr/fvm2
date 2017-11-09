@@ -76,6 +76,12 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     Route::get('/blocked/payment', ['as' => 'blockedByPendingPayment', 'uses' => 'DashboardController@blockedByPendingPayment']);
 });
 
+//Dashboard -Décimo terceiro
+Route::group(['prefix' => 'dashboard/decimo-terceiro', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listDecimoTerceiroToUser', 'uses' => 'DecimoTerceiroController@index']);
+    Route::get('view/{id}', ['as' => 'showDecimoTerceiroToUser', 'uses' => 'DecimoTerceiroController@view']);
+});
+
 //Dashboard - Notificações
 Route::group(['prefix' => 'notificacao', 'namespace' => 'Notificacao', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('ler/{id}', ['as' => 'lerNotificacao', 'uses' => 'NotificacaoController@ler']);
@@ -253,6 +259,17 @@ Route::group(['prefix' => 'admin/alteracao-contratual', 'namespace' => 'Admin', 
     Route::get('view/{idAlteracao}', ['as' => 'showAlteracaoContratualToAdmin', 'uses' => 'AlteracaoContratualController@view']);
     Route::post('view/{idAlteracao}', ['uses' => 'AlteracaoContratualController@update']);
 });
+
+//Admin -Décimo terceiro
+Route::group(['prefix' => 'admin/decimo-terceiro', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listDecimoTerceiroToAdmin', 'uses' => 'DecimoTerceiroController@index']);
+    Route::get('view/{id}', ['as' => 'showDecimoTerceiroToAdmin', 'uses' => 'DecimoTerceiroController@view']);
+    Route::post('view/{id}', ['uses' => 'DecimoTerceiroController@update']);
+    Route::get('new', ['as'=>'newDecimoTerceiro','uses' => 'DecimoTerceiroController@new']);
+    Route::post('new', ['uses' => 'DecimoTerceiroController@store']);
+    Route::post('validate', ['as' => 'validateDecimoTerceiro', 'uses' => 'DecimoTerceiroController@validateDecimoTerceiro']);
+});
+
 //Admin - Empresa
 Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listEmpresaToAdmin', 'uses' => 'EmpresaController@index']);
@@ -389,6 +406,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::get('chat/count', ['as' => 'chatCountAjax', 'uses' => 'AjaxController@chatCount']);
     Route::get('chat/notification', ['as' => 'chatNotificationAjax', 'uses' => 'AjaxController@chatNotification']);
     Route::post('files/upload', ['as' => 'uploadFile', 'uses' => 'AjaxController@uploadFile']);
+    Route::post('files/upload/temp', ['as' => 'uploadTempFile', 'uses' => 'AjaxController@uploadTempFile']);
     Route::post('images/upload', ['as' => 'uploadImage', 'uses' => 'AjaxController@uploadImage']);
 });
 

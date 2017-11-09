@@ -14,64 +14,49 @@
     Funcionários
 @stop
 @section('content')
+    @if($funcionarios->count())
+        @foreach($funcionarios as $funcionario)
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{$funcionario->nome_completo}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            <strong>Empresa:</strong> <a href="{{route('showEmpresaToUser', $funcionario->id_empresa)}}">{{$funcionario->empresa->nome_fantasia}}
+                            ({{$funcionario->empresa->razao_social}})</a>
+                        </div>
+                        <div><strong>Salário:</strong> R${{$funcionario->getSalario()}}</div>
+                        <div><strong>Cadastrado em:</strong> {{$funcionario->created_at->format('d/m/Y')}}</div>
+                        <div><strong>Status:</strong> {!!$funcionario->getStatus() !!}</div>
+                    </div>
 
-    <div class="col-xs-12">
-        <div class="list-group">
-            <button type="button" id="cadastrar-funcionario" class="btn btn-primary"><span
-                        class="fa fa-user-plus"></span> Clique aqui para cadastrar um
-                funcionário
-            </button>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="panel">
-        @if($funcionarios->count())
-            @foreach($funcionarios as $funcionario)
-                <div class="col-lg-4 col-sm-6">
-                    <div class="panel">
-                        <div class="col-xs-12">
-                            <h3 class="title">{{$funcionario->nome_completo}}</h3>
-                            <hr>
-                        </div>
-                        <div class="items">
-                            <div class="col-xs-12">
-                                <i class="fa fa-user item-icon"></i>
-                                <div class="item-value">{{$funcionario->nome_completo}}</div>
-                                <div class="item-description">Nome do funcionário</div>
-                            </div>
-                            <div class="col-xs-12">
-                                <i class="fa fa-building item-icon"></i>
-                                <div class="item-value">
-                                    <a href="{{route('showEmpresaToUser', $funcionario->empresa->id)}}">{{$funcionario->empresa->nome_fantasia}}</a>
-                                </div>
-                                <div class="item-description">Nome da empresa</div>
-                            </div>
-                            <div class="col-xs-12">
-                                <i class="fa fa-cogs item-icon"></i>
-                                <div class="item-value">{!! $funcionario->getStatus() !!}</div>
-                                <div class="item-description">Status</div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <div class="col-xs-12 options">
-                            <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
-                               class="btn btn-primary">
-                                <i class="fa fa-search"></i> Visualizar</a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <br/>
+                    <div class="panel-footer">
+                        <a href="{{route('showFuncionarioToUser', [$funcionario->empresa->id, $funcionario->id])}}"
+                           class="btn btn-primary">
+                            <i class="fa fa-search"></i> Visualizar</a>
                     </div>
                 </div>
-            @endforeach
-        @else
-            <div class="col-xs-12">
-                <h5>Não encontramos nenhum funcionário em nosso sistema</h5>
             </div>
-            <div class="clearfix"></div>
-        @endif
+        @endforeach
+    @else
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body text-center open-modal" data-modal="#modal-escolha-empresa">
+                    <strong>Você não possui nenhum funcionário cadastrado em nosso sistema</strong>, <a
+                            href="">clique aqui</a>
+                    para cadastrar um funcionário.
+                </div>
+            </div>
+        </div>
+    @endif
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <button type="button" id="cadastrar-funcionario" class="btn btn-primary"><i
+                    class="fa fa-user-plus"></i> Cadastrar funcionário
+        </button>
     </div>
-
 @stop
 @section('modals')
     @parent
@@ -83,7 +68,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="col-xs-12">
-                        <p>Para cadastrar um funcionário é necessário selecionar uma empresa primeiro.<br/>
+                        <p>Para cadastrar um funcionário é necessário selecionar uma empresa
+                            primeiro.<br/>
                             Escolha uma empresa na lista abaixo e clique em avançar.</p>
                     </div>
                     <div class="col-xs-12">
@@ -93,8 +79,10 @@
                                     <a href="{{route('newFuncionario',[$empresa->id])}}">{{$empresa->nome_fantasia}}</a>
                                 @endforeach
                             @else
-                                <p>Você não cadastrou nenhuma empresa ainda.<br/>Caso queira abrir uma empresa, <a
-                                            href="{{route('newAberturaEmpresa')}}">clique aqui.</a><br/>Para migrar uma
+                                <p>Você não cadastrou nenhuma empresa ainda.<br/>Caso queira abrir uma
+                                    empresa, <a
+                                            href="{{route('newAberturaEmpresa')}}">clique aqui.</a><br/>Para
+                                    migrar uma
                                     empresa, <a href="{{route('newEmpresa')}}">clique aqui</a></p>
                             @endif
                         </div>
@@ -102,7 +90,9 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>
+                        Fechar
+                    </button>
                 </div>
             </div>
         </div>

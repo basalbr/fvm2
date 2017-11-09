@@ -152,7 +152,7 @@
         <li role="presentation">
             <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
-                        class="badge">{{$alteracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
+                        class="badge">{{$alteracao->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-download"></i>
@@ -168,12 +168,9 @@
                     <div class="alert alert-warning" style="display: block;">O pagamento dessa solicitação está com o
                         status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos
                         dar
-                        início ao processo.<br/><a href='{{$alteracao->pagamento->getBotaoPagamento()}}'>Clique aqui
-                            para
-                            pagar.</a></div>
+                        início ao processo.</div>
                 </div>
             @endif
-            <div class="col-sm-12">
                 <div class="list">
                     <div class="col-sm-4">
                         <div class="form-group">
@@ -205,7 +202,6 @@
                             @endif
                         @endforeach
                     @endif
-                </div>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -248,74 +244,17 @@
             <div class="clearfix"></div>
 
         </div>
-        <hr>
-        <div class="col-sm-12">
-            <a class="btn btn-default" href="{{route('listSolicitacoesAlteracaoToUser')}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar para solicitações</a>
-        </div>
         <div class="clearfix"></div>
+        <div class="navigation-space"></div>
+        <div class="navigation-options">
+            <a class="btn btn-default" href="{{URL::previous()}}"><i
+                        class="fa fa-angle-left"></i>
+                Voltar</a>
+            @if($alteracao->pagamento->isPending())
+                <a class="btn btn-success" href='{{$alteracao->pagamento->getBotaoPagamento()}}'><i class="fa fa-credit-card"></i> Efetuar pagamento.</a>
+            @endif
+        </div>
+
     </div>
 
-@stop
-
-@section('modals')
-    @parent
-    <div class="modal animated fadeInDown" id="modal-anexar-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Anexar arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <form id="form-anexo" data-anexo-temp-url="{{route('sendAnexoToTemp')}}">
-                        {!! csrf_field() !!}
-                        <div class="col-xs-12">
-                            <p><strong>Atenção:</strong> O arquivo deve ser menor que 10MB.</p>
-                        </div>
-                        @include('dashboard.components.form-alert')
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Descrição</label>
-                                <input type="text" class="form-control" name="descricao" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>Arquivo</label>
-                                <input type="file" class="form-control" name="arquivo" value=""/>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-paperclip"></i> Anexar arquivo
-                            </button>
-                        </div>
-                        <div class=" clearfix"></div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal animated fadeInDown" id="modal-remover-arquivo" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Remover arquivo</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja remover o arquivo <span class="nome-arquivo"></span></p>
-                    @include('dashboard.components.form-alert')
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" data-arquivo="" data-remove-url="{{route('removeAnexoFromTemp')}}"><i
-                                class="fa fa-remove"></i> Sim, desejo remover
-                    </button>
-                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @stop

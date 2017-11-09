@@ -3,63 +3,51 @@
     Abertura de empresa
 @stop
 @section('content')
-     @foreach($aberturaEmpresas as $aberturaEmpresa)
-        <div class="col-lg-6">
-            <div class="panel">
-                <div class="col-xs-12">
-                    <h3 class="title">{{$aberturaEmpresa->nome_empresarial1}}</h3>
-                    <hr>
-                </div>
-                <div class="items">
-                    <div class="col-xs-12">
-                        <i class="fa fa-user item-icon"></i>
-                        <div class="item-value">{{$aberturaEmpresa->getSocioPrincipal()->nome}}</div>
-                        <div class="item-description">Sócio principal</div>
+    @if(count($aberturaEmpresas))
+        @foreach($aberturaEmpresas as $aberturaEmpresa)
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Nome
+                                preferencial: {{$aberturaEmpresa->nome_empresarial1}}</strong></h3>
                     </div>
-                    <div class="col-xs-12">
-                        <i class="fa fa-cogs item-icon"></i>
-                        <div class="item-value">{{$aberturaEmpresa->status}}</div>
-                        <div class="item-description">Status do processo</div>
+                    <div class="panel-body">
+                        <div><strong>Sócio principal:</strong> {{$aberturaEmpresa->getSocioPrincipal()->nome}}</div>
+                        <div><strong>Status do processo:</strong> {{$aberturaEmpresa->status}}</div>
+                        <div>
+                            <strong>Status do pagamento: </strong>{{$aberturaEmpresa->getPaymentStatus()}}</div>
+                        <div><strong>Novas mensagens:</strong> {{$aberturaEmpresa->getQtdMensagensNaoLidas()}}</div>
+                        <div><strong>Criada em:</strong> {{$aberturaEmpresa->created_at->format('d/m/Y')}}</div>
+
                     </div>
-                    <div class="col-xs-12">
-                        <i class="fa fa-credit-card item-icon"></i>
-                        <div class="item-value">{{$aberturaEmpresa->getPaymentStatus()}}</div>
-                        <div class="item-description">Status do pagamento</div>
-                    </div>
-                    <div class="col-xs-12">
-                        <i class="fa fa-envelope item-icon"></i>
-                        <div class="item-value">Nenhuma nova mensagem</div>
-                        <div class="item-link-description"><a href="">Ver mensagens <i
-                                        class="fa fa-angle-right"></i></a>
-                        </div>
+                    <div class="panel-footer">
+                        @if($aberturaEmpresa->ordemPagamento->isPending())
+                            <a target="_blank" href="{{$aberturaEmpresa->ordemPagamento->getBotaoPagamento()}}"
+                               class="btn btn-success"><i class="fa fa-credit-card"></i>
+                                Pagar {{$aberturaEmpresa->ordemPagamento->formattedValue()}}</a>
+                        @endif
+                        <a class="btn btn-primary" href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}"
+                           title="Visualizar"><i class="fa fa-search"></i> Visualizar</a>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                <hr>
-                <div class="col-xs-12 options">
-                    @if($aberturaEmpresa->ordemPagamento->isPending())
-                    <a target="_blank" href="{{$aberturaEmpresa->ordemPagamento->getBotaoPagamento()}}" class="btn btn-success"><i class="fa fa-credit-card"></i>
-                        Pagar {{$aberturaEmpresa->ordemPagamento->formattedValue()}}</a>
-                    @endif
-                    <a href="{{route('showAberturaEmpresaToUser', $aberturaEmpresa->id)}}" class="btn btn-primary"><i
-                                class="fa fa-search"></i> Ver Detalhes</a>
-                    {{--<a href="" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>--}}
+            </div>
+        @endforeach
+    @else
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <strong>Você não solicitou nenhuma abertura de empresa</strong>, <a
+                            href="{{route('newAberturaEmpresa')}}">clique aqui</a>
+                    para solicitar a abertura de sua empresa conosco.
                 </div>
-                <div class="clearfix"></div>
-                <br/>
             </div>
         </div>
-    @endforeach
-    <div class="col-lg-6">
-        <a href="{{route('newAberturaEmpresa')}}">
-            <div class="panel add-item-panel">
-                <div>
-                    <i class="fa fa-child big-icon"></i>
-                    <p>Solicitar Abertura de Empresa</p>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </a>
+    @endif
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <a href="{{route('newAberturaEmpresa')}}" class="btn btn-primary"><span class="fa fa-child"></span> Solicitar
+            abertura de empresa</a>
     </div>
 @stop
 

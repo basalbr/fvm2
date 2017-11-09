@@ -35,8 +35,8 @@ class WarnMessageNotReadToUser
             $usuario->notify(new UserHasUnreadMessages($message));
             }
         } catch (\Exception $e) {
+            Log::info($message->id);
             Log::critical($e);
-            return response()->json(['Não foi possível enviar a mensagem, por favor tente novamente mais tarde'])->setStatusCode(500);
         }
     }
 

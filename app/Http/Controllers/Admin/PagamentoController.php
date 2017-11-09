@@ -43,14 +43,14 @@ class PagamentoController extends Controller
 
     public function index(Request $request)
     {
-        $pagamentosPendentes = OrdemPagamento::query()->whereNotIn('status', ['Paga', 'Disponível']);
+        $pagamentosPendentes = OrdemPagamento::query()->whereNotIn('ordem_pagamento.status', ['Paga', 'Disponível']);
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $pagamentosPendentes = $this->filterForm($pagamentosPendentes, $request);
         }
         $pagamentosPendentes = $pagamentosPendentes->select('ordem_pagamento.*')->get();
 
 
-        $historicoPagamento = OrdemPagamento::query()->whereIn('status', ['Paga', 'Disponível']);
+        $historicoPagamento = OrdemPagamento::query()->whereIn('ordem_pagamento.status', ['Paga', 'Disponível']);
         if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $historicoPagamento = $this->filterForm($historicoPagamento, $request);
         }

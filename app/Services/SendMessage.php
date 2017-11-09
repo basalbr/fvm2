@@ -56,6 +56,7 @@ class SendMessage
     {
         $now = Carbon::now();
         $totalMessages = Mensagem::where('id_referencia', $data['id_referencia'])
+            ->where('from_admin', $admin)
             ->where('referencia', $data['referencia'])
             ->count();
         if($totalMessages <= 1){

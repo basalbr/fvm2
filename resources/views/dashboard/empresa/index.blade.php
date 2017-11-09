@@ -3,49 +3,52 @@
     Empresas
 @stop
 @section('content')
-
-    <div class="col-xs-12">
-        <div class="list-group">
-            <a href="{{route('newEmpresa')}}" class="btn btn-primary"><span class="fa fa-exchange"></span> Clique aqui para migrar uma empresa</a>
-        </div>
-    </div>
-    @foreach($empresas as $empresa)
-        <div class="col-lg-6">
-            <div class="panel">
-                <div class="col-xs-12">
-                    <h3 class="title">{{$empresa->nome_fantasia}}</h3>
-                    <hr>
-                </div>
-                <div class="items">
-                    <div class="col-xs-12">
-                        <i class="fa fa-user item-icon"></i>
-                        <div class="item-value">{{$empresa->getSocioPrincipal()->nome}}</div>
-                        <div class="item-description">Sócio principal</div>
+    @if(count($empresas))
+        @foreach($empresas as $empresa)
+            <div class="col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>{{$empresa->nome_fantasia}} ({{$empresa->razao_social}}
+                                )</strong></h3>
                     </div>
-                    <div class="col-xs-12">
-                        <i class="fa fa-cogs item-icon"></i>
-                        <div class="item-value">{{$empresa->status}}</div>
-                        <div class="item-description">Status da empresa</div>
-                    </div>
-                    <div class="col-xs-12">
-                        <i class="fa fa-credit-card item-icon"></i>
-                        <div class="item-value">{{$empresa->getMensalidadeAtual()->getValor()}}</div>
-                        <div class="item-link-description">Valor da mensalidade
+                    <div class="panel-body">
+                        <div><strong>CNPJ:</strong> {{$empresa->cnpj}}</div>
+                        <div><strong>Sócio principal:</strong> {{$empresa->getSocioPrincipal()->nome}}</div>
+                        <div><strong>Status:</strong> {{$empresa->status}}</div>
+                        <div>
+                            <strong>Limite de documentos
+                                fiscais:</strong> {{$empresa->getMensalidadeAtual()->qtde_documento_fiscal}}
                         </div>
+                        <div>
+                            <strong>Limite de
+                                funcionários:</strong> {{$empresa->getMensalidadeAtual()->qtde_funcionario}}
+                        </div>
+                        <div><strong>Mensalidade: </strong>{{$empresa->getMensalidadeAtual()->getValor()}}</div>
+                        <div><strong>Novas mensagens:</strong> {{$empresa->getQtdMensagensNaoLidas()}}</div>
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-primary" href="{{route('showEmpresaToUser', [$empresa->id])}}"
+                           title="Visualizar"><i class="fa fa-search"></i> Visualizar</a>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                <hr>
-                <div class="col-xs-12 options">
-                    <a href="{{route('showEmpresaToUser', $empresa->id)}}" class="btn btn-primary"><i
-                                class="fa fa-search"></i> Ver Detalhes</a>
-                    {{--<a href="" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>--}}
+            </div>
+        @endforeach
+    @else
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                    <strong>Você não possui nenhuma empresa cadastrada</strong>, <a href="{{route('newEmpresa')}}">clique
+                        aqui</a>
+                    para solicitar a migração de sua empresa para a WEBContabilidade.
                 </div>
-                <div class="clearfix"></div>
-                <br/>
             </div>
         </div>
-    @endforeach
-
+    @endif
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <a href="{{route('newEmpresa')}}" class="btn btn-primary"><span class="fa fa-exchange"></span> Solicitar
+            migração de empresa</a>
+    </div>
 @stop
 

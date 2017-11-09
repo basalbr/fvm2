@@ -49,3 +49,9 @@ function showModalAlert(message) {
     $('#modal-alert').modal('show');
 }
 
+function showModalSuccess(message){
+    $('#modal-success').find('.message').text(message);
+    $('#modal-success').modal('show');
+}
+
+

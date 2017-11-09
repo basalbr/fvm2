@@ -24,7 +24,9 @@
         <li><a class="{{Route::current()->uri == 'dashboard/apuracao/calendario' ? 'active':''}}"
                href="{{route('showCalendarioImpostos')}}"><span class="fa fa-calendar"></span> Calendário de impostos <i
                         class="fa fa-angle-right"></i></a></li>
-        <li><a class="{{Route::current()->getPrefix() == '/dashboard/documentos-contabeis' ? 'active':''}}"  href="{{route('listDocumentosContabeisToUser')}}"><span class="fa fa-files-o"></span> Documentos contábeis <i class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/documentos-contabeis' ? 'active':''}}"
+               href="{{route('listDocumentosContabeisToUser')}}"><span class="fa fa-files-o"></span> Documentos
+                contábeis <i class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
@@ -49,6 +51,9 @@
                        href="{{route('listFuncionarioToUser')}}">Funcionários <i class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/dashboard/demissao' ? 'active':''}}"
                        href="{{route('listDemissaoToUser')}}">Demissões <i class="fa fa-angle-right"></i></a></li>
+                <li><a class="{{Route::current()->getPrefix() == '/dashboard/decimo-terceiro' ? 'active':''}}"
+                       href="{{route('listDecimoTerceiroToUser')}}">Décimo Terceiro <i
+                                class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/dashboard/pontos' ? 'active':''}}"
                        href="{{route('listPontosToUser')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
             </ul>

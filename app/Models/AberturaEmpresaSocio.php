@@ -79,7 +79,10 @@ class AberturaEmpresaSocio extends Model
         'complemento',
         'id_uf',
         'municipio',
-        'orgao_expedidor'
+        'orgao_expedidor',
+        'pro_labore',
+        'pis',
+        'id_regime_casamento'
     ];
 
     public function isPrincipal()
