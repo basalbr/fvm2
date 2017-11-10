@@ -165,7 +165,11 @@
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
+
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
+            <p>{{Auth::user()->nome}}, nesse local é onde você vai enviar documentos como: extratos bancários, recibos e todas as despesas relacionadas à empresa {{$processo->empresa->razao_social}}, bem como comprovantes de pagamento.</p>
+            <p><strong>Sempre que possível envie todos os documentos em zip.</strong></p>
+            <p>Após enviar todos os documentos, clique no botão <strong>concluir</strong> que está na parte inferior da tela.</p>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label>Empresa</label>
@@ -242,7 +246,7 @@
                         class="fa fa-angle-left"></i>
                 Voltar</a>
             @if($processo->isPending())
-                <button class="btn btn-success" type="button" id="update"><i class="fa fa-send"></i> Enviar documentos
+                <button class="btn btn-success" type="button" id="update"><i class="fa fa-check"></i> Concluir
                 </button>
                 <a class="btn btn-danger" href="{{route('flagDocumentosContabeisAsSemMovimento', [$processo->id])}}"><i class="fa fa-remove"></i> Sem movimento</a>
             @endif

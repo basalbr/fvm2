@@ -23,7 +23,7 @@ class ProcessoFolha extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_empresa', 'inss', 'irrf', 'recibo_folha', 'competencia'];
+    protected $fillable = ['id_empresa', 'inss', 'irrf', 'recibo_folha', 'fgts', 'competencia'];
     protected $dates = ['created_at', 'updated_at', 'competencia'];
 
     public function empresa()
