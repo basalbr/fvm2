@@ -36,6 +36,7 @@ class CreateEmpresaFromAberturaEmpresa
         try {
             $aberturaEmpresa->status = 'Concluído';
             $aberturaEmpresa->save();
+            /* @var $empresa Empresa */
             $empresa = Empresa::create($aberturaEmpresa->toArray());
             //cadastra cnaes
             foreach ($aberturaEmpresa->cnaes as $cnae) {
@@ -52,7 +53,7 @@ class CreateEmpresaFromAberturaEmpresa
             $qtde_funcionario = $aberturaEmpresa->qtde_funcionario;
             $valor = Mensalidade::calculateMonthlyPayment(compact('qtde_documento_fiscal', 'qtde_funcionario'));
             $id_usuario = $empresa->id_usuario;
-            $mensalidade = $empresa->mensalidades()->create(compact('valor','qtde_funcionario','qtde_documento_fiscal', 'id_usuario'));
+            $mensalidade = $empresa->mensalidades()->create(compact('valor', 'qtde_funcionario', 'qtde_documento_fiscal', 'id_usuario'));
             //30 dias gratis
             OrdemPagamento::create([
                 'id_referencia' => $mensalidade->id,
@@ -66,7 +67,8 @@ class CreateEmpresaFromAberturaEmpresa
             $empresa->status = 'aprovado';
             $empresa->usuario->notify(new EmpresaActivated($empresa));
             $empresa->save();
-
+            $empresa->abrirProcessosDocumentosContabeis();
+            $empresa->abrirApuracoes();
             DB::commit();
         } catch (\Exception $e) {
             Log::critical($e->getMessage());
