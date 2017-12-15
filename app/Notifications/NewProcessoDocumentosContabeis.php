@@ -44,7 +44,7 @@ class NewProcessoDocumentosContabeis extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->greeting('Olá ' . $this->processo->empresa->usuario->nome.'!')
+            ->greeting('Olá ' . $notifiable->nome.'!')
             ->line('Precisamos que você envie seus documentos contábeis referentes ao período de ' . $this->processo->periodo->format('m/Y'))
             ->line('Para enviar seus documentos, clique no botão abaixo:')
             ->action('Enviar documentos', $this->url)

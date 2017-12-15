@@ -58,10 +58,10 @@ class CreateEmpresaFromAberturaEmpresa
             OrdemPagamento::create([
                 'id_referencia' => $mensalidade->id,
                 'referencia' => $mensalidade->getTable(),
-                'id_usuario' => $mensalidade->id_usuario,
                 'valor' => $mensalidade->valor,
                 'vencimento' => date('Y-m-d H:i:s', strtotime("+5 days")),
-                'status' => 'Paga'
+                'status' => 'Pendente',
+                'id_usuario'=> $empresa->id_usuario
             ]);
             //aprova empresa
             $empresa->status = 'aprovado';

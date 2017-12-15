@@ -34,7 +34,7 @@ class OrdemPagamento extends Model
      *
      * @var array
      */
-    protected $fillable = ['referencia', 'id_referencia', 'vencimento', 'status', 'valor'];
+    protected $fillable = ['referencia', 'id_referencia', 'vencimento', 'status', 'valor', 'id_usuario'];
 
     public function isPending()
     {

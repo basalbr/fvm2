@@ -38,7 +38,7 @@ class PagamentoController extends Controller
 
     public function updateMensalidades()
     {
-        $mensalidades = Mensalidade::all();
+        $mensalidades = Mensalidade::where('status', 'Aprovado')->get();
         foreach ($mensalidades as $mensalidade) {
             $mensalidade->abrirOrdensPagamento();
         }
