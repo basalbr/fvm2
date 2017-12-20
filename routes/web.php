@@ -163,6 +163,14 @@ Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashb
     Route::post('validate', ['as' => 'validateAlteracao', 'uses' => 'AlteracaoController@validateAlteracao']);
 });
 
+//Dashboard - Imposto de Renda
+Route::group(['prefix' => 'dashboard/imposto-renda', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listImpostoRendaToUser', 'uses' => 'ImpostoRendaController@index']);
+    Route::get('new', ['as' => 'newImpostoRenda', 'uses' => 'ImpostoRendaController@new']);
+    Route::post('new', ['uses' => 'ImpostoRendaController@store']);
+    Route::get('view/{id}', ['as' => 'showImpostoRendaToUser', 'uses' => 'ImpostoRendaController@view']);
+    Route::post('validate', ['as' => 'validateImpostoRenda', 'uses' => 'ImpostoRendaController@validateIr']);
+});
 //Dashboard - Atendimento
 Route::group(['prefix' => 'dashboard/atendimento', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listAtendimentosToUser', 'uses' => 'AtendimentoController@index']);
@@ -249,9 +257,7 @@ Route::group(['prefix' => 'admin/demissao', 'namespace' => 'Admin', 'middleware'
     Route::get('', ['as' => 'listDemissaoToAdmin', 'uses' => 'DemissaoController@index']);
     Route::get('view/{idDemissao}', ['as' => 'showDemissaoToAdmin', 'uses' => 'DemissaoController@view']);
     Route::get('finish/{idDemissao}', ['as' => 'finishDemissao', 'uses' => 'DemissaoController@finish']);
-
 });
-
 
 //Admin - Alteração Contratual
 Route::group(['prefix' => 'admin/alteracao-contratual', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
