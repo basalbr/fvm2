@@ -100,6 +100,9 @@
         </thead>
         <tbody id="list-files">
         @if(count($anexos))
+            <tr style="display:none">
+                <td colspan="3" class="none">Nenhum arquivo encontrado</td>
+            </tr>
             @foreach($anexos as $anexo)
                 <tr>
                     <td>{{$anexo->descricao}}</td>

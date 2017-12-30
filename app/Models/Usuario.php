@@ -91,6 +91,11 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(Empresa::class, 'id_usuario');
     }
 
+    public function impostosRenda()
+    {
+        return $this->hasMany(ImpostoRenda::class, 'id_usuario');
+    }
+
     public function alteracoes()
     {
         return $this->hasMany(Alteracao::class, 'id_usuario');
@@ -134,6 +139,17 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
     {
         return $this->hasManyThrough(
             Funcionario::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
+    }
+
+    public function socios()
+    {
+        return $this->hasManyThrough(
+            Socio::class,
             Empresa::class,
             'id_usuario',
             'id_empresa',

@@ -41,8 +41,8 @@
                                 class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
-        <li><a class="{{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"
-               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-dollar"></span> Imposto de Renda <i
+        <li><a class="animated bounceIn {{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"
+               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-paw"></span> Imposto de Renda (<strong>Novo</strong>)<i
                         class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-users"></span> Gestão de Pessoas <i class="fa fa-angle-down"></i></a>
