@@ -58,7 +58,8 @@ class ImpostoRendaController extends Controller
 
     public function new()
     {
-        return view('dashboard.imposto_renda.new.index');
+        $ano_anterior = date('Y')-1;
+        return view('dashboard.imposto_renda.new.index', compact('ano_anterior'));
     }
 
 }

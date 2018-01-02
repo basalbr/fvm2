@@ -5,5 +5,5 @@
 </li>
 <li role="presentation">
     <a href="#concluidas" aria-controls="concluidas" role="tab" data-toggle="tab"><i class="fa fa-check"></i>
-        Concluídas <span class="badge">{{$irConcluidos->count()}}</span></a>
+        Concluídos <span class="badge">{{$irConcluidos->count()}}</span></a>
 </li>
