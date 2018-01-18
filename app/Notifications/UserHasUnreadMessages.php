@@ -49,11 +49,14 @@ class UserHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'demissao') {
             $this->url = route('showDemissaoToUser', [$this->mensagem->id_referencia]);
         }
-        if ($this->mensagem->referencia == 'processo_folha') {
-            $this->url = route('showProcessoFolhaToUser', [$this->mensagem->id_referencia]);
+        if ($this->mensagem->referencia == 'ponto') {
+            $this->url = route('showPontoToUser', [$this->mensagem->id_referencia]);
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
+        }
+        if ($this->mensagem->referencia == 'decimo_terceiro') {
+            $this->url = route('showDecimoTerceiroToUser', [$this->mensagem->id_referencia]);
         }
     }
 
@@ -130,11 +133,14 @@ class UserHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'demissao') {
             return 'na solicitação de demissão do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
         }
-        if ($this->mensagem->referencia == 'processo_folha') {
-            return 'no processo de folha do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+        if ($this->mensagem->referencia == 'ponto') {
+            return 'ao processo de envio de folha de ponto dos funcionários da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
-            return 'na solicitação de alteração contratual do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+            return 'à solicitação de alteração contratual do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'decimo_terceiro') {
+            return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
         }
         return 'em um processo';
     }

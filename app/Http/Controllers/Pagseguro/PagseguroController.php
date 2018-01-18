@@ -54,6 +54,9 @@ class PagseguroController extends Controller
                 $status = $nomeStatus[$response->getStatus()];
 
                 $ordemPagamento = OrdemPagamento::find($ordemPagamentoId);
+                if($ordemPagamento->status == 'Paga' || $ordemPagamento->status == 'Disponível'){
+                    return true;
+                }
                 $ordemPagamento->status = $status;
                 $ordemPagamento->save();
 

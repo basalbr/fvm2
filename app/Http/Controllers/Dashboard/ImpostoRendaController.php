@@ -13,16 +13,26 @@ use App\Models\Apuracao;
 use App\Models\Chamado;
 use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
+use App\Models\IrBensDireitos;
+use App\Models\IrDividaOnusReal;
+use App\Models\IrDoacaoPolitica;
+use App\Models\IrReciboDedutivel;
+use App\Models\IrRendimentos;
+use App\Models\IrRendimentosIsentos;
+use App\Models\IrTipoOcupacao;
+use App\Models\IrTributacaoExclusiva;
 use App\Models\Mensagem;
 use App\Models\NaturezaJuridica;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\RegimeCasamento;
+use App\Models\TipoDependencia;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
+use App\Validation\IrDependenteValidation;
 use App\Validation\MensagemValidation;
 use App\Validation\SocioValidation;
 use Carbon\Carbon;
@@ -58,8 +68,33 @@ class ImpostoRendaController extends Controller
 
     public function new()
     {
-        $ano_anterior = date('Y')-1;
-        return view('dashboard.imposto_renda.new.index', compact('ano_anterior'));
+        $anoAnterior = date('Y') - 1;
+        $tiposOcupacao = IrTipoOcupacao::orderBy('descricao')->get();
+        $irRendimentos = IrRendimentos::orderBy('descricao')->get(['descricao']);
+        $irRendimentosIsentos = IrRendimentosIsentos::orderBy('descricao')->get(['descricao']);
+        $irTributacoesExclusivas = IrTributacaoExclusiva::orderBy('descricao')->get(['descricao']);
+        $irRecibosDedutiveis = IrReciboDedutivel::orderBy('descricao')->get(['descricao']);
+        $irBensDireitos = IrBensDireitos::orderBy('descricao')->get(['descricao']);
+        $irDividasOnus = IrDividaOnusReal::orderBy('descricao')->get(['descricao']);
+        $irDoacoesPoliticas = IrDoacaoPolitica::orderBy('descricao')->get(['descricao']);
+        $tiposDependente = TipoDependencia::orderBy('descricao')->get(['id','descricao']);
+        return view('dashboard.imposto_renda.new.index',
+            compact('anoAnterior',
+                'tiposOcupacao',
+                'irRendimentos',
+                'irTributacoesExclusivas',
+                'irRecibosDedutiveis',
+                'irBensDireitos',
+                'irDividasOnus',
+                'irDoacoesPoliticas',
+                'tiposDependente',
+                'irRendimentosIsentos'
+            ));
+    }
+
+    public function validateDependente(Request $request){
+        $this->validate($request, IrDependenteValidation::getRules(), [], IrDependenteValidation::getNiceNames());
+        return response()->json('success', 200);
     }
 
 }

@@ -47,7 +47,7 @@ class PontosRequested extends Notification
         return (new MailMessage)
             ->greeting('Olá '.$this->ponto->empresa->usuario->nome.'!')
             ->line('Precisamos que você nos envie os registros de ponto dos funcionários da empresa '.$this->ponto->empresa->nome_fantasia.'.')
-            ->line('Pedimos por gentileza que eles sejam enviados no máximo até '.$this->ponto->periodo->addMonths(1)->addDays(3)->format('d/m/Y').' para que você evite multas.')
+            ->line('Pedimos por gentileza que eles sejam enviados no máximo até '.$this->ponto->periodo->addMonths(1)->addDays(1)->format('d/m/Y').' para que você evite multas.')
             ->line('Para visualizar e enviar os registros, clique no botão abaixo:')
             ->action('Visualizar', $this->url)
             ->salutation('Att,                

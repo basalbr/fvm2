@@ -45,7 +45,7 @@ class EmpresaActivated extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->empresa->usuario->nome. '!')
-            ->line('Sua empresa '.$this->empresa->nome_fantasia .' foi ativada e a partir de agora começam seus 30 dias grátis em nosso sistema.')
+            ->line('Sua empresa '.$this->empresa->nome_fantasia .' foi ativada e a partir de agora você já pode acessar as funcionalidades do nosso sistema.')
             ->line('Para visualizar sua empresa, clique no botão abaixo:')
             ->action('Visualizar Empresa', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')

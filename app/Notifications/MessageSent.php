@@ -50,8 +50,8 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'demissao') {
                 $this->url = route('showDemissaoToAdmin', [$this->mensagem->id_referencia]);
             }
-            if ($this->mensagem->referencia == 'processo_folha') {
-                $this->url = route('showProcessoFolhaToAdmin', [$this->mensagem->id_referencia]);
+            if ($this->mensagem->referencia == 'ponto') {
+                $this->url = route('showPontoToAdmin', [$this->mensagem->id_referencia]);
             }
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
@@ -87,8 +87,8 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'demissao') {
                 $this->url = route('showDemissaoToUser', [$this->mensagem->id_referencia]);
             }
-            if ($this->mensagem->referencia == 'processo_folha') {
-                $this->url = route('showProcessoFolhaToUser', [$this->mensagem->id_referencia]);
+            if ($this->mensagem->referencia == 'ponto') {
+                $this->url = route('showPontoToUser', [$this->mensagem->id_referencia]);
             }
             if ($this->mensagem->referencia == 'alteracao_contratual') {
                 $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
@@ -173,8 +173,8 @@ class MessageSent extends Notification
         if ($this->mensagem->referencia == 'demissao') {
             return 'à solicitação de demissão do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
         }
-        if ($this->mensagem->referencia == 'processo_folha') {
-            return 'ao processo de folha do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
+        if ($this->mensagem->referencia == 'ponto') {
+            return 'ao processo de envio de folha de ponto dos funcionários da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             return 'à solicitação de alteração contratual do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;

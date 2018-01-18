@@ -27,14 +27,13 @@ class AlteracaoController extends Controller
     {
         $tiposAlteracao = TipoAlteracao::orderBy('descricao')->get();
 
-        $alteracoesPendentes = Auth::user()->alteracoes()->where('status', '=', 'Pendente')
-            ->orWhere('status', '=', 'Atencao')
+        $alteracoesPendentes = Auth::user()->alteracoes()
+            ->whereIn('status', ['Pendente', 'Atencao'])
             ->orderBy('created_at')
             ->get();
 
         $alteracoesConcluidas = Auth::user()->alteracoes()
-            ->where('status', '=', 'Concluído')
-            ->orWhere('status', '=', 'Cancelado')
+            ->whereIn('status',['Concluído', 'Cancelado'])
             ->orderBy('created_at')
             ->get();
         return view('dashboard.alteracao.index', compact("tiposAlteracao", 'alteracoesPendentes', 'alteracoesConcluidas'));
