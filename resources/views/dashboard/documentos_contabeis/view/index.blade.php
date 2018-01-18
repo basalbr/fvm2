@@ -74,6 +74,7 @@
         }
 
         function sendAnexo(form, formData, targetForm) {
+            $('#form-anexo .btn-success').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass"></i> Enviando arquivo, aguarde...');
             $.post({
                 url: form.data('anexo-temp-url'),
                 data: formData,
@@ -82,6 +83,7 @@
             }).done(function (data) {
                 $('#modal-anexar-arquivo').modal('hide');
                 appendAnexoToForm(data.filename, formData.get('descricao'), targetForm, data.html);
+                $('#form-anexo .btn-success').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-paperclip"></i> Anexar arquivo');
             }).fail(function (jqXHR) {
                 if (jqXHR.status === 422) {
                     //noinspection JSUnresolvedVariable
@@ -89,6 +91,7 @@
                 } else {
                     showFormValidationError(form);
                 }
+                $('#form-anexo .btn-success').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-paperclip"></i> Anexar arquivo');
             });
         }
 
@@ -208,7 +211,7 @@
 
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-                @include('dashboard.components.chat.box', ['model'=>$processo, 'lockUpload'=>true])
+            @include('dashboard.components.chat.box', ['model'=>$processo, 'lockUpload'=>true])
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">

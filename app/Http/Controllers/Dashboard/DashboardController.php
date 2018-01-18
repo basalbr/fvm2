@@ -48,8 +48,8 @@ class DashboardController extends Controller
             ->count();
         $processosPendentes = ProcessoDocumentoContabil::join('empresa', 'empresa.id', '=', 'processo_documento_contabil.id_empresa')
             ->where('empresa.id_usuario', '=', Auth::user()->id)
-            ->where('processo_documento_contabil.status', '!=', 'concluido')
-            ->where('processo_documento_contabil.status', '!=', 'sem_movimento')->count();
+            ->whereIn('processo_documento_contabil.status', ['novo', 'pendente', 'atencao'])
+            ->count();
         return view('dashboard.index', compact("pagamentosPendentes", 'apuracoesPendentes', 'processosPendentes'));
     }
 
