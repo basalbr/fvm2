@@ -2,7 +2,7 @@
     <div class="form-group">
         <label>{{$descricao}}</label>
         <div class="form-control">
-            <button class="btn btn-primary link-file"><span class="fa fa-upload"></span> Enviar
+            <button class="btn btn-primary link-file"><span class="fa fa-upload"></span> Anexar
                 Documento
             </button>
             <input type="file" data-name="{{$referencia}}" class="hidden link-input" data-upload-url="{{route('uploadTempFile')}}"/>

@@ -251,8 +251,8 @@
         </div>
     </div>
     <div class="ano_anterior_div">
-        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia do recibo da declaração de '.$anoAnterior, 'referencia'=>'recibo_declaracao'])
-        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia da declaração de '.$anoAnterior, 'referencia'=>'declaracao'])
+        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia do recibo da declaração de '.$anoAnterior, 'referencia'=>'recibo_anterior'])
+        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia da declaração de '.$anoAnterior, 'referencia'=>'declarao_anterior'])
     </div>
     <div class="documentos-declaracao" style="display: none">
         @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'CPF *', 'referencia'=>'cpf'])

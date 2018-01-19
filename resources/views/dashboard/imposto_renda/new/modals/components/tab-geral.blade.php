@@ -7,7 +7,7 @@
     <div class="col-xs-12">
         <div class="form-group">
             <label>Tipo de Dependente *</label>
-            <select name="id_tipo_dependente" class="form-control">
+            <select name="id_ir_tipo_dependente" class="form-control">
                 <option value="">Selecione uma opção</option>
                 @foreach($tiposDependente as $tipo)
                     <option title="{{ $tipo->descricao }}" value="{{$tipo->id}}">{{ $tipo->descricao }}</option>

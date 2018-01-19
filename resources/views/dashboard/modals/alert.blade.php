@@ -1,4 +1,4 @@
-<div class="modal animated bounceIn" id="modal-alert" tabindex="-1" role="dialog">
+<div class="modal animated bounceIn" id="modal-alert" tabindex="-1" role="dialog" style="z-index: 99999">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
