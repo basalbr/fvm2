@@ -99,4 +99,5 @@
 @section('modals')
     @parent
     @include('dashboard.imposto_renda.new.modals.dependente')
+    @include('dashboard.imposto_renda.new.modals.remove-dependente')
 @stop

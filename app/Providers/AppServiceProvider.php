@@ -53,6 +53,5 @@ class AppServiceProvider extends ServiceProvider
             });
         }
         App::make('files')->link(storage_path('app/public'), public_path('storage'));
-
     }
 }

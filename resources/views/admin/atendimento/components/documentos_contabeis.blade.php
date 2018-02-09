@@ -22,4 +22,5 @@
     @endforeach
     </tbody>
 </table>
+{{ $documentosContabeis->links() }}
 <div class="clearfix"></div>

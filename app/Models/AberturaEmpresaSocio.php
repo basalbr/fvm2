@@ -105,6 +105,10 @@ class AberturaEmpresaSocio extends Model
         return ucwords(strtolower($attr));
     }
 
+    public function setProLaboreAttribute($value){
+        $this->attributes['pro_labore'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+
     public function getNomeMaeAttribute($attr)
     {
         return ucwords(strtolower($attr));

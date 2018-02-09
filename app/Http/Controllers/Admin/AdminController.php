@@ -49,11 +49,11 @@ class AdminController extends Controller
         $initialDate = (new Carbon('first day of 6 months ago'))->format('Y-m');
 //        return $initialDate;
         DB::enableQueryLog();
-        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
+        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $usuariosData = [];
-        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
+        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $empresasData = [];
-        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
+        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $aberturasData = [];
 //        $alteracoes = Alteracao::groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at)"))->orderBy('created_at', 'desc')->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
 //        $alteracoesData = [];

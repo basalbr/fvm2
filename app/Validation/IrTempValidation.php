@@ -13,14 +13,10 @@ class IrTempValidation extends Validation
 
     protected static $rules = [
         'nome' => 'required|max:191',
-        'cpf' => 'required',
-        'rg' => 'required'
     ];
 
     protected static $niceNames = [
         'nome' => 'Nome Completo',
-        'cpf' => 'CPF',
-        'rg' => 'RG'
     ];
 
 

@@ -19,4 +19,5 @@
     @endforeach
     </tbody>
 </table>
+{{ $empresas->links() }}
 <div class="clearfix"></div>

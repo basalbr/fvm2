@@ -33,6 +33,8 @@
                 e.preventDefault();
                 removeDoc($(this).parent().parent(), true);
             });
+            $('documentos-declaracao').prop('disabled', true);
+
             $('[name="fez_declaracao"]').on('change', function () {
                 if ($(this).val() == '1') {
                     $('.ano_anterior_div').show();
@@ -43,7 +45,7 @@
                     $('.ano_anterior_div').hide();
                     $('.ano_anterior_div input').prop('disabled', true);
                     $('.documentos-declaracao').show();
-                    $('.documentos-declaracao input').prop('disabled', true);
+                    $('.documentos-declaracao input').prop('disabled', false);
                 }
             });
         });
@@ -132,13 +134,13 @@
             var prefix = dependente ? '#modal-dependente form ' : '#form-principal ';
             $(prefix + '.lista_documentos_enviados').find('.none').hide();
             $(prefix + '.lista_documentos_enviados').prepend('<tr class="animated fadeIn" data-id="' + fileId + '"><td>' + name + '</td><td><a href="" class="btn btn-danger"><i class="fa-remove fa"></i> Excluir</a></td></tr>')
-            if(dependente){
+            if (dependente) {
                 $(prefix).append('<input type="hidden" name="[anexos][' + fileId + '][descricao]" value="' + name + '">');
                 $(prefix).append('<input type="hidden" name="[anexos][' + fileId + '][arquivo]" value="' + filename + '">');
-            }else{
+            } else {
                 $(prefix).append('<input type="hidden" name="anexos[' + fileId + '][descricao]" value="' + name + '">');
                 $(prefix).append('<input type="hidden" name="anexos[' + fileId + '][arquivo]" value="' + filename + '">');
-            }1
+            }
             fileId++;
             refreshDocsCount(dependente);
         }
@@ -195,11 +197,12 @@
         }
 
         function removeDoc(elem, dependente) {
-            var prefix = dependente ? '#modal-dependente form ' : '#form-principal ';
-            if (elem.data('link') !== null) {
+            var prefix = dependente ? '#form-dependente ' : '#form-principal ';
+            var anexos = dependente ? '[anexos]' : 'anexos';
+            if (elem.data('link') !== undefined) {
                 $(prefix + 'input[name="' + elem.data('link') + '"]').remove();
             } else {
-                $(prefix + 'input[name^="anexos[' + elem.data('id') + ']"]');
+                $(prefix + 'input[name^="' + anexos + '[' + elem.data('id') + ']"]').remove();
             }
             elem.remove();
             if ($(prefix + ".lista_documentos_enviados tr").length <= 1) {
@@ -210,7 +213,7 @@
         }
     </script>
 @stop
-<div role="tabpanel" class="tab-pane active" id="tab-geral">
+<div role="tabpanel" class="tab-pane active animated fadeIn" id="tab-geral">
     <p class="alert-info alert" style="display: block">Complete os dados com as informações solicitadas.<br/><strong>Campos
             com * são
             obrigatórios.</strong></p>
@@ -238,23 +241,18 @@
             <input name="nome" class="form-control">
         </div>
     </div>
-    <div class="col-xs-6">
-        <div class="form-group">
-            <label>CPF *</label>
-            <input name="cpf" class="form-control cpf-mask">
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="form-group">
-            <label>RG *</label>
-            <input name="rg" class="form-control">
-        </div>
-    </div>
     <div class="ano_anterior_div">
         @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia do recibo da declaração de '.$anoAnterior, 'referencia'=>'recibo_anterior'])
-        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia da declaração de '.$anoAnterior, 'referencia'=>'declarao_anterior'])
+        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia da declaração de '.$anoAnterior, 'referencia'=>'declaracao_anterior'])
     </div>
     <div class="documentos-declaracao" style="display: none">
+        @include('dashboard.imposto_renda.view.components.upload', ['descricao'=>'RG', 'referencia'=>'rg'])
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label>Data de Nascimento *</label>
+                <input name="data_nascimento" class="form-control date-mask" disabled="disabled">
+            </div>
+        </div>
         @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'CPF *', 'referencia'=>'cpf'])
         @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Título de Eleitor *', 'referencia'=>'titulo_eleitor'])
     </div>
@@ -269,23 +267,6 @@
             </select>
         </div>
     </div>
-    @include('dashboard.imposto_renda.new.components.text', ['descricao'=>'Descrição da Ocupação *', 'referencia'=>'ocupacao_descricao'])
-    <div class="form-section">
-        <h4>Termo para Envio de Declaração</h4>
-        <div class="form-group">
-            <div class="checkbox-inline">
-                <label class="col-md-12">
-                    <input type="checkbox" name="termo" value="1"/> Declaro ter enviado todos os documentos
-                    de
-                    variação patrimonial em meu nome e de meus dependentes. A
-                    ausência de declaração de documentos não anexados é de minha inteira responsabilidade.
-                </label>
-            </div>
-        </div>
-        <button class="btn btn-success" id="send-documentos"><span class="fa fa-send"></span> Enviar
-            Declaração de
-            Imposto de Renda
-        </button>
-    </div>
+    @include('dashboard.imposto_renda.new.components.text', ['descricao'=>'Descrição da Ocupação *', 'referencia'=>'ocupacao'])
     <div class="clearfix"></div>
 </div>

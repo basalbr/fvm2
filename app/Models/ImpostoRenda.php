@@ -42,7 +42,7 @@ class ImpostoRenda extends Model
         'declaracao'
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aguardando_conclusao' => 'Aguardando envio dos documentos','cancelado'=>'Cancelado', 'concluido'=>'Concluído'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aguardando_conclusao' => 'Aguardando restante dos documentos','cancelado'=>'Cancelado', 'concluido'=>'Concluído'];
 
 
     public function anotacoes()
@@ -55,7 +55,10 @@ class ImpostoRenda extends Model
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
-
+    public function anexos()
+    {
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
 
     public function getUltimaMensagem()
     {
@@ -76,35 +79,10 @@ class ImpostoRenda extends Model
         return $this->hasMany(IrDependente::class, 'id_imposto_renda');
     }
 
-    public function delete()
+    public function getStatus()
     {
-
-        if ($this->apuracoes->count()) {
-            foreach ($this->apuracoes as $processo) {
-                $processo->delete();
-            }
-        }
-        if ($this->processosDocumentosContabeis()->count()) {
-            foreach ($this->processos_documentos_contabeis as $processo) {
-                $processo->delete();
-            }
-        }
-
-        if ($this->funcionarios->count()) {
-            foreach ($this->funcionarios as $funcionario) {
-                $funcionario->delete();
-            }
-        }
-
-        if ($this->socios->count()) {
-            foreach ($this->socios as $socio) {
-                $socio->delete();
-            }
-        }
-
-        parent::delete();
+        return self::$status[$this->status];
     }
-
 
     public function getQtdMensagensNaoLidas($isAdmin = false){
         if($isAdmin){

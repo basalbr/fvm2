@@ -24,4 +24,5 @@
     @endforeach
     </tbody>
 </table>
+{{ $apuracoes->links() }}
 <div class="clearfix"></div>

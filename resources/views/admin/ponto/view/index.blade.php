@@ -14,7 +14,7 @@
         <li role="presentation">
             <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
-                        class="badge">{{$ponto->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
+                        class="badge">{{$ponto->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
         </li>
         @if($ponto->isFinished())
             <li class="animated bounceInDown highlight">

@@ -20,4 +20,5 @@
     @endforeach
     </tbody>
 </table>
+{{ $aberturaEmpresas->links() }}
 <div class="clearfix"></div>

@@ -14,7 +14,7 @@ function showFormValidationError(form, errors) {
         } else {
             alertDiv.append('<p>' + errors[i] + '</p>');
         }
-        form.find('[name="' + i + '"]').parent().addClass('alert-warning');
+        form.find('[name="' + i + '"]').not('[type="hidden"]').parent().addClass('alert-warning');
     }
     alertDiv.show().addClass('animated shake');
     $('.modal, html, body, #content').animate({

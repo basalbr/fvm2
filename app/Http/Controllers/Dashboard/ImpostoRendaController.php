@@ -33,8 +33,11 @@ use App\Models\TipoTributacao;
 use App\Models\Uf;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
+use App\Services\CreateTempImpostoRenda;
 use App\Services\SendMessageToAdmin;
+use App\Services\SaveTempIR;
 use App\Validation\EmpresaValidation;
+use App\Validation\ImpostoRendaValidation;
 use App\Validation\IrDependenteValidation;
 use App\Validation\IrTempValidation;
 use App\Validation\MensagemValidation;
@@ -49,6 +52,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImpostoRendaController extends Controller
 {
@@ -71,53 +75,44 @@ class ImpostoRendaController extends Controller
         return view('dashboard.imposto_renda.index', compact('irPendentes', 'irConcluidos', 'pessoas'));
     }
 
-    public function saveTemp(Request $request)
+    public function saveTemp(Request $request, $id = 0)
     {
-        try {
-            dd($request->all());
-            DB::beginTransaction();
-            $request->merge(['status' => 'aguardando_conclusao']);
-            $ir = Auth::user()->impostosRenda()->create($request->all());
-            $ir->declarante()->create($request->all());
-            if (count($request->get('dependentes'))) {
-                foreach ($request->get('dependentes') as $dep) {
-                    dd($dep);
-                    $dep['id_imposto_renda'] = $ir->id;
-                    $dependente = IrDependente::create($dep);
-                    if (count($dep['anexos'])) {
-                        foreach ($dep['anexos'] as $arquivo) {
-                            Anexo::create([
-                                'id_referencia' => $dependente->id,
-                                'referencia' => $dependente->getTable(),
-                                'arquivo' => $arquivo['arquivo'],
-                                'descricao' => $arquivo['descricao']
-                            ]);
-                            Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . $dependente->getTable() . '/' . $dependente->id . '/' . $arquivo['arquivo']);
-                        }
-                    }
-
-                }
-            }
-            if (count($request->get('anexos'))) {
-                foreach ($request->get('anexos') as $arquivo) {
-                    Anexo::create([
-                        'id_referencia' => $ir->id,
-                        'referencia' => $ir->getTable(),
-                        'arquivo' => $arquivo['arquivo'],
-                        'descricao' => $arquivo['descricao']
-                    ]);
-                    Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . $ir->getTable() . '/' . $ir->id . '/' . $arquivo['arquivo']);
-                }
-            }
-            DB::commit();
-            dd('deu');
-        } catch (\Exception $e) {
-            DB::rollback();
-            dd($e);
+        if (SaveTempIR::handle($request, $id)) {
+            return redirect()->route('listImpostoRendaToUser')->with('successAlert', Str::words(Auth::user()->nome, 1, ''). ', sua declaração foi salva em nosso sistema com sucesso.<br /><strong>Lembre-se</strong> que é necessário concluir o envio de documentos para que possamos fazer sua declaração.');
         }
+        return 'deu merda';
     }
 
     public function new()
+    {
+        return view('dashboard.imposto_renda.new.index',$this->getParams());
+    }
+
+    public function view($id)
+    {
+        $ir = Auth::user()->impostosRenda()->findOrFail($id);
+        return view('dashboard.imposto_renda.view.index', array_merge($this->getParams(), compact('ir')));
+    }
+
+    public function validateDependente(Request $request)
+    {
+        $this->validate($request, IrDependenteValidation::getRules(), [], IrDependenteValidation::getNiceNames());
+        return response()->json('success', 200);
+    }
+
+    public function validateIr(Request $request)
+    {
+        $this->validate($request, ImpostoRendaValidation::getRules(), [], ImpostoRendaValidation::getNiceNames());
+        return response()->json('success', 200);
+    }
+
+    public function validateIrTemp(Request $request)
+    {
+        $this->validate($request, IrTempValidation::getRules(), [], IrTempValidation::getNiceNames());
+        return response()->json('success', 200);
+    }
+
+    public function getParams()
     {
         $anoAnterior = date('Y') - 1;
         $tiposOcupacao = IrTipoOcupacao::orderBy('descricao')->get();
@@ -129,36 +124,17 @@ class ImpostoRendaController extends Controller
         $irDividasOnus = IrDividaOnusReal::orderBy('descricao')->get(['descricao']);
         $irDoacoesPoliticas = IrDoacaoPolitica::orderBy('descricao')->get(['descricao']);
         $tiposDependente = TipoDependencia::orderBy('descricao')->get(['id', 'descricao']);
-        return view('dashboard.imposto_renda.new.index',
-            compact('anoAnterior',
-                'tiposOcupacao',
-                'irRendimentos',
-                'irTributacoesExclusivas',
-                'irRecibosDedutiveis',
-                'irBensDireitos',
-                'irDividasOnus',
-                'irDoacoesPoliticas',
-                'tiposDependente',
-                'irRendimentosIsentos'
-            ));
-    }
-
-    public function validateDependente(Request $request)
-    {
-        $this->validate($request, IrDependenteValidation::getRules(), [], IrDependenteValidation::getNiceNames());
-        return response()->json('success', 200);
-    }
-
-    public function validateIr(Request $request)
-    {
-        $this->validate($request, IrDependenteValidation::getRules(), [], IrDependenteValidation::getNiceNames());
-        return response()->json('success', 200);
-    }
-
-    public function ValidateIrTemp(Request $request)
-    {
-        $this->validate($request, IrTempValidation::getRules(), [], IrTempValidation::getNiceNames());
-        return response()->json('success', 200);
+        return compact('anoAnterior',
+            'tiposOcupacao',
+            'irRendimentos',
+            'irTributacoesExclusivas',
+            'irRecibosDedutiveis',
+            'irBensDireitos',
+            'irDividasOnus',
+            'irDoacoesPoliticas',
+            'tiposDependente',
+            'irRendimentosIsentos'
+        );
     }
 
 }

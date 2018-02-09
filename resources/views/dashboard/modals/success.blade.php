@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="col-xs-12">
                         <br/>
-                        <p class="message">{{session('successAlert')}}</p>
+                        <p class="message">{!! session('successAlert') !!}</p>
                     </div>
                     <div class="clearfix"></div>
                 </div>

@@ -20,7 +20,7 @@
                 <td>{{$chamado->tipoChamado->descricao}}</td>
                 <td>{{$chamado->status}}</td>
                 <td>{{$chamado->created_at->format('d/m/Y H:i')}}</td>
-                <td>{{$chamado->mensagens()->latest()->first()->mensagem}}</td>
+                <td>{{str_limit($chamado->mensagens()->latest()->first()->mensagem, 25, '...')}}</td>
                 <td>{{$chamado->mensagens()->latest()->first()->created_at->format('d/m/Y H:i')}}</td>
                 <td><a class="btn btn-primary" href="{{route('showChamadoToAdmin', [$chamado->id])}}"
                        title="Visualizar"><i class="fa fa-search"></i></a></td>
@@ -34,3 +34,4 @@
     @endif
     </tbody>
 </table>
+{{ $chamados->links() }}

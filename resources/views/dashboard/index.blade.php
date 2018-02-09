@@ -84,7 +84,7 @@
     @if(Auth::user()->unreadNotifications->count())
     <div class="col-sm-6">
         <h3 class="text-center">Notificações</h3>
-        @foreach(Auth::user()->unreadNotifications as $notification)
+        @foreach(Auth::user()->unreadNotifications()->limit(5)->get() as $notification)
             <div class="col-sm-12">
                 <a href="{{route('lerNotificacao', [$notification->id])}}" class="notification">
                     {{$notification->data['mensagem']}}

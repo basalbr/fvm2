@@ -55,6 +55,9 @@ class AdminHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
         }
+        if ($this->mensagem->referencia == 'ponto') {
+            $this->url = route('showPontoToUser', [$this->mensagem->id_referencia]);
+        }
     }
 
     /**

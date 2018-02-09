@@ -1,4 +1,4 @@
-<div role="tabpanel" class="tab-pane" id="tab-documentos-enviados">
+<div role="tabpanel" class="tab-pane animated fadeIn" id="tab-documentos-enviados">
     <div class="col-xs-12">
         <table class="table table-striped table-hover">
             <thead>

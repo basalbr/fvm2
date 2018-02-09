@@ -40,7 +40,7 @@ class AtendimentoController extends Controller
 
     public function index()
     {
-        $chamados = Chamado::orderBy('updated_at', 'desc')->get();
+        $chamados = Chamado::orderBy('updated_at', 'desc')->paginate(10);
         //Buscar somente empresas que possuem mensagens não lidas
         $empresas = Empresa::whereExists(function ($query) {
             $query->select(DB::raw(1))
@@ -49,7 +49,8 @@ class AtendimentoController extends Controller
                 ->where('mensagem.referencia', '=', 'empresa')
                 ->where('mensagem.lida', '=', 0)
                 ->where('deleted_at', '=', null)->limit(1);
-        })->get();
+        })->paginate(10);
+
         $aberturaEmpresas = AberturaEmpresa::whereExists(function ($query) {
             $query->select(DB::raw(1))
                 ->from('mensagem')
@@ -57,7 +58,7 @@ class AtendimentoController extends Controller
                 ->where('mensagem.referencia', '=', 'abertura_empresa')
                 ->where('mensagem.lida', '=', 0)
                 ->where('deleted_at', '=', null)->limit(1);
-        })->get();
+        })->paginate(10);
 
         $solicitacoes = Alteracao::whereExists(function ($query) {
             $query->select(DB::raw(1))
@@ -66,7 +67,7 @@ class AtendimentoController extends Controller
                 ->where('mensagem.referencia', '=', 'alteracao')
                 ->where('mensagem.lida', '=', 0)
                 ->where('deleted_at', '=', null)->limit(1);
-        })->orderBy('created_at', 'desc')->get();
+        })->orderBy('created_at', 'desc')->paginate(10);
 
         $apuracoes = Apuracao::whereExists(function ($query) {
                 $query->select(DB::raw(1))
@@ -75,7 +76,7 @@ class AtendimentoController extends Controller
                     ->where('mensagem.referencia', '=', 'apuracao')
                     ->where('mensagem.lida', '=', 0)
                     ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('apuracao.*')->get();
+            })->orderBy('created_at', 'desc')->select('apuracao.*')->paginate(10);
 
         $documentosContabeis = ProcessoDocumentoContabil::whereExists(function ($query) {
                 $query->select(DB::raw(1))
@@ -84,7 +85,7 @@ class AtendimentoController extends Controller
                     ->where('mensagem.referencia', '=', 'processo_documento_contabil')
                     ->where('mensagem.lida', '=', 0)
                     ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('processo_documento_contabil.*')->get();
+            })->orderBy('created_at', 'desc')->select('processo_documento_contabil.*')->paginate(10);
 
         return view('admin.atendimento.index', compact("empresas", 'chamados', 'solicitacoes', 'aberturaEmpresas', 'apuracoes', 'documentosContabeis'));
     }

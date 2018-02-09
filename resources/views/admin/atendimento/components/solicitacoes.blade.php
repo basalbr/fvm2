@@ -22,4 +22,5 @@
     @endforeach
     </tbody>
 </table>
+{{ $solicitacoes->links() }}
 <div class="clearfix"></div>

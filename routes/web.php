@@ -168,7 +168,7 @@ Route::group(['prefix' => 'dashboard/imposto-renda', 'namespace' => 'Dashboard',
     Route::get('', ['as' => 'listImpostoRendaToUser', 'uses' => 'ImpostoRendaController@index']);
     Route::get('new', ['as' => 'newImpostoRenda', 'uses' => 'ImpostoRendaController@new']);
     Route::post('new', ['uses' => 'ImpostoRendaController@store']);
-    Route::post('temp', ['as'=>'saveIrTemp', 'uses' => 'ImpostoRendaController@saveTemp']);
+    Route::post('temp/{id?}', ['as'=>'saveIrTemp', 'uses' => 'ImpostoRendaController@saveTemp']);
     Route::get('view/{id}', ['as' => 'showImpostoRendaToUser', 'uses' => 'ImpostoRendaController@view']);
     Route::post('validate', ['as' => 'validateImpostoRenda', 'uses' => 'ImpostoRendaController@validateIr']);
     Route::post('validate-temp', ['as' => 'validateImpostoRendaTemp', 'uses' => 'ImpostoRendaController@validateIrTemp']);

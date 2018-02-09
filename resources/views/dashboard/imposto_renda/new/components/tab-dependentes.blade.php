@@ -43,18 +43,29 @@
             //busca no form de dependente pelas partes equivalentes das informaçoes que estamos editando
             $("[name^='dependentes[" + id + "]']").each(function () {
                 var name = $(this).attr('name');
-                console.log(name)
                 var value = $(this).val();
                 name = name.replace('dependentes[' + id + '][', '');
                 name = name.replace(']', '');
-                if (name === 'id_tipo_dependente') {
+                if (name === 'id_ir_tipo_dependente') {
                     $('#modal-dependente').find('select[name="' + name + '"] option').each(function () {
                         if ($(this).val() === value) {
                             $(this).prop('selected', true);
                         }
                     });
                 }
+
+                if(name === 'cpf' || name === 'rg'){
+                    addLinkRow(name, value, true);
+                }
+
+                if (name.indexOf('anexos') > -1 && name.indexOf('descricao') > -1) {
+                    name = name.replace('anexos', '[anexos]');
+                    var filename = $('[name="dependentes[' + id + ']' + name.replace('[descricao]', '[arquivo]') + '"]').val();
+                    addRow(value, filename, true);
+                }
+
                 $('#modal-dependente').find('input[name="' + name + '"]').val($(this).val());
+                refreshLinkButtons(true);
             });
             $('#modal-dependente').modal('show');
         }
@@ -76,19 +87,26 @@
             }
             var dependenteName;
             for (var i in dependenteData) {
+                var save = false;
                 if (dependenteData[i].name === 'nome') {
                     dependenteName = dependenteData[i].value;
                 }
-                var singleNames = ['nome', 'cpf', 'data_nascimento', 'id_tipo_dependente', 'titulo_eleitor', 'rg'];
+                var singleNames = ['nome', 'id_ir_tipo_dependente', 'cpf', 'data_nascimento', 'titulo_eleitor', 'rg'];
                 var name = dependenteData[i].name.replace('[', '][');
                 if (singleNames.indexOf(name) > -1) {
-                    name += ']';
+                    name = '[' + name + ']';
+                    save = true;
+                } else if (name.indexOf('anexos') > -1) {
+                    name = name.substr(1);
+                    save = true;
                 }
-                $('#form-principal').append($('<input>').attr({
-                    "name": "dependentes[" + id + "][" + name,
-                    "type": "hidden",
-                    "value": dependenteData[i].value
-                }));
+                if (save) {
+                    $('#form-principal').append($('<input>').attr({
+                        "name": "dependentes[" + id + "]" + name,
+                        "type": "hidden",
+                        "value": dependenteData[i].value
+                    }));
+                }
             }
             var dependenteTr = $('<tr>').attr('data-id', id);
             var dependenteEditButton = $('<button>').addClass('btn btn-warning edit-dependente').attr('data-id', id).text(' Editar').prepend($('<i>').addClass('fa fa-edit'));
@@ -132,7 +150,7 @@
     </script>
 @stop
 
-<div role="tabpanel" class="tab-pane" id="tab-dependentes">
+<div role="tabpanel" class="tab-pane animated fadeIn" id="tab-dependentes">
     <div class="form-section">
         <p class="alert-info alert" style="display: block"><strong>Dependentes:</strong> Cadastre seus dependentes e
             envie os documentos necessários.</p>
