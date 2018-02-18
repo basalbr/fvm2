@@ -52,7 +52,7 @@ class SendImpostoRenda
             if ($request->has('titulo_eleitor')) {
                 self::fileCheckAndMove($request->get('titulo_eleitor'), $declarante->getTable(), $ir->id);
             }
-            if (count($request->get('dependentes'))) {
+            if ($request->has('dependentes') && count($request->get('dependentes'))) {
                 foreach ($request->get('dependentes') as $k => $dep) {
                     /* @var $dependente IrDependente */
                     $dep['id_imposto_renda'] = $ir->id;
@@ -73,10 +73,10 @@ class SendImpostoRenda
                     }
                 }
             }
-            if (count($request->get('remover'))) {
+            if ($request->has('remover') && count($request->get('remover'))) {
                 self::removeAnexosInArray($request->get('remover'));
             }
-            if (count($request->get('anexos'))) {
+            if ($request->has('anexos') && count($request->get('anexos'))) {
                 foreach ($request->get('anexos') as $arquivo) {
                     self::saveAnexo($arquivo['arquivo'], $arquivo['descricao'], $ir->getTable(), $ir->id);
                 }
