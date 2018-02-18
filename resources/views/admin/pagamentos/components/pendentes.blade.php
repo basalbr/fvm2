@@ -17,7 +17,7 @@
     @if($pagamentosPendentes->count())
         @foreach($pagamentosPendentes as $pagamento)
             <tr>
-                <td>{{$pagamento->usuario->nome}}</td>
+                <td>{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</td>
                 <td>{{$pagamento->getDescricao()}}</td>
                 <td>{{$pagamento->getParentName()}}</td>
                 <td>{{$pagamento->formattedValue()}}</td>
@@ -34,4 +34,5 @@
     @endif
     </tbody>
 </table>
+{{ $pagamentosPendentes->appends(request()->all())->links() }}
 <div class="clearfix"></div>

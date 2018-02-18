@@ -117,7 +117,7 @@ class OrdemPagamento extends Model
     {
         switch ($this->referencia) {
             case 'abertura_empresa':
-                return $this->parent->nome_empresarial1;
+                return $this->parent ? $this->parent->nome_empresarial1 : $this->id;
             case 'mensalidade':
                 return $this->parent->empresa->nome_fantasia.' ('.$this->parent->empresa->razao_social.')';
             case 'alteracao':

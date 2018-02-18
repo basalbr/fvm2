@@ -6,7 +6,7 @@
  * Time: 20:48
  */
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\AberturaEmpresa;
 use App\Models\Anexo;
@@ -34,7 +34,6 @@ use App\Models\Uf;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\CreateTempImpostoRenda;
-use App\Services\SendImpostoRenda;
 use App\Services\SendMessageToAdmin;
 use App\Services\SaveTempIR;
 use App\Validation\EmpresaValidation;
@@ -61,8 +60,7 @@ class ImpostoRendaController extends Controller
 
     public function index()
     {
-        $irPendentes = Auth::user()->impostosRenda()
-            ->whereNotIn('status', ['concluido', 'cancelado'])
+        $irPendentes = ImpostoRenda::whereNotIn('status', ['concluido', 'cancelado'])
             ->orderBy('exercicio', 'desc')
             ->get();
 
@@ -79,21 +77,14 @@ class ImpostoRendaController extends Controller
     public function saveTemp(Request $request, $id = 0)
     {
         if (SaveTempIR::handle($request, $id)) {
-            return redirect()->route('listImpostoRendaToUser')->with('successAlert', Str::words(Auth::user()->nome, 1, ''). ', recebemos seus documentos para declaração do Imposto de Renda. Se estiver tudo em ordem iremos fazer a declaração e enviaremos o comprovante para você.');
+            return redirect()->route('listImpostoRendaToUser')->with('successAlert', Str::words(Auth::user()->nome, 1, ''). ', sua declaração foi salva em nosso sistema com sucesso.<br /><strong>Lembre-se</strong> que é necessário concluir o envio de documentos para que possamos fazer sua declaração.');
         }
-        return redirect()->back();
+        return 'deu merda';
     }
 
     public function new()
     {
         return view('dashboard.imposto_renda.new.index',$this->getParams());
-    }
-
-    public function store(Request $request, $id = 0){
-        if (SendImpostoRenda::handle($request, $id)) {
-            return redirect()->route('listImpostoRendaToUser')->with('successAlert', Str::words(Auth::user()->nome, 1, ''). ', sua declaração foi salva em nosso sistema com sucesso.<br /><strong>Lembre-se</strong> que é necessário concluir o envio de documentos para que possamos fazer sua declaração.');
-        }
-        return redirect()->back();
     }
 
     public function view($id)

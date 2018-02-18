@@ -20,6 +20,8 @@ class ImpostoRendaValidation extends Validation
         'rg' => 'required_if:fez_declaracao,0|max:10240|nullable',
         'data_nascimento' => 'required_if:fez_declaracao,0|nullable|date_format:d/m/Y',
         'comprovante_residencia' => 'required',
+        'dependentes.*.rg'=>'required',
+        'dependentes.*.cpf'=>'required'
     ];
 
     protected static $niceNames = [
@@ -31,6 +33,8 @@ class ImpostoRendaValidation extends Validation
         'rg' => 'RG',
         'data_nascimento' => 'Data de Nascimento',
         'comprovante_residencia' => 'Comprovante de Residência',
+        'dependentes.*.rg' => 'RG dos dependentes',
+        'dependentes.*.cpf' => 'CPF dos dependentes'
     ];
 
 

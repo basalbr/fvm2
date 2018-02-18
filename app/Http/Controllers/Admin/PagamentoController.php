@@ -47,14 +47,14 @@ class PagamentoController extends Controller
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $pagamentosPendentes = $this->filterForm($pagamentosPendentes, $request);
         }
-        $pagamentosPendentes = $pagamentosPendentes->select('ordem_pagamento.*')->get();
+        $pagamentosPendentes = $pagamentosPendentes->select('ordem_pagamento.*')->paginate(20);
 
 
         $historicoPagamento = OrdemPagamento::query()->whereIn('ordem_pagamento.status', ['Paga', 'Disponível']);
         if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $historicoPagamento = $this->filterForm($historicoPagamento, $request);
         }
-        $historicoPagamento = $historicoPagamento->select('ordem_pagamento.*')->get();
+        $historicoPagamento = $historicoPagamento->select('ordem_pagamento.*')->paginate(20);
 
         return view('admin.pagamentos.index', compact("pagamentosPendentes", 'historicoPagamento'));
     }

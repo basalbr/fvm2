@@ -18,6 +18,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
  * @property integer id
  * @property float valor_abertura_empresa
  * @property float valor_incremental_funcionario
+ * @property float valor_imposto_renda
+ * @property float valor_desconto_imposto_renda
  * @property string email_admin
  * @property string email_contato
  * @property string email_bugs
@@ -44,6 +46,8 @@ class Config extends Model
     protected $fillable = [
         'valor_abertura_empresa',
         'valor_incremental_funcionario',
+        'valor_imposto_renda',
+        'valor_desconto_imposto_renda',
         'email_admin',
         'email_contato',
         'email_bugs',
@@ -58,6 +62,16 @@ class Config extends Model
     public static function getAberturaEmpresaPrice()
     {
         return self::first()->valor_abertura_empresa;
+    }
+
+    public static function getImpostoRendaFullPrice()
+    {
+        return self::first()->valor_imposto_renda;
+    }
+
+    public static function getImpostoRendaDiscountPrice()
+    {
+        return self::first()->valor_desconto_imposto_renda;
     }
 
     public static function getWhatsapp()

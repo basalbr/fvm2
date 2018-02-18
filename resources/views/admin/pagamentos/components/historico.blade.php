@@ -16,8 +16,16 @@
     @if($historicoPagamento->count())
         @foreach($historicoPagamento as $pagamento)
             <tr>
-                <td>{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</td>
-                <td>{{$pagamento->getDescricao()}}</td>
+                <td>
+                    <a href="{{route('showUsuarioToAdmin', $pagamento->id_usuario)}}">{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</a>
+                </td>
+                @if($pagamento->referencia == 'mensalidade')
+                    <td>
+                        <a href="{{route('showEmpresaToAdmin', $pagamento->parent->id_empresa)}}">{{$pagamento->getParentName()}}</a>
+                    </td>
+                @else
+                    <td>{{$pagamento->getParentName()}}</td>
+                @endif
                 <td>{{$pagamento->formattedValue()}}</td>
                 <td>{{$pagamento->status}}</td>
                 <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
@@ -32,4 +40,5 @@
     @endif
     </tbody>
 </table>
+{{ $historicoPagamento->appends(request()->all())->links() }}
 <div class="clearfix"></div>

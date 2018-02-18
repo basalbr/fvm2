@@ -170,6 +170,7 @@ Route::group(['prefix' => 'dashboard/imposto-renda', 'namespace' => 'Dashboard',
     Route::post('new', ['uses' => 'ImpostoRendaController@store']);
     Route::post('temp/{id?}', ['as'=>'saveIrTemp', 'uses' => 'ImpostoRendaController@saveTemp']);
     Route::get('view/{id}', ['as' => 'showImpostoRendaToUser', 'uses' => 'ImpostoRendaController@view']);
+    Route::post('view/{id}', ['uses' => 'ImpostoRendaController@store']);
     Route::post('validate', ['as' => 'validateImpostoRenda', 'uses' => 'ImpostoRendaController@validateIr']);
     Route::post('validate-temp', ['as' => 'validateImpostoRendaTemp', 'uses' => 'ImpostoRendaController@validateIrTemp']);
     Route::post('validate-dependente', ['as' => 'validateIrDependente', 'uses' => 'ImpostoRendaController@validateDependente']);
@@ -322,6 +323,15 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('view/{idApuracao}/upload/guia', ['uses' => 'ApuracaoController@uploadGuia']);
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
+});
+
+//Admin - Apurações
+Route::group(['prefix' => 'admin/imposto-renda', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@index']);
+    Route::get('view/{id}', ['as' => 'showImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@view']);
+    Route::post('view/{id}', ['uses' => 'ImpostoRendaController@update']);
+    Route::post('view/{id}/upload/guia', ['uses' => 'ImpostoRendaController@uploadGuia']);
+    Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ImpostoRendaController@validateGuia']);
 });
 
 //Admin - Usuários

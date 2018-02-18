@@ -9,23 +9,27 @@
 namespace App\Services;
 
 use App\Models\Anexo;
+use App\Models\Config;
 use App\Models\ImpostoRenda;
 use App\Models\IrDeclarante;
 use App\Models\IrDependente;
+use App\Models\Usuario;
+use App\Notifications\ImpostoRendaSent;
+use App\Notifications\NewImpostoRenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class SaveTempIR
+class SendImpostoRenda
 {
 
     public static function handle(Request $request, int $id)
     {
         try {
             DB::beginTransaction();
-            $request->merge(['status' => 'aguardando_conclusao']);
+            $request->merge(['status' => 'em_analise']);
             /* @var $ir ImpostoRenda */
             $ir = self::getIrInstance($id, $request);
             $declarante = self::getDeclaranteInstance($ir, $request);
@@ -77,6 +81,10 @@ class SaveTempIR
                     self::saveAnexo($arquivo['arquivo'], $arquivo['descricao'], $ir->getTable(), $ir->id);
                 }
             }
+            $ir = $ir->fresh();
+            Usuario::notifyAdmins(new NewImpostoRenda($ir));
+            $ir->usuario->notify(new ImpostoRendaSent($ir));
+            CreateOrdemPagamento::handle(Auth::user(), $ir->getTable(), $ir->id, Config::getImpostoRendaFullPrice());
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -142,8 +150,8 @@ class SaveTempIR
     private static function getIrInstance($id, $request)
     {
         $ir = Auth::user()->impostosRenda()->find($id);
-        $ir = self::cleanDeclaracao($ir);
         if ($ir instanceof ImpostoRenda) {
+            $ir = self::cleanDeclaracao($ir);
             $ir->update($request->all());
             return $ir;
         }
@@ -153,8 +161,8 @@ class SaveTempIR
     private static function getDeclaranteInstance($ir, $request)
     {
         $declarante = $ir->declarante;
-        $declarante = self::cleanDeclarante($declarante);
         if ($declarante instanceof IrDeclarante) {
+            $declarante = self::cleanDeclarante($declarante);
             $declarante->update($request->all());
             return $declarante;
         }
