@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /* @property Usuario usuario */
-
+/* @property OrdemPagamento pagamento */
 class ImpostoRenda extends Model
 {
 
@@ -42,8 +42,12 @@ class ImpostoRenda extends Model
         'declaracao'
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aguardando_conclusao' => 'Aguardando restante dos documentos','cancelado'=>'Cancelado', 'concluido'=>'Concluído'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aguardando_conclusao' => 'Aguardando restante dos documentos', 'cancelado' => 'Cancelado', 'concluido' => 'Concluído'];
 
+    public function isPending()
+    {
+        return $this->status == 'em_analise' && !empty($this->pagamento) && $this->pagamento->status !== 'Paga' ? true : false;
+    }
 
     public function anotacoes()
     {
@@ -75,7 +79,13 @@ class ImpostoRenda extends Model
         return $this->hasOne(IrDeclarante::class, 'id_imposto_renda');
     }
 
-    public function dependentes(){
+    public function pagamento()
+    {
+        return $this->hasOne(OrdemPagamento::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function dependentes()
+    {
         return $this->hasMany(IrDependente::class, 'id_imposto_renda');
     }
 
@@ -84,8 +94,9 @@ class ImpostoRenda extends Model
         return self::$status[$this->status];
     }
 
-    public function getQtdMensagensNaoLidas($isAdmin = false){
-        if($isAdmin){
+    public function getQtdMensagensNaoLidas($isAdmin = false)
+    {
+        if ($isAdmin) {
             return $this->mensagens()->where('from_admin', 1)->where('lida', 0)->count();
         }
         return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();

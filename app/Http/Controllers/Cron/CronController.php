@@ -61,6 +61,7 @@ class CronController extends Controller
             try {
                 $pagamento->usuario->notify(new PaymentPending($pagamento));
             } catch (\Exception $e) {
+                Log::info('Pagamento id: '.$pagamento->id);
                 Log::critical($e);
             }
         }
@@ -103,6 +104,7 @@ class CronController extends Controller
             try {
                 $pagamento->usuario->notify(new PaymentAlmostPending($pagamento));
             } catch (\Exception $e) {
+                Log::info('Pagamento id: '.$pagamento->id);
                 Log::critical($e);
             }
         }
@@ -118,6 +120,7 @@ class CronController extends Controller
             try {
                 $apuracao->empresa->usuario->notify(new ApuracaoPending($apuracao->empresa));
             } catch (\Exception $e) {
+                Log::info('Apuração id: '.$apuracao->id);
                 Log::critical($e);
             }
         }
@@ -128,6 +131,7 @@ class CronController extends Controller
                     $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
                 }
             } catch (\Exception $e) {
+                Log::info('Apuração id: '.$pagamento->id);
                 Log::critical($e);
             }
         }
@@ -142,12 +146,14 @@ class CronController extends Controller
             try {
                 $documentoContabil->empresa->usuario->notify(new DocumentosContabeisPending($documentoContabil->empresa));
             } catch (\Exception $e) {
+                Log::info('Contabilidade id: '.$documentoContabil->id);
                 Log::critical($e);
             }
         }
     }
 
     public function AdjustmentInMensalidade()
+
     {
         $usuarios = Usuario::all();
         SendMendalidadeAdjustment::handle($usuarios);

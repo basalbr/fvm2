@@ -84,7 +84,11 @@ class SendImpostoRenda
             $ir = $ir->fresh();
             Usuario::notifyAdmins(new NewImpostoRenda($ir));
             $ir->usuario->notify(new ImpostoRendaSent($ir));
-            CreateOrdemPagamento::handle(Auth::user(), $ir->getTable(), $ir->id, Config::getImpostoRendaFullPrice());
+            if($ir->usuario->empresas()->where('status', 'aprovado')->count() > 0){
+                CreateOrdemPagamento::handle(Auth::user(), $ir->getTable(), $ir->id, Config::getImpostoRendaDiscountPrice());
+            }else{
+                CreateOrdemPagamento::handle(Auth::user(), $ir->getTable(), $ir->id, Config::getImpostoRendaFullPrice());
+            }
             DB::commit();
             return true;
         } catch (\Exception $e) {

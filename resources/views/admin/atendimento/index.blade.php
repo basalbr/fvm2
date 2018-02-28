@@ -12,7 +12,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="chamados">
             @include('admin.atendimento.components.chamados')
-        </div>a
+        </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="empresas">
             @include('admin.atendimento.components.empresas')
         </div>

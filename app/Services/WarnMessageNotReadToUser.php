@@ -35,7 +35,7 @@ class WarnMessageNotReadToUser
             $usuario->notify(new UserHasUnreadMessages($message));
             }
         } catch (\Exception $e) {
-            Log::info($message->id);
+            Log::info('Mensagem id: '.$message->id);
             Log::critical($e);
         }
     }

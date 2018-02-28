@@ -29,6 +29,7 @@ class WarnMessageNotReadToAdmin
         try {
             Usuario::notifyAdmins(new AdminHasUnreadMessages($message));
         } catch (\Exception $e) {
+            Log::info('Mensagem id: '.$message->id);
             Log::critical($e);
             return response()->json(['Não foi possível enviar a mensagem, por favor tente novamente mais tarde'])->setStatusCode(500);
         }
