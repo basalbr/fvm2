@@ -25,7 +25,6 @@ class WarnMessageNotReadToAdmin
 
     public static function handle(Mensagem $message)
     {
-        DB::beginTransaction();
         try {
             Usuario::notifyAdmins(new AdminHasUnreadMessages($message));
         } catch (\Exception $e) {

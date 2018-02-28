@@ -24,7 +24,6 @@ class WarnMessageNotReadToUser
 
     public static function handle(Mensagem $message)
     {
-        DB::beginTransaction();
         try {
             if ($message->referencia == 'funcionario' || $message->referencia == 'apuracao') {
                 $usuario = $message->parent->empresa->usuario;
