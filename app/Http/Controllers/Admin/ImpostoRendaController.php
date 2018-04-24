@@ -36,6 +36,7 @@ use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\CreateTempImpostoRenda;
 use App\Services\SendMessageToAdmin;
 use App\Services\SaveTempIR;
+use App\Services\UpdateImpostoRenda;
 use App\Validation\EmpresaValidation;
 use App\Validation\ImpostoRendaValidation;
 use App\Validation\IrDependenteValidation;
@@ -71,44 +72,21 @@ class ImpostoRendaController extends Controller
 
         $pessoas = Auth::user()->socios;
 
-        return view('dashboard.imposto_renda.index', compact('irPendentes', 'irConcluidos', 'pessoas'));
-    }
-
-    public function saveTemp(Request $request, $id = 0)
-    {
-        if (SaveTempIR::handle($request, $id)) {
-            return redirect()->route('listImpostoRendaToUser')->with('successAlert', Str::words(Auth::user()->nome, 1, ''). ', sua declaração foi salva em nosso sistema com sucesso.<br /><strong>Lembre-se</strong> que é necessário concluir o envio de documentos para que possamos fazer sua declaração.');
-        }
-        return 'deu merda';
-    }
-
-    public function new()
-    {
-        return view('dashboard.imposto_renda.new.index',$this->getParams());
+        return view('admin.imposto_renda.index', compact('irPendentes', 'irConcluidos', 'pessoas'));
     }
 
     public function view($id)
     {
-        $ir = Auth::user()->impostosRenda()->findOrFail($id);
-        return view('dashboard.imposto_renda.view.index', array_merge($this->getParams(), compact('ir')));
+        $ir = ImpostoRenda::findOrFail($id);
+        return view('admin.imposto_renda.view.index', array_merge($this->getParams(), compact('ir')));
     }
 
-    public function validateDependente(Request $request)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, IrDependenteValidation::getRules(), [], IrDependenteValidation::getNiceNames());
-        return response()->json('success', 200);
-    }
-
-    public function validateIr(Request $request)
-    {
-        $this->validate($request, ImpostoRendaValidation::getRules(), [], ImpostoRendaValidation::getNiceNames());
-        return response()->json('success', 200);
-    }
-
-    public function validateIrTemp(Request $request)
-    {
-        $this->validate($request, IrTempValidation::getRules(), [], IrTempValidation::getNiceNames());
-        return response()->json('success', 200);
+        if (UpdateImpostoRenda::handle($request, $id)) {
+            return redirect()->route('showImpostoRendaToAdmin', [$id])->with('successAlert', 'Imposto de renda atualizado com sucesso.');
+        }
+        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function getParams()

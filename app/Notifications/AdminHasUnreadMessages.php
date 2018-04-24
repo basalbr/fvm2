@@ -49,14 +49,17 @@ class AdminHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'demissao') {
             $this->url = route('showDemissaoToAdmin', [$this->mensagem->id_referencia]);
         }
-        if ($this->mensagem->referencia == 'processo_folha') {
-            $this->url = route('showProcessoFolhaToAdmin', [$this->mensagem->id_referencia]);
-        }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             $this->url = route('showAlteracaoContratualToAdmin', [$this->mensagem->id_referencia]);
         }
         if ($this->mensagem->referencia == 'ponto') {
-            $this->url = route('showPontoToUser', [$this->mensagem->id_referencia]);
+            $this->url = route('showPontoToAdmin', [$this->mensagem->id_referencia]);
+        }
+        if ($this->mensagem->referencia == 'imposto_renda') {
+            $this->url = route('showImpostoRendaToAdmin', [$this->mensagem->id_referencia]);
+        }
+        if ($this->mensagem->referencia == 'decimo_terceiro') {
+            $this->url = route('showDecimoTerceiroToAdmin', [$this->mensagem->id_referencia]);
         }
     }
 
@@ -132,11 +135,17 @@ class AdminHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'demissao') {
             return 'na solicitação de demissão do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
         }
-        if ($this->mensagem->referencia == 'processo_folha') {
-            return 'no processo de folha do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
-        }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             return 'na solicitação de alteração contratual do funcionário '.$this->mensagem->parent->funcionario->nome_completo.' da empresa '.$this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'ponto') {
+            return 'no registro de ponto da empresa '.$this->mensagem->parent->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'imposto_renda') {
+            return 'no imposto de renda de '.$this->mensagem->parent->nome;
+        }
+        if ($this->mensagem->referencia == 'decimo_terceiro') {
+            return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         return 'em um processo';
     }

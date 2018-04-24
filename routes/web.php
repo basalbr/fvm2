@@ -330,7 +330,8 @@ Route::group(['prefix' => 'admin/imposto-renda', 'namespace' => 'Admin', 'middle
     Route::get('', ['as' => 'listImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@index']);
     Route::get('view/{id}', ['as' => 'showImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@view']);
     Route::post('view/{id}', ['uses' => 'ImpostoRendaController@update']);
-    Route::post('view/{id}/upload/guia', ['uses' => 'ImpostoRendaController@uploadGuia']);
+    Route::post('view/{id}/upload', ['uses' => 'ImpostoRendaController@upload']);
+    Route::post('validate/file', ['as' => 'validateFile', 'uses' => 'ImpostoRendaController@validateFile']);
 });
 
 //Admin - Usuários

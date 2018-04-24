@@ -52,6 +52,9 @@ class UserHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'ponto') {
             $this->url = route('showPontoToUser', [$this->mensagem->id_referencia]);
         }
+        if ($this->mensagem->referencia == 'imposto_renda') {
+            $this->url = route('showImpostoRendaToAdmin', [$this->mensagem->id_referencia]);
+        }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
         }
@@ -138,6 +141,9 @@ class UserHasUnreadMessages extends Notification
         }
         if ($this->mensagem->referencia == 'alteracao_contratual') {
             return 'à solicitação de alteração contratual do funcionário ' . $this->mensagem->parent->funcionario->nome_completo . ' da empresa ' . $this->mensagem->parent->funcionario->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'imposto_renda') {
+            return 'no imposto de renda de '.$this->mensagem->parent->nome;
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
             return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;

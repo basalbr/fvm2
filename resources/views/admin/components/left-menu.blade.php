@@ -36,6 +36,7 @@
                 <li><a class="{{Route::current()->getPrefix() == '/admin/alteracao-contratual' ? 'active':''}}" href="{{route('listAlteracaoContratualToAdmin')}}">Alterações Contratuais <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
+        <li><a class="{{Route::current()->getPrefix() == '/admin/imposto-renda' ? 'active':''}}" href="{{route('listImpostoRendaToAdmin')}}"><span class="fa fa-paw"></span> Impostos de Renda <i class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/pagamentos' ? 'active':''}}" href="{{route('listOrdensPagamentoToAdmin')}}"><span class="fa fa-credit-card"></span> Pagamentos <i class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/usuarios' ? 'active':''}}" href="{{route('listUsuariosToAdmin')}}"><span class="fa fa-user-circle"></span> Usuários <i class="fa fa-angle-right"></i></a></li>
     </ul>

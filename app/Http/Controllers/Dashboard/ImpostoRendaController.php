@@ -99,6 +99,9 @@ class ImpostoRendaController extends Controller
     public function view($id)
     {
         $ir = Auth::user()->impostosRenda()->findOrFail($id);
+        if($ir->status == 'aguardando_conclusao'){
+            return view('dashboard.imposto_renda.edit.index', array_merge($this->getParams(), compact('ir')));
+        }
         return view('dashboard.imposto_renda.view.index', array_merge($this->getParams(), compact('ir')));
     }
 

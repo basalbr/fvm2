@@ -59,6 +59,9 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'decimo_terceiro') {
                 $this->url = route('showDecimoTerceiroToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'imposto_renda') {
+                $this->url = route('showImpostoRendaToAdmin', [$this->mensagem->id_referencia]);
+            }
         } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -95,6 +98,9 @@ class MessageSent extends Notification
             }
             if ($this->mensagem->referencia == 'decimo_terceiro') {
                 $this->url = route('showDecimoTerceiroToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'imposto_renda') {
+                $this->url = route('showImpostoRendaToUser', [$this->mensagem->id_referencia]);
             }
         } else {
             $this->url = null;
@@ -181,6 +187,9 @@ class MessageSent extends Notification
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
             return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
+        }
+        if ($this->mensagem->referencia == 'imposto_renda') {
+            return 'no imposto de renda de '.$this->mensagem->parent->nome;
         }
         return 'à um processo';
     }

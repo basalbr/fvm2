@@ -49,5 +49,9 @@ class IrDeclarante extends Model
             $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
         }
     }
+    public function tipo_ocupacao()
+    {
+        return $this->hasOne(IrTipoOcupacao::class, 'id','id_ir_tipo_ocupacao');
+    }
 
 }
