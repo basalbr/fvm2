@@ -24,10 +24,7 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                    <strong>Não existe nenhuma declaração de Imposto de Renda concluído</strong>, <a
-                            href="{{route('newImpostoRenda')}}">clique
-                        aqui</a>
-                    para enviar uma declaração de Imposto de Renda.
+                    <strong>Não existe nenhuma declaração de Imposto de Renda concluído</strong>
                 </div>
             </div>
         </div>

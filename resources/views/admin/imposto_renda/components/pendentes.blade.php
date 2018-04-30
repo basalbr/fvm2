@@ -28,7 +28,7 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                    <strong>Não existe nenhuma declaração de Imposto de Renda em aberto</a>
+                    <strong>Não existe nenhuma declaração de Imposto de Renda em aberto</strong>
                 </div>
             </div>
         </div>
