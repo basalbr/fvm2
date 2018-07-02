@@ -109,21 +109,52 @@ class AberturaEmpresa extends Model
 
     }
 
+    public function delete()
+    {
+        if ($this->ordemPagamento->count()) {
+            $this->ordemPagamento->delete();
+        }
+        if ($this->socios->count()) {
+            foreach ($this->socios as $socio) {
+                $socio->delete();
+            }
+        }
+        if ($this->mensagens->count()) {
+            foreach ($this->mensagens as $mensagem) {
+                $mensagem->delete();
+            }
+        }
+        if ($this->cnaes->count()) {
+            foreach ($this->cnaes as $cnae) {
+                $cnae->delete();
+            }
+        }
+        if($this->anotacoes->count()){
+            foreach ($this->anotacoes() as $anotacao){
+                $anotacao->delete();
+            }
+        }
+        parent::delete();
+    }
+
     public function anotacoes()
     {
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
 
-    public function getNomeEmpresarial1Attribute($attr){
+    public function getNomeEmpresarial1Attribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomeEmpresarial2Attribute($attr){
+    public function getNomeEmpresarial2Attribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getNomeEmpresarial3Attribute($attr){
+    public function getNomeEmpresarial3Attribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
@@ -218,7 +249,7 @@ class AberturaEmpresa extends Model
      */
     public function mensagens()
     {
-        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia','=',$this->getTable());
+        return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
     /**
@@ -229,8 +260,9 @@ class AberturaEmpresa extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
-    public function getQtdMensagensNaoLidas($isAdmin = false){
-        if($isAdmin){
+    public function getQtdMensagensNaoLidas($isAdmin = false)
+    {
+        if ($isAdmin) {
             return $this->mensagens()->where('from_admin', 1)->where('lida', 0)->count();
         }
         return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();

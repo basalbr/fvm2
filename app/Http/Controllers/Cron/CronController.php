@@ -56,7 +56,7 @@ class CronController extends Controller
     {
         $date = new DateTime('now');
         $date->sub(new DateInterval('P3D'));
-        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente', 'Cancelada'])->where('vencimento', '<', $date->format('Y-m-d'))->get();
+        $pagamentos = OrdemPagamento::whereIn('status', ['Pendente'])->where('vencimento', '<', $date->format('Y-m-d'))->get();
         foreach ($pagamentos as $pagamento) {
             try {
                 $pagamento->usuario->notify(new PaymentPending($pagamento));

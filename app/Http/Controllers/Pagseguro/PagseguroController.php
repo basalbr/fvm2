@@ -67,7 +67,7 @@ class PagseguroController extends Controller
                 $historicoPagamento->save();
 
                 $ordemPagamento->usuario->notify(new OrdemPagamentoNewStatusUsuario($ordemPagamento));
-                Usuario::notifyAdmins(new OrdemPagamentoNewStatusAdmin($ordemPagamento));
+//                Usuario::notifyAdmins(new OrdemPagamentoNewStatusAdmin($ordemPagamento));
 
             } else {
                 throw new \InvalidArgumentException($_POST);

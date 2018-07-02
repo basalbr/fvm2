@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /* @property Usuario usuario */
-
 class Empresa extends Model
 {
 
@@ -56,7 +55,7 @@ class Empresa extends Model
         'id_enquadramento_empresa',
     ];
 
-    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado','cancelado'=>'Cancelado'];
+    protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'cancelado' => 'Cancelado'];
 
     public function abrirApuracoes()
     {
@@ -99,9 +98,9 @@ class Empresa extends Model
 
     public function setAtivacaoProgramadaAttribute($value)
     {
-        if($value){
+        if ($value) {
             $this->attributes['ativacao_programada'] = Carbon::createFromFormat('d/m/Y', $value);
-        }else{
+        } else {
             $this->attributes['ativacao_programada'] = null;
         }
     }
@@ -146,11 +145,13 @@ class Empresa extends Model
         return $this->socios()->where('pro_labore', '>', 0)->count();
     }
 
-    public function getNomeFantasiaAttribute($attr){
+    public function getNomeFantasiaAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
-    public function getRazaoSocialAttribute($attr){
+    public function getRazaoSocialAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
@@ -214,7 +215,8 @@ class Empresa extends Model
         return $this->hasMany(Ponto::class, 'id_empresa');
     }
 
-    public function processosFolha(){
+    public function processosFolha()
+    {
         return $this->hasMany(ProcessoFolha::class, 'id_empresa');
     }
 
@@ -237,8 +239,8 @@ class Empresa extends Model
                 $processo->delete();
             }
         }
-        if ($this->processosDocumentosContabeis()->count()) {
-            foreach ($this->processos_documentos_contabeis as $processo) {
+        if ($this->processosDocumentosContabeis->count()) {
+            foreach ($this->processosDocumentosContabeis as $processo) {
                 $processo->delete();
             }
         }
@@ -252,6 +254,22 @@ class Empresa extends Model
         if ($this->socios->count()) {
             foreach ($this->socios as $socio) {
                 $socio->delete();
+            }
+        }
+
+        if ($this->cnaes->count()) {
+            foreach ($this->cnaes as $cnae) {
+                $cnae->delete();
+            }
+        }
+        if ($this->mensalidades->count()) {
+            foreach ($this->mensalidades as $mensalidade) {
+                $mensalidade->delete();
+            }
+        }
+        if($this->processosFolha->count()){
+            foreach($this->processosFolha as $folha){
+                $folha->delete();
             }
         }
 
@@ -286,8 +304,9 @@ class Empresa extends Model
 
     }
 
-    public function getQtdMensagensNaoLidas($isAdmin = false){
-        if($isAdmin){
+    public function getQtdMensagensNaoLidas($isAdmin = false)
+    {
+        if ($isAdmin) {
             return $this->mensagens()->where('from_admin', 1)->where('lida', 0)->count();
         }
         return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();

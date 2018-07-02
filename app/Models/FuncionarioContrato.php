@@ -57,6 +57,15 @@ class FuncionarioContrato extends Model
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'data_admissao', 'competencia_sindicato'];
 
+    public function delete(){
+        if($this->horarios->count()){
+            foreach ($this->horarios as $horario){
+                $horario->delete();
+            }
+        }
+        parent::delete();
+    }
+
     public function setCompetenciaSindicatoAttribute($value)
     {
         $this->attributes['competencia_sindicato'] = $value ? Carbon::createFromFormat('d/m/Y', $value) : null;

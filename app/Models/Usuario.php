@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Overrides\Auth\Passwords\CanResetPassword;
 use App\Overrides\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * @property boolean admin
@@ -58,6 +57,48 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return static::where('admin', '=', true)->get();
     }
 
+    public function delete()
+    {
+        if ($this->empresas->count()) {
+            foreach ($this->empresas as $empresa) {
+                $empresa->delete();
+            }
+        }
+        if ($this->aberturasEmpresa->count()) {
+            foreach ($this->aberturasEmpresa as $aberturaEmpresa) {
+                $aberturaEmpresa->delete();
+            }
+        }
+        if ($this->alteracoes->count()) {
+            foreach ($this->alteracoes as $alteracao) {
+                $alteracao->delete();
+            }
+        }
+        if ($this->chamados->count()) {
+            foreach ($this->chamados as $chamado) {
+                $chamado->delete();
+            }
+        }
+        if ($this->impostosRenda->count()) {
+            foreach ($this->impostosRenda as $impostoRenda) {
+                $impostoRenda->delete();
+            }
+        }
+        if (Mensagem::where('id_usuario', $this->id)->count()) {
+            foreach (Mensagem::where('id_usuario', $this->id)->get() as $mensagem) {
+                $mensagem->delete();
+            }
+        }
+        if ($this->ordensPagamento->count()) {
+            foreach ($this->ordensPagamento as $ordem_pagamento) {
+                $ordem_pagamento->delete();
+            }
+        }
+        parent::delete();
+    }
+
+
+
     public function errors()
     {
         return $this->errors;
@@ -73,11 +114,13 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(Chamado::class, 'id_usuario');
     }
 
-    public function getEmailAttribute($attr){
+    public function getEmailAttribute($attr)
+    {
         return strtolower($attr);
     }
 
-    public function getNomeAttribute($attr){
+    public function getNomeAttribute($attr)
+    {
         return ucwords(strtolower($attr));
     }
 
@@ -179,7 +222,8 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         );
     }
 
-    public function notificacoes(){
+    public function notificacoes()
+    {
         return $this->hasMany(Notificacao::class, 'notifiable_id')->where('notifiable_type', '=', Usuario::class);
     }
 

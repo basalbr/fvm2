@@ -44,10 +44,11 @@ class EmpresaController extends Controller
         return redirect()->back();
     }
 
-    public function cnaes($id){
+    public function cnaes($id)
+    {
         $empresa = Empresa::findOrFail($id);
         $ret = [];
-        foreach($empresa->cnaes as $cnae){
+        foreach ($empresa->cnaes as $cnae) {
             $ret[intval(preg_replace('/[^0-9]+/', '', $cnae->cnae->codigo), 10)] = $cnae->cnae->descricao;
         }
         dd($ret);
@@ -58,7 +59,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::find($idEmpresa);
         $empresa->ativacao_programada = $request->get('ativacao_programada');
         $empresa->save();
-        return redirect()->back()->with('successAlert', 'Ativação programada com sucesso para '.$request->get('ativacao_programada'));
+        return redirect()->back()->with('successAlert', 'Ativação programada com sucesso para ' . $request->get('ativacao_programada'));
     }
 
     public function cancelarAtivacao($idEmpresa)

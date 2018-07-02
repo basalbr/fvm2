@@ -44,6 +44,14 @@ class OrdemPagamento extends Model
         return false;
     }
 
+    public function delete(){
+        if($this->historico_pagamentos->count()){
+            foreach ($this->historico_pagamentos as $historico_pagamento){
+                $historico_pagamento->delete();
+            }
+        }
+    }
+
     public function getStatusAttribute($status){
         return $status == 'Cancelada' ? 'Pendente' : $status;
     }
@@ -87,7 +95,7 @@ class OrdemPagamento extends Model
 
     public function historico_pagamentos()
     {
-        return $this->hasMany('App\Pagamento', 'id_mensalidade');
+        return $this->hasMany(HistoricoPagamento::class, 'id_ordem_pagamento');
     }
 
     public function getDescricao()

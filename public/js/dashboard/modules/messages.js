@@ -35,6 +35,7 @@ $(function () {
 
     $('.nav-tabs li').on('click', function () {
         if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
+            resizeElementHeight($('#messages .messages'));
             readMessages(true);
             setTimeout(function () {
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
@@ -42,9 +43,27 @@ $(function () {
         }
     });
 
+    $(window).resize(function () {
+        resizeElementHeight($('#messages .messages'));
+    });
+
     setInterval(updateChat, 5000);
     setInterval(readMessages, 5000);
 });
+
+function resizeElementHeight(element) {
+    var height = 0;
+    var body = window.document.body;
+    if (window.innerHeight) {
+        height = window.innerHeight;
+    } else if (body.parentElement.clientHeight) {
+        height = body.parentElement.clientHeight;
+    } else if (body && body.clientHeight) {
+        height = body.clientHeight;
+    }
+    element.css('height', (height - 440) + "px");
+    $('.messages').scrollTop($('.messages')[0].scrollHeight);
+}
 
 function readMessages(bypass) {
     if(preventSend){

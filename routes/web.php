@@ -338,6 +338,8 @@ Route::group(['prefix' => 'admin/imposto-renda', 'namespace' => 'Admin', 'middle
 Route::group(['prefix' => 'admin/usuarios', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listUsuariosToAdmin', 'uses' => 'UsuarioController@index']);
     Route::get('view/{idUsuario}', ['as' => 'showUsuarioToAdmin', 'uses' => 'UsuarioController@view']);
+    Route::get('kill/{id}', ['as' => 'killUsuario', 'uses' => 'UsuarioController@kill']);
+
 });
 
 //Admin - Pró-labores

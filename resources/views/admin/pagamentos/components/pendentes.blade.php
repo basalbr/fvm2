@@ -17,7 +17,7 @@
     @if($pagamentosPendentes->count())
         @foreach($pagamentosPendentes as $pagamento)
             <tr>
-                <td>{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</td>
+                <td><a href="{{$pagamento->usuario ? route('showUsuarioToAdmin', $pagamento->usuario->id) : ''}}">{{$pagamento->usuario ? $pagamento->usuario->nome : $pagamento->id}}</a></td>
                 <td>{{$pagamento->getDescricao()}}</td>
                 <td>{{$pagamento->getParentName()}}</td>
                 <td>{{$pagamento->formattedValue()}}</td>

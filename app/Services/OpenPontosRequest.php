@@ -40,7 +40,7 @@ class OpenPontosRequest
         try {
             $periodo = date('Y-m-d', strtotime('first day of last month'));
 
-            $empresas = Empresa::whereDoesntHave('pontos', function ($query) use ($periodo) {
+            $empresas = Empresa::where('status','aprovado')->whereDoesntHave('pontos', function ($query) use ($periodo) {
                 $query->where('periodo', '=', $periodo);
             })->whereHas('funcionarios', function ($query) {
                 $query->where('status', 'ativo');

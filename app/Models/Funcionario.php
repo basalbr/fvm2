@@ -90,6 +90,44 @@ class Funcionario extends Model
         'ativo' => '<span class="text-success">Ativo</span>'
     ];
 
+    public function delete()
+    {
+        if ($this->mensagens->count()) {
+            foreach ($this->mensagens as $mensagem) {
+                $mensagem->delete();
+            }
+        }
+        if ($this->anotacoes->count()) {
+            foreach ($this->anotacoes as $anotacao) {
+                $anotacao->delete();
+            }
+        }
+        if ($this->contratos->count()) {
+            foreach ($this->contratos as $contrato) {
+                $contrato->delete();
+            }
+        }
+        if ($this->deficiencias->count()) {
+            foreach ($this->deficiencias as $deficiencia) {
+                $deficiencia->delete();
+            }
+        }
+        if ($this->dependentes->count()) {
+            foreach ($this->dependentes as $dependente) {
+                $dependente->delete();
+            }
+        }
+        if ($this->documentos->count()) {
+            foreach ($this->documentos as $documentos) {
+                $documentos->delete();
+            }
+        }
+        if ($this->demissao->count()) {
+            $this->demissao->delete();
+        }
+        parent::delete();
+    }
+
     public function mensagens()
     {
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
@@ -193,6 +231,14 @@ class Funcionario extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function demissao()
+    {
+        return $this->hasOne(Demissao::class, 'id_funcionario');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function deficiencias()
@@ -216,7 +262,8 @@ class Funcionario extends Model
         return $this->hasMany(FuncionarioContrato::class, 'id_funcionario');
     }
 
-    public function getSalario(){
+    public function getSalario()
+    {
         return $this->contratos()->latest()->first()->getSalario();
     }
 

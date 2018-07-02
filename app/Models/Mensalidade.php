@@ -102,4 +102,13 @@ class Mensalidade extends Model
         return 'R$' . number_format($this->valor, 2, ',', '.');
     }
 
+    public function delete(){
+        if($this->pagamentos->count()){
+            foreach ($this->pagamentos as $pagamento){
+                $pagamento->delete();
+            }
+        }
+        parent::delete();
+    }
+
 }

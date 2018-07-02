@@ -4,7 +4,7 @@
     @section('meta')
         <title>WEBContabilidade</title>
         <meta name="description"
-              content="Serviços contábeis com mensalidades a partir de R$49,90 para empresas de Santa Catarina optantes pelo Simples Nacional">
+              content="Serviços contábeis com mensalidades a partir de R$69,90 para empresas de Santa Catarina optantes pelo Simples Nacional">
     @show
     <link rel="shortcut icon" href="{{url(public_path().'favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{url(public_path().'favicon.ico')}}" type="image/x-icon">

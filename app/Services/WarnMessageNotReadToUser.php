@@ -27,14 +27,14 @@ class WarnMessageNotReadToUser
         try {
             if ($message->referencia == 'funcionario' || $message->referencia == 'apuracao') {
                 $usuario = $message->parent->empresa->usuario;
-            }else{
+            } else {
                 $usuario = $message->parent->usuario;
             }
-            if($usuario instanceof Usuario){
-            $usuario->notify(new UserHasUnreadMessages($message));
+            if ($usuario instanceof Usuario) {
+                $usuario->notify(new UserHasUnreadMessages($message));
             }
         } catch (\Exception $e) {
-            Log::info('Mensagem id: '.$message->id);
+            Log::info('Mensagem id: ' . $message->id);
             Log::critical($e);
         }
     }

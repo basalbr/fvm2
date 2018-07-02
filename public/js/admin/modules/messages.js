@@ -13,13 +13,17 @@ $(function () {
             e.preventDefault();
             var content = this.value;
             var caret = getCaret(this);
-            if(event.shiftKey){
+            if (event.shiftKey) {
                 this.value = content.substring(0, caret) + "\n" + content.substring(caret, content.length);
                 event.stopPropagation();
-            }else{
+            } else {
                 sendMessage();
             }
         }
+    });
+
+    $(window).resize(function () {
+        resizeElementHeight($('#messages .messages'))
     });
 
     $('#send-message').on('click', function (e) {
@@ -40,6 +44,7 @@ $(function () {
 
     $('.nav-tabs li').on('click', function () {
         if ($(this).find('a[href="#messages"]').length > 0 || $(this).find('a[href="#mensagens"]').length > 0) {
+            resizeElementHeight($('#messages .messages'));
             readMessages(true);
             setTimeout(function () {
                 $('.messages').scrollTop($('.messages')[0].scrollHeight);
@@ -50,8 +55,22 @@ $(function () {
     setInterval(readMessages, 5000);
 });
 
+function resizeElementHeight(element) {
+    var height = 0;
+    var body = window.document.body;
+    if (window.innerHeight) {
+        height = window.innerHeight;
+    } else if (body.parentElement.clientHeight) {
+        height = body.parentElement.clientHeight;
+    } else if (body && body.clientHeight) {
+        height = body.clientHeight;
+    }
+    element.css('height', (height - 440) + "px");
+    $('.messages').scrollTop($('.messages')[0].scrollHeight);
+}
+
 function readMessages(bypass) {
-    if(preventSend){
+    if (preventSend) {
         return false;
     }
     if (!$('.messages').is(':visible') && !bypass) {
@@ -73,7 +92,7 @@ function readMessages(bypass) {
 }
 
 function sendMessage() {
-    if(preventSend){
+    if (preventSend) {
         return false;
     }
     preventSend = true;
@@ -85,10 +104,10 @@ function sendMessage() {
     };
     $('#send-message').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando mensagem...');
     $('#message').val(null);
-    if(readAjax!==null){
+    if (readAjax !== null) {
         readAjax.abort();
     }
-    if(updateAjax!==null) {
+    if (updateAjax !== null) {
         updateAjax.abort();
     }
     $.post($('.messages').data('send-message-url'), info)
@@ -159,8 +178,9 @@ function uploadMessengerFile(formData, target) {
         $('#send-file').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
     });
 }
+
 function updateChat() {
-    if(preventSend){
+    if (preventSend) {
         return false;
     }
     if (!$('.messages').is(':visible')) {

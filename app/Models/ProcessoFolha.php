@@ -26,6 +26,20 @@ class ProcessoFolha extends Model
     protected $fillable = ['id_empresa', 'inss', 'irrf', 'recibo_folha', 'fgts', 'competencia'];
     protected $dates = ['created_at', 'updated_at', 'competencia'];
 
+    public function delete(){
+        if($this->anotacoes->count()){
+            foreach ($this->anotacoes as $anotacao){
+                $anotacao->delete();
+            }
+        }
+        if($this->mensagens->count()){
+            foreach ($this->mensagens as $mensagem){
+                $mensagem->delete();
+            }
+        }
+        parent::delete();
+    }
+
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'id_empresa');

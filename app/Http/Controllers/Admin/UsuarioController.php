@@ -19,6 +19,7 @@ use App\Models\Usuario;
 use App\Services\ActivateEmpresa;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
+use App\Services\KillByInadimplency;
 use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
@@ -55,6 +56,16 @@ class UsuarioController extends Controller
         $chamados = $usuario->chamados()->orderBy('updated_at', 'desc')->get();
         $ordensPagamento = $usuario->ordensPagamento()->orderBy('created_at', 'desc')->get();
         return view('admin.usuarios.view.index', compact("usuario", 'aberturasEmpresa', 'alteracoes', 'empresas', 'chamados', 'ordensPagamento'));
+    }
+
+    /* Banir usuário por inadimplência*/
+    public function kill($id)
+    {
+        $usuario = Usuario::find($id);
+        if (KillByInadimplency::handle($usuario)) {
+            return redirect()->route('listUsuariosToAdmin')->with('successAlert', 'Usuário morto com sucesso :D');
+        }
+        return redirect()->back()->with('errorAlert', 'Ocorreu um erro ao tentar matar esse usuário');
     }
 
     /**

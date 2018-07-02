@@ -3,7 +3,7 @@
     <a href="{{route('listUsuariosToAdmin')}}">Usuários</a> <i class="fa fa-angle-right"></i> {{$usuario->nome}}
 @stop
 @section('content')
-        <!-- Nav tabs -->
+    <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#principal" aria-controls="principal" role="tab" data-toggle="tab"><i class="fa fa-home"></i>
@@ -56,6 +56,10 @@
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
+            @if(Auth::user()->id === 1)
+                <a class="btn btn-danger" href="{{route('killUsuario', $usuario->id)}}"><i class="fa fa-crosshairs"></i>
+                    Matar Usuário</a>
+            @endif
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>
     </div>
