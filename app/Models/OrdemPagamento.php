@@ -50,6 +50,7 @@ class OrdemPagamento extends Model
                 $historico_pagamento->delete();
             }
         }
+        parent::delete();
     }
 
     public function getStatusAttribute($status){
@@ -129,6 +130,7 @@ class OrdemPagamento extends Model
             case 'mensalidade':
                 return $this->parent->empresa->nome_fantasia.' ('.$this->parent->empresa->razao_social.')';
             case 'alteracao':
+                Log::info('AQUIIII'.$this->id);
                 return $this->parent->tipo->descricao;
             default:
                 return '';

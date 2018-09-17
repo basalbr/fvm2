@@ -43,14 +43,14 @@ class PagamentoController extends Controller
 
     public function index(Request $request)
     {
-        $pagamentosPendentes = OrdemPagamento::query()->whereNotIn('ordem_pagamento.status', ['Paga', 'Disponível']);
+        $pagamentosPendentes = OrdemPagamento::query()->where('ordem_pagamento.deleted_at', null)->whereNotIn('ordem_pagamento.status', ['Paga', 'Disponível','Cancelado', 'Indisponível']);
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $pagamentosPendentes = $this->filterForm($pagamentosPendentes, $request);
         }
         $pagamentosPendentes = $pagamentosPendentes->select('ordem_pagamento.*')->paginate(20);
 
 
-        $historicoPagamento = OrdemPagamento::query()->whereIn('ordem_pagamento.status', ['Paga', 'Disponível']);
+        $historicoPagamento = OrdemPagamento::query()->where('ordem_pagamento.deleted_at', null)->whereIn('ordem_pagamento.status', ['Paga', 'Disponível','Cancelado', 'Indisponível']);
         if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $historicoPagamento = $this->filterForm($historicoPagamento, $request);
         }
@@ -121,6 +121,7 @@ class PagamentoController extends Controller
             $data = explode('/', $request->get('vencimento_ate'));
             $query->where('ordem_pagamento.vencimento', '<=', $data[2] . '-' . $data[1] . '-' . $data[0]);
         }
+        $query->where('usuario.deleted_at', null);
         if ($request->get('ordenar')) {
             switch ($request->get('ordenar')) {
                 case 'aberto_asc':

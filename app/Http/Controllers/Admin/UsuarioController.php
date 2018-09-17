@@ -19,6 +19,7 @@ use App\Models\Usuario;
 use App\Services\ActivateEmpresa;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
+use App\Services\DisableUsuario;
 use App\Services\KillByInadimplency;
 use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
@@ -66,6 +67,16 @@ class UsuarioController extends Controller
             return redirect()->route('listUsuariosToAdmin')->with('successAlert', 'Usuário morto com sucesso :D');
         }
         return redirect()->back()->with('errorAlert', 'Ocorreu um erro ao tentar matar esse usuário');
+    }
+
+    /* Banir usuário*/
+    public function disable($id)
+    {
+        $usuario = Usuario::find($id);
+        if (DisableUsuario::handle($usuario)) {
+            return redirect()->route('listUsuariosToAdmin')->with('successAlert', 'Usuário desabilitado com sucesso :D');
+        }
+        return redirect()->back()->with('errorAlert', 'Ocorreu um erro ao tentar desabilitar esse usuário');
     }
 
     /**

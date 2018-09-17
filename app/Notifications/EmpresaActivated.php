@@ -62,7 +62,7 @@ class EmpresaActivated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => 'Sua empresa '.$this->empresa->nome_fantasia .' foi ativada em nosso sistema e a partir de agora começam seus 30 dias grátis em nosso sistema.',
+            'mensagem' => 'Sua empresa '.$this->empresa->nome_fantasia .' foi ativada e a partir de agora você já pode acessar as funcionalidades do nosso sistema.',
             'url' => $this->url
         ];
     }

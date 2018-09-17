@@ -59,6 +59,8 @@
             @if(Auth::user()->id === 1)
                 <a class="btn btn-danger" href="{{route('killUsuario', $usuario->id)}}"><i class="fa fa-crosshairs"></i>
                     Matar Usuário</a>
+                <a class="btn btn-warning" href="{{route('disableUsuario', $usuario->id)}}"><i class="fa fa-stop-circle"></i>
+                    Desativar Usuário</a>
             @endif
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
         </div>

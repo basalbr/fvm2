@@ -122,7 +122,7 @@ class Funcionario extends Model
                 $documentos->delete();
             }
         }
-        if ($this->demissao->count()) {
+        if ($this->demissao instanceof Demissao) {
             $this->demissao->delete();
         }
         parent::delete();

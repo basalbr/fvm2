@@ -339,7 +339,7 @@ Route::group(['prefix' => 'admin/usuarios', 'namespace' => 'Admin', 'middleware'
     Route::get('', ['as' => 'listUsuariosToAdmin', 'uses' => 'UsuarioController@index']);
     Route::get('view/{idUsuario}', ['as' => 'showUsuarioToAdmin', 'uses' => 'UsuarioController@view']);
     Route::get('kill/{id}', ['as' => 'killUsuario', 'uses' => 'UsuarioController@kill']);
-
+    Route::get('disable/{id}', ['as' => 'disableUsuario', 'uses' => 'UsuarioController@disable']);
 });
 
 //Admin - Pró-labores
