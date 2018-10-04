@@ -53,6 +53,7 @@ class Empresa extends Model
         'crc',
         'status',
         'id_enquadramento_empresa',
+        'certificado_digital'
     ];
 
     protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'cancelado' => 'Cancelado'];

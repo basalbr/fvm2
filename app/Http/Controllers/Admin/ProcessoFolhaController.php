@@ -54,7 +54,7 @@ class ProcessoFolhaController extends Controller
 
             })
             ->whereDoesntHave('processosFolha', function ($q) {
-                $q->whereMonth('created_at', '=', date('m'));
+                $q->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date('Y'));
             })
             ->orderBy('nome_fantasia', 'asc')
             ->get();

@@ -14,7 +14,7 @@
     @if($empresasAtivas->count())
         @foreach($empresasAtivas as $empresa)
             <tr>
-                <td><a href="{{route('showUsuarioToAdmin', $empresa->usuario->nome)}}">{{$empresa->usuario->nome}}</a></td>
+                <td><a href="{{route('showUsuarioToAdmin', $empresa->usuario->id)}}">{{$empresa->usuario->nome}}</a></td>
                 <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}} ({{$empresa->razao_social}})</a></td>
                 <td>{{$empresa->cnpj}}</td>
                 <td>

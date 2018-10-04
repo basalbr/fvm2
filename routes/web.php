@@ -218,6 +218,13 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
     Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
 });
 
+//Dashboard - Certificados Digitais
+Route::group(['prefix' => 'dashboard/certificados-digitais', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listCertificadosToUser', 'uses' => 'CertificadoDigitalController@index']);
+    Route::post('', ['uses' => 'CertificadoDigitalController@upload']);
+    Route::get('delete/{idEmpresa}', ['as'=>'userDeleteCertificado', 'uses' => 'CertificadoDigitalController@delete']);
+});
+
 //CRON
 Route::group(['namespace' => 'Dashboard'], function () {
     Route::get('abrir-apuracoes', ['uses' => 'ApuracaoController@abrirApuracoes']);

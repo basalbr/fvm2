@@ -21,6 +21,9 @@
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/atendimento' ? 'active':''}}"
                href="{{route('listAtendimentosToUser')}}"><span class="fa fa-comments"></span> Atendimento <i
                         class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/certificados-digitais' ? 'active':''}}"
+               href="{{route('listCertificadosToUser')}}"><span class="fa fa-id-card"></span> Certificados Digitais (Novo)<i
+                        class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->uri == 'dashboard/apuracao/calendario' ? 'active':''}}"
                href="{{route('showCalendarioImpostos')}}"><span class="fa fa-calendar"></span> Calendário de impostos <i
                         class="fa fa-angle-right"></i></a></li>
@@ -64,5 +67,6 @@
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/pagamentos' ? 'active':''}}"
                href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span> Pagamentos <i
                         class="fa fa-angle-right"></i></a></li>
+
     </ul>
 </div>

@@ -26,6 +26,7 @@
 @section('modals')
     @include('dashboard.modals.alert')
     @include('dashboard.modals.success')
+    @include('dashboard.modals.esocial')
 @show
 </body>
 </html>
