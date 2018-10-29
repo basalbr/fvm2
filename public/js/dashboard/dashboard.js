@@ -34,7 +34,7 @@ $(function () {
         $('#left-menu').toggleClass('open');
         $(this).toggleClass('active');
     });
-})
+});
 
 function checkIfInView(element){
     var offset =( element.offset().top + 50 ) - $('#left-menu').scrollTop();

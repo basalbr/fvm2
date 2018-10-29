@@ -1,5 +1,5 @@
 @if(!isset($_COOKIE['esocial-read']))
-    @if(Auth::user()->empresas()->where('certificado_digital', null)->count())
+    @if(Auth::user()->empresas()->where('status', 'aprovado')->where('certificado_digital', null)->count())
         <script type="text/javascript">
             $(function () {
                 $('#modal-esocial').modal('show');
@@ -21,10 +21,10 @@
 
                             <br/>
                             <p class="message">Olá {{Auth::user()->nome}}, tudo bem?</p>
-                            <p class="message">Em breve entrará em vigor o <a
+                            <p class="message">Existe um sistema do governo chamado de <a
                                         href="http://portal.esocial.gov.br/institucional/conheca-o"
                                         target="_blank"><strong>e-Social</strong></a>,
-                                um sistema unificado do governo onde precisamos obrigatoriamente enviar informações da
+                                onde precisamos obrigatoriamente enviar informações da
                                 sua
                                 empresa e das pessoas que compõem ela sob pena de multa caso não seja feito o envio
                                 dessas
@@ -34,7 +34,7 @@
                                 digital da sua empresa para que possamos enviar essas informações.</p>
                             <p class="message">Sendo assim precisamos que nos envie seu <strong>certificado digital do
                                     tipo
-                                    A1</strong> até o dia <strong>20/10/2018</strong> para que possamos manter a sua
+                                    A1</strong> para que possamos manter a sua
                                 empresa
                                 em dia junto ao governo.</p>
                             <p class="message">Caso não possua um certificado digital do tipo A1, será necessário

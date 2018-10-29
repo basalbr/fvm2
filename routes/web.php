@@ -218,6 +218,11 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
     Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
 });
 
+//Dashboard - Balancetes
+Route::group(['prefix' => 'dashboard/balancetes', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listBalancetesToUser', 'uses' => 'BalanceteController@index']);
+});
+
 //Dashboard - Certificados Digitais
 Route::group(['prefix' => 'dashboard/certificados-digitais', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listCertificadosToUser', 'uses' => 'CertificadoDigitalController@index']);
@@ -237,6 +242,7 @@ Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('mensalidade/adjustmentMessage', ['uses' => 'CronController@AdjustmentInMensalidade']);
     Route::get('funcionarios/requestPontos', ['uses' => 'CronController@openPontosRequest']);
     Route::get('send/rodada-negocios', ['uses' => 'CronController@sendRodadaNegociosEmail']);
+    Route::get('send/sorry', ['uses' => 'CronController@sorry']);
 });
 
 //Dashboard - Usuário
@@ -244,6 +250,11 @@ Route::group(['prefix' => 'dashboard/usuario', 'namespace' => 'Dashboard', 'midd
     Route::get('', ['as' => 'editPerfil', 'uses' => 'UsuarioController@view']);
     Route::post('', ['uses' => 'UsuarioController@update']);
     Route::post('upload/foto', ['as' => 'uploadUsuarioFoto', 'uses' => 'UsuarioController@uploadFoto']);
+});
+
+//Dashboard - Analytics
+Route::group(['prefix' => 'dashboard/analytics', 'namespace' => 'Dashboard', 'middleware' => 'auth', 'checkPayment'], function () {
+    Route::get('history/balance', ['as' => 'getBalanceHistory', 'uses' => 'AnalyticsController@getBalanceHistory']);
 });
 
 //Admin

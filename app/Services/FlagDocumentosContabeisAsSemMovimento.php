@@ -42,7 +42,7 @@ class FlagDocumentosContabeisAsSemMovimento
             $processo->status = 'sem_movimento';
             $processo->save();
             //Notifica admins que existe um novo funcionario cadastrado
-            Usuario::notifyAdmins(new DocumentosContabeisSemMovimento($processo));
+//            Usuario::notifyAdmins(new DocumentosContabeisSemMovimento($processo));
             DB::commit();
 
         } catch (\Exception $e) {

@@ -53,7 +53,8 @@ class Empresa extends Model
         'crc',
         'status',
         'id_enquadramento_empresa',
-        'certificado_digital'
+        'certificado_digital',
+        'senha_certificado_digital',
     ];
 
     protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'cancelado' => 'Cancelado'];
@@ -129,6 +130,11 @@ class Empresa extends Model
     public function mensalidades(): HasMany
     {
         return $this->hasMany(Mensalidade::class, 'id_empresa');
+    }
+
+    public function balancetes(): HasMany
+    {
+        return $this->hasMany(Balancete::class, 'id_empresa');
     }
 
     public function getUltimaMensagem()

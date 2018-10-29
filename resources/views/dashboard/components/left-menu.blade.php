@@ -44,8 +44,7 @@
                                 class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
-        <li><a class="{{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"
-               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-paw"></span> Imposto de Renda <i class="fa fa-angle-right"></i></a></li>
+
         <li>
             <a href=""><span class="fa fa-users"></span> Gestão de Pessoas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
@@ -63,10 +62,20 @@
                        href="{{route('listPontosToUser')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
-
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"
+               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-paw"></span> Imposto de Renda <i class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/pagamentos' ? 'active':''}}"
                href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span> Pagamentos <i
                         class="fa fa-angle-right"></i></a></li>
+        <li>
+            <a href=""><span class="fa fa-file-text"></span> Relatórios <i class="fa fa-angle-down"></i></a>
+            <ul class="left-menu-list animated fadeInLeft">
+                <li><a class="{{Route::current()->getPrefix() == '/dashboard/balancetes' ? 'active':''}}"
+                       href="{{route('listBalancetesToUser')}}">Balancetes <i class="fa fa-angle-right"></i></a>
+                </li>
+
+            </ul>
+        </li>
 
     </ul>
 </div>

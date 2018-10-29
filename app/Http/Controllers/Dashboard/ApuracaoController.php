@@ -92,7 +92,7 @@ class ApuracaoController extends Controller
             ->first();
         $apuracao->status = 'sem_movimento';
         $apuracao->save();
-        Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
+//        Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
         return redirect()->route('listApuracoesToUser')->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
     }
 

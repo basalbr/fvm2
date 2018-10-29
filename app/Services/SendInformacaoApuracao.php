@@ -44,7 +44,7 @@ class SendInformacaoApuracao
                     }
                 }
             }
-            Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
+//            Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
             $apuracao->status = 'informacoes_enviadas';
             $apuracao->save();
             DB::commit();

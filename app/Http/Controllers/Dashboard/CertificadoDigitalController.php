@@ -61,6 +61,7 @@ class CertificadoDigitalController extends Controller
             $empresa = Auth::user()->empresas()->findOrFail($request->get('id_empresa'));
             $filename = md5(random_bytes(5)) . '.' . $request->file('certificado')->getClientOriginalExtension();
             $empresa->certificado_digital = $filename;
+            $empresa->senha_certificado_digital = $request->get('senha');
             $empresa->save();
             $request->file('certificado')->storeAs('certificados/' . $request->get('id_empresa') . '/', $filename, 'public');
             DB::commit();

@@ -20,6 +20,8 @@ use App\Notifications\ApuracaoPending;
 use App\Notifications\DocumentosContabeisPending;
 use App\Notifications\PaymentAlmostPending;
 use App\Notifications\PaymentPending;
+use App\Notifications\Sorry;
+use App\Notifications\UsuarioDisabled;
 use App\Services\ActivateEmpresa;
 use App\Services\OpenPontosRequest;
 use App\Services\SendMendalidadeAdjustment;
@@ -157,6 +159,23 @@ class CronController extends Controller
     {
         $usuarios = Usuario::all();
         SendMendalidadeAdjustment::handle($usuarios);
+    }
+
+    public function sorry(){
+        $usuarios = Usuario::whereHas('empresas', function($q){
+            $q->where('deleted_at', null);
+            $q->where('status', 'aprovado');
+        })->orWhereHas('aberturasEmpresa', function($q){
+            $q->where('deleted_at', null);
+            $q->where('status', 'Pendente');
+        })->get();
+        foreach ($usuarios as $usuario) {
+            try {
+                $usuario->notify(new Sorry());
+            } catch (\Exception $e) {
+                Log::critical($e);
+            }
+        }
     }
 
     public function sendRodadaNegociosEmail()

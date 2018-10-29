@@ -11,12 +11,21 @@
                $(this).parent().find('[type="file"]').click();
            });
            $('form [type="file"]').on('change', function(){
-              if(validateMessengerFile($(this))){
+              if(validatePassword() && validateMessengerFile($(this))){
                   $(this).parent().find('a').addClass('disabled').html('<span class="fa fa-hourglass-1"></span> Enviando certificado, aguarde...').prop('disabled');
                   $(this).parent().submit();
               }
            });
         });
+
+        function validatePassword(){
+            if ($('[name="senha"]').val() !== null && $('[name="senha"]').val() !== ''){
+                return true;
+            }
+            showModalAlert('É necessário informar a senha do certificado para que possamos importar em nosso sistema.');
+            return false;
+        }
+
         function validateMessengerFile(file) {
             if (file.val() !== '' &&
                 file.val() &&
@@ -45,8 +54,13 @@
                         </div>
                         <div class="panel-body">
                             <p>Você ainda não nos enviou o certificado digital dessa empresa, para enviar basta clicar
-                                no botão abaixo.</p>
+                                no botão abaixo (Não esqueça de informar a senha).</p>
                             <form data-id-empresa="{{$empresa->id}}" method="POST" class="certificado-form" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label for="senha">Senha do certificado *</label>
+                                    <input type="text" class="form-control" name="senha" value=""/>
+                                </div>
                                 <a href="" class="btn-primary btn"><span class="fa fa-upload"></span> Enviar Certificado
                                     Digital A1</a>
                                 <input type="file" class="hidden" name="certificado"/>

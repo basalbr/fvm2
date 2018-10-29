@@ -53,7 +53,7 @@ class SendDocumentosContabeis
             $processo->status = 'documentos_enviados';
             $processo->save();
             //Notifica admins que existe um novo funcionario cadastrado
-            Usuario::notifyAdmins(new DocumentosContabeisSent($processo));
+//            Usuario::notifyAdmins(new DocumentosContabeisSent($processo));
             DB::commit();
 
         } catch (\Exception $e) {
