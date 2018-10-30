@@ -91,8 +91,8 @@
                             <td>
                                 <a href="{{route('showEmpresaToUser', $balancete->id_empresa)}}">{{$balancete->empresa->razao_social}}</a>
                             </td>
-                            <td>{{$balancete->periodo_inicial->format('d/m/Y')}}</td>
-                            <td>{{$balancete->periodo_final->format('d/m/Y')}}</td>
+                            <td>{{$balancete->getPeriodoInicial()}}</td>
+                            <td>{{$balancete->getPeriodoFinal()}}</td>
                             <td>{{$balancete->getReceitas()}}</td>
                             <td>{{$balancete->getDespesas()}}</td>
                             <td>{!! $balancete->getResultadoPeriodo()!!}</td>

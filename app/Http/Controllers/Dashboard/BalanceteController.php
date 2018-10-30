@@ -25,7 +25,7 @@ class BalanceteController extends Controller
 
     public function index(Request $request)
     {
-        $balancetes = Auth::user()->balancetes()->orderBy('periodo_final','desc')->orderBy('periodo_inicial','desc')->get();
+        $balancetes = Auth::user()->balancetes()->orderBy('exercicio','desc')->orderBy('periodo_final','desc')->orderBy('periodo_inicial','desc')->get();
         return view('dashboard.balancetes.index', compact('balancetes'));
     }
 

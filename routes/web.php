@@ -267,6 +267,16 @@ Route::group(['prefix' => 'admin/atendimento', 'namespace' => 'Admin', 'middlewa
     Route::get('', ['as' => 'listAtendimentosToAdmin', 'uses' => 'AtendimentoController@index']);
 });
 
+//Admin - Balancete
+Route::group(['prefix' => 'admin/balancete', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listBalancetesToAdmin', 'uses' => 'BalanceteController@index']);
+    Route::get('view/{id}', ['as' => 'showBalanceteToAdmin', 'uses' => 'BalanceteController@view']);
+    Route::get('new/{id?}', ['as' => 'newBalancete', 'uses' => 'BalanceteController@create']);
+    Route::post('new/{id?}', ['uses' => 'BalanceteController@store']);
+    Route::get('history/{id?}', ['as' => 'getBalanceteHistory', 'uses' => 'BalanceteController@history']);
+    Route::post('validate', ['as' => 'validateBalancete', 'uses' => 'BalanceteController@validateBalancete']);
+});
+
 //Admin - Abertura de Empresa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@index']);

@@ -13,6 +13,7 @@
             <a class="{{Route::currentRouteNamed('adminHome') ? 'active' : ''}}" href="{{route('adminHome')}}"><span class="fa fa-home"></span> Início <i class="fa fa-angle-right"></i></a>
         </li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/atendimento' ? 'active':''}}" href="{{route('listAtendimentosToAdmin')}}"><span class="fa fa-comments"></span> Atendimento <i class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/admin/balancete' ? 'active':''}}" href="{{route('listBalancetesToAdmin')}}"><span class="fa fa-area-chart"></span> Balancetes <i class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
