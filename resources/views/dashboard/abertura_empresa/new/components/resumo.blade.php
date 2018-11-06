@@ -8,7 +8,7 @@
 <div class="col-xs-6 summary">
     <p>Abaixo está um resumo da sua solicitação de abertura de empresa.</p>
 
-    <div class="description">Taxa de abertura de empresa: <span class="price">R$79,90</span></div>
+    <div class="description">Taxa de abertura de empresa: <span class="price">R${{number_format(\App\Models\Config::getAberturaEmpresaPrice(), 2, ',', '.')}}</span></div>
     <div class="description">Mensalidade após conclusão do processo: <span class="price" id="mensalidade">R$19,90</span></div>
     <ul class="items">
         <li>Quantidade de funcionários: <span id="qtde-funcionarios">0</span></li>

@@ -1,44 +1,45 @@
 @if(count($messages))
     @foreach($messages as $message)
         @if($message->id_usuario)
-        <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
-            <div class="thumb">
-                <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
+            <div class="message{{$message->from_admin ? ' from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
+                <div class="thumb">
+                    <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
+                </div>
+                <div class="name"><a href="{{route('showUsuarioToAdmin', $message->id_usuario)}}">{{$message->usuario->nome}}</a>
+                </div>
+                <div class="clearfix"></div>
+                <div class="text">
+                    <p>{!!nl2br($message->mensagem)!!}
+                        @if($message->anexo)
+                            <a download
+                               href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
+                                {{$message->anexo->descricao}}
+                            </a>
+                        @endif
+                    </p>
+                    <p class="time">Enviado em {{$message->created_at->format('d/m/y à\s H:i')}} {!! $message->lida ? '- <span class="fa fa-eye"></span>' : '' !!}</p>
+                </div>
             </div>
-            <div class="text">
-                <p><a href="{{route('showUsuarioToAdmin', $message->id_usuario)}}"><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}</a>
-                        - {{$message->created_at->format('d/m/y H:i')}}</strong>
-                </p>
-                <p>{!!nl2br($message->mensagem)!!}
-                    @if($message->anexo)
-                        <a download
-                           href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
-                            {{$message->anexo->descricao}}
-                        </a>
-                    @endif
-                </p>
-            </div>
-        </div>
         @else
-        <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn"
-             data-id="{{$message->id}}">
-            <div class="thumb">
-                <img src="{{asset(public_path().'images/thumb.jpg')}}"/>
+            <div class="message{{$message->from_admin ? ' from-admin' : ''}} animated fadeIn"
+                 data-id="{{$message->id}}">
+                <div class="thumb">
+                    <img src="{{asset(public_path().'images/thumb.jpg')}}"/>
+                </div>
+                <div class="text">
+                    <p><strong>{{$message->parent->nome}}
+                            - {{$message->created_at->format('d/m/y à\s H:i')}}</strong>
+                    </p>
+                    <p>{!! nl2br($message->mensagem) !!}
+                        @if($message->anexo)
+                            <a download
+                               href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
+                                {{$message->anexo->descricao}}
+                            </a>
+                        @endif
+                    </p>
+                </div>
             </div>
-            <div class="text">
-                <p><strong>{{$message->parent->nome}}
-                        - {{$message->created_at->format('d/m/y H:i')}}</strong>
-                </p>
-                <p>{!! nl2br($message->mensagem) !!}
-                    @if($message->anexo)
-                        <a download
-                           href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
-                            {{$message->anexo->descricao}}
-                        </a>
-                    @endif
-                </p>
-            </div>
-        </div>
         @endif
         <div class="clearfix"></div>
     @endforeach

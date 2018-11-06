@@ -1,14 +1,14 @@
 @if(count($messages))
     @foreach($messages as $message)
         @if($message->id_usuario)
-        <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
+        <div class="message{{$message->from_admin ? ' from-admin' : ''}} animated fadeIn" data-id="{{$message->id}}">
             <div class="thumb">
                 <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
+            <div class="name">{{$message->usuario->nome}}
+            </div>
+            <div class="clearfix"></div>
             <div class="text">
-                <p><strong>{{Auth::user()->id == $message->id_usuario ? 'Eu':$message->usuario->nome}}
-                        - {{$message->created_at->format('d/m/y H:i')}}</strong>
-                </p>
                 <p>{!!nl2br($message->mensagem)!!}
                     @if($message->anexo)
                         <a download
@@ -17,17 +17,18 @@
                         </a>
                     @endif
                 </p>
+                <p class="time">Enviado em {{$message->created_at->format('d/m/y à\s H:i')}}</p>
             </div>
         </div>
         @else
-            <div class="message {{$message->from_admin ? 'from-admin' : ''}} animated fadeIn"
+            <div class="message{{$message->from_admin ? ' from-admin' : ''}} animated fadeIn"
                  data-id="{{$message->id}}">
                 <div class="thumb">
                     <img src="{{asset(public_path().'images/thumb.jpg')}}"/>
                 </div>
                 <div class="text">
                     <p><strong>{{$message->parent->nome}}
-                            - {{$message->created_at->format('d/m/y H:i')}}</strong>
+                            - {{$message->created_at->format('d/m/y à\s H:i')}}</strong>
                     </p>
                     <p>{!! nl2br($message->mensagem) !!}
                         @if($message->anexo)

@@ -15,7 +15,6 @@
     @if(!isset($lockMessages))
         <div>
             <div class="form-group">
-                <label for="mensagem">Mensagem</label>
                 <textarea class="form-control" id="message"
                           placeholder="Digite sua mensagem..."></textarea>
                 <small>Pressione Shift+Enter para criar uma nova linha</small>

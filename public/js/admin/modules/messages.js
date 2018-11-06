@@ -21,7 +21,13 @@ $(function () {
             }
         }
     });
-
+    if($('a[href="#messages"]').parent().hasClass('active') || $('a[href="#mensagens"]').parent().hasClass('active')){
+        resizeElementHeight($('#messages .messages'));
+        readMessages(true);
+        setTimeout(function () {
+            $('.messages').scrollTop($('.messages')[0].scrollHeight);
+        }, 500);
+    }
     $(window).resize(function () {
         resizeElementHeight($('#messages .messages'))
     });
@@ -65,7 +71,7 @@ function resizeElementHeight(element) {
     } else if (body && body.clientHeight) {
         height = body.clientHeight;
     }
-    element.css('height', (height - 440) + "px");
+    element.css('height', (height - 520) + "px");
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 

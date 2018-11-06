@@ -40,7 +40,8 @@ class CertificadoDigitalController extends Controller
         return view('dashboard.certificado_digital.index', compact("empresas"));
     }
 
-    public function delete($idEmpresa){
+    public function delete($idEmpresa)
+    {
         try {
             $empresa = Auth::user()->empresas()->findOrFail($idEmpresa);
             $empresa->certificado_digital = null;
@@ -60,9 +61,7 @@ class CertificadoDigitalController extends Controller
             /* @var $empresa Empresa */
             $empresa = Auth::user()->empresas()->findOrFail($request->get('id_empresa'));
             $filename = md5(random_bytes(5)) . '.' . $request->file('certificado')->getClientOriginalExtension();
-            $empresa->certificado_digital = $filename;
-            $empresa->senha_certificado_digital = $request->get('senha');
-            $empresa->save();
+            $empresa->update(['certificado_digital' => $filename, 'senha_certificado_digital' => $request->get('senha')]);
             $request->file('certificado')->storeAs('certificados/' . $request->get('id_empresa') . '/', $filename, 'public');
             DB::commit();
             return redirect()->route('listCertificadosToUser')->with('successAlert', 'Certificado enviado com sucesso!');
