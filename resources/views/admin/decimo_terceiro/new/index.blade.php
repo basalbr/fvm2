@@ -13,6 +13,11 @@
                 e.preventDefault();
                 validateFormPrincipal();
             });
+            $('.select-empresa').on('click', function () {
+                $('.select-empresa').removeClass('btn-primary').addClass('btn-default');
+                $(this).removeClass('btn-default').addClass('btn-primary');
+                $('[name="id_empresa"]').val($(this).data('id'));
+            })
         });
 
         function validateFormPrincipal() {
@@ -64,14 +69,23 @@
                 </div>
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <label>Empresa *</label>
-                        <select class="form-control" name="id_empresa">
-                            <option value="">Selecione uma empresa</option>
-                            @foreach($empresas as $empresa)
-                                <option value="{{$empresa->id}}">{{$empresa->razao_social}} ({{$empresa->nome_fantasia}})
-                                </option>
-                            @endforeach
-                        </select>
+                        <label>Selecione uma empresa *</label>
+                        <input type="hidden" name="id_empresa"/>
+                        <div class="form-control">
+                        @foreach($empresas as $empresa)
+                            <div class="btn btn-default select-empresa" data-id="{{$empresa->id}}">
+                                <div class="">{{$empresa->razao_social}}</div>
+                                @if($empresa->decimosTerceiro()->whereYear('created_at',Carbon\Carbon::now()->year)->count() > 0)
+                                    @foreach($empresa->decimosTerceiro()->whereYear('created_at', Carbon\Carbon::now()->year)->get() as $decimoTerceiro)
+                                        <div class="label-success label"><i
+                                                    class="fa fa-check"></i> {{$decimoTerceiro->descricao}}</div>
+                                    @endforeach
+                                @else
+                                    <div class="label-default label">Nada enviado</div>
+                                @endif
+                            </div>
+                        @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12">

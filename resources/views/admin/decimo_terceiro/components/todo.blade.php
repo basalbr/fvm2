@@ -14,10 +14,10 @@
     @if($decimosTerceiro->count())
         @foreach($decimosTerceiro as $decimoTerceiro)
             <tr>
-                <td><a href="{{route('showEmpresaToUser', $decimoTerceiro->id_empresa)}}">{{$decimoTerceiro->empresa->nome_fantasia}} ({{$decimoTerceiro->empresa->razao_social}})</a></td>
+                <td><a href="{{route('showEmpresaToAdmin', $decimoTerceiro->id_empresa)}}">{{$decimoTerceiro->empresa->nome_fantasia}} ({{$decimoTerceiro->empresa->razao_social}})</a></td>
                 <td>{{$decimoTerceiro->descricao}}</td>
                 <td>{{$decimoTerceiro->created_at->format('d/m/Y')}}</td>
-                <td><a class="btn btn-primary" href="{{route('showDecimoTerceiroToUser', $decimoTerceiro->id)}}"><i class="fa fa-search"></i></a></td>
+                <td><a class="btn btn-primary" href="{{route('showDecimoTerceiroToAdmin', $decimoTerceiro->id)}}"><i class="fa fa-search"></i></a></td>
             </tr>
 
         @endforeach

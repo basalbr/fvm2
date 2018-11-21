@@ -71,7 +71,7 @@ function resizeElementHeight(element) {
     } else if (body && body.clientHeight) {
         height = body.clientHeight;
     }
-    element.css('height', (height - 520) + "px");
+    element.css('height', (height - 420) + "px");
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 

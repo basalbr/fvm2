@@ -8,23 +8,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\AlteracaoContratual;
-use App\Models\Config;
 use App\Models\DecimoTerceiro;
 use App\Models\Empresa;
-use App\Models\Funcionario;
-use App\Models\TipoAlteracaoContratual;
-use App\Services\CreateAlteracaoContratual;
 use App\Services\CreateDecimoTerceiro;
-use App\Services\SendPontos;
-use App\Validation\AlteracaoContratualValidation;
 use App\Validation\DecimoTerceiroValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class DecimoTerceiroController extends Controller
 {
@@ -32,14 +24,16 @@ class DecimoTerceiroController extends Controller
 
     public function index()
     {
-        $decimosTerceiro = DecimoTerceiro::all();
+        $decimosTerceiro = DecimoTerceiro::orderBy("created_at", 'desc')->get();
         return view('admin.decimo_terceiro.index', compact('decimosTerceiro'));
     }
 
 
     public function new()
     {
-        $empresas = Empresa::orderBy('razao_social')->get();
+        $empresas = Empresa::whereHas('funcionarios', function ($q) {
+            $q->where('status', 'ativo');
+        })->orderBy('razao_social')->get();
         return view('admin.decimo_terceiro.new.index', compact('empresas'));
     }
 

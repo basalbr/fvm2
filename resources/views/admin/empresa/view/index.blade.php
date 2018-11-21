@@ -45,9 +45,7 @@
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="messages">
-            <div class="col-xs-12">
                 @include('admin.components.chat.box', ['model'=>$empresa])
-            </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="empresa">
             @include('admin.empresa.view.components.info_empresa')

@@ -212,6 +212,11 @@ class Empresa extends Model
         return $this->hasMany(Socio::class, 'id_empresa');
     }
 
+    public function decimosTerceiro()
+    {
+        return $this->hasMany(DecimoTerceiro::class, 'id_empresa');
+    }
+
     public function funcionarios()
     {
         return $this->hasMany(Funcionario::class, 'id_empresa');
@@ -275,6 +280,11 @@ class Empresa extends Model
             }
         }
         if($this->processosFolha->count()){
+            foreach($this->processosFolha as $folha){
+                $folha->delete();
+            }
+        }
+        if($this->decimosTerceiro()->count()){
             foreach($this->processosFolha as $folha){
                 $folha->delete();
             }
