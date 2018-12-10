@@ -200,6 +200,28 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         );
     }
 
+    public function apuracoes()
+    {
+        return $this->hasManyThrough(
+            Apuracao::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
+    }
+
+    public function documentosContabeis()
+    {
+        return $this->hasManyThrough(
+            ProcessoDocumentoContabil::class,
+            Empresa::class,
+            'id_usuario',
+            'id_empresa',
+            'id'
+        );
+    }
+
     public function decimosTerceiro()
     {
         return $this->hasManyThrough(

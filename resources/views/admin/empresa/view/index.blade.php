@@ -35,6 +35,16 @@
             <a href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
                 Documentos enviados</a>
         </li>
+        <li role="presentation">
+            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i class="fa fa-calendar-check-o"></i>
+                Apurações <span
+                        class="badge message-badge">{{$empresa->apuracoes->count()}}</span></a>
+        </li>
+        <li role="presentation">
+            <a href="#documentos_contabeis" aria-controls="documentos_contabeis" role="tab" data-toggle="tab"><i class="fa fa-file-text"></i>
+                Documentos Contábeis <span
+                        class="badge message-badge">{{$empresa->processosDocumentosContabeis->count()}}</span></a>
+        </li>
 
     </ul>
 

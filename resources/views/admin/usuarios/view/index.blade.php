@@ -31,6 +31,16 @@
             <a href="#pagamentos" aria-controls="pagamentos" role="tab" data-toggle="tab"><i class="fa fa-info"></i>Pagamentos
                 <span class="badge">{{$ordensPagamento->count()}}</span></a>
         </li>
+        <li role="presentation">
+            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i
+                        class="fa fa-calendar-check-o"></i>Apurações
+                <span class="badge">{{$usuario->apuracoes->count()}}</span></a>
+        </li>
+        <li role="presentation">
+            <a href="#documentos_contabeis" aria-controls="documentos_contabeis" role="tab" data-toggle="tab"><i
+                        class="fa fa-file-text"></i>Documentos Contábeis
+                <span class="badge">{{$usuario->documentosContabeis->count()}}</span></a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -53,13 +63,20 @@
         <div role="tabpanel" class="tab-pane" id="pagamentos">
             @include('admin.usuarios.view.components.pagamentos')
         </div>
+        <div role="tabpanel" class="tab-pane" id="apuracoes">
+            @include('admin.usuarios.view.components.apuracoes', ['apuracoes'=>$usuario->apuracoes()->orderBy('competencia','desc')->get()])
+        </div>
+        <div role="tabpanel" class="tab-pane" id="documentos_contabeis">
+            @include('admin.usuarios.view.components.documentos_contabeis', ['documentos_contabeis'=>$usuario->documentosContabeis()->orderBy('periodo','desc')->get()])
+        </div>
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             @if(Auth::user()->id === 1)
                 <a class="btn btn-danger" href="{{route('killUsuario', $usuario->id)}}"><i class="fa fa-crosshairs"></i>
                     Matar Usuário</a>
-                <a class="btn btn-warning" href="{{route('disableUsuario', $usuario->id)}}"><i class="fa fa-stop-circle"></i>
+                <a class="btn btn-warning" href="{{route('disableUsuario', $usuario->id)}}"><i
+                            class="fa fa-stop-circle"></i>
                     Desativar Usuário</a>
             @endif
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
