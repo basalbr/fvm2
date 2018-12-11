@@ -23,7 +23,6 @@
                 <tr>
                     <th>CNPJ</th>
                     <th>Empresa</th>
-                    <th>Razão Social</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -34,8 +33,10 @@
                     @foreach($empresasPendentes as $empresa)
                         <tr>
                             <td>{{$empresa->cnpj}}</td>
-                            <td>{{$empresa->nome_fantasia}}</td>
-                            <td>{{$empresa->razao_social}}</td>
+                            <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->razao_social}} ({{$empresa->nome_fantasia}})</a>
+                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', '!=', 'Paga')->count() > 0)
+                            <div class="label label-danger">Essa empresa possui {{$empresa->getMensalidadeAtual()->pagamentos()->where('status', '!=', 'Paga')->count()}} mensalidade(s) em atraso</div>
+                            @endif</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('createProcessoFolha', $empresa->id)}}"
                                    title="Visualizar">
