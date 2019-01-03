@@ -164,10 +164,8 @@ class CronController extends Controller
     public function sorry(){
         $usuarios = Usuario::whereHas('empresas', function($q){
             $q->where('deleted_at', null);
-            $q->where('status', 'aprovado');
         })->orWhereHas('aberturasEmpresa', function($q){
             $q->where('deleted_at', null);
-            $q->where('status', 'Pendente');
         })->get();
         foreach ($usuarios as $usuario) {
             try {

@@ -34,7 +34,11 @@ class CreateAberturaEmpresa
             $aberturaEmpresa->socios()->createMany($data['socios']);
 
             //Abre ordem de pagamento
-            CreateOrdemPagamento::handle($aberturaEmpresa->usuario, $aberturaEmpresa->getTable(), $aberturaEmpresa->id, Config::getAberturaEmpresaPrice());
+            $valor = Config::getAberturaEmpresaPrice();
+            if($aberturaEmpresa->is_industria || $aberturaEmpresa->is_comercio){
+                $valor+=Config::first()->valor_abertura_comercio;
+            }
+            CreateOrdemPagamento::handle($aberturaEmpresa->usuario, $aberturaEmpresa->getTable(), $aberturaEmpresa->id, $valor);
             //Notifica admins que existe uma nova abertura de empresa
             Usuario::notifyAdmins(new NewAberturaEmpresa($aberturaEmpresa));
             DB::commit();

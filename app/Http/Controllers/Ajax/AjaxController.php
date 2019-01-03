@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Models\Chat;
 use App\Models\Cnae;
+use App\Models\Config;
 use App\Models\Imposto;
 use App\Models\Mensagem;
 use App\Models\Plano;
@@ -18,7 +19,6 @@ use App\Notifications\NewChat;
 use App\Services\SendAnnotation;
 use App\Services\SendContato;
 use App\Services\SendMessage;
-use App\Services\UploadAnexo;
 use App\Services\UploadChatFile;
 use App\Services\UploadFile;
 use App\Services\UploadImage;
@@ -85,13 +85,22 @@ class AjaxController extends Controller
         $maxProLabores = Plano::max('total_pro_labore');
         $maxPrice = Plano::max('valor');
         $minPrice = Plano::min('valor');
+        $config = Config::first();
+        $valorAberturaServico = $config->valor_abertura_servico;
+        $valorAberturaComercio = $config->valor_abertura_comercio;
+        $valorAberturaIndustria = $config->valor_abertura_industria;
+        $valorAbertura = $config->valor_abertura_empresa;
         return response()->json([
             'planos' => $planos,
             'maxDocsFiscais' => (int)$maxDocsFiscais,
             'maxProLabores' => (int)$maxProLabores,
             'maxPrice' => (float)$maxPrice,
-            'minPrice' => (int)$minPrice,
-            'maxDocsContabeis' => (int)$maxDocsContabeis
+            'minPrice' => (float)$minPrice,
+            'maxDocsContabeis' => (int)$maxDocsContabeis,
+            'valorAberturaServico' => (float)$valorAberturaServico,
+            'valorAberturaComercio' => (float)$valorAberturaComercio,
+            'valorAberturaIndustria' => (float)$valorAberturaIndustria,
+            'valorAbertura' => (float)$valorAbertura,
         ]);
     }
 
@@ -158,15 +167,15 @@ class AjaxController extends Controller
 
     public function uploadFile(Request $request)
     {
-        $rules = ['arquivo' => 'required|file|max:10240', 'descricao'=>'required|max:191', 'id_referencia' => 'required', 'referencia' => 'required'];
-        $niceNames = ['arquivo' => 'Arquivo','descricao'=>'Descrição', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
+        $rules = ['arquivo' => 'required|file|max:10240', 'descricao' => 'required|max:191', 'id_referencia' => 'required', 'referencia' => 'required'];
+        $niceNames = ['arquivo' => 'Arquivo', 'descricao' => 'Descrição', 'id_referencia' => 'ID de referência', 'referencia' => 'Referência'];
         $this->validate($request, $rules, [], $niceNames);
         if ($anexo = UploadFile::handle($request)) {
             return response()->json([
                 'file' => $anexo->arquivo,
-                'filepath'=>asset(public_path().'storage/anexos/'. $request->get('referencia') . '/'.$request->get('id_referencia').'/'.$anexo->arquivo),
-                'date'=>$anexo->created_at->format('d/m/Y'),
-                'description'=>$anexo->descricao
+                'filepath' => asset(public_path() . 'storage/anexos/' . $request->get('referencia') . '/' . $request->get('id_referencia') . '/' . $anexo->arquivo),
+                'date' => $anexo->created_at->format('d/m/Y'),
+                'description' => $anexo->descricao
             ]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
@@ -174,21 +183,22 @@ class AjaxController extends Controller
 
     public function uploadTempFile(Request $request)
     {
-        $rules = ['arquivo' => 'required|file|max:10240', 'descricao'=>'required|max:191'];
-        $niceNames = ['arquivo' => 'Arquivo','descricao'=>'Descrição'];
+        $rules = ['arquivo' => 'required|file|max:10240', 'descricao' => 'required|max:191'];
+        $niceNames = ['arquivo' => 'Arquivo', 'descricao' => 'Descrição'];
         $this->validate($request, $rules, [], $niceNames);
         if ($anexo = UploadTempFile::handle($request)) {
             return response()->json([
                 'file' => $anexo,
-                'description'=>$request->get('descricao')
+                'description' => $request->get('descricao')
             ]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
 
-    public function uploadImage(Request $request){
-        if($location = UploadImage::handle($request)) {
-            return response()->json(['location'=>$location]);
+    public function uploadImage(Request $request)
+    {
+        if ($location = UploadImage::handle($request)) {
+            return response()->json(['location' => $location]);
         }
         return response()->json(['Não foi possível enviar o arquivo'])->setStatusCode(500);
     }
@@ -314,12 +324,14 @@ class AjaxController extends Controller
         }
     }
 
-    public function chatCount(){
+    public function chatCount()
+    {
         $total = Chat::count();
-        return response()->json(['total'=>$total]);
+        return response()->json(['total' => $total]);
     }
 
-    public function chatNotification(){
+    public function chatNotification()
+    {
         $total = Chat::count();
         $ultimoChat = Chat::latest()->first();
         if ($total > 0) {

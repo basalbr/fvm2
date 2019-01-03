@@ -1,6 +1,9 @@
 <div class="col-xs-12">
     <h3>Endereço</h3>
     <hr>
+    <div class="alert alert-info" style="display:block">
+        <p>Precisamos de todos os dados abaixo preenchidos corretamente para que possamos obter o alvará junto com a prefeitura.</p>
+    </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">

@@ -26,7 +26,6 @@ Route::get('/', ['as' => 'home', 'uses' => function () {
     if (date('w') <= 5 && date('w') >= 1 && (($horario1 <= $horario_atual && $horario2 >= $horario_atual) || ($horario3 <= $horario_atual && $horario4 >= $horario_atual))) {
         $atendimento = true;
     }
-
     $noticias = Noticia::where('data_publicacao', '<=', Carbon::today()->format('Y-m-d'))->orderBy('data_publicacao', 'desc')->orderBy('created_at', 'desc')->limit(3)->get();
     return view('index', compact('atendimento', 'noticias'));
 }]);
@@ -282,6 +281,7 @@ Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'mid
     Route::get('', ['as' => 'listAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@view']);
     Route::get('finish/{id}', ['as' => 'createEmpresaFromAberturaEmpresa', 'uses' => 'AberturaEmpresaController@createEmpresa']);
+    Route::get('change-status/{id}/{status}', ['as' => 'changeAberturaEmpresaStatus', 'uses' => 'AberturaEmpresaController@changeStatus']);
 });
 
 //Admin - Demissão

@@ -60,7 +60,9 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr><td colspan="7">Nenhuma solicitação de alteração encontrada</td></tr>
+                    <tr>
+                        <td colspan="7">Nenhuma solicitação de alteração encontrada</td>
+                    </tr>
                 @endif
                 </tbody>
             </table>
@@ -96,7 +98,13 @@
 
                     @endforeach
                 @else
-                    <tr><td colspan="5">Nenhuma solicitação de alteração encontrada</td></tr>
+                    <tr>
+                        @if(Auth::user()->empresas->count() > 0)
+                        <td colspan="5">Nenhuma solicitação de alteração encontrada</td>
+                            @else
+                            <td colspan="5">É necessário migrar sua empresa antes de fazer a alteração. <a href="{{route('newEmpresa')}}">Clique aqui para solicitar a migração da sua empresa</a>.</td>
+                        @endif
+                    </tr>
                 @endif
                 </tbody>
             </table>
@@ -105,11 +113,13 @@
     </div>
     <div class="clearfix"></div>
     <div class="navigation-space"></div>
-    <div class="navigation-options">
-        <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i
-                    class="fa fa-plus"></i> Solicitar alteração
-        </button>
-    </div>
+    @if(Auth::user()->empresas->count()>0)
+        <div class="navigation-options">
+            <button type="button" class="btn btn-primary open-modal" data-modal="#modal-nova-solicitacao"><i
+                        class="fa fa-plus"></i> Solicitar alteração
+            </button>
+        </div>
+    @endif
 @stop
 @section('modals')
     @parent

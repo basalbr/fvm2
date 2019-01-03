@@ -36,7 +36,7 @@
                     <div class="col-xs-3">
                         <div class='form-group'>
                             <label for="data_nascimento">Data de nascimento</label>
-                            <div class='form-control'>{{$socio->data_nascimento->format('d/m/Y')}}</div>
+                            <div class='form-control'>{{$socio->data_nascimento->format('d/m/Y')}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-4">
@@ -72,19 +72,19 @@
                     <div class="col-xs-4">
                         <div class='form-group'>
                             <label for="telefone">Telefone</label>
-                            <div class='form-control'>{{$socio->telefone}}</div>
+                            <div class='form-control'>{{$socio->telefone}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-3">
                         <div class='form-group'>
                             <label for="cpf">CPF</label>
-                            <div class='form-control'>{{$socio->cpf}}</div>
+                            <div class='form-control'>{{$socio->cpf}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-3">
                         <div class='form-group'>
                             <label for="rg">RG</label>
-                            <div class='form-control'>{{$socio->rg}}</div>
+                            <div class='form-control'>{{$socio->rg}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -114,7 +114,7 @@
                     <div class="col-xs-3">
                         <div class='form-group'>
                             <label for="pis">PIS</label>
-                            <div class='form-control'>{{$socio->pis}}</div>
+                            <div class='form-control'>{{$socio->pis}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-12">
@@ -124,7 +124,7 @@
                     <div class="col-xs-2">
                         <div class='form-group'>
                             <label for="cep">CEP</label>
-                            <div class='form-control'>{{$socio->cep}}</div>
+                            <div class='form-control'>{{$socio->cep}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-3">

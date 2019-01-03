@@ -34,8 +34,8 @@
                         <tr>
                             <td>{{$empresa->cnpj}}</td>
                             <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->razao_social}} ({{$empresa->nome_fantasia}})</a>
-                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', '!=', 'Paga')->count() > 0)
-                            <div class="label label-danger">Essa empresa possui {{$empresa->getMensalidadeAtual()->pagamentos()->where('status', '!=', 'Paga')->count()}} mensalidade(s) em atraso</div>
+                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count() > 0)
+                            <div class="label label-danger">Essa empresa possui {{$empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count()}} mensalidade(s) em atraso</div>
                             @endif</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('createProcessoFolha', $empresa->id)}}"

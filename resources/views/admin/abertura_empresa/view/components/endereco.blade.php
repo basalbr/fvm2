@@ -4,8 +4,8 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="cep">CEP *</label>
-        <div class="form-control">{{$aberturaEmpresa->cep}}</div>
+        <label for="cep">CEP</label>
+        <div class="form-control">{{$aberturaEmpresa->cep}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
     </div>
 </div>
 <div class="col-xs-6">
@@ -47,7 +47,7 @@
 <div class="col-xs-6">
     <div class="form-group">
         <label for="inscricao_iptu">Inscrição IPTU *</label>
-        <div class="form-control">{{$aberturaEmpresa->iptu}}</div>
+        <div class="form-control">{{$aberturaEmpresa->iptu}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
     </div>
 </div>
 <div class="col-xs-6">
@@ -65,6 +65,6 @@
 <div class="col-xs-6">
     <div class="form-group">
         <label for="cpf_cnpj_proprietario">CPF ou CNPJ do proprietário do imóvel *</label>
-        <div class="form-control">{{$aberturaEmpresa->cpf_cnpj_proprietario}}</div>
+        <div class="form-control">{{$aberturaEmpresa->cpf_cnpj_proprietario}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
     </div>
 </div>

@@ -26,7 +26,7 @@
             @foreach($aberturaEmpresa->cnaes as $cnae)
                 <tr>
                     <td>{{$cnae->cnae->descricao}}</td>
-                    <td>{{$cnae->cnae->codigo}}</td>
+                    <td>{{$cnae->cnae->codigo}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></td>
                 </tr>
             @endforeach
         @else

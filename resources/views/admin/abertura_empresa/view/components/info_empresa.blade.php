@@ -4,13 +4,13 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Nome preferencial *</label>
+        <label for="">Razão social *</label>
         <div class="form-control">{{$aberturaEmpresa->nome_empresarial1}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Nome alternativo *</label>
+        <label for="">Nome fantasia *</label>
         <div class="form-control">{{$aberturaEmpresa->nome_empresarial2}}</div>
     </div>
 </div>

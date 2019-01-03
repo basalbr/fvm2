@@ -5,6 +5,9 @@
         <th>Usuário</th>
         <th>Empresa</th>
         <th>CNPJ</th>
+        @if(Auth::user()->id == 1)
+        <th>Senha Certificado</th>
+        @endif
         <th></th>
     </tr>
     </thead>
@@ -17,7 +20,15 @@
                 <td><a href="{{route('showUsuarioToAdmin', $empresa->usuario->id)}}">{{$empresa->usuario->nome}}</a></td>
                 <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}} ({{$empresa->razao_social}})</a></td>
                 <td>{{$empresa->cnpj}}</td>
+                @if(Auth::user()->id == 1)
+                <td>{{$empresa->senha_certificado_digital}}</td>
+                @endif
                 <td>
+                    @if(Auth::user()->id == 1 && $empresa->certificado_digital)
+                    <a download class="btn btn-success"
+                       href="{{asset(public_path().'storage/certificados/'. $empresa->id . '/'.$empresa->certificado_digital)}}"
+                       title="Clique para fazer download do arquivo"><i class="fa fa-download"></i></a>
+                    @endif
                     <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
                                 class="fa fa-search"></i></a>
                 </td>

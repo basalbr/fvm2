@@ -3,6 +3,9 @@
 <div class="col-xs-12">
     <h3>Sócios</h3>
     <hr>
+    <div class="alert alert-info" style="display:block">
+        <p>Informe todos os sócios que farão parte da empresa, o sócio principal será o responsável perante a Receita Federal.</p>
+    </div>
 </div>
 <div class="col-xs-12">
     <table class="table table-hover table-striped">

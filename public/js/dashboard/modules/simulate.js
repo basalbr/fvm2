@@ -1,5 +1,6 @@
 var qtdeFuncionarios, qtdeProLabores, qtdeDocsContabeis, qtdeDocsFiscais, minPrice, maxPrice,
-    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos;
+    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos, isComercio, isIndustria, isServico,
+    valorAberturaServico, valorAberturaComercio, valorAberturaIndustria, valorAbertura;
 
 $(function () {
     //Busca no banco de dados as opcoes de pagamento
@@ -7,11 +8,19 @@ $(function () {
         planos = data.planos;
         maxDocsFiscais = parseInt(data.maxDocsFiscais);
         maxPrice = parseFloat(data.maxPrice);
+        valorAberturaServico = data.valorAberturaServico;
+        valorAberturaComercio = data.valorAberturaComercio;
+        valorAberturaIndustria = data.valorAberturaIndustria;
+        valorAbertura = data.valorAbertura;
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR, textStatus, errorThrown);
     });
 
     $('#modal-socio').on('hide.bs.modal', function (e) {
+        gatherDataAndSimulate();
+    });
+
+    $('.is-industria-checkbox,.is-comercio-checkbox,.is-servico-checkbox').on('change', function () {
         gatherDataAndSimulate();
     });
 
@@ -23,6 +32,9 @@ $(function () {
 function gatherDataAndSimulate() {
     qtdeFuncionarios = isNaN(parseInt($('[name*="qtde_funcionario"]').val())) ? 0 : $('[name*="qtde_funcionario"]').val();
     qtdeDocsFiscais = isNaN(parseInt($('[name*="qtde_documento_fiscal"]').val())) ? 0 : $('[name*="qtde_documento_fiscal"]').val();
+    isServico = $('[name*="is_servico"]').prop('checked') ? true : false;
+    isComercio = $('[name*="is_comercio"]').prop('checked') ? true : false;
+    isIndustria = $('[name*="is_industria"]').prop('checked') ? true : false;
 
     simulateMonthlyPayment(qtdeFuncionarios, qtdeDocsFiscais);
     $('#qtde-funcionarios').text(qtdeFuncionarios);
@@ -45,6 +57,11 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
             && parseFloat(planos[i].valor) < minPrice) {
             minPrice = parseFloat(planos[i].valor);
         }
+    }
+    if (isComercio || isIndustria) {
+        $('.abertura-price').text('R$' + parseFloat(valorAbertura + valorAberturaComercio).toFixed(2).replace(".", ","));
+    }else{
+        $('.abertura-price').text('R$' + parseFloat(valorAbertura).toFixed(2).replace(".", ","));
     }
     minPrice = parseFloat(minPrice + acrescimoFuncionarios).toFixed(2);
     minPrice = minPrice.replace(".", ",");

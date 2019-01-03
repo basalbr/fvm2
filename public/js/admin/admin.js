@@ -33,21 +33,22 @@ function askPermission() {
         Notification.requestPermission();
     }
 }
+
 $(function () {
     // inicializaChatNotifications();
     // askPermission();
 });
 
-function checkIfInView(element){
-    var offset =( element.offset().top + 50 ) - $('#left-menu').scrollTop();
-    if(offset > window.innerHeight){
+function checkIfInView(element) {
+    var offset = (element.offset().top + 50) - $('#left-menu').scrollTop();
+    if (offset > window.innerHeight) {
         return false;
     }
     return true;
 }
 
 $(function () {
-    if($('#left-menu a.active').length) {
+    if ($('#left-menu a.active').length) {
         $("#left-menu ul li ul a.active").parent().parent().addClass('open').parent();
         if (!checkIfInView($('#left-menu a.active'))) {
             $('#left-menu').animate({
@@ -77,20 +78,41 @@ $(function () {
         e.preventDefault();
         $('.nav-tabs li.active').next().find('a').tab('show');
     });
-    $('#open-left-menu').on('click', function(e){
+    $('#open-left-menu').on('click', function (e) {
         e.preventDefault()
         $('#left-menu').toggleClass('open');
         $(this).toggleClass('active');
     });
+    $('div').on('click','.copy-to-clipboard', function (e) {
+        e.preventDefault();
+        copyToClipboard($(this).parent());
+    })
 });
 
-function showModalAlert(message){
+function showModalAlert(message) {
     $('#modal-alert').find('.message').text(message);
     $('#modal-alert').modal('show');
 }
 
-function showModalSuccess(message){
+function showModalSuccess(message) {
     $('#modal-success').find('.message').text(message);
     $('#modal-success').modal('show');
 }
 
+function copyToClipboard(element) {
+    originalText = element.text();
+    element.text(element.text().replace(/[^0-9]/gi, ''));
+    if (document.selection) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(element);
+        range.select().createTextRange();
+        document.execCommand("copy");
+
+    } else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(element[0]);
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+    }
+    element.html(originalText+'<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button>');
+}

@@ -14,6 +14,7 @@ use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
+use App\Services\ChangeAberturaEmpresaStatus;
 use App\Services\CreateAberturaEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
 use App\Services\SendMessageToAdmin;
@@ -33,12 +34,13 @@ class AberturaEmpresaController extends Controller
 
     public function index()
     {
-        $empresasPendentes = AberturaEmpresa::whereIn('status', ['Novo', 'Pendente'])->orderBy('created_at', 'desc')->get();
-        $empresasConcluidas = AberturaEmpresa::whereIn('status', ['Cancelado','Concluído'])->orderBy('created_at', 'desc')->get();
+        $empresasPendentes = AberturaEmpresa::whereNotIn('status', ['concluido', 'cancelado'])->orderBy('created_at', 'desc')->get();
+        $empresasConcluidas = AberturaEmpresa::whereIn('status', ['cancelado', 'concluido'])->orderBy('created_at', 'desc')->get();
         return view('admin.abertura_empresa.index', compact("empresasPendentes", "empresasConcluidas"));
     }
 
-    public function new(){
+    public function new()
+    {
         $enquadramentos = EnquadramentoEmpresa::orderBy('descricao')->get();
         $naturezasJuridicas = NaturezaJuridica::orderBy('descricao')->get();
         $tiposTributacao = TipoTributacao::orderBy('descricao')->get();
@@ -46,7 +48,8 @@ class AberturaEmpresaController extends Controller
         return view('dashboard.abertura_empresa.new.index', compact("enquadramentos", "naturezasJuridicas", "ufs", "tiposTributacao"));
     }
 
-    public function view($id){
+    public function view($id)
+    {
         $aberturaEmpresa = AberturaEmpresa::find($id);
         return view('admin.abertura_empresa.view.index', compact("aberturaEmpresa"));
     }
@@ -59,7 +62,6 @@ class AberturaEmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         /*
          * Valida a requisição, retorna para página de origem caso falhe
          */
@@ -88,11 +90,27 @@ class AberturaEmpresaController extends Controller
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
     }
 
+    /**
+     * Altera os status do processo
+     * @params int $id, string $status
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeStatus($id, $status)
+    {
+        /* @var $aberturaEmpresa AberturaEmpresa*/
+        $aberturaEmpresa = AberturaEmpresa::findOrFail($id);
+        $aberturaEmpresa->update(['status'=>$status]);
+        if (ChangeAberturaEmpresaStatus::handle($id, $status)) {
+            return redirect()->route('showAberturaEmpresaToAdmin', $id)->with(['successAlert', 'O status foi alterado com sucesso']);
+        }
+        return redirect()->route('showAberturaEmpresaToAdmin', $id)->with(['alert', 'Ocorreu um erro inesperado']);
+    }
+
     public function sendMessageToAdmin(Request $request, AberturaEmpresa $aberturaEmpresa)
     {
         $this->validate($request, MensagemValidation::getRules(), [], MensagemValidation::getNiceNames());
         $this->authorize('sendMessage', $aberturaEmpresa);
-        if(SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())){
+        if (SendMessageToAdmin::handle($request->all(), $aberturaEmpresa->getTable())) {
             return redirect()->route('viewAberturaEmpresa')->with('successAlert', 'A mensagem foi enviada, você receberá um e-mail quando respondermos.');
         }
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);

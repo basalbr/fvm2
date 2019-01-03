@@ -42,6 +42,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
  * @property integer qtde_funcionario
  * @property integer qtde_documento_fiscal
  * @property integer qtde_documento_contabil
+ * @property boolean is_servico
+ * @property boolean is_comercio
+ * @property boolean is_industria
  * @property Usuario usuario
  */
 class AberturaEmpresa extends Model
@@ -92,7 +95,34 @@ class AberturaEmpresa extends Model
         'cnae_duvida',
         'qtde_funcionario',
         'qtde_documento_fiscal',
-        'qtde_documento_contabil'
+        'qtde_documento_contabil',
+        'is_comercio',
+        'is_servico',
+        'is_industria'
+    ];
+
+    protected $status_processo = [
+        'pedido_inicial_em_analise' => 'Nossa equipe está analisando seu pedido',
+        'pedido_inicial_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'viabilidade_em_analise' => 'O pedido de viabilidade está em análise pelos órgãos responsáveis',
+        'viabilidade_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'dbe_em_analise' => 'O DBE está em análise pela Receita Federal',
+        'dbe_aguardando_usuario' => 'Precisamos de mais informações para o DBE',
+        'requerimento_aguardando_protocolo' => 'Estamos aguardando sua confirmação de protocolo junto à JUCESC',
+        'requerimento_em_analise' => 'O requerimento está em análise na JUCESC',
+        'requerimento_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'inscricao_estadual_aguardando_protocolo' => 'Estamos aguardando sua confirmação de protocolo junto à SEF',
+        'inscricao_estadual_em_analise' => 'O processo está em análise na SEF',
+        'inscricao_estadual_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'alvara_aguardando_protocolo' => 'Estamos aguardando o protocolo da documentação na prefeitura',
+        'alvara_em_analise' => 'A documentação está sendo analisada pela prefeitura',
+        'alvara_aguardando_pagamento' => 'Estamos aguardando o comprovante de pagamento das taxas',
+        'alvara_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'simples_nacional_em_analise' => 'O pedido de opção pelo Simples Nacional está em análise',
+        'simples_nacional_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'concluido' => 'Esse processo está concluído',
+        'cancelado' => 'Esse processo foi cancelado',
+        'pendente' => 'Nossa equipe recebeu seu pedido',
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
@@ -107,6 +137,64 @@ class AberturaEmpresa extends Model
         }
         return true;
 
+    }
+
+    public function getDescricaoEtapa()
+    {
+        return $this->status_processo[$this->status];
+    }
+
+    public function getEtapa()
+    {
+        if(strpos($this->status, 'pendente')){
+            return 'pendente';
+        }elseif(strpos($this->status, 'concluido')===0){
+            return 'concluido';
+        }elseif(strpos($this->status, 'cancelado')===0){
+            return 'cancelado';
+        }elseif(strpos($this->status, 'pedido_inicial')===0){
+            return 'pedido_inicial';
+        }elseif(strpos($this->status, 'viabilidade')===0){
+            return 'viabilidade';
+        }elseif(strpos($this->status, 'dbe')===0){
+            return 'dbe';
+        }elseif(strpos($this->status, 'requerimento')===0){
+            return 'requerimento';
+        }elseif(strpos($this->status, 'inscricao_estadual')===0){
+            return 'inscricao_estadual';
+        }elseif(strpos($this->status, 'alvara')===0){
+            return 'alvara';
+        }elseif(strpos($this->status, 'simples_nacional')===0){
+            return 'simples_nacional';
+        }
+        return 'pendente';
+    }
+
+    public function getNomeEtapa()
+    {
+
+        if(strpos($this->status, 'pendente')===0){
+            return 'Pendente';
+        }elseif(strpos($this->status, 'concluido')===0){
+            return 'Concluído';
+        }elseif(strpos($this->status, 'cancelado')===0){
+            return 'Cancelado';
+        }elseif(strpos($this->status, 'pedido_inicial')===0){
+            return 'Em análise';
+        }elseif(strpos($this->status, 'viabilidade')===0){
+            return 'Viabilidade';
+        }elseif(strpos($this->status, 'dbe')===0){
+            return 'DBE';
+        }elseif(strpos($this->status, 'requerimento')===0){
+            return 'Requerimento';
+        }elseif(strpos($this->status, 'inscricao_estadual')===0){
+            return 'Inscrição Estadual';
+        }elseif(strpos($this->status, 'alvara')===0){
+            return 'Alvará';
+        }elseif(strpos($this->status, 'simples_nacional')===0){
+            return 'Simples Nacional';
+        }
+        return 'Pendente';
     }
 
     public function delete()
@@ -129,8 +217,8 @@ class AberturaEmpresa extends Model
                 $cnae->delete();
             }
         }
-        if($this->anotacoes->count()){
-            foreach ($this->anotacoes() as $anotacao){
+        if ($this->anotacoes->count()) {
+            foreach ($this->anotacoes() as $anotacao) {
                 $anotacao->delete();
             }
         }

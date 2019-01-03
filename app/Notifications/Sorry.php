@@ -32,20 +32,11 @@ class Sorry extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá ' . $notifiable->nome . '!')
-            ->line('Visando melhorar a sua experiência com nossos serviços, realizamos a contratação de um servidor mais veloz no dia 23/10/2018.')
-            ->line('Por algum motivo que nossa hospedagem não soube informar, na madrugada do dia 28/10/2018 foi realizada a redefinição de nossa conta (inclusive nossos backups) de volta para o dia 23, que foi a data de contratação do novo servidor.')
-            ->line('Dessa forma nós acabamos perdendo todas as suas interações em nosso servidor feitas a partir do dia 23.')
-            ->line('Caso tenha feito alguma das solicitações abaixo, pedimos que abra um chamado ou envie um e-mail para contato@webcontabilidade.com para que possamos dar sequência na solicitação ou para que possamos te auxiliar:')
-            ->line('* Pagamentos efetuados;')
-            ->line('* Alterações/Transformações;')
-            ->line('* Encerramento;')
-            ->line('* Abertura de empresa;')
-            ->line('* Cadastro de funcionários;')
-            ->line('* Novos chamados ou novas mensagens;')
-            ->line('* Envio de certificado digital.')
-            ->line('Pedimos as mais sinceras desculpas pelo ocorrido, em dois anos de atividades é a primeira vez que isso ocorre e garantimos que as providências necessárias foram tomadas para que nunca mais ocorra.')
-            ->salutation('Equipe WEBContabilidade')
-            ->subject('Ocorreu um problema em nosso sistema')
+            ->line('Queremos agradecer você pela parceria com nossa equipe nesse ano que passou e dizer que você tem sido uma peça chave no sucesso da nossa caminhada.')
+            ->line('Saiba '.$notifiable->nome.' que estamos preparados e à sua disposição para enfrentar os mais diversos desafios que a ação de empreender nos traz.')
+            ->line('Desejamos um feliz natal e um próspero ano novo e que em 2019 possamos fortalecer nossa parceria para que juntos tenhamos um ano repleto de conquistas e de sucesso.')
+            ->salutation('Esses são os mais sinceros votos da equipe WEBContabilidade :)')
+            ->subject('Feliz Natal e Próspero Ano Novo')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 

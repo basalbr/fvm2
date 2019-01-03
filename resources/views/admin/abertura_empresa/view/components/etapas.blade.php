@@ -1,0 +1,27 @@
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info"><strong>Pedido inicial</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'pedido_inicial_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'pedido_inicial_em_analise'])}}">Em análise</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'pedido_inicial_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'pedido_inicial_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>Viabilidade</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'viabilidade_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'viabilidade_em_analise'])}}">Em análise pela JUCESC</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'viabilidade_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'viabilidade_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>DBE</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'dbe_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'dbe_em_analise'])}}">Em análise pela Receita Federal</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'dbe_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'dbe_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>Requerimento</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'requerimento_aguardando_protocolo' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'requerimento_aguardando_protocolo'])}}">Aguardando protocolo</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'requerimento_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'requerimento_em_analise'])}}">Em análise pela JUCESC</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'requerimento_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'requerimento_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>Inscrição Estadual</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'inscricao_estadual_aguardando_protocolo' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'inscricao_estadual_aguardando_protocolo'])}}">Aguardando protocolo</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'inscricao_estadual_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'inscricao_estadual_em_analise'])}}">Em análise pela SEF</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'inscricao_estadual_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'inscricao_estadual_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>Alvará</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'alvara_aguardando_protocolo' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'alvara_aguardando_protocolo'])}}">Aguardando protocolo</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'alvara_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'alvara_em_analise'])}}">Em análise pela prefeitura</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'alvara_aguardando_pagamento' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'alvara_aguardando_pagamento'])}}">Aguardando o pagamento das taxas</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'alvara_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'alvara_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+    <li class="list-group-item list-group-item-info"><strong>Simples Nacional</strong></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'simples_nacional_em_analise' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'simples_nacional_em_analise'])}}">Em análise pela Receita Federal</a></li>
+    <li class="list-group-item {{$aberturaEmpresa->status == 'simples_nacional_aguardando_usuario' ? 'list-group-item-success' : ''}}"><a href="{{route('changeAberturaEmpresaStatus',[$aberturaEmpresa->id,'simples_nacional_aguardando_usuario'])}}">Aguardando informações do usuário</a></li>
+</ul>

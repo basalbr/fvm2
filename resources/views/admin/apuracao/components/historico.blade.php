@@ -5,7 +5,7 @@
         <th>Empresa</th>
         <th>Imposto</th>
         <th>Competência</th>
-        <th>Vencimento</th>
+        <th>CNPJ, CPF e Código de Acesso</th>
         <th>Status</th>
         <th></th>
     </tr>
@@ -16,11 +16,11 @@
     @if($apuracoesConcluidas->count())
         @foreach($apuracoesConcluidas as $apuracao)
             <tr>
-                <td>{{$apuracao->empresa->razao_social}}</td>
+                <td><a href="{{route('showEmpresaToAdmin', $apuracao->id_empresa)}}">{{$apuracao->empresa->razao_social}}</a></td>
                 <td>{{$apuracao->imposto->nome}}</td>
                 <td>{{$apuracao->competencia->format('m/Y')}}</td>
-                <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
-                <td>{{$apuracao->status}}</td>
+                <td>{{preg_replace('/[^0-9]/','',$apuracao->empresa->cnpj)}}, {{preg_replace('/[^0-9]/','',$apuracao->empresa->getSocioPrincipal()->cpf)}} e {{preg_replace('/[^0-9]/','',$apuracao->empresa->codigo_acesso_simples_nacional)}}</td>
+                <td>{{$apuracao->status}} em {{$apuracao->updated_at->format('d/m/Y H:i')}}</td>
                 <td>
                     <a class="btn btn-primary" href="{{route('showApuracaoToAdmin', $apuracao->id)}}" title="Visualizar">
                         <i class="fa fa-search"></i> Visualizar

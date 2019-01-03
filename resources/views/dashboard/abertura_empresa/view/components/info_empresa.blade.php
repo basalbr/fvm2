@@ -4,13 +4,13 @@
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Nome preferencial *</label>
+        <label for="">Razão Social *</label>
         <div class="form-control">{{$aberturaEmpresa->nome_empresarial1}}</div>
     </div>
 </div>
 <div class="col-xs-6">
     <div class="form-group">
-        <label for="">Nome alternativo *</label>
+        <label for="">Nome Fantasia *</label>
         <div class="form-control">{{$aberturaEmpresa->nome_empresarial2}}</div>
     </div>
 </div>
@@ -36,12 +36,6 @@
     <div class="form-group">
         <label for="">Quantidade de funcionários *</label>
         <div class="form-control">{{$aberturaEmpresa->qtde_funcionario}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Quantidade de documentos contábeis emitidos mensalmente *</label>
-        <div class="form-control">{{$aberturaEmpresa->qtde_documento_contabil}}</div>
     </div>
 </div>
 <div class="col-xs-6">

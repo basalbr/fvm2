@@ -21,7 +21,7 @@
                 <tr>
                     <th>Usuário</th>
                     <th>Nome Preferencial</th>
-                    <th>Status</th>
+                    <th>Etapa</th>
                     <th>Aberto em</th>
                     <th></th>
                 </tr>
@@ -32,9 +32,9 @@
                 @if($empresasPendentes->count())
                     @foreach($empresasPendentes as $empresa)
                         <tr>
-                            <td>{{$empresa->usuario->nome}}</td>
+                            <td><a href="{{route('showUsuarioToAdmin',$empresa->id_usuario)}}">{{$empresa->usuario->nome}}</a></td>
                             <td>{{$empresa->nome_empresarial1}}</td>
-                            <td>{{$empresa->status}}</td>
+                            <td>{{$empresa->getNomeEtapa()}}</td>
                             <td>{{$empresa->created_at->format('d/m/Y')}}</td>
                             <td>
                                 <a href="{{route('showAberturaEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
@@ -56,7 +56,7 @@
                 <thead>
                 <tr>
                     <th>Usuário</th>
-                    <th>Nome Preferencial</th>
+                    <th>Razão Social</th>
                     <th>Status</th>
                     <th>Aberto em</th>
                     <th></th>
@@ -68,9 +68,9 @@
                 @if($empresasConcluidas->count())
                     @foreach($empresasConcluidas as $empresa)
                         <tr>
-                            <td>{{$empresa->usuario->nome}}</td>
+                            <td><a href="{{route('showUsuarioToAdmin',$empresa->id_usuario)}}">{{$empresa->usuario->nome}}</a></td>
                             <td>{{$empresa->nome_empresarial1}}</td>
-                            <td>{{$empresa->status}}</td>
+                            <td>{{$empresa->getNomeEtapa()}}</td>
                             <td>{{$empresa->created_at->format('d/m/Y')}}</td>
                             <td>
                                 <a href="{{route('showAberturaEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i

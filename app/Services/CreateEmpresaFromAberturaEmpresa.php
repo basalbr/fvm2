@@ -53,7 +53,8 @@ class CreateEmpresaFromAberturaEmpresa
             $qtde_funcionario = $aberturaEmpresa->qtde_funcionario;
             $valor = Mensalidade::calculateMonthlyPayment(compact('qtde_documento_fiscal', 'qtde_funcionario'));
             $id_usuario = $empresa->id_usuario;
-            $mensalidade = $empresa->mensalidades()->create(compact('valor', 'qtde_funcionario', 'qtde_documento_fiscal', 'id_usuario'));
+            $status = 'Aprovado';
+            $mensalidade = $empresa->mensalidades()->create(compact('valor', 'qtde_funcionario', 'qtde_documento_fiscal', 'id_usuario','status'));
             //30 dias gratis
             OrdemPagamento::create([
                 'id_referencia' => $mensalidade->id,

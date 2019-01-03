@@ -2,7 +2,6 @@
     @parent
     <script type="text/javascript" src="{{url(public_path().'js/dashboard/modules/messages.js')}}"></script>
 @stop
-<div class="col-xs-12">
     <div class="messages"
          data-read-messages-url="{{route('readMessagesAjax')}}"
          data-reference="{{$model->getTable()}}"
@@ -26,4 +25,3 @@
             @endif
         </div>
     @endif
-</div>
