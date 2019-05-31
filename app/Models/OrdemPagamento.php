@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Exception;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +75,7 @@ class OrdemPagamento extends Model
             $payment->setReference($this->id);
             $payment->setRedirectUrl(route('listOrdensPagamentoToUser'));
             $payment->setNotificationUrl(Config::getPagseguroNotificationUrl());
-            $payment->setSender()->setName($nome);
+            $payment->setSender()->setName(str_limit($nome, 25));
             $payment->setSender()->setEmail($this->usuario->email);
             $result = $payment->register(Configure::getAccountCredentials());
             return $result;
@@ -84,9 +85,22 @@ class OrdemPagamento extends Model
         return '';
     }
 
+    public function getLabelStatus(){
+        if(strpos($this->status, ucfirst('pendente'))===0){
+            return '<span class="label label-danger">Pendente</span>';
+        }elseif(strpos($this->status, ucfirst('aguardando pagamento'))===0){
+            return '<span class="label label-warning">Aguardando Pagamento</span>';
+        }elseif(strpos($this->status, ucfirst('paga'))===0 || strpos($this->status, ucfirst('disponível'))===0){
+            return '<span class="label label-success">Paga</span>';
+        }elseif(strpos($this->status, ucfirst('cancelada'))===0){
+            return '<span class="label label-danger">Cancelada</span>';
+        }
+        return 'pendente';
+    }
+
     public function formattedValue()
     {
-        return 'R$' . number_format($this->valor, 2, ',', '.');
+        return 'R$ ' . number_format($this->valor, 2, ',', '.');
     }
 
     public function usuario()
@@ -109,7 +123,7 @@ class OrdemPagamento extends Model
                 return "Mensalidade";
                 break;
             case 'alteracao':
-                return Alteracao::find($this->id_referencia)->tipo->descricao;
+                return Alteracao::findOrFail($this->id_referencia)->getDescricao();
                 break;
             default:
                 return 'Pagamento';

@@ -59,7 +59,7 @@ class UserHasUnreadMessages extends Notification
             $this->url = route('showAlteracaoContratualToUser', [$this->mensagem->id_referencia]);
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
-            $this->url = route('showDecimoTerceiroToUser', [$this->mensagem->id_referencia]);
+            $this->url = route('showRecalculoToUser', [$this->mensagem->id_referencia]);
         }
     }
 
@@ -147,6 +147,9 @@ class UserHasUnreadMessages extends Notification
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
             return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
+        }
+        if ($this->mensagem->referencia == 'recalculo') {
+            return 'ao recálculo ' . $this->mensagem->parent->tipo->descricao;
         }
         return 'em um processo';
     }

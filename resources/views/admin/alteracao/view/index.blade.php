@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$alteracao])
 @section('top-title')
-    <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->tipo->descricao}}
+    <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->getDescricao()}}
 @stop
 @section('content')
     <ul class="nav nav-tabs" role="tablist">
@@ -25,7 +25,7 @@
             <a class="btn btn-default" href="{{URL::previous()}}"><i
                         class="fa fa-angle-left"></i>
                 Voltar</a>
-            @if($alteracao->status == 'Pendente')
+            @if(!in_array($alteracao->status, ['concluído', 'concluido', 'cancelado']))
                 <a class="btn btn-success" href="{{route('finishAlteracao', $idAlteracao)}}"><i
                             class="fa fa-check"></i>
                     Concluir alteração</a>

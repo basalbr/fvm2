@@ -36,4 +36,5 @@
     @endif
     </tbody>
 </table>
+{{ $apuracoesPendentes->appends(request()->query())->links() }}
 <div class="clearfix"></div>

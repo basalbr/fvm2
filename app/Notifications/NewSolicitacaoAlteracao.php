@@ -45,11 +45,11 @@ class NewSolicitacaoAlteracao extends Notification
     {
         return (new MailMessage)
             ->greeting('Olá!')
-            ->line('Temos uma nova solicitação de '.$this->alteracao->tipo->descricao.' de ' . $this->alteracao->usuario->nome)
+            ->line('Temos uma nova solicitação de alteração de ' . $this->alteracao->empresa->razao_social.'.')
             ->line('Para visualizar essa solicitação, clique no botão abaixo:')
             ->action('Visualizar Solicitação', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Nova solicitação de '.$this->alteracao->tipo->descricao)
+            ->subject('Nova solicitação de alteração')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 
@@ -62,7 +62,7 @@ class NewSolicitacaoAlteracao extends Notification
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => $this->alteracao->usuario->nome.' abriu um novo alteracao!',
+            'mensagem' => 'Temos uma nova solicitação de alteração de ' . $this->alteracao->usuario->nome,
             'url' => $this->url
         ];
     }

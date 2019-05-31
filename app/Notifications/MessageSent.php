@@ -62,6 +62,9 @@ class MessageSent extends Notification
             if ($this->mensagem->referencia == 'imposto_renda') {
                 $this->url = route('showImpostoRendaToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'recalculo') {
+                $this->url = route('showRecalculoToAdmin', [$this->mensagem->id_referencia]);
+            }
         } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -101,6 +104,9 @@ class MessageSent extends Notification
             }
             if ($this->mensagem->referencia == 'imposto_renda') {
                 $this->url = route('showImpostoRendaToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'recalculo') {
+                $this->url = route('showRecalculoToUser', [$this->mensagem->id_referencia]);
             }
         } else {
             $this->url = null;
@@ -190,6 +196,9 @@ class MessageSent extends Notification
         }
         if ($this->mensagem->referencia == 'imposto_renda') {
             return 'no imposto de renda de '.$this->mensagem->parent->nome;
+        }
+        if ($this->mensagem->referencia == 'recalculo') {
+            return 'ao recálculo ' . $this->mensagem->parent->tipo->descricao;
         }
         return 'à um processo';
     }

@@ -28,5 +28,40 @@
     @include('dashboard.modals.success')
     @include('dashboard.modals.esocial')
 @show
+@if(Auth::user()->empresas->count() > 0)
+    <script type="text/javascript">
+        $(function () {
+            if (!getAlvaraCookie()) {
+                $('.alert-alvara').show();
+            }
+
+            $('.btn-alvara').on('click', function (e) {
+                e.preventDefault();
+                setAlvaraCookie();
+                $('.alert-alvara').hide();
+            })
+        });
+
+        function setAlvaraCookie() {
+            var expires = "";
+            var date = new Date();
+            date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+            document.cookie = "alvara=lido" + expires + "; path=/";
+        }
+
+        function getAlvaraCookie() {
+            var value = "; " + document.cookie;
+            var parts = value.split("; alvara=");
+            return parts.pop().split(";").shift() ? true : false;
+        }
+    </script>
+    <div class="alert alert-danger alert-alvara"
+         style="position: absolute; bottom: 0; left: 0; right: 0; display: hidden; z-index: 1000000">
+        <strong>Atenção!</strong> Verifique a validade do seu alvará e a necessidade de renovar ele junto à prefeitura
+        da sua cidade, <strong>nós não oferecemos esse serviço.</strong>
+        <button class="btn-alvara btn btn-warning pull-right">Ok, entendi</button>
+    </div>
+@endif
 </body>
 </html>

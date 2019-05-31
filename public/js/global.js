@@ -76,7 +76,7 @@ $(function () {
         if ($(this).val().length == 9) {
             var selector = $(this);
             var cep = $(this).val().replace('-', '');
-            $.get('http://viacep.com.br/ws/' + cep + '/json/unicode/').done(function (data) {
+            $.get('https://viacep.com.br/ws/' + cep + '/json/unicode/').done(function (data) {
                 var form = selector.parent().parent().parent();
                 form.find('input[name="endereco"]').val(data.logradouro);
                 form.find('select[name="id_uf"] option[data-sigla="' + data.uf + '"]').prop("selected", true);

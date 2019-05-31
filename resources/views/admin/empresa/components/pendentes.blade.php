@@ -31,4 +31,5 @@
     @endif
     </tbody>
 </table>
+{{ $empresasPendentes->appends(request()->query())->appends(['tab'=>'pendentes'])->links() }}
 <div class="clearfix"></div>

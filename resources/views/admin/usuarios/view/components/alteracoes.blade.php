@@ -1,11 +1,11 @@
 <table class="table table-hovered table-striped">
     <thead>
     <tr>
-        <th>Aberto em</th>
         <th>Tipo</th>
-        <th>Status do Pagamento</th>
-        <th>Status</th>
-        <th>Novas mensagens</th>
+        <th>Etapa</th>
+        <th>Aberto em</th>
+        <th>Atualizado em</th>
+        <th>Pagamento</th>
         <th></th>
     </tr>
     </thead>
@@ -15,11 +15,13 @@
         @foreach($alteracoes as $alteracao)
 
             <tr>
-                <td>{{$alteracao->created_at->format('d/m/Y H:i:s')}}</td>
-                <td>{{$alteracao->tipo->descricao}}</td>
-                <td>{{$alteracao->status}}</td>
-                <td>{{$alteracao->pagamento->status}}</td>
-                <td>{{$alteracao->mensagens()->where('lida', 0)->where('from_admin', 0)->count()}}</td>
+
+                <td>{{$alteracao->getDescricao()}} {!! $alteracao->getLabelMensagensNaoLidasAdmin() !!}</td>
+                <td>{!!$alteracao->getLabelEtapa()!!}</td>
+                <td>{{$alteracao->created_at->format('d/m/Y à\s H:i')}}</td>
+                <td>{{$alteracao->updated_at->format('d/m/Y à\s H:i')}}</td>
+                <td>{!!$alteracao->pagamento->getLabelStatus()!!}</td>
+                <td></td>
                 <td>
                     <a class="btn btn-primary"
                        href="{{route('showSolicitacaoAlteracaoToAdmin', [$alteracao->id])}}"

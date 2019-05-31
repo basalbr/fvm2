@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-use App\Models\ContratoTrabalho;
 use App\Models\Empresa;
 use App\Models\Funcionario;
 use App\Models\FuncionarioContrato;

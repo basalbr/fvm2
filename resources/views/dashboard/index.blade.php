@@ -35,7 +35,7 @@
         </div>
     @endif
     <div class="col-sm-6">
-        <a href="{{route('listSolicitacoesAlteracaoToUser')}}" class="atalho verde">
+        <a href="{{route('chooseEmpresaSolicitacaoAlteracao')}}" class="atalho verde">
             <i class="fa fa-bullhorn"></i> Quero solicitar uma <strong>alteração</strong>
         </a>
     </div>

@@ -9,9 +9,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Alteracao;
-use App\Models\TipoAlteracao;
 use App\Services\CancelAlteracao;
-use App\Services\CreateSolicitacaoAlteracao;
+use App\Services\ChangeAlteracaoStatus;
 use App\Services\FinishAlteracao;
 use App\Validation\AlteracaoValidation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,7 +18,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class AlteracaoController extends Controller
 {
@@ -32,18 +30,18 @@ class AlteracaoController extends Controller
     public function index(Request $request)
     {
         /* Query pending alterations */
-        $alteracoesPendentes = Alteracao::query()->whereIn('alteracao.status', ['Pendente', 'Atencao']);
+        $alteracoesPendentes = Alteracao::query()->whereNotIn('alteracao.status', ['concluido', 'cancelado', 'Concluído', 'Cancelado']);
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $alteracoesPendentes = $this->filterForm($alteracoesPendentes, $request);
         }
-        $alteracoesPendentes = $alteracoesPendentes->select('alteracao.*')->get();
+        $alteracoesPendentes = $alteracoesPendentes->select('alteracao.*')->paginate(10);
 
         /* Query finished alterations */
         $alteracoesConcluidas = Alteracao::query()->whereIn('alteracao.status', ['Concluído', 'Cancelado']);
         if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $alteracoesConcluidas = $this->filterForm($alteracoesConcluidas, $request);
         }
-        $alteracoesConcluidas = $alteracoesConcluidas->select('alteracao.*')->get();
+        $alteracoesConcluidas = $alteracoesConcluidas->select('alteracao.*')->paginate(10);
 
         /* Return view */
         return view('admin.alteracao.index', compact('alteracoesPendentes', 'alteracoesConcluidas'));
@@ -77,6 +75,17 @@ class AlteracaoController extends Controller
             return redirect()->route('listSolicitacoesAlteracaoToAdmin')->with('successAlert', 'Alteração cancelada com sucesso :O');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+    }
+
+    public function changeStatus($id, $status)
+    {
+        /* @var $alteracao Alteracao*/
+        $alteracao = Alteracao::findOrFail($id);
+        $alteracao->update(['status'=>$status]);
+        if (ChangeAlteracaoStatus::handle($id, $status)) {
+            return redirect()->route('showSolicitacaoAlteracaoToAdmin', $id)->with(['successAlert', 'O status foi alterado com sucesso']);
+        }
+        return redirect()->route('showSolicitacaoAlteracaoToAdmin', $id)->with(['alert', 'Ocorreu um erro inesperado']);
     }
 
     public function validateAlteracao(Request $request)

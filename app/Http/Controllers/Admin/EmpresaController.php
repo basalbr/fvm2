@@ -76,13 +76,13 @@ class EmpresaController extends Controller
         if (!$request->has('tab') || $request->get('tab') == 'ativas') {
             $empresasAtivas = $this->filterForm($empresasAtivas, $request);
         }
-        $empresasAtivas = $empresasAtivas->select('empresa.*')->get();
+        $empresasAtivas = $empresasAtivas->select('empresa.*')->paginate(10);
 
         $empresasPendentes = Empresa::query()->where('status', 'em_analise');
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $empresasPendentes = $this->filterForm($empresasPendentes, $request);
         }
-        $empresasPendentes = $empresasPendentes->select('empresa.*')->get();
+        $empresasPendentes = $empresasPendentes->select('empresa.*')->paginate(10);
         return view('admin.empresa.index', compact("empresasAtivas", "empresasPendentes"));
     }
 

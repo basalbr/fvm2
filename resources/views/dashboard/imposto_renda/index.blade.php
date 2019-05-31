@@ -13,10 +13,10 @@
 
         <div class="clearfix"></div>
         <div class="navigation-space"></div>
-        {{--<div class="navigation-options">--}}
-            {{--<a href="{{route('newImpostoRenda')}}" class="btn btn-primary"><span--}}
-                        {{--class="fa fa-paw"></span> Declarar Imposto de Renda</a>--}}
-        {{--</div>--}}
+        <div class="navigation-options">
+            <a href="{{route('newImpostoRenda')}}" class="btn btn-primary"><span
+                        class="fa fa-paw"></span> Declarar Imposto de Renda</a>
+        </div>
     </div>
 
 

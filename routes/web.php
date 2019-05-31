@@ -13,7 +13,6 @@
 
 //Home
 use App\Models\Noticia;
-use App\Models\Plano;
 use Carbon\Carbon;
 
 Route::get('/', ['as' => 'home', 'uses' => function () {
@@ -153,13 +152,24 @@ Route::group(['prefix' => 'dashboard/pontos', 'namespace' => 'Dashboard', 'middl
     Route::get('send/{idPonto}', ['as' => 'sendPontos', 'uses' => 'PontoController@send']);
 });
 
+//Dashboard - Recálculo
+Route::group(['prefix' => 'dashboard/recalculos', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listRecalculosToUser', 'uses' => 'RecalculoController@index']);
+    Route::get('view/{idRecalculo}', ['as' => 'showRecalculoToUser', 'uses' => 'RecalculoController@view']);
+    Route::get('new', ['as' => 'newRecalculo', 'uses' => 'RecalculoController@new']);
+    Route::post('new', ['uses' => 'RecalculoController@store']);
+    Route::post('validate', ['as' => 'validateRecalculo', 'uses' => 'RecalculoController@validateAjax']);
+});
+
 //Dashboard - Alterações
 Route::group(['prefix' => 'dashboard/solicitar-alteracao', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
-    Route::get('', ['as' => 'listSolicitacoesAlteracaoToUser', 'uses' => 'AlteracaoController@index']);
-    Route::get('new/{idTipo}', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
-    Route::post('new/{idTipo}', ['uses' => 'AlteracaoController@store']);
+    Route::get('', ['as' => 'chooseEmpresaSolicitacaoAlteracao', 'uses' => 'AlteracaoController@index']);
+    Route::get('{idEmpresa}', ['as' => 'listSolicitacoesAlteracaoToUser', 'uses' => 'AlteracaoController@list']);
+    Route::post('{idEmpresa}/new', ['as' => 'newSolicitacaoAlteracao', 'uses' => 'AlteracaoController@new']);
+    Route::post('{idEmpresa}/save', ['as'=>'saveSolicitacaoAlteracao', 'uses' => 'AlteracaoController@store']);
     Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToUser', 'uses' => 'AlteracaoController@view']);
     Route::post('validate', ['as' => 'validateAlteracao', 'uses' => 'AlteracaoController@validateAlteracao']);
+    Route::post('calculate', ['as' => 'calcularValorAlteracao', 'uses' => 'AlteracaoController@calculate']);
 });
 
 //Dashboard - Imposto de Renda
@@ -167,7 +177,7 @@ Route::group(['prefix' => 'dashboard/imposto-renda', 'namespace' => 'Dashboard',
     Route::get('', ['as' => 'listImpostoRendaToUser', 'uses' => 'ImpostoRendaController@index']);
     Route::get('new', ['as' => 'newImpostoRenda', 'uses' => 'ImpostoRendaController@new']);
     Route::post('new', ['uses' => 'ImpostoRendaController@store']);
-    Route::post('temp/{id?}', ['as'=>'saveIrTemp', 'uses' => 'ImpostoRendaController@saveTemp']);
+    Route::post('temp/{id?}', ['as' => 'saveIrTemp', 'uses' => 'ImpostoRendaController@saveTemp']);
     Route::get('view/{id}', ['as' => 'showImpostoRendaToUser', 'uses' => 'ImpostoRendaController@view']);
     Route::post('view/{id}', ['uses' => 'ImpostoRendaController@store']);
     Route::post('validate', ['as' => 'validateImpostoRenda', 'uses' => 'ImpostoRendaController@validateIr']);
@@ -222,11 +232,16 @@ Route::group(['prefix' => 'dashboard/balancetes', 'namespace' => 'Dashboard', 'm
     Route::get('', ['as' => 'listBalancetesToUser', 'uses' => 'BalanceteController@index']);
 });
 
+//Dashboard - Contratos
+Route::group(['prefix' => 'dashboard/contrato', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'showContratoToUser', 'uses' => 'ContratoController@index']);
+});
+
 //Dashboard - Certificados Digitais
 Route::group(['prefix' => 'dashboard/certificados-digitais', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listCertificadosToUser', 'uses' => 'CertificadoDigitalController@index']);
     Route::post('', ['uses' => 'CertificadoDigitalController@upload']);
-    Route::get('delete/{idEmpresa}', ['as'=>'userDeleteCertificado', 'uses' => 'CertificadoDigitalController@delete']);
+    Route::get('delete/{idEmpresa}', ['as' => 'userDeleteCertificado', 'uses' => 'CertificadoDigitalController@delete']);
 });
 
 //CRON
@@ -238,6 +253,9 @@ Route::group(['namespace' => 'Dashboard'], function () {
 
 Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('daily', ['uses' => 'CronController@dailyCron']);
+    Route::get('payments', ['uses' => 'CronController@verifyPendingPayments']);
+    Route::get('unread', ['uses' => 'CronController@notifyUnreadMessages']);
+    Route::get('pending-docs', ['uses' => 'CronController@dailyCron']);
     Route::get('mensalidade/adjustmentMessage', ['uses' => 'CronController@AdjustmentInMensalidade']);
     Route::get('funcionarios/requestPontos', ['uses' => 'CronController@openPontosRequest']);
     Route::get('send/rodada-negocios', ['uses' => 'CronController@sendRodadaNegociosEmail']);
@@ -303,7 +321,7 @@ Route::group(['prefix' => 'admin/decimo-terceiro', 'namespace' => 'Admin', 'midd
     Route::get('', ['as' => 'listDecimoTerceiroToAdmin', 'uses' => 'DecimoTerceiroController@index']);
     Route::get('view/{id}', ['as' => 'showDecimoTerceiroToAdmin', 'uses' => 'DecimoTerceiroController@view']);
     Route::post('view/{id}', ['uses' => 'DecimoTerceiroController@update']);
-    Route::get('new', ['as'=>'newDecimoTerceiro','uses' => 'DecimoTerceiroController@new']);
+    Route::get('new', ['as' => 'newDecimoTerceiro', 'uses' => 'DecimoTerceiroController@new']);
     Route::post('new', ['uses' => 'DecimoTerceiroController@store']);
     Route::post('validate', ['as' => 'validateDecimoTerceiro', 'uses' => 'DecimoTerceiroController@validateDecimoTerceiro']);
 });
@@ -342,6 +360,16 @@ Route::group(['prefix' => 'admin/solicitar-alteracao', 'namespace' => 'Admin', '
     Route::get('view/{idAlteracao}', ['as' => 'showSolicitacaoAlteracaoToAdmin', 'uses' => 'AlteracaoController@view']);
     Route::get('cancel/{idAlteracao}', ['as' => 'cancelAlteracao', 'uses' => 'AlteracaoController@cancel']);
     Route::get('finish/{idAlteracao}', ['as' => 'finishAlteracao', 'uses' => 'AlteracaoController@finish']);
+    Route::get('change-status/{id}/{status}', ['as' => 'changeAlteracaoStatus', 'uses' => 'AlteracaoController@changeStatus']);
+});
+
+//Admin - Recálculos
+Route::group(['prefix' => 'admin/recalculo', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listRecalculosToAdmin', 'uses' => 'RecalculoController@index']);
+    Route::get('view/{idRecalculo}', ['as' => 'showRecalculoToAdmin', 'uses' => 'RecalculoController@view']);
+    Route::post('view/{idRecalculo}', ['uses' => 'RecalculoController@update']);
+    Route::post('view/{idRecalculo}/upload/guia', ['uses' => 'RecalculoController@uploadGuia']);
+    Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'RecalculoController@validateGuia']);
 });
 
 //Admin - Apurações
@@ -353,7 +381,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
 });
 
-//Admin - Apurações
+//Admin - Imposto de Renda
 Route::group(['prefix' => 'admin/imposto-renda', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@index']);
     Route::get('view/{id}', ['as' => 'showImpostoRendaToAdmin', 'uses' => 'ImpostoRendaController@view']);
@@ -434,6 +462,25 @@ Route::group(['prefix' => 'admin/noticias', 'namespace' => 'Admin', 'middleware'
     Route::post('validate', ['as' => 'validateNoticia', 'uses' => 'NoticiaController@validateNoticia']);
 });
 
+//Admin - Cadastro Alteração
+Route::group(['prefix' => 'admin/cadastro/alteracao', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listCadastroAlteracao', 'uses' => 'TipoAlteracaoController@index']);
+    Route::get('new', ['as' => 'newTipoAlteracao', 'uses' => 'TipoAlteracaoController@new']);
+    Route::post('new', ['uses' => 'TipoAlteracaoController@store']);
+    Route::get('view/{id}', ['as' => 'viewTipoAlteracao', 'uses' => 'TipoAlteracaoController@view']);
+    Route::post('view/{id}', ['uses' => 'TipoAlteracaoController@update']);
+    Route::post('validate', ['as' => 'validateTipoAlteracao', 'uses' => 'TipoAlteracaoController@validateTipoAlteracao']);
+});
+
+//Admin - Cadastro Recálculo
+Route::group(['prefix' => 'admin/cadastro/recalculo', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listCadastroRecalculo', 'uses' => 'TipoRecalculoController@index']);
+    Route::get('new', ['as' => 'newTipoRecalculo', 'uses' => 'TipoRecalculoController@new']);
+    Route::post('new', ['uses' => 'TipoRecalculoController@store']);
+    Route::get('view/{id}', ['as' => 'viewTipoRecalculo', 'uses' => 'TipoRecalculoController@view']);
+    Route::post('view/{id}', ['uses' => 'TipoRecalculoController@update']);
+    Route::post('validate', ['as' => 'validateTipoRecalculo', 'uses' => 'TipoRecalculoController@validateAjax']);
+});
 
 //Ajax
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {

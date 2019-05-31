@@ -5,7 +5,7 @@
             <div class="thumb">
                 <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
-            <div class="name">{{$message->usuario->nome}}
+            <div class="name">{{$message->usuario->nome}}<span class="time"> - Enviado em {{$message->created_at->format('d/m/y à\s H:i')}}</span>
             </div>
             <div class="clearfix"></div>
             <div class="text">
@@ -17,7 +17,6 @@
                         </a>
                     @endif
                 </p>
-                <p class="time">Enviado em {{$message->created_at->format('d/m/y à\s H:i')}}</p>
             </div>
         </div>
         @else

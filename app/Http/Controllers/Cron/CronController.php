@@ -21,7 +21,6 @@ use App\Notifications\DocumentosContabeisPending;
 use App\Notifications\PaymentAlmostPending;
 use App\Notifications\PaymentPending;
 use App\Notifications\Sorry;
-use App\Notifications\UsuarioDisabled;
 use App\Services\ActivateEmpresa;
 use App\Services\OpenPontosRequest;
 use App\Services\SendMendalidadeAdjustment;
@@ -36,7 +35,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Mockery\Exception;
 
 class CronController extends Controller
 {
@@ -63,7 +61,7 @@ class CronController extends Controller
             try {
                 $pagamento->usuario->notify(new PaymentPending($pagamento));
             } catch (\Exception $e) {
-                Log::info('Pagamento id: '.$pagamento->id);
+                Log::info('Pagamento id: ' . $pagamento->id);
                 Log::critical($e);
             }
         }
@@ -71,14 +69,28 @@ class CronController extends Controller
 
     public function notifyUnreadMessages()
     {
-        $mensagens = Mensagem::where('lida', '=', 0)->where('referencia', '!=', 'chat')->groupBy('referencia', 'id_referencia', 'from_admin', 'id_usuario')->get(['referencia', 'id_referencia', 'from_admin', 'id_usuario']);
-        foreach ($mensagens as $mensagem) {
-            if ($mensagem->from_admin) {
-                WarnMessageNotReadToUser::handle($mensagem);
-            } else {
-                WarnMessageNotReadToAdmin::handle($mensagem);
+        try {
+            $mensagens = Mensagem::where('lida', '=', 0)->where('created_at', '>=', Carbon::now()->subDays(90))->get();
+            $enviadas = [];
+            foreach ($mensagens as $mensagem) {
+                $is_enviada = false;
+                if(count($enviadas)){
+                    foreach ($enviadas as $enviada) {
+                        if ($enviada == ['id_referencia' => $mensagem->id_referencia, ' referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin]) {
+                            $is_enviada = true;
+                        }
+                    }
+                }
+                if (!$is_enviada) {
+                    $mensagem->from_admin ? WarnMessageNotReadToUser::handle($mensagem) : WarnMessageNotReadToAdmin::handle($mensagem);
+                    $enviadas[] = ['id_referencia' => $mensagem->id_referencia, ' referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin];
+                }
             }
+        } catch (\Exception $e) {
+            Log::critical($mensagem->id);
+            Log::critical($e);
         }
+
     }
 
     public function activateScheduledEmpresas()
@@ -106,7 +118,7 @@ class CronController extends Controller
             try {
                 $pagamento->usuario->notify(new PaymentAlmostPending($pagamento));
             } catch (\Exception $e) {
-                Log::info('Pagamento id: '.$pagamento->id);
+                Log::info('Pagamento id: ' . $pagamento->id);
                 Log::critical($e);
             }
         }
@@ -122,7 +134,7 @@ class CronController extends Controller
             try {
                 $apuracao->empresa->usuario->notify(new ApuracaoPending($apuracao->empresa));
             } catch (\Exception $e) {
-                Log::info('Apuração id: '.$apuracao->id);
+                Log::info('Apuração id: ' . $apuracao->id);
                 Log::critical($e);
             }
         }
@@ -133,7 +145,7 @@ class CronController extends Controller
                     $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
                 }
             } catch (\Exception $e) {
-                Log::info('Apuração id: '.$pagamento->id);
+                Log::info('Apuração id: ' . $pagamento->id);
                 Log::critical($e);
             }
         }
@@ -148,7 +160,7 @@ class CronController extends Controller
             try {
                 $documentoContabil->empresa->usuario->notify(new DocumentosContabeisPending($documentoContabil->empresa));
             } catch (\Exception $e) {
-                Log::info('Contabilidade id: '.$documentoContabil->id);
+                Log::info('Contabilidade id: ' . $documentoContabil->id);
                 Log::critical($e);
             }
         }
@@ -161,10 +173,11 @@ class CronController extends Controller
         SendMendalidadeAdjustment::handle($usuarios);
     }
 
-    public function sorry(){
-        $usuarios = Usuario::whereHas('empresas', function($q){
+    public function sorry()
+    {
+        $usuarios = Usuario::whereHas('empresas', function ($q) {
             $q->where('deleted_at', null);
-        })->orWhereHas('aberturasEmpresa', function($q){
+        })->orWhereHas('aberturasEmpresa', function ($q) {
             $q->where('deleted_at', null);
         })->get();
         foreach ($usuarios as $usuario) {

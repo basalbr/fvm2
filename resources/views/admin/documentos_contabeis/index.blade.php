@@ -53,6 +53,8 @@
                 @endif
                 </tbody>
             </table>
+            {{ $processosPendentes->appends(request()->query())->links() }}
+            <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="historico">
             <table class="table table-hovered table-striped">
@@ -87,6 +89,7 @@
                 @endif
                 </tbody>
             </table>
+            {{ $processosConcluidos->appends(request()->query())->links() }}
             <div class="clearfix"></div>
         </div>
     </div>

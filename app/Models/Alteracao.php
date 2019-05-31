@@ -64,6 +64,81 @@ class Alteracao extends Model
      */
     protected $fillable = ['id_empresa', 'id_usuario', 'status', 'id_tipo_alteracao'];
 
+    protected $status_processo = [
+        'pedido_inicial_em_analise' => 'Nossa equipe está analisando seu pedido',
+        'pedido_inicial_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'viabilidade_em_analise' => 'O pedido de viabilidade está em análise pelos órgãos responsáveis',
+        'viabilidade_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'dbe_em_analise' => 'O DBE está em análise pela Receita Federal',
+        'dbe_aguardando_usuario' => 'Precisamos de mais informações para o DBE',
+        'requerimento_aguardando_protocolo' => 'Estamos aguardando sua confirmação de protocolo junto à JUCESC',
+        'requerimento_em_analise' => 'O requerimento está em análise na JUCESC',
+        'requerimento_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'alvara_aguardando_protocolo' => 'Estamos aguardando o protocolo da documentação na prefeitura',
+        'alvara_em_analise' => 'A documentação está sendo analisada pela prefeitura',
+        'alvara_aguardando_pagamento' => 'Estamos aguardando o comprovante de pagamento das taxas',
+        'alvara_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
+        'concluido' => 'Esse processo está concluído',
+        'cancelado' => 'Esse processo foi cancelado',
+        'pendente' => 'Nossa equipe recebeu seu pedido',
+    ];
+
+    public function getDescricaoEtapa()
+    {
+        return $this->status_processo[$this->status];
+    }
+
+    public function getStatusAttribute($status){
+        return strtolower($status);
+    }
+
+    public function getEtapa()
+    {
+        if(strpos($this->status, 'pendente')){
+            return 'pendente';
+        }elseif(strpos($this->status, 'concluido')===0){
+            return 'concluido';
+        }elseif(strpos($this->status, 'cancelado')===0){
+            return 'cancelado';
+        }elseif(strpos($this->status, 'pedido_inicial')===0){
+            return 'pedido_inicial';
+        }elseif(strpos($this->status, 'viabilidade')===0){
+            return 'viabilidade';
+        }elseif(strpos($this->status, 'dbe')===0){
+            return 'dbe';
+        }elseif(strpos($this->status, 'requerimento')===0){
+            return 'requerimento';
+        }elseif(strpos($this->status, 'alvara')===0){
+            return 'alvara';
+        }
+        return 'pendente';
+    }
+
+    public function getNomeEtapa()
+    {
+
+        if(strpos($this->status, 'pendente')===0){
+            return 'Pendente';
+        }elseif(strpos($this->status, 'concluido')===0){
+            return 'Concluído';
+        }elseif(strpos($this->status, 'cancelado')===0){
+            return 'Cancelado';
+        }elseif(strpos($this->status, 'pedido_inicial')===0){
+            return 'Em análise';
+        }elseif(strpos($this->status, 'viabilidade')===0){
+            return 'Viabilidade';
+        }elseif(strpos($this->status, 'dbe')===0){
+            return 'DBE';
+        }elseif(strpos($this->status, 'requerimento')===0){
+            return 'Requerimento';
+        }elseif(strpos($this->status, 'alvara')===0){
+            return 'Alvará';
+        }elseif(strpos($this->status, 'concluído')===0){
+            return 'Concluído';
+        }
+        return 'Pendente';
+    }
+
     public function validateMeiMe($data)
     {
         $rules = ['id_pessoa' => 'required', 'titulo_eleitor' => 'required', 'recibo_ir' => 'sometimes'];
@@ -83,7 +158,8 @@ class Alteracao extends Model
     }
 
 
-    public function usuario(){
+    public function usuario()
+    {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
@@ -97,7 +173,8 @@ class Alteracao extends Model
         return $this->hasMany(AlteracaoInformacao::class, 'id_alteracao');
     }
 
-    public function getUltimaMensagem(){
+    public function getUltimaMensagem()
+    {
         return $this->mensagens()->latest()->first() ? $this->mensagens()->latest()->first()->mensagem : 'Nenhuma mensagem';
     }
 
@@ -111,9 +188,80 @@ class Alteracao extends Model
         return $this->hasOne(OrdemPagamento::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function tipos()
+    {
+        return $this->hasMany(AlteracaoTipoAlteracao::class, 'id_alteracao');
+    }
+
+    public function getDescricao()
+    {
+        return $this->id_tipo_alteracao ? $this->tipo->descricao : $this->getTiposDescricao();
+    }
+
+    public function getLabelMensagensNaoLidasAdmin(){
+        return $this->getQtdeMensagensNaoLidasAdmin() > 0 ?
+            ' <span class="label label-warning">'.$this->getQtdeMensagensNaoLidasAdmin() . ($this->getQtdeMensagensNaoLidasAdmin() == 1 ? ' mensagem não lida' : ' mensagens não lidas').'</td></span>' : '';
+    }
+
+    private function getTiposDescricao()
+    {
+        $descricao = '';
+        foreach ($this->tipos as $tipo) {
+            $descricao .= $tipo->tipo->descricao . ' / ';
+        }
+        return substr_replace($descricao, "", -2);
+    }
+
+    public function getLabelEtapa(){
+        if(strpos($this->status, 'pendente')===0){
+            return '<span class="label label-primary">Pendente</span>';
+        }elseif(strpos($this->status, 'concluido')===0 || strpos($this->status, 'concluído')===0 ){
+            return '<span class="label label-success">Concluído</span>';
+        }elseif(strpos($this->status, 'cancelado')===0){
+            return '<span class="label label-danger">Cancelado</span>';
+        }elseif(strpos($this->status, 'pedido_inicial')===0){
+            return '<span class="label label-info">Em análise</span>';
+        }elseif(strpos($this->status, 'viabilidade')===0){
+            return '<span class="label label-info">Viabilidade</span>';
+        }elseif(strpos($this->status, 'dbe')===0){
+            return '<span class="label label-info">DBE</span>';
+        }elseif(strpos($this->status, 'requerimento')===0){
+            return '<span class="label label-info">Requerimento</span>';
+        }elseif(strpos($this->status, 'alvara')===0){
+            return '<span class="label label-info">Alvará</span>';
+        }
+        return 'pendente';
+    }
+
     public function getQtdeMensagensNaoLidas()
     {
-        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->usuario->id)->count();
+        return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '!=', $this->usuario->id)->count();
+    }
+
+    public function getQtdeMensagensNaoLidasAdmin()
+    {
+        return $this->mensagens()->where('lida', '=', 0)->where('from_admin', 0)->count();
+    }
+
+    public function calculaValorAlteracao()
+    {
+        $ids = $this->tipos()->pluck('id_tipo_alteracao')->toArray();
+        $maisCaro = TipoAlteracao::whereIn('id', $ids)->orderBy('valor', 'desc')->first();
+        $valor = $maisCaro->valor;
+        foreach ($this->tipos as $tipo) {
+            $tipo->tipo->id == $maisCaro->id ? $valor += $tipo->tipo->valor : $valor += $tipo->tipo->getValorComDesconto();
+        }
+        return $valor;
+    }
+    public static function calculaValorAlteracaoAjax($ids)
+    {
+        $maisCaro = TipoAlteracao::whereIn('id', $ids)->orderBy('valor', 'desc')->first();
+        $tipos = TipoAlteracao::whereIn('id', $ids)->get();
+        $valor = $maisCaro->valor;
+        foreach ($tipos as $tipo) {
+            $tipo->id == $maisCaro->id ? $valor += $tipo->valor : $valor += $tipo->getValorComDesconto();
+        }
+        return $valor;
     }
 
 }

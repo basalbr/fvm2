@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
-class Mensagem extends Model {
+class Mensagem extends Model
+{
 
     use SoftDeletes;
 
@@ -25,9 +26,10 @@ class Mensagem extends Model {
      *
      * @var array
      */
-    protected $fillable = ['mensagem', 'id_usuario', 'referencia','id_referencia', 'from_admin', 'lida'];
+    protected $fillable = ['mensagem', 'id_usuario', 'referencia', 'id_referencia', 'from_admin', 'lida'];
 
-    public function usuario(){
+    public function usuario()
+    {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
@@ -36,9 +38,24 @@ class Mensagem extends Model {
         return $this->hasOne(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
-    public function parent(){
-        return $this->belongsTo(__NAMESPACE__ .'\\'. studly_case(str_singular($this->referencia)), 'id_referencia');
+    public function parent()
+    {
+        return $this->belongsTo(__NAMESPACE__ . '\\' . studly_case(str_singular($this->referencia)), 'id_referencia');
     }
 
+    public function targetUser()
+    {
+        $hasOneAdditionalTable = ['apuracao', 'processo_documento_contabil', 'processo_folha', 'funcionario', 'ponto', 'decimo_terceiro'];
+        $hasTwoAdditionalTable = ['demissao', 'alteracao_contratual'];
+        if (in_array($this->referencia, $hasOneAdditionalTable)) {
+            return $this->parent->empresa->usuario;
+        }
+        if (in_array($this->referencia, $hasTwoAdditionalTable)) {
+            return $this->parent->funcionario->empresa->usuario;
+        }
+        $result = DB::table($this->referencia)->where('id',$this->id_referencia)->first();
+        return Usuario::find($result->id_usuario);
+
+    }
 
 }

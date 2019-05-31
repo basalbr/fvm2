@@ -8,20 +8,12 @@
 
 namespace App\Services;
 
-use App\Models\ContratoTrabalho;
-use App\Models\Empresa;
-use App\Models\Funcionario;
-use App\Models\FuncionarioContrato;
-use App\Models\FuncionarioDeficiencia;
+use App\Mail\NewContatoFromSite;
 use App\Models\Usuario;
 use App\Notifications\MessageFromSite;
-use App\Notifications\NewFuncionario;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SendContato
 {
@@ -30,11 +22,13 @@ class SendContato
     {
         try {
             //Notifica admins que existe um novo funcionario cadastrado
-            Usuario::notifyAdmins(new MessageFromSite($request));
+            Mail::to('contato@webcontabilidade.com')->send(new NewContatoFromSite($request));
+//            Usuario::notifyAdmins(new MessageFromSite($request));
         } catch (\Exception $e) {
             Log::critical($e);
             return false;
         }
         return true;
     }
+
 }

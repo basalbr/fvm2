@@ -84,6 +84,7 @@ $(function () {
         $(this).toggleClass('active');
     });
     $('div').on('click','.copy-to-clipboard', function (e) {
+        console.log('a');
         e.preventDefault();
         copyToClipboard($(this).parent());
     })
@@ -109,9 +110,11 @@ function copyToClipboard(element) {
         document.execCommand("copy");
 
     } else if (window.getSelection) {
+        var selection =  window.getSelection();
         var range = document.createRange();
         range.selectNode(element[0]);
-        window.getSelection().addRange(range);
+        selection.removeAllRanges();
+        selection.addRange(range);
         document.execCommand("copy");
     }
     element.html(originalText+'<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button>');

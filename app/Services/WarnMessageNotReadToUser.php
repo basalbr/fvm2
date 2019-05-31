@@ -10,12 +10,8 @@ namespace App\Services;
 
 use App\Models\Mensagem;
 use App\Models\Usuario;
-use App\Notifications\MessageSent;
 use App\Notifications\UserHasUnreadMessages;
-use App\Validation\MensagemValidation;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class WarnMessageNotReadToUser
@@ -25,16 +21,11 @@ class WarnMessageNotReadToUser
     public static function handle(Mensagem $message)
     {
         try {
-            if ($message->referencia == 'funcionario' || $message->referencia == 'apuracao') {
-                $usuario = $message->parent->empresa->usuario;
-            } else {
-                $usuario = $message->parent->usuario;
-            }
+            $usuario = $message->targetUser();
             if ($usuario instanceof Usuario) {
                 $usuario->notify(new UserHasUnreadMessages($message));
             }
         } catch (\Exception $e) {
-            Log::info('Mensagem id: ' . $message->id);
             Log::critical($e);
         }
     }

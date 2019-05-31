@@ -246,7 +246,7 @@
         @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'Cópia da declaração de '.$anoAnterior, 'referencia'=>'declaracao_anterior'])
     </div>
     <div class="documentos-declaracao" style="display: none">
-        @include('dashboard.imposto_renda.view.components.upload', ['descricao'=>'RG', 'referencia'=>'rg'])
+        @include('dashboard.imposto_renda.new.components.upload', ['descricao'=>'RG', 'referencia'=>'rg'])
         <div class="col-xs-12">
             <div class="form-group">
                 <label>Data de Nascimento *</label>

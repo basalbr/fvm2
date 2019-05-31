@@ -149,6 +149,11 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(AberturaEmpresa::class, 'id_usuario');
     }
 
+    public function recalculos()
+    {
+        return $this->hasMany(Recalculo::class, 'id_usuario');
+    }
+
     public function ordensPagamento()
     {
         return $this->hasMany(OrdemPagamento::class, 'id_usuario');

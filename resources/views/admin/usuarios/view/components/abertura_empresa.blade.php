@@ -4,10 +4,10 @@
         <th>Nome preferencial</th>
         <th>Funcionários</th>
         <th>Docs. Fiscais</th>
-        <th>Docs. Contábeis</th>
-        <th>Status pagamento</th>
-        <th>Status processo</th>
+        <th>Pagamento</th>
+        <th>Etapa</th>
         <th>Aberto em</th>
+        <th>Última atualização</th>
         <th></th>
     </tr>
     </thead>
@@ -20,10 +20,10 @@
                 <td>{{$aberturaEmpresa->nome_empresarial1}}</td>
                 <td>{{$aberturaEmpresa->qtde_funcionario}}</td>
                 <td>{{$aberturaEmpresa->qtde_documento_fiscal}}</td>
-                <td>{{$aberturaEmpresa->qtde_documento_contabil}}</td>
                 <td>{{$aberturaEmpresa->getPaymentStatus()}}</td>
-                <td>{{$aberturaEmpresa->status}}</td>
+                <td>{{$aberturaEmpresa->getNomeEtapa()}}</td>
                 <td>{{$aberturaEmpresa->created_at->format('d/m/Y')}}</td>
+                <td>{{$aberturaEmpresa->updated_at->format('d/m/Y')}}</td>
                 <td>
                     <a class="btn btn-primary"
                        href="{{route('showAberturaEmpresaToAdmin', [$aberturaEmpresa->id])}}"

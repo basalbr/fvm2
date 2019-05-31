@@ -26,7 +26,7 @@
     <div class="col-xs-12">
         <div class="form-group">
             <label for="">Nome Fantasia</label>
-            <div class="form-control">{{$aberturaEmpresa->nome_empresarial1}}</div>
+            <div class="form-control">{{$aberturaEmpresa->nome_empresarial2}}</div>
         </div>
     </div>
     <div class="col-xs-12">

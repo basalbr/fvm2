@@ -96,7 +96,7 @@
                     <div class="col-xs-3">
                         <div class='form-group'>
                             <label for="principal">Título de eleitor</label>
-                            <div class='form-control'>{{$socio->titulo_eleitor}}</div>
+                            <div class='form-control'>{{$socio->titulo_eleitor}}<button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
                         </div>
                     </div>
                     <div class="col-xs-3">

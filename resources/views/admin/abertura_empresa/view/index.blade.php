@@ -89,7 +89,7 @@
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if($aberturaEmpresa->status != 'Concluído')
+            @if(!in_array($aberturaEmpresa->status, ['cancelado']))
                 <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i
                             class="fa fa-check"></i>
                     Transformar em empresa</a>

@@ -1,7 +1,4 @@
 @extends('dashboard.layouts.master')
-@section('top-title')
-    <a href="{{route('listSolicitacoesAlteracaoToUser')}}">Alterações</a> <i class="fa fa-angle-right"></i> {{$alteracao->tipo->descricao}}
-@stop
 @section('js')
     @parent
     <script type="text/javascript">
@@ -141,7 +138,10 @@
 
     </script>
 @stop
-
+@section('top-title')
+    <a href="{{route('listSolicitacoesAlteracaoToUser', $alteracao->id_empresa)}}">Alterações</a> <i
+            class="fa fa-angle-right"></i> {{$alteracao->getDescricao()}}
+@stop
 @section('content')
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -162,47 +162,51 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-            <br/>
             @if($alteracao->pagamento->isPending())
                 <div class="col-sm-12">
-                    <div class="alert alert-warning" style="display: block;">O pagamento dessa solicitação está com o
-                        status {{$alteracao->pagamento->status}}, é necessário realizar o pagamento para que possamos
-                        dar
-                        início ao processo.</div>
+                    <div class="alert alert-danger" style="display: block;">Olá {{Auth::user()->nome}}, é necessário
+                        efetuar o pagamento para que possamos iniciar esse processo. <a
+                                href="{{$alteracao->pagamento->getBotaoPagamento()}}" title="Pagar">Clique aqui para
+                            realizar o pagamento!</a></div>
                 </div>
             @endif
-                <div class="list">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Valor</label>
-                            <div class="form-control">{{$alteracao->pagamento->formattedValue()}}</div>
-                        </div>
+
+            <div class="col-xs-12 hidden-xs">
+                <div class="form-group">
+                    <label for="">Andamento do Processo</label>
+                    <div class="form-control">
+                        @include('dashboard.alteracao.view.components.etapas')
                     </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Status do processo</label>
-                            <div class="form-control">{{$alteracao->status}}</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Status do pagamento</label>
-                            <div class="form-control">{{$alteracao->pagamento->status}}</div>
-                        </div>
-                    </div>
-                    @if(count($alteracao->informacoes))
-                        @foreach($alteracao->informacoes as $informacao)
-                            @if($informacao->campo->tipo != 'file')
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label>{{$informacao->campo->nome}}</label>
-                                        <div class="form-control">{{$informacao->valor}}</div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    @endif
+                </div>
             </div>
+            <div class="col-xs-12">
+                <div class="form-group alert-info">
+                    <label for="">Status do Processo</label>
+                    <div class="form-control">{{$alteracao->getDescricaoEtapa()}}</div>
+                </div>
+            </div>
+            @if(count($alteracao->informacoes))
+                @foreach($alteracao->informacoes as $informacao)
+                    @if($informacao->campo->tipo != 'file')
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>{{$informacao->campo->nome}}</label>
+                                <div class="form-control">{{$informacao->valor}}</div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>{{$informacao->campo->nome}}</label>
+                                <div class="form-control"><a download
+                                                             href="{{asset(public_path().'storage/alteracao/'. $alteracao->id .'/'. $informacao->valor)}}"
+                                                             title="Clique para fazer download do arquivo">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
@@ -251,7 +255,9 @@
                         class="fa fa-angle-left"></i>
                 Voltar</a>
             @if($alteracao->pagamento->isPending())
-                <a class="btn btn-success" href='{{$alteracao->pagamento->getBotaoPagamento()}}'><i class="fa fa-credit-card"></i> Efetuar pagamento.</a>
+                <a class="btn btn-success" href='{{$alteracao->pagamento->getBotaoPagamento()}}'><i
+                            class="fa fa-credit-card"></i> Efetuar pagamento
+                    ({{$alteracao->pagamento->formattedValue()}})</a>
             @endif
         </div>
 

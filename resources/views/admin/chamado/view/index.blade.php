@@ -14,7 +14,16 @@
                 <p>Empresas de {{$chamado->usuario->nome}}</p>
                 <ul class="list-group">
                     @foreach($chamado->usuario->empresas as $empresa)
-                        <li class="list-group-item"><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}} ({{$empresa->razao_social}})</a></li>
+                        <li class="list-group-item">
+                            <a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}}
+                                ({{$empresa->razao_social}})</a>
+                            @if(strtolower($empresa->status) == 'cancelado')
+                                <span class="label label-danger">Esta empresa está cancelada</span>
+                            @endif
+                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count() > 0)
+                                <span class="label label-danger">Essa empresa possui {{$empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count()}} mensalidade(s) em atraso</span>
+                            @endif
+                        </li>
                     @endforeach
                 </ul>
             </div>

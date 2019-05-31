@@ -61,6 +61,9 @@ class AdminHasUnreadMessages extends Notification
         if ($this->mensagem->referencia == 'decimo_terceiro') {
             $this->url = route('showDecimoTerceiroToAdmin', [$this->mensagem->id_referencia]);
         }
+        if ($this->mensagem->referencia == 'recalculo') {
+            $this->url = route('showRecalculoToAdmin', [$this->mensagem->id_referencia]);
+        }
     }
 
     /**
@@ -145,7 +148,10 @@ class AdminHasUnreadMessages extends Notification
             return 'no imposto de renda de '.$this->mensagem->parent->nome;
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
-            return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->razao_social;
+            return 'no décimo terceiro da empresa ' . $this->mensagem->parent->empresa->razao_social;
+        }
+        if ($this->mensagem->referencia == 'recalculo') {
+            return 'no recálculo ' . $this->mensagem->parent->tipo->descricao .' do usuário '.$this->mensagem->parent->usuario->nome;
         }
         return 'em um processo';
     }

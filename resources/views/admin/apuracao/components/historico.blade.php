@@ -22,8 +22,7 @@
                 <td>{{preg_replace('/[^0-9]/','',$apuracao->empresa->cnpj)}}, {{preg_replace('/[^0-9]/','',$apuracao->empresa->getSocioPrincipal()->cpf)}} e {{preg_replace('/[^0-9]/','',$apuracao->empresa->codigo_acesso_simples_nacional)}}</td>
                 <td>{{$apuracao->status}} em {{$apuracao->updated_at->format('d/m/Y H:i')}}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{route('showApuracaoToAdmin', $apuracao->id)}}" title="Visualizar">
-                        <i class="fa fa-search"></i> Visualizar
+                    <a class="btn btn-primary" href="{{route('showApuracaoToAdmin', $apuracao->id)}}" title="Visualizar">Visualizar
                     </a>
                 </td>
             </tr>
@@ -36,4 +35,5 @@
     @endif
     </tbody>
 </table>
+{{ $apuracoesConcluidas->appends(array_merge(request()->query()))->links() }}
 <div class="clearfix"></div>

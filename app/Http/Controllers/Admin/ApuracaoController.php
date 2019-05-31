@@ -44,16 +44,17 @@ class ApuracaoController extends Controller
         if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
             $apuracoesPendentes = $this->filterForm($apuracoesPendentes, $request);
         }
-        $apuracoesPendentes = $apuracoesPendentes->select('apuracao.*')->get();
+        $qtdApuracoes = $apuracoesPendentes->select('apuracao.*')->count();
+        $apuracoesPendentes = $apuracoesPendentes->select('apuracao.*')->paginate(10);
 
 
         $apuracoesConcluidas = Apuracao::query()->whereNotIn('apuracao.status', ['informacoes_enviadas', 'novo', 'atencao']);
         if (!$request->has('tab') || $request->get('tab') == 'historico') {
             $apuracoesConcluidas = $this->filterForm($apuracoesConcluidas, $request);
         }
-        $apuracoesConcluidas = $apuracoesConcluidas->select('apuracao.*')->get();
+        $apuracoesConcluidas = $apuracoesConcluidas->select('apuracao.*')->paginate(10);
 
-        return view('admin.apuracao.index', compact('apuracoesConcluidas', 'apuracoesPendentes'));
+        return view('admin.apuracao.index', compact('apuracoesConcluidas', 'apuracoesPendentes', 'qtdApuracoes'));
     }
 
     public function validateGuia(Request $request)
@@ -118,10 +119,10 @@ class ApuracaoController extends Controller
                     $query->orderBy('empresa.nome', 'desc');
                     break;
                 case 'razao_social_asc':
-                    $query->orderBy('razao_social.created_at');
+                    $query->orderBy('empresa.razao_social');
                     break;
                 case 'razao_social_desc':
-                    $query->orderBy('razao_social.created_at', 'desc');
+                    $query->orderBy('empresa.razao_social', 'desc');
                     break;
                 default:
                     $query->orderBy('apuracao.competencia');

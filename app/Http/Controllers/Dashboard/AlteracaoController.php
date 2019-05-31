@@ -5,7 +5,6 @@
  * Date: 17/03/2017
  * Time: 20:48
  */
-
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Alteracao;
@@ -18,6 +17,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class AlteracaoController extends Controller
 {
@@ -25,45 +25,59 @@ class AlteracaoController extends Controller
 
     public function index()
     {
+        $empresas = Auth::user()->empresas()->orderBy('razao_social')->get();
+        return view('dashboard.alteracao.index', compact('empresas'));
+    }
+
+    public function list($idEmpresa)
+    {
         $tiposAlteracao = TipoAlteracao::orderBy('descricao')->get();
 
         $alteracoesPendentes = Auth::user()->alteracoes()
-            ->whereIn('status', ['Pendente', 'Atencao'])
+            ->where('id_empresa', $idEmpresa)
+            ->whereNotIn('status', ['Cancelado', 'Concluído', 'cancelado', 'concluido'])
             ->orderBy('created_at')
             ->get();
 
         $alteracoesConcluidas = Auth::user()->alteracoes()
-            ->whereIn('status',['Concluído', 'Cancelado'])
+            ->where('id_empresa', $idEmpresa)
+            ->whereIn('status', ['Cancelado', 'Concluído', 'cancelado', 'concluido'])
             ->orderBy('created_at')
             ->get();
-        return view('dashboard.alteracao.index', compact("tiposAlteracao", 'alteracoesPendentes', 'alteracoesConcluidas'));
+
+        return view('dashboard.alteracao.list', compact("tiposAlteracao", 'alteracoesPendentes', 'alteracoesConcluidas', 'idEmpresa'));
     }
 
-    public function new($idTipoAlteracao)
+    public function new(Request $request, $idEmpresa)
     {
-        $tipoAlteracao = TipoAlteracao::find($idTipoAlteracao);
-        $empresas = Auth::user()->empresas()->orderBy('nome_fantasia', 'asc')->get();
-        return view('dashboard.alteracao.new.index', compact('tipoAlteracao', 'empresas'));
+        $tipos = TipoAlteracao::whereIn('id', $request->get('itens'))->get();
+        $empresa = Auth::user()->empresas()->findOrFail($idEmpresa);
+        return view('dashboard.alteracao.new.index', compact('tipos', 'empresa'));
     }
 
     public function view($idAlteracao)
     {
-        $alteracao = Auth::user()->alteracoes()->find($idAlteracao);
-        return view('dashboard.alteracao.view.index', compact('alteracao'));
+        $step = 1;
+        $alteracao = Auth::user()->alteracoes()->findOrFail($idAlteracao);
+        return view('dashboard.alteracao.view.index', compact('alteracao', 'step'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $idEmpresa)
     {
-        $this->validate($request, AlteracaoValidation::getRules(), [], AlteracaoValidation::getNiceNames());
-        if (CreateSolicitacaoAlteracao::handle($request)) {
-            return redirect()->route('listSolicitacoesAlteracaoToUser')->with('successAlert', 'Sua solicitação foi aberta com sucesso, você receberá uma notificação assim que respondermos :)');
+        if (CreateSolicitacaoAlteracao::handle($request, $idEmpresa)) {
+            return redirect()->route('listSolicitacoesAlteracaoToUser', $idEmpresa)->with('successAlert', 'Sua solicitação foi aberta com sucesso, você receberá uma notificação assim que respondermos :)');
         }
-        return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
+        return Redirect::back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
 
     public function validateAlteracao(Request $request)
     {
         $this->validate($request, AlteracaoValidation::getRules(), [], AlteracaoValidation::getNiceNames());
+    }
+
+    public function calculate(Request $request)
+    {
+        return $request->has('itens') ? response()->json(Alteracao::calculaValorAlteracaoAjax($request->get('itens'))) : response()->json(0.0);
     }
 
 }

@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Validator;
 
-class TipoAlteracao extends Model {
+class TipoAlteracao extends Model
+{
 
     use SoftDeletes;
-
-    protected $rules = ['descricao' => 'required', 'valor'=>'required'];
-    protected $errors;
-    protected $niceNames = ['descricao' => 'Descrição','valor'=>'Valor'];
 
     /**
      * The database table used by the model.
@@ -26,44 +22,59 @@ class TipoAlteracao extends Model {
      *
      * @var array
      */
-    protected $fillable = ['descricao','valor'];
+    protected $fillable = ['descricao', 'valor', 'valor_desconto_progressivo', 'tipo_desconto_progressivo'];
 
+    protected $descricaoDescontoProgressivo = ['percentual' => 'Percentual', 'fixo' => 'Fixo'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
-
-        // validation pass
-        return true;
-    }
-
-    public function errors() {
-        return $this->errors;
-    }
-
-    public function getValorFormatado()
+    public function getValor()
     {
-        return 'R$' . number_format($this->valor, 2, ',', '.');
+        return number_format($this->valor, 2, ',', '.');
+    }
+
+    public function getCamposAtivos()
+    {
+        return $this->campos()->where('ativo', 1)->get();
+    }
+
+    public function getValorDescontoProgressivo()
+    {
+        return number_format($this->valor_desconto_progressivo, 2, ',', '.');
+    }
+
+    public function getTipoDescontoProgressivo()
+    {
+        return $this->descricaoDescontoProgressivo[$this->tipo_desconto_progressivo];
+    }
+
+    public function getValorComDesconto(): float
+    {
+        return $this->tipo_desconto_progressivo == 'fixo' ? $this->valor - $this->valor_desconto_progressivo : $this->valor - ($this->valor * ($this->valor_desconto_progressivo / 100));
+    }
+
+    public function getValorComDescontoFormatado(): string
+    {
+        return number_format($this->getValorComDesconto(), 2, ',', '.');
     }
 
 
-    public function campos(){
-        return $this->hasMany(AlteracaoCampo::class,'id_tipo_alteracao');
+    public function campos()
+    {
+        return $this->hasMany(AlteracaoCampo::class, 'id_tipo_alteracao');
     }
-    
-    public function valor_formatado() {
-        $format = new \NumberFormatter("pt-BR", \NumberFormatter::CURRENCY);
-        return $format->format($this->valor);
+
+
+    public function alteracoes()
+    {
+        return $this->hasMany(Alteracao::class, 'id_tipo_alteracao');
     }
-    
-    public function alteracoes(){
-        return $this->hasMany('App\Alteracao','id_tipo_alteracao');
+
+    public function setValorAttribute($value)
+    {
+        $this->attributes['valor'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+    }
+
+    public function setValorDescontoProgressivoAttribute($value)
+    {
+        $this->attributes['valor_desconto_progressivo'] = floatval(str_replace(',', '.', str_replace('.', '', $value)));
     }
 }

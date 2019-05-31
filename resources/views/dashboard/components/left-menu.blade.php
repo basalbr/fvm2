@@ -13,7 +13,6 @@
             <a class="{{Route::currentRouteNamed('dashboard') ? 'active' : ''}}" href="{{route('dashboard')}}"><span
                         class="fa fa-home"></span> Início <i class="fa fa-angle-right"></i></a>
         </li>
-
         <li>
             <a class="{{Route::current()->uri != 'dashboard/apuracao/calendario' && Route::current()->getPrefix() == '/dashboard/apuracao' ? 'active':''}}"
                href="{{route('listApuracoesToUser')}}"><span class="fa fa-calendar-check-o"></span> Apurações/Envio de
@@ -40,7 +39,7 @@
                        href="{{route('listEmpresaToUser')}}">Listar/Migrar empresa <i class="fa fa-angle-right"></i></a>
                 </li>
                 <li><a class="{{Route::current()->getPrefix() == '/dashboard/solicitar-alteracao' ? 'active':''}}"
-                       href="{{route('listSolicitacoesAlteracaoToUser')}}">Solicitações de Alteração <i
+                       href="{{route('chooseEmpresaSolicitacaoAlteracao')}}">Solicitações de Alteração <i
                                 class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
@@ -67,6 +66,8 @@
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/pagamentos' ? 'active':''}}"
                href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span> Pagamentos <i
                         class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/recalculos' ? 'active':''}}"
+               href="{{route('listRecalculosToUser')}}"><span class="fa fa-repeat"></span> Recálculos <i class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-file-text"></span> Relatórios <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">

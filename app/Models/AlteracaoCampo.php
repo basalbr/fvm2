@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class AlteracaoCampo extends Model {
+class AlteracaoCampo extends Model
+{
 
     use SoftDeletes;
 
-    protected $rules = ['id_tipo_alteracao' => 'required', 'tipo' => 'required', 'nome' => 'required', 'descricao' => 'required'];
-    protected $errors;
-    protected $niceNames = ['id_tipo_alteracao' => 'Tipo de Alteração', 'nome' => 'Nome', 'descricao'=>'Descrição', 'tipo'=>'Tipo'];
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
@@ -28,29 +26,19 @@ class AlteracaoCampo extends Model {
      *
      * @var array
      */
-    protected $fillable = ['id_tipo_alteracao', 'tipo', 'nome', 'descricao'];
+    protected $fillable = ['id_tipo_alteracao', 'tipo', 'nome', 'descricao', 'obrigatorio', 'ativo'];
 
-    public function validate($data) {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-        $v->setAttributeNames($this->niceNames);
-        // check for failure
-        if ($v->fails()) {
-            // set errors and return false
-            $this->errors = $v->errors()->all();
-            return false;
-        }
+    protected $tipos = ['file' => 'Arquivo', 'textarea' => 'Área de texto', 'string' => 'Campo de texto', 'table' => 'Tabela'];
 
-        // validation pass
-        return true;
-    }
-    
-    public function errors() {
-        return $this->errors;
+    public function tipo_alteracao()
+    {
+        return $this->belongsTo(TipoAlteracao::class, 'id_tipo_alteracao');
     }
 
-    public function tipo_alteracao() {
-        return $this->belongsTo('App\TipoAlteracao', 'id_tipo_alteracao');
+    public function getTipoDescricao()
+    {
+        return $this->tipo == 'table' ? 'Tabela (' . $this->tabela . ', ' . $this->coluna . ')' : $this->tipos[$this->tipo];
     }
+
 
 }

@@ -122,6 +122,11 @@ class Empresa extends Model
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function alteracoes()
+    {
+        return $this->hasMany(Alteracao::class, 'id_empresa');
+    }
+
     public function mensagens()
     {
         return $this->hasMany(Mensagem::class, 'id_referencia')->where('referencia', '=', $this->getTable());
@@ -300,25 +305,26 @@ class Empresa extends Model
 
     public function abrirProcessosDocumentosContabeis()
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             $periodo = date('Y-m-01', strtotime(date('Y-m') . " -1 month"));
-            if ($this->status !== 'Aprovado' || $this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
+            if ($this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
                 return false;
             }
+            $processo = new ProcessoDocumentoContabil(['id_empresa'=>$this->id, 'periodo'=>$periodo, 'status'=>'pendente']);
+            $processo->save();
             /** @var ProcessoDocumentoContabil $processo */
-            $processo = $this->processosDocumentosContabeis()->create([
-                'periodo' => $periodo, 'status' => 'pendente'
-            ]);
-            $this->usuario->notify(new NewProcessoDocumentosContabeis($processo));
+//            $processo = $this->processosDocumentosContabeis()->create([
+//                'periodo' => $periodo, 'status' => 'pendente'
+//            ]);
             DB::commit();
-            return true;
         } catch (\Exception $e) {
             DB::rollback();
             Log::critical($e);
             return false;
         }
-
+        $this->usuario->notify(new NewProcessoDocumentosContabeis($processo));
+        return true;
     }
 
     public function getQtdMensagensNaoLidas($isAdmin = false)

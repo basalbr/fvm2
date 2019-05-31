@@ -29,11 +29,11 @@ class DocumentoContabilController extends Controller
     {
         $processosPendentes = ProcessoDocumentoContabil::query();
         $processosPendentes->whereNotIn('processo_documento_contabil.status', ['concluido', 'sem_movimento']);
-        $processosPendentes = $processosPendentes->select('processo_documento_contabil.*')->get();
+        $processosPendentes = $processosPendentes->select('processo_documento_contabil.*')->paginate(10);
 
         $processosConcluidos = ProcessoDocumentoContabil::query();
         $processosConcluidos->whereIn('processo_documento_contabil.status', ['concluido', 'sem_movimento']);
-        $processosConcluidos = $processosConcluidos->select('processo_documento_contabil.*')->get();
+        $processosConcluidos = $processosConcluidos->select('processo_documento_contabil.*')->paginate(10);
 
         return view('admin.documentos_contabeis.index', compact('processosPendentes', 'processosConcluidos'));
     }
