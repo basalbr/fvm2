@@ -141,7 +141,7 @@ class CronController extends Controller
         foreach ($criticas as $apuracao) {
             try {
                 $diff = $apuracao->vencimento->diffInDays(Carbon::today());
-                if ($diff <= 3 && $apuracao->vencimento->isFuture()) {
+                if ($diff <= 5 && $apuracao->vencimento->isFuture()) {
                     $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
                 }
             } catch (\Exception $e) {

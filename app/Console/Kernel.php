@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('queue:work')->everyMinute()->withoutOverlapping();
-         $schedule->command('auth:clear-resets')->hourly()->withoutOverlapping();
+        $schedule->call('App\Http\Controllers\Cron\CronController@dailyCron')->daily();
     }
 
     /**
