@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NewContatoFromSite extends Mailable
+class NewContatoFromSite extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -17,9 +17,13 @@ class NewContatoFromSite extends Mailable
      * @return void
      */
     private $message;
+    private $name;
+    private $email;
 
-    public function __construct($mensagem)
+    public function __construct($email, $name, $mensagem)
     {
+        $this->name = $name;
+        $this->email = $email;
         $this->message = $mensagem;
     }
 
@@ -31,9 +35,9 @@ class NewContatoFromSite extends Mailable
     public function build()
     {
         return $this
-            ->from($this->message->get('email'), $this->message->get('nome'))
-            ->replyTo($this->message->get('email'), $this->message->get('nome'))
+            ->from($this->email, $this->name)
+            ->replyTo($this->email, $this->name)
             ->subject('Novo contato do site')
-            ->markdown('emails.contato', ['nome' => $this->message->get('nome'), 'mensagem' => $this->message->get('mensagem')]);
+            ->markdown('emails.contato', ['name' => $this->name, 'mensagem' => $this->message]);
     }
 }

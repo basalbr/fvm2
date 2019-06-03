@@ -463,7 +463,7 @@ Route::group(['prefix' => 'admin/noticias', 'namespace' => 'Admin', 'middleware'
 });
 
 //Admin - Cadastro Alteração
-Route::group(['prefix' => 'admin/cadastro/alteracao', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'admin/cadastros/alteracao', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listCadastroAlteracao', 'uses' => 'TipoAlteracaoController@index']);
     Route::get('new', ['as' => 'newTipoAlteracao', 'uses' => 'TipoAlteracaoController@new']);
     Route::post('new', ['uses' => 'TipoAlteracaoController@store']);
@@ -473,7 +473,7 @@ Route::group(['prefix' => 'admin/cadastro/alteracao', 'namespace' => 'Cadastro',
 });
 
 //Admin - Cadastro Recálculo
-Route::group(['prefix' => 'admin/cadastro/recalculo', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'admin/cadastros/recalculo', 'namespace' => 'Cadastro', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listCadastroRecalculo', 'uses' => 'TipoRecalculoController@index']);
     Route::get('new', ['as' => 'newTipoRecalculo', 'uses' => 'TipoRecalculoController@new']);
     Route::post('new', ['uses' => 'TipoRecalculoController@store']);

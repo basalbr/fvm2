@@ -1941,13 +1941,19 @@ body {
     display: block;
     margin-right: 5px;
     margin-bottom: 5px;
+    cursor: pointer;
 }
 
-#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao:active, #modal-nova-solicitacao .tipo-alteracao:focus, #modal-nova-solicitacao .tipo-alteracao.active{
+#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active, #modal-nova-solicitacao .tipo-alteracao:active, #modal-nova-solicitacao .tipo-alteracao:focus{
+    text-decoration: none;
+}
+
+#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active{
     background-color: #1E88E5 !important;
     border-color: #1976D2 !important;
     box-shadow: none !important;
-    text-decoration: none;
+    color: #fff;
+    transition: all ease-in 0.1s;
 }
 .panel-heading{
     padding: 10px 8px;

@@ -22,7 +22,7 @@ class SendContato
     {
         try {
             //Notifica admins que existe um novo funcionario cadastrado
-            Mail::to('contato@webcontabilidade.com')->send(new NewContatoFromSite($request));
+            Mail::to('contato@webcontabilidade.com')->send(new NewContatoFromSite($request->get('email'), $request->get('nome'), $request->get('mensagem')));
 //            Usuario::notifyAdmins(new MessageFromSite($request));
         } catch (\Exception $e) {
             Log::critical($e);

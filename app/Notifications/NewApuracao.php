@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Apuracao;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class NewApuracao extends Notification
+class NewApuracao extends Notification implements ShouldQueue
 {
     use Queueable;
     private $apuracao;

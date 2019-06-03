@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\OrdemPagamento;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class PaymentAlmostPending extends Notification
+class PaymentAlmostPending extends Notification implements ShouldQueue
 {
     use Queueable;
     private $ordemPagamento;

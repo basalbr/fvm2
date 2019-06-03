@@ -7,7 +7,7 @@
     <script type="text/javascript">
         var itens = {};
         $(function () {
-            $('#lista-atividades a').on('click', function (e) {
+            $('#lista-atividades .tipo-alteracao').on('click', function (e) {
                 e.preventDefault();
 
                 $(this).toggleClass('active');
@@ -184,8 +184,8 @@
                             <div class="list-group" id="lista-atividades"
                                  data-calcular-alteracao-url="{{route('calcularValorAlteracao')}}">
                                 @foreach($tiposAlteracao as $tipoAlteracao)
-                                    <a href="" class="tipo-alteracao"
-                                       data-id="{{$tipoAlteracao->id}}">{{$tipoAlteracao->descricao}}</a>
+                                    <div class="tipo-alteracao"
+                                       data-id="{{$tipoAlteracao->id}}">{{$tipoAlteracao->descricao}}</div>
                                 @endforeach
                             </div>
                         </div>

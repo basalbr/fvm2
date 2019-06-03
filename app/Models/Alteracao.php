@@ -247,7 +247,7 @@ class Alteracao extends Model
     {
         $ids = $this->tipos()->pluck('id_tipo_alteracao')->toArray();
         $maisCaro = TipoAlteracao::whereIn('id', $ids)->orderBy('valor', 'desc')->first();
-        $valor = $maisCaro->valor;
+        $valor = 0;
         foreach ($this->tipos as $tipo) {
             $tipo->tipo->id == $maisCaro->id ? $valor += $tipo->tipo->valor : $valor += $tipo->tipo->getValorComDesconto();
         }
@@ -257,7 +257,7 @@ class Alteracao extends Model
     {
         $maisCaro = TipoAlteracao::whereIn('id', $ids)->orderBy('valor', 'desc')->first();
         $tipos = TipoAlteracao::whereIn('id', $ids)->get();
-        $valor = $maisCaro->valor;
+        $valor = 0;
         foreach ($tipos as $tipo) {
             $tipo->id == $maisCaro->id ? $valor += $tipo->valor : $valor += $tipo->getValorComDesconto();
         }
