@@ -51,43 +51,8 @@ class AtendimentoController extends Controller
                 ->where('deleted_at', '=', null)->limit(1);
         })->paginate(10);
 
-        $aberturaEmpresas = AberturaEmpresa::whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = abertura_empresa.id')
-                ->where('mensagem.referencia', '=', 'abertura_empresa')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->paginate(10);
 
-        $solicitacoes = Alteracao::whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = alteracao.id')
-                ->where('mensagem.referencia', '=', 'alteracao')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->orderBy('created_at', 'desc')->paginate(10);
-
-        $apuracoes = Apuracao::whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('mensagem')
-                    ->whereRaw('mensagem.id_referencia = apuracao.id')
-                    ->where('mensagem.referencia', '=', 'apuracao')
-                    ->where('mensagem.lida', '=', 0)
-                    ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('apuracao.*')->paginate(10);
-
-        $documentosContabeis = ProcessoDocumentoContabil::whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('mensagem')
-                    ->whereRaw('mensagem.id_referencia = processo_documento_contabil.id')
-                    ->where('mensagem.referencia', '=', 'processo_documento_contabil')
-                    ->where('mensagem.lida', '=', 0)
-                    ->where('deleted_at', '=', null)->limit(1);
-            })->orderBy('created_at', 'desc')->select('processo_documento_contabil.*')->paginate(10);
-
-        return view('admin.atendimento.index', compact("empresas", 'chamados', 'solicitacoes', 'aberturaEmpresas', 'apuracoes', 'documentosContabeis'));
+        return view('admin.atendimento.index', compact('chamados'));
     }
 
 }

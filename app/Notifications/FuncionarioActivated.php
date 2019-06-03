@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Funcionario;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FuncionarioActivated extends Notification
+class FuncionarioActivated extends Notification implements ShouldQueue
 {
     use Queueable;
     private $funcionario;

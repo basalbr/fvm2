@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Chamado;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ChamadoReopened extends Notification
+class ChamadoReopened extends Notification implements ShouldQueue
 {
     use Queueable;
     private $chamado;

@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\Apuracao;
 use App\Models\Recalculo;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class NewStatusRecalculo extends Notification
+class NewStatusRecalculo extends Notification implements ShouldQueue
 {
     use Queueable;
     private $recalculo;

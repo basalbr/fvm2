@@ -11,11 +11,10 @@ namespace App\Services;
 use App\Models\Mensagem;
 use App\Models\Usuario;
 use App\Notifications\UserHasUnreadMessages;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Log;
 
-class WarnMessageNotReadToUser implements ShouldQueue
+class WarnMessageNotReadToUser
 {
     use ValidatesRequests;
 

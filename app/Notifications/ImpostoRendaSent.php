@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\Demissao;
 use App\Models\ImpostoRenda;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ImpostoRendaSent extends Notification
+class ImpostoRendaSent extends Notification implements ShouldQueue
 {
     use Queueable;
     private $ir;

@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Alteracao;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class NewAlteracaoStatus extends Notification
+class NewAlteracaoStatus extends Notification implements ShouldQueue
 {
     use Queueable;
     private $alteracao;

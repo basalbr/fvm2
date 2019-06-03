@@ -5,10 +5,10 @@ namespace App\Notifications;
 use App\Models\Recalculo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class NewRecalculo extends Notification
+class NewRecalculo extends Notification implements ShouldQueue
 {
     use Queueable;
     private $recalculo;

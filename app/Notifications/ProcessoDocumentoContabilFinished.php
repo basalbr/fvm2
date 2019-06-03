@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\ProcessoDocumentoContabil;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ProcessoDocumentoContabilFinished extends Notification
+class ProcessoDocumentoContabilFinished extends Notification implements ShouldQueue
 {
     use Queueable;
     private $processo;

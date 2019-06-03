@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Models\Funcionario;
 use App\Models\Ponto;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PontosSent extends Notification
+class PontosSent extends Notification implements ShouldQueue
 {
     use Queueable;
     private $ponto;
