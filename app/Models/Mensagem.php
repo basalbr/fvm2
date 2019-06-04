@@ -47,6 +47,7 @@ class Mensagem extends Model
     {
         $hasOneAdditionalTable = ['apuracao', 'processo_documento_contabil', 'processo_folha', 'funcionario', 'ponto', 'decimo_terceiro'];
         $hasTwoAdditionalTable = ['demissao', 'alteracao_contratual'];
+        Log::info('Mensagem: '.$this->id);
         if (in_array($this->referencia, $hasOneAdditionalTable)) {
             return $this->parent->empresa->usuario;
         }

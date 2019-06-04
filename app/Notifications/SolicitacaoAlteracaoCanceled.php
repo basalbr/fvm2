@@ -46,7 +46,7 @@ class SolicitacaoAlteracaoCanceled extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->greeting('Olá!')
-            ->line('A solicitação de alteração '.$this->alteracao->tipo->descricao.' para a empresa ' . $this->alteracao->empresa->nome_fantasia. ' foi cancelada.')
+            ->line('A solicitação de alteração '.$this->alteracao->getDescricao().' para a empresa ' . $this->alteracao->empresa->nome_fantasia. ' foi cancelada.')
             ->line('Para visualizar essa solicitação, clique no botão abaixo:')
             ->action('Visualizar solicitação', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')

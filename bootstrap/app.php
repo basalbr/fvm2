@@ -40,7 +40,14 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-
+/**
+ * Configure Monolog.
+ */
+$app->configureMonologUsing(function(Monolog\Logger $monolog) {
+    $filename = storage_path('logs/laravel-'.get_current_user().'.log');
+    $handler = new Monolog\Handler\RotatingFileHandler($filename);
+    $monolog->pushHandler($handler);
+});
 /*
 |--------------------------------------------------------------------------
 | Return The Application

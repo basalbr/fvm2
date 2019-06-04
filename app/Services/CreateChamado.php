@@ -37,7 +37,7 @@ class CreateChamado
                 'mensagem' => $request->get('mensagem'),
                 'id_usuario' => Auth::user()->id
             ]);
-            if (count($request->get('anexos'))) {
+            if ($request->has('anexos')) {
                 foreach ($request->get('anexos') as $arquivo) {
                     Anexo::create([
                         'id_referencia' => $chamado->id,

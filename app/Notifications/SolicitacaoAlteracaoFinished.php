@@ -50,7 +50,7 @@ class SolicitacaoAlteracaoFinished extends Notification implements ShouldQueue
             ->line('Para visualizar essa solicitação, clique no botão abaixo:')
             ->action('Visualizar solicitação', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
-            ->subject('Alteração '.$this->alteracao->tipo->descricao. ' foi concluída')
+            ->subject('Alteração '.$this->alteracao->getDescricao(). ' foi concluída')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');
     }
 

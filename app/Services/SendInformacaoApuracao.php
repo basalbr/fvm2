@@ -35,7 +35,7 @@ class SendInformacaoApuracao
 
             /* @var Apuracao $apuracao */
             $apuracao = Apuracao::findOrFail($idApuracao);
-            if (count($request->get('informacoes_extras'))) {
+            if ($request->has('informacoes_extras')) {
                 foreach ($request->get('informacoes_extras') as $idInfoExtra => $info) {
                     $apuracao->informacoes()->create(['id_informacao_extra' => $idInfoExtra, 'informacao' => $info]);
                     $tipoApuracao = ImpostoInformacaoExtra::find($idInfoExtra);

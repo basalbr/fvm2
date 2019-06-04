@@ -123,7 +123,7 @@ class UserHasUnreadMessages extends Notification implements ShouldQueue
             return 'na apuração de ' . $this->mensagem->parent->imposto->nome . ' (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao') {
-            return 'na solicitação de alteração (' . $this->mensagem->parent->tipo->descricao . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
+            return 'na solicitação de alteração (' . $this->mensagem->parent->getDescricao() . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_folha') {
             return 'na apuração de folha de pagamento (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
