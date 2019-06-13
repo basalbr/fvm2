@@ -26,7 +26,7 @@ class CreateSolicitacaoAlteracao
     {
         DB::beginTransaction();
         try {
-            $request->merge(['id_empresa'=>$idEmpresa]);
+            $request->merge(['id_empresa'=>$idEmpresa, 'status'=>'pendente']);
             /** @var Alteracao $alteracao */
             $alteracao = Auth::user()->alteracoes()->create($request->all());
             if (count($request->get('campos'))) {

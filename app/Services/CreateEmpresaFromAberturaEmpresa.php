@@ -8,14 +8,11 @@
 
 namespace App\Services;
 
-use App\Models\AberturaEmpresa;
 use App\Models\Empresa;
-use App\Models\EmpresaCnae;
 use App\Models\Mensalidade;
 use App\Models\OrdemPagamento;
-use App\Models\Pessoa;
 use App\Notifications\EmpresaActivated;
-use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -29,6 +26,7 @@ class CreateEmpresaFromAberturaEmpresa
     /**
      * @param $aberturaEmpresa
      * @return bool
+     * @throws Exception
      */
     public static function handle($aberturaEmpresa)
     {
@@ -36,18 +34,22 @@ class CreateEmpresaFromAberturaEmpresa
         try {
             $aberturaEmpresa->status = 'concluido';
             $aberturaEmpresa->save();
+
             /* @var $empresa Empresa */
             $empresa = Empresa::create($aberturaEmpresa->toArray());
+
             //cadastra cnaes
             foreach ($aberturaEmpresa->cnaes as $cnae) {
                 $empresa->cnaes()->create(['id_cnae' => $cnae->id_cnae]);
             }
+
             //cadastra socios
             foreach ($aberturaEmpresa->socios as $socio) {
                 $socioArr = $socio->toArray();
                 $socioArr['data_nascimento'] = $socio->data_nascimento->format('d/m/Y');
                 $empresa->socios()->create($socioArr);
             }
+
             //cadastra mensalidade
             $qtde_documento_fiscal = $aberturaEmpresa->qtde_documento_fiscal;
             $qtde_funcionario = $aberturaEmpresa->qtde_funcionario;
@@ -55,6 +57,7 @@ class CreateEmpresaFromAberturaEmpresa
             $id_usuario = $empresa->id_usuario;
             $status = 'Aprovado';
             $mensalidade = $empresa->mensalidades()->create(compact('valor', 'qtde_funcionario', 'qtde_documento_fiscal', 'id_usuario','status'));
+
             //30 dias gratis
             OrdemPagamento::create([
                 'id_referencia' => $mensalidade->id,
@@ -64,6 +67,7 @@ class CreateEmpresaFromAberturaEmpresa
                 'status' => 'Pendente',
                 'id_usuario'=> $empresa->id_usuario
             ]);
+
             //aprova empresa
             $empresa->status = 'aprovado';
             $empresa->usuario->notify(new EmpresaActivated($empresa));
@@ -71,7 +75,8 @@ class CreateEmpresaFromAberturaEmpresa
             $empresa->abrirProcessosDocumentosContabeis();
             $empresa->abrirApuracoes();
             DB::commit();
-        } catch (\Exception $e) {
+
+        } catch (Exception $e) {
             Log::critical($e->getMessage());
             DB::rollback();
             return false;

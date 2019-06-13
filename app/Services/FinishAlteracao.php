@@ -29,7 +29,7 @@ class FinishAlteracao
         try {
             /* @var Alteracao $alteracao */
             $alteracao = Alteracao::findOrFail($idAlteracao);
-            $alteracao->status = 'Concluído';
+            $alteracao->status = 'concluido';
             $alteracao->save();
 
             $alteracao->usuario->notify(new SolicitacaoAlteracaoFinished($alteracao));

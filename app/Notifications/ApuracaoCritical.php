@@ -43,7 +43,7 @@ class ApuracaoCritical extends Notification implements ShouldQueue
         return (new MailMessage)
             ->greeting('Olá ' . $notifiable->nome . '!')
             ->line('Verificamos que a apuração do ' . $this->apuracao->imposto->nome . ' da empresa ' . $this->apuracao->empresa->razao_social . ' vencerá em ' . ($this->dias > 1 ? $this->dias . ' dias' : $this->dias . ' dia') . '.')
-            ->line('Caso você não nos envie a documentação até ' . ($this->apuracao->vencimento->subDay()->isToday() ? 'hoje' : $this->apuracao->vencimento->subDay()->format('d/m/Y')) . ', nossos analistas não terão tempo hábil para gerar as guias.')
+            ->line('Caso você não nos envie a documentação até ' . ($this->apuracao->vencimento->subDays(4)->isToday() ? 'hoje' : $this->apuracao->vencimento->subDays(4)->format('d/m/Y')) . ', nossos analistas não terão tempo hábil para gerar as guias e será necessário solicitar um recálculo para que façamos a apuração.')
             ->line('Se sua empresa não teve movimento com relação a essa apuração, solicitamos que você informe no sistema que não houve movimento.')
             ->line('Para verificar essa apuração, clique no botão abaixo:')
             ->action('Verificar', $this->url)

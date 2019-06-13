@@ -288,6 +288,7 @@ Route::group(['prefix' => 'admin/atendimento', 'namespace' => 'Admin', 'middlewa
 Route::group(['prefix' => 'admin/balancete', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listBalancetesToAdmin', 'uses' => 'BalanceteController@index']);
     Route::get('view/{id}', ['as' => 'showBalanceteToAdmin', 'uses' => 'BalanceteController@view']);
+    Route::get('delete/{id}', ['as' => 'deleteBalancete', 'uses' => 'BalanceteController@delete']);
     Route::get('new/{id?}', ['as' => 'newBalancete', 'uses' => 'BalanceteController@create']);
     Route::post('new/{id?}', ['uses' => 'BalanceteController@store']);
     Route::get('history/{id?}', ['as' => 'getBalanceteHistory', 'uses' => 'BalanceteController@history']);
@@ -364,7 +365,7 @@ Route::group(['prefix' => 'admin/solicitar-alteracao', 'namespace' => 'Admin', '
 });
 
 //Admin - Recálculos
-Route::group(['prefix' => 'admin/recalculo', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'admin/recalculos', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listRecalculosToAdmin', 'uses' => 'RecalculoController@index']);
     Route::get('view/{idRecalculo}', ['as' => 'showRecalculoToAdmin', 'uses' => 'RecalculoController@view']);
     Route::post('view/{idRecalculo}', ['uses' => 'RecalculoController@update']);

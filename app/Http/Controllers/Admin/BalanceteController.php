@@ -11,7 +11,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Apuracao;
 use App\Models\Balancete;
 use App\Models\Empresa;
-use App\Models\Mensagem;
 use App\Services\SendBalancete;
 use App\Services\UpdateApuracao;
 use App\Validation\BalanceteValidation;
@@ -25,28 +24,26 @@ class BalanceteController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function view($idApuracao)
+    public function view($id)
     {
-        /* @var Apuracao $apuracao */
-        $apuracao = Apuracao::find($idApuracao);
-        $qtdeDocumentos = $apuracao->informacoes()
-            ->join('imposto_informacao_extra', 'imposto_informacao_extra.id', 'apuracao_informacao_extra.id_informacao_extra')
-            ->where('imposto_informacao_extra.tipo', 'anexo')
-            ->count();
-        $qtdeDocumentos += Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
-            ->where('anexo.referencia', 'mensagem')
-            ->where('mensagem.referencia', 'apuracao')
-            ->where('mensagem.id_referencia', $idApuracao)
-            ->count();
-        $qtdeDocumentos += $apuracao->anexos()->count();
-        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos'));
+        /* @var Balancete $balancete */
+        $balancete = Balancete::findOrFail($id);
+        return view('admin.balancete.view.index', compact('balancete'));
     }
 
     public function create($id = null)
     {
-        /* @var Apuracao $apuracao */
+        /* @var Empresa $empresas */
         $empresas = Empresa::where('status', 'aprovado')->orderBy('razao_social')->get();
         return view('admin.balancete.new.index', compact('empresas', 'id'));
+    }
+
+    public function delete($id)
+    {
+        /* @var Balancete $balancete */
+        $balancete = Balancete::findOrFail($id);
+        $balancete->delete();
+        return redirect()->route('listBalancetesToAdmin')->with('successAlert', 'Balancete removido com sucesso.');
     }
 
     public function store(Request $request)
@@ -63,22 +60,9 @@ class BalanceteController extends Controller
         return view('admin.balancete.history.index', compact('balancetes'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-//        $apuracoesPendentes = Apuracao::query()->whereIn('apuracao.status', ['informacoes_enviadas', 'novo', 'atencao']);
-//        if (!$request->has('tab') || $request->get('tab') == 'pendentes') {
-//            $apuracoesPendentes = $this->filterForm($apuracoesPendentes, $request);
-//        }
-//        $apuracoesPendentes = $apuracoesPendentes->select('apuracao.*')->get();
-//
-//
-//        $apuracoesConcluidas = Apuracao::query()->whereNotIn('apuracao.status', ['informacoes_enviadas', 'novo', 'atencao']);
-//        if (!$request->has('tab') || $request->get('tab') == 'historico') {
-//            $apuracoesConcluidas = $this->filterForm($apuracoesConcluidas, $request);
-//        }
-//        $apuracoesConcluidas = $apuracoesConcluidas->select('apuracao.*')->get();
-        $balancetes = Balancete::all();
-
+        $balancetes = $this->filterForm(Balancete::query(), $request)->paginate(10);
         return view('admin.balancete.index', compact('balancetes'));
     }
 
@@ -102,7 +86,7 @@ class BalanceteController extends Controller
      */
     public function filterForm($query, $request)
     {
-        $query->join('empresa', 'empresa.id', '=', 'apuracao.id_empresa')->join('usuario', 'usuario.id', '=', 'empresa.id_usuario');
+        $query->join('empresa', 'empresa.id', '=', 'balancete.id_empresa')->join('usuario', 'usuario.id', '=', 'empresa.id_usuario');
         if ($request->get('busca')) {
             $query->where(function ($q) use ($request) {
                 $q->where('usuario.nome', 'LIKE', '%' . $request->get('busca') . '%')
@@ -113,27 +97,21 @@ class BalanceteController extends Controller
                     ->orWhere('empresa.cnpj', 'LIKE', '%' . $request->get('busca') . '%');
             });
         }
-        if ($request->get('imposto')) {
-            $query->where('apuracao.id_imposto', $request->get('imposto'));
+        if ($request->get('exercicio_de')) {
+            $data = explode('/', $request->get('exercicio_de'));
+            $query->where('balancete.exercicio', '>=', $data[1] . '-' . $data[0] . '-01');
         }
-        if ($request->get('status')) {
-            $query->where('apuracao.status', $request->get('status'));
-        }
-        if ($request->get('de')) {
-            $data = explode('/', $request->get('de'));
-            $query->where('apuracao.competencia', '>=', $data[2] . '-' . $data[1] . '-' . $data[0]);
-        }
-        if ($request->get('ate')) {
-            $data = explode('/', $request->get('ate'));
-            $query->where('apuracao.competencia', '<=', $data[2] . '-' . $data[1] . '-' . $data[0]);
+        if ($request->get('exercicio_ate')) {
+            $data = explode('/', $request->get('exercicio_ate'));
+            $query->where('balancete.exercicio', '<=', $data[1] . '-' . $data[0] . '-01');
         }
         if ($request->get('ordenar')) {
             switch ($request->get('ordenar')) {
-                case 'periodo_asc':
-                    $query->orderBy('apuracao.competencia');
+                case 'exercicio_asc':
+                    $query->orderBy('balancete.exercicio');
                     break;
-                case 'periodo_desc':
-                    $query->orderBy('apuracao.competencia', 'desc');
+                case 'exercicio_desc':
+                    $query->orderBy('balancete.exercicio', 'desc');
                     break;
                 case 'empresa_asc':
                     $query->orderBy('empresa.nome');
@@ -148,12 +126,12 @@ class BalanceteController extends Controller
                     $query->orderBy('razao_social.created_at', 'desc');
                     break;
                 default:
-                    $query->orderBy('apuracao.competencia');
+                    $query->orderBy('balancete.exercicio', 'desc');
             }
         } else {
-            $query->orderBy('apuracao.competencia', 'desc');
+            $query->orderBy('balancete.exercicio', 'desc');
         }
-        return $query;
+        return $query->select('balancete.*');
     }
 
 }

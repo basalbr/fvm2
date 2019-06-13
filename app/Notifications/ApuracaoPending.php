@@ -42,7 +42,7 @@ class ApuracaoPending extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->empresa->usuario->nome.'!')
-            ->line('Verificamos que existem apurações em aberto no nosso sistema que requerem sua atenção.')
+            ->line('Verificamos que existem apurações em aberto no nosso sistema que requerem sua atenção, é necessário que nos envie todas as suas notas emitidas e/ou com retenção até dia 16 para que possamos fazer a apuração do seu imposto. Caso perca esse prazo será necessário solicitar um recálculo em nosso sistema.')
             ->line('Para verificar essas apurações, clique no botão abaixo:')
             ->action('Verificar Apurações', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')

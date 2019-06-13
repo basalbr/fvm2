@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.master')
+@extends('admin.layouts.master')
 
 @section('js')
     @parent

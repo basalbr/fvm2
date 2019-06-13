@@ -29,6 +29,7 @@ use App\Services\WarnMessageNotReadToUser;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
+use DateTimeZone;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -70,27 +71,40 @@ class CronController extends Controller
     public function notifyUnreadMessages()
     {
         try {
-            $mensagens = Mensagem::where('lida', '=', 0)->where('created_at', '>=', Carbon::now()->subDays(90))->get();
-            $enviadas = [];
-            foreach ($mensagens as $mensagem) {
-                $is_enviada = false;
-                if(count($enviadas)){
-                    foreach ($enviadas as $enviada) {
-                        if ($enviada == ['id_referencia' => $mensagem->id_referencia, ' referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin]) {
-                            $is_enviada = true;
+            if (!$this->isTodayWeekend()) {
+                $mensagens = Mensagem::where('lida', '=', 0)->where('created_at', '>=', Carbon::now()->subDays(90))->get();
+                $enviadas = [];
+                foreach ($mensagens as $mensagem) {
+                    $is_enviada = false;
+                    if (count($enviadas)) {
+                        foreach ($enviadas as $enviada) {
+                            if ($enviada == ['id_referencia' => $mensagem->id_referencia, 'referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin]) {
+                                $is_enviada = true;
+                            }
                         }
                     }
+                    if (!$is_enviada) {
+                        $mensagem->from_admin ? WarnMessageNotReadToUser::handle($mensagem) : WarnMessageNotReadToAdmin::handle($mensagem);
+                        $enviadas[] = ['id_referencia' => $mensagem->id_referencia, 'referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin];
+                    }
                 }
-                if (!$is_enviada) {
-                    $mensagem->from_admin ? WarnMessageNotReadToUser::handle($mensagem) : WarnMessageNotReadToAdmin::handle($mensagem);
-                    $enviadas[] = ['id_referencia' => $mensagem->id_referencia, ' referencia' => $mensagem->referencia, 'from_admin' => $mensagem->from_admin];
-                }
+            } else {
+                Log::info('mensagens não enviadas pois é final de semana');
+                return false;
             }
         } catch (\Exception $e) {
             Log::critical($mensagem->id);
             Log::critical($e);
         }
+        Log::info('mensagens não lidas enviadas com sucesso');
+        return true;
+    }
 
+    // For the current date
+    private function isTodayWeekend()
+    {
+        $dt = Carbon::now();
+        return $dt->isWeekend();
     }
 
     public function activateScheduledEmpresas()
@@ -133,6 +147,7 @@ class CronController extends Controller
         foreach ($apuracoes as $apuracao) {
             try {
                 $apuracao->empresa->usuario->notify(new ApuracaoPending($apuracao->empresa));
+                Log::info('apuracao pendente empresa:'. $apuracao->empresa->razao_social);
             } catch (\Exception $e) {
                 Log::info('Apuração id: ' . $apuracao->id);
                 Log::critical($e);
@@ -140,12 +155,13 @@ class CronController extends Controller
         }
         foreach ($criticas as $apuracao) {
             try {
-                $diff = $apuracao->vencimento->diffInDays(Carbon::today());
+                $diff = $apuracao->vencimento->subDays(4)->diffInDays(Carbon::today());
                 if ($diff <= 5 && $apuracao->vencimento->isFuture()) {
                     $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
                 }
+                Log::info('apuracao critica empresa:'. $apuracao->empresa->razao_social);
             } catch (\Exception $e) {
-                Log::info('Apuração id: ' . $pagamento->id);
+                Log::info('Apuração id: ' . $apuracao->id);
                 Log::critical($e);
             }
         }
