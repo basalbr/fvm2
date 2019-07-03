@@ -255,11 +255,13 @@ Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('daily', ['uses' => 'CronController@dailyCron']);
     Route::get('payments', ['uses' => 'CronController@verifyPendingPayments']);
     Route::get('unread', ['uses' => 'CronController@notifyUnreadMessages']);
+    Route::get('sem-movimento', ['uses' => 'CronController@changeApuracaoToSemMovimento']);
     Route::get('pending-docs', ['uses' => 'CronController@dailyCron']);
     Route::get('mensalidade/adjustmentMessage', ['uses' => 'CronController@AdjustmentInMensalidade']);
     Route::get('funcionarios/requestPontos', ['uses' => 'CronController@openPontosRequest']);
     Route::get('send/rodada-negocios', ['uses' => 'CronController@sendRodadaNegociosEmail']);
     Route::get('send/sorry', ['uses' => 'CronController@sorry']);
+    Route::get('reajuste-mensalidade', ['uses' => 'CronController@reajusteMensalidade']);
 });
 
 //Dashboard - Usuário

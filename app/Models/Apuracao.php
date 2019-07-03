@@ -25,7 +25,7 @@ class Apuracao extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_empresa', 'competencia', 'id_imposto', 'vencimento', 'status', 'guia'];
+    protected $fillable = ['id_empresa', 'competencia', 'id_imposto', 'vencimento', 'status', 'guia', 'qtde_notas_servico','qtde_notas_entrada','qtde_notas_saida'];
 
     public function empresa()
     {

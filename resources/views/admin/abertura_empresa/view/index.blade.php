@@ -39,6 +39,24 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
+        @if($aberturaEmpresa->ordemPagamento->isPending())
+            <div class="col-xs-12">
+                <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">O pagamento desse
+                    processo ainda está pendente.</p>
+            </div>
+        @endif
+        @if($aberturaEmpresa->status == 'concluido')
+            <div class="col-xs-12">
+                <p class="alert alert-success visible-lg visible-sm visible-xs visible-md animated shake">Esse processo
+                    encontra-se concluído.</p>
+            </div>
+        @endif
+        @if($aberturaEmpresa->status == 'cancelado')
+            <div class="col-xs-12">
+                <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">Esse processo
+                    encontra-se cancelado.</p>
+            </div>
+        @endif
         <div role="tabpanel" class="tab-pane active" id="principal">
             @include('admin.abertura_empresa.view.components.principal')
             <div class="clearfix"></div>
@@ -89,7 +107,7 @@
         <div class="navigation-space"></div>
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if(!in_array($aberturaEmpresa->status, ['cancelado']))
+            @if(!in_array($aberturaEmpresa->status, ['cancelado', 'concluido']))
                 <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i
                             class="fa fa-check"></i>
                     Transformar em empresa</a>

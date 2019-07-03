@@ -12,14 +12,17 @@ use App\Mail\AgradecimentoRodadaNegocios;
 use App\Models\Apuracao;
 use App\Models\Empresa;
 use App\Models\Mensagem;
+use App\Models\Mensalidade;
 use App\Models\OrdemPagamento;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\Usuario;
 use App\Notifications\ApuracaoCritical;
 use App\Notifications\ApuracaoPending;
 use App\Notifications\DocumentosContabeisPending;
+use App\Notifications\NewStatusApuracao;
 use App\Notifications\PaymentAlmostPending;
 use App\Notifications\PaymentPending;
+use App\Notifications\ReajusteMensalidade;
 use App\Notifications\Sorry;
 use App\Services\ActivateEmpresa;
 use App\Services\OpenPontosRequest;
@@ -29,7 +32,6 @@ use App\Services\WarnMessageNotReadToUser;
 use Carbon\Carbon;
 use DateInterval;
 use DateTime;
-use DateTimeZone;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -48,6 +50,23 @@ class CronController extends Controller
         $this->verifyDocumentosContabeisPending();
         $this->activateScheduledEmpresas();
         $this->notifyUnreadMessages();
+    }
+
+    /**
+     * Altera as apuracoes para sem movimento
+     */
+    public function changeApuracaoToSemMovimento()
+    {
+        $apuracoes = Apuracao::where('status', 'novo')->get();
+        foreach ($apuracoes as $apuracao) {
+            try {
+                $apuracao->status = 'sem_movimento';
+                $apuracao->save();
+                $apuracao->empresa->usuario->notify(new NewStatusApuracao($apuracao));
+            } catch (\Exception $e) {
+                Log::info('nao foi possivel alterar para sem movimento a apuracao:' . $apuracao->id);
+            }
+        }
     }
 
     /**
@@ -147,7 +166,7 @@ class CronController extends Controller
         foreach ($apuracoes as $apuracao) {
             try {
                 $apuracao->empresa->usuario->notify(new ApuracaoPending($apuracao->empresa));
-                Log::info('apuracao pendente empresa:'. $apuracao->empresa->razao_social);
+                Log::info('apuracao pendente empresa:' . $apuracao->empresa->razao_social);
             } catch (\Exception $e) {
                 Log::info('Apuração id: ' . $apuracao->id);
                 Log::critical($e);
@@ -159,7 +178,7 @@ class CronController extends Controller
                 if ($diff <= 5 && $apuracao->vencimento->isFuture()) {
                     $apuracao->empresa->usuario->notify(new ApuracaoCritical($apuracao, $diff));
                 }
-                Log::info('apuracao critica empresa:'. $apuracao->empresa->razao_social);
+                Log::info('apuracao critica empresa:' . $apuracao->empresa->razao_social);
             } catch (\Exception $e) {
                 Log::info('Apuração id: ' . $apuracao->id);
                 Log::critical($e);
@@ -200,6 +219,27 @@ class CronController extends Controller
             try {
                 $usuario->notify(new Sorry());
             } catch (\Exception $e) {
+                Log::critical($e);
+            }
+        }
+    }
+
+    public function reajusteMensalidade()
+    {
+        $empresas = Empresa::where('status', 'aprovado')->get();
+        foreach ($empresas as $empresa) {
+            try {
+                /* @var Empresa $empresa */
+
+                if ($empresa->getMensalidadeAtual()->valor < Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual())) {
+                    echo 'Empresa '.$empresa->id.' - '.$empresa->getMensalidadeAtual()->valor.' - '.Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual()).'<br />';
+                    $mensalidadeAtual = $empresa->getMensalidadeAtual();
+                    $mensalidadeAtual->valor = Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual());
+                    $mensalidadeAtual->save();
+//                    $empresa->usuario->notify(new ReajusteMensalidade($empresa->getMensalidadeAtual(), Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual())));
+                }
+            } catch (\Exception $e) {
+                Log::critical('Não foi possível enviar a mensagem de reajuste para empresa ' . $empresa->id);
                 Log::critical($e);
             }
         }

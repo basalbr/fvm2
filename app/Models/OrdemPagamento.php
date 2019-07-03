@@ -145,7 +145,7 @@ class OrdemPagamento extends Model
                 return $this->parent->empresa->nome_fantasia.' ('.$this->parent->empresa->razao_social.')';
             case 'alteracao':
                 Log::info('AQUIIII'.$this->id);
-                return $this->parent->tipo->descricao;
+                return $this->parent->getDescricao();
             default:
                 return '';
         }

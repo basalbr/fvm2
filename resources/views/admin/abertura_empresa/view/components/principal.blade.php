@@ -1,21 +1,3 @@
-@if($aberturaEmpresa->ordemPagamento->isPending())
-    <div class="col-xs-12">
-        <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">O pagamento desse
-            processo ainda está pendente.</p>
-    </div>
-@endif
-@if($aberturaEmpresa->status == 'concluido')
-    <div class="col-xs-12">
-        <p class="alert alert-success visible-lg visible-sm visible-xs visible-md animated shake">Esse processo
-            encontra-se concluído.</p>
-    </div>
-@endif
-@if($aberturaEmpresa->status == 'cancelado')
-    <div class="col-xs-12">
-        <p class="alert alert-warning visible-lg visible-sm visible-xs visible-md animated shake">Esse processo
-            encontra-se cancelado.</p>
-    </div>
-@endif
 <div class="{{$aberturaEmpresa->status == 'concluido' || $aberturaEmpresa->status == 'cancelado' ? 'col-xs-12' : 'col-md-6'}}">
     <div class="col-xs-12">
         <div class="form-group">

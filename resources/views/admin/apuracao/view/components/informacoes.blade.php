@@ -35,6 +35,24 @@
             <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
         </div>
     </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Serviço</label>
+            <div class="form-control">{{$apuracao->qtde_notas_servico}}</div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Entrada</label>
+            <div class="form-control">{{$apuracao->qtde_notas_entrada}}</div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Saída</label>
+            <div class="form-control">{{$apuracao->qtde_notas_saida}}</div>
+        </div>
+    </div>
 </div>
 <div class="clearfix"></div>
 <hr>
@@ -70,6 +88,24 @@
             <input data-validation-url="{{route('validateGuia')}}"
                    data-upload-url="{{route('sendAnexoToTemp')}}" class="hidden upload-informacao-extra"
                    type='file' value=""/>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Serviço</label>
+            <input type="text" name="qtde_notas_servico" class="form-control number-mask" placeholder="0" />
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Entrada</label>
+            <input type="text" name="qtde_notas_entrada"  class="form-control number-mask" placeholder="0" />
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Notas de Saída</label>
+            <input type="text" name="qtde_notas_saida" class="form-control number-mask" placeholder="0" />
         </div>
     </div>
     <div class="col-sm-12">
