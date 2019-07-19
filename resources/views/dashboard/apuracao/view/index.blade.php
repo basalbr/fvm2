@@ -132,15 +132,13 @@
                         </div>
                         @include('dashboard.components.uploader.default', ['idReferencia'=>$apuracao->id, 'referencia'=>'apuracao', 'anexos'=>$apuracao->anexos])
                         <div class="clearfix"></div>
-
-
                     </div>
                 @endif
             </div>
             <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
                 <div class="col-sm-12">
                     @if($apuracao->status == 'Concluído')
-                        @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockMessages'=>'true'])
+                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
                     @else
                         @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockUpload'=>true])
                     @endif

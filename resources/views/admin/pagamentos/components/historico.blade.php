@@ -5,6 +5,7 @@
         <th>Usuário</th>
         <th>Referência</th>
         <th>Valor</th>
+        <th>Valor Pago</th>
         <th>Status</th>
         <th>Aberto em</th>
         <th>Pago em</th>
@@ -27,6 +28,7 @@
                     <td>{{$pagamento->getParentName()}}</td>
                 @endif
                 <td>{{$pagamento->formattedValue()}}</td>
+                <td>{{$pagamento->valor_pago > 0 ? $pagamento->getValorPago() : $pagamento->formattedValue()}}</td>
                 <td>{{$pagamento->status}}</td>
                 <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
                 <td>{{$pagamento->updated_at->format('d/m/Y')}}</td>

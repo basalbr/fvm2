@@ -247,6 +247,16 @@ class Empresa extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
+    public function mensalidadesPendentes()
+    {
+        return $this->hasManyThrough(
+            OrdemPagamento::class,
+            Mensalidade::class,
+            'id_empresa',
+            'id_referencia',
+            'id'
+        )->where('referencia','mensalidade')->whereNotIn('ordem_pagamento.status',['Paga', 'Cancelada']);
+    }
 
     public function delete()
     {

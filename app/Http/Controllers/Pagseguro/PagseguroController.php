@@ -58,6 +58,7 @@ class PagseguroController extends Controller
                     return true;
                 }
                 $ordemPagamento->status = $status;
+                $ordemPagamento->valor_pago = $response->getGrossAmount();
                 $ordemPagamento->save();
 
                 $historicoPagamento = new HistoricoPagamento;

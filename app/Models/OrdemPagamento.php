@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Exception;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
-use laravel\pagseguro\Platform\Laravel5\PagSeguro;
 use PagSeguro\Configuration\Configure;
 use PagSeguro\Domains\Requests\Payment;
-use PagSeguro\Library;
-use PagSeguro\Services\Session;
 
 class OrdemPagamento extends Model
 {
@@ -22,6 +17,9 @@ class OrdemPagamento extends Model
 
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'vencimento'];
+    protected $cobrarMultaJuros = ['mensalidade'];
+    protected $juros = 1;
+    protected $multa = 2;
 
     /**
      * The database table used by the model.
@@ -35,7 +33,7 @@ class OrdemPagamento extends Model
      *
      * @var array
      */
-    protected $fillable = ['referencia', 'id_referencia', 'vencimento', 'status', 'valor', 'id_usuario'];
+    protected $fillable = ['referencia', 'id_referencia', 'vencimento', 'status', 'valor', 'id_usuario', 'valor_pago'];
 
     public function isPending()
     {
@@ -45,16 +43,18 @@ class OrdemPagamento extends Model
         return false;
     }
 
-    public function delete(){
-        if($this->historico_pagamentos->count()){
-            foreach ($this->historico_pagamentos as $historico_pagamento){
+    public function delete()
+    {
+        if ($this->historico_pagamentos->count()) {
+            foreach ($this->historico_pagamentos as $historico_pagamento) {
                 $historico_pagamento->delete();
             }
         }
         parent::delete();
     }
 
-    public function getStatusAttribute($status){
+    public function getStatusAttribute($status)
+    {
         return $status == 'Cancelada' ? 'Pendente' : $status;
     }
 
@@ -69,7 +69,7 @@ class OrdemPagamento extends Model
                 $this->id_referencia,
                 $this->getDescricao(),
                 1,
-                $this->valor
+                $this->getValorComMultaJuros()
             );
             $payment->setCurrency("BRL");
             $payment->setReference($this->id);
@@ -85,14 +85,15 @@ class OrdemPagamento extends Model
         return '';
     }
 
-    public function getLabelStatus(){
-        if(strpos($this->status, ucfirst('pendente'))===0){
+    public function getLabelStatus()
+    {
+        if (strpos($this->status, ucfirst('pendente')) === 0) {
             return '<span class="label label-danger">Pendente</span>';
-        }elseif(strpos($this->status, ucfirst('aguardando pagamento'))===0){
+        } elseif (strpos($this->status, ucfirst('aguardando pagamento')) === 0) {
             return '<span class="label label-warning">Aguardando Pagamento</span>';
-        }elseif(strpos($this->status, ucfirst('paga'))===0 || strpos($this->status, ucfirst('disponível'))===0){
+        } elseif (strpos($this->status, ucfirst('paga')) === 0 || strpos($this->status, ucfirst('disponível')) === 0) {
             return '<span class="label label-success">Paga</span>';
-        }elseif(strpos($this->status, ucfirst('cancelada'))===0){
+        } elseif (strpos($this->status, ucfirst('cancelada')) === 0) {
             return '<span class="label label-danger">Cancelada</span>';
         }
         return 'pendente';
@@ -100,7 +101,7 @@ class OrdemPagamento extends Model
 
     public function formattedValue()
     {
-        return 'R$ ' . number_format($this->valor, 2, ',', '.');
+        return 'R$' . number_format($this->valor, 2, ',', '.');
     }
 
     public function usuario()
@@ -142,13 +143,52 @@ class OrdemPagamento extends Model
             case 'abertura_empresa':
                 return $this->parent ? $this->parent->nome_empresarial1 : $this->id;
             case 'mensalidade':
-                return $this->parent->empresa->nome_fantasia.' ('.$this->parent->empresa->razao_social.')';
+                return $this->parent->empresa->nome_fantasia . ' (' . $this->parent->empresa->razao_social . ')';
             case 'alteracao':
-                Log::info('AQUIIII'.$this->id);
+                Log::info('AQUIIII' . $this->id);
                 return $this->parent->getDescricao();
             default:
                 return '';
         }
+    }
+
+    public function getMulta(): float
+    {
+        // Se for multável a ordem de pagamento por atraso e está atrasada
+        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento < Carbon::now() && $this->isPending()) {
+            return $this->valor * ($this->multa / 100);
+        }
+        return 0.0;
+    }
+
+    public function getJuros(): float
+    {
+        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento < Carbon::now() && $this->isPending()) {
+            return Carbon::now()->diffInMonths($this->vencimento) <= 1 ? $this->valor * ($this->juros / 100) : Carbon::now()->diffInMonths($this->vencimento) * ($this->valor * ($this->juros / 100));
+        }
+        return 0.0;
+    }
+
+    public function getMultaFormatada(){
+        return 'R$' . number_format($this->getMulta(), 2, ',', '.');
+    }
+
+    public function getJurosFormatado(){
+        return 'R$' . number_format($this->getJuros(), 2, ',', '.');
+    }
+
+    public function getValorComMultaJurosFormatado(): string
+    {
+        return 'R$' . number_format($this->getValorComMultaJuros(), 2, ',', '.');
+    }
+
+    public function getValorComMultaJuros(): float
+    {
+        return $this->valor + $this->getMulta() + $this->getJuros();
+    }
+
+    public function getValorPago() : string{
+        return 'R$' . number_format($this->valor_pago, 2, ',', '.');
     }
 
 }

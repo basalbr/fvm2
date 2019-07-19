@@ -27,7 +27,16 @@
                         @foreach($pagamentos as $pagamento)
                             <tr>
                                 <td>{{$pagamento->getDescricao()}}</td>
-                                <td>{{$pagamento->formattedValue()}}</td>
+                                @if($pagamento->getMulta() > 0)
+                                    <td>{{$pagamento->getValorComMultaJurosFormatado()}}<br/><span style="font-size: 11px">(<strong
+                                                    class="text-primary">Valor
+                            base:</strong> {{$pagamento->formattedValue()}} // <strong
+                                                    class="text-danger">Multa:</strong> {{$pagamento->getMultaFormatada()}}
+                            // <strong class="text-danger">Juros:</strong> {{$pagamento->getJurosFormatado()}})</span>
+                                    </td>
+                                @else
+                                    <td>{{$pagamento->formattedValue()}}</td>
+                                @endif
                                 <td>{{$pagamento->status}}</td>
                                 <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
                                 <td>{{$pagamento->vencimento->format('d/m/Y')}}</td>
