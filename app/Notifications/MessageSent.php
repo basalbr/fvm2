@@ -66,6 +66,9 @@ class MessageSent extends Notification implements ShouldQueue
             if ($this->mensagem->referencia == 'recalculo') {
                 $this->url = route('showRecalculoToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'reuniao') {
+                $this->url = route('showReuniaoToAdmin', [$this->mensagem->id_referencia]);
+            }
         } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -108,6 +111,9 @@ class MessageSent extends Notification implements ShouldQueue
             }
             if ($this->mensagem->referencia == 'recalculo') {
                 $this->url = route('showRecalculoToUser', [$this->mensagem->id_referencia]);
+            }
+            if ($this->mensagem->referencia == 'reuniao') {
+                $this->url = route('showReuniaoToUser', [$this->mensagem->id_referencia]);
             }
         } else {
             $this->url = null;
@@ -200,6 +206,9 @@ class MessageSent extends Notification implements ShouldQueue
         }
         if ($this->mensagem->referencia == 'recalculo') {
             return 'ao recálculo ' . $this->mensagem->parent->tipo->descricao;
+        }
+        if ($this->mensagem->referencia == 'reuniao') {
+            return 'à reunião sobre"' . $this->mensagem->parent->assunto.'"';
         }
         return 'à um processo';
     }

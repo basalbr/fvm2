@@ -1963,3 +1963,10 @@ body {
     border: 0px;
     padding: 0px 0px 0px 3px;
 }
+
+#modal-agendar-reuniao .btn-default:active, #modal-agendar-reuniao .btn-default.active, #modal-agendar-reuniao .btn-default:focus{
+    background-color: #42A5F5;
+    border-color: #1E88E5;
+    box-shadow: none;
+    color:#fff;
+}

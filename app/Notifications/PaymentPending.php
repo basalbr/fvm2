@@ -45,7 +45,7 @@ class PaymentPending extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->greeting('Olá ' . $this->ordemPagamento->usuario->nome.'!')
-            ->line('Verificamos que você possui uma ordem de pagamento no valor de '.$this->ordemPagamento->formattedValue().' pendente em nosso sistema que venceu em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!')
+            ->line('Verificamos que você possui uma ordem de pagamento no valor de '.$this->ordemPagamento->getValorComMultaJurosFormatado().' pendente em nosso sistema que venceu em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!')
             ->line('Caso você já tenha efetuado o pagamento, por favor entre em contato conosco.')
             ->line('Se você ainda não realizou o pagamento, pedimos por gentileza que você acesse nosso site através do botão abaixo e realize o pagamento para evitar a suspensão de nossos serviços.')
             ->action('Verificar Pagamentos', $this->url)
@@ -63,7 +63,7 @@ class PaymentPending extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'mensagem' => 'Verificamos que você possui uma ordem de pagamento no valor de '.$this->ordemPagamento->formattedValue().' pendente em nosso sistema que venceu em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!',
+            'mensagem' => 'Verificamos que você possui uma ordem de pagamento no valor de '.$this->ordemPagamento->getValorComMultaJurosFormatado().' pendente em nosso sistema que venceu em '.$this->ordemPagamento->vencimento->format('d/m/Y').'!',
             'url' => $this->url
         ];
     }

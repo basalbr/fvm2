@@ -227,6 +227,15 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
     Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
 });
 
+//Dashboard - Agendar reunião
+Route::group(['prefix' => 'dashboard/reunioes', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
+    Route::get('', ['as' => 'listReunioesToUser', 'uses' => 'ReuniaoController@index']);
+    Route::post('new', ['as'=>'newReuniao', 'uses' => 'ReuniaoController@store']);
+    Route::get('view/{idReuniao}', ['as' => 'showReuniaoToUser', 'uses' => 'ReuniaoController@view']);
+    Route::post('view/{idReuniao}', ['uses' => 'ReuniaoController@update']);
+    Route::post('validate/reuniao', ['as' => 'validateReuniao', 'uses' => 'ReuniaoController@validateAjax']);
+});
+
 //Dashboard - Balancetes
 Route::group(['prefix' => 'dashboard/balancetes', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listBalancetesToUser', 'uses' => 'BalanceteController@index']);
@@ -373,6 +382,14 @@ Route::group(['prefix' => 'admin/recalculos', 'namespace' => 'Admin', 'middlewar
     Route::post('view/{idRecalculo}', ['uses' => 'RecalculoController@update']);
     Route::post('view/{idRecalculo}/upload/guia', ['uses' => 'RecalculoController@uploadGuia']);
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'RecalculoController@validateGuia']);
+});
+
+//Admin - Reunião
+Route::group(['prefix' => 'admin/reunioes', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listReunioesToAdmin', 'uses' => 'ReuniaoController@index']);
+    Route::get('view/{idReuniao}', ['as' => 'showReuniaoToAdmin', 'uses' => 'ReuniaoController@view']);
+    Route::post('view/{idReuniao}', ['uses' => 'ReuniaoController@update']);
+    Route::post('validate/reuniao', ['as' => 'validateReuniaoAdmin', 'uses' => 'ReuniaoController@validateAjax']);
 });
 
 //Admin - Apurações

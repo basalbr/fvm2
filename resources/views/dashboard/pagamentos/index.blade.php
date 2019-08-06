@@ -80,7 +80,7 @@
                     @foreach($historicoPagamento as $pagamento)
                         <tr>
                             <td>{{$pagamento->getDescricao()}}</td>
-                            <td>{{$pagamento->formattedValue()}}</td>
+                            <td>{{$pagamento->valor_pago > 0 ? $pagamento->getValorPago() : $pagamento->formattedValue()}}</td>
                             <td>{{$pagamento->status}}</td>
                             <td>{{$pagamento->created_at->format('d/m/Y')}}</td>
                             <td>{{$pagamento->updated_at->format('d/m/Y')}}</td>

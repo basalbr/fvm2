@@ -149,6 +149,11 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(AberturaEmpresa::class, 'id_usuario');
     }
 
+    public function reunioes()
+    {
+        return $this->hasMany(Reuniao::class, 'id_usuario');
+    }
+
     public function recalculos()
     {
         return $this->hasMany(Recalculo::class, 'id_usuario');
@@ -264,6 +269,30 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
     public function notificacoes()
     {
         return $this->hasMany(Notificacao::class, 'notifiable_id')->where('notifiable_type', '=', Usuario::class);
+    }
+
+    public function hasApuracoesPendentes(){
+        return $this->apuracoes()->whereIn('apuracao.status',['Pendente', 'Novo'])->count() > 0 ? true : false;
+    }
+
+    public function qtdApuracoesPendentes(){
+        return $this->apuracoes()->whereIn('apuracao.status',['Pendente', 'Novo'])->count();
+    }
+
+    public function hasDocumentosContabeisPendentes(){
+        return $this->documentosContabeis()->whereIn('processo_documento_contabil.status',['pendente', 'novo'])->count() > 0 ? true : false;
+    }
+
+    public function qtdDocumentosContabeisPendentes(){
+        return $this->documentosContabeis()->whereIn('processo_documento_contabil.status',['pendente', 'novo'])->count();
+    }
+
+    public function hasPagamentosPendentes(){
+        return $this->ordensPagamento()->whereNotIn('ordem_pagamento.status',['Paga', 'Disponível'])->count() > 0 ? true : false;
+    }
+
+    public function qtdPagamentosPendentes(){
+        return $this->ordensPagamento()->whereNotIn('ordem_pagamento.status',['Paga', 'Disponível'])->count();
     }
 
 }

@@ -65,6 +65,9 @@ class AdminHasUnreadMessages extends Notification implements ShouldQueue
         if ($this->mensagem->referencia == 'recalculo') {
             $this->url = route('showRecalculoToAdmin', [$this->mensagem->id_referencia]);
         }
+        if ($this->mensagem->referencia == 'reuniao') {
+            $this->url = route('showReuniaoToAdmin', [$this->mensagem->id_referencia]);
+        }
     }
 
     /**
@@ -153,6 +156,9 @@ class AdminHasUnreadMessages extends Notification implements ShouldQueue
         }
         if ($this->mensagem->referencia == 'recalculo') {
             return 'no recálculo ' . $this->mensagem->parent->tipo->descricao .' do usuário '.$this->mensagem->parent->usuario->nome;
+        }
+        if ($this->mensagem->referencia == 'reuniao') {
+            return 'na reunião ' . $this->mensagem->parent->assunto .' com o usuário '.$this->mensagem->parent->usuario->nome;
         }
         return 'em um processo';
     }

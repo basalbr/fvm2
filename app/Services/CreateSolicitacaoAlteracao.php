@@ -44,7 +44,7 @@ class CreateSolicitacaoAlteracao
                 }
             }
 
-            if (count($request->file('anexos'))) {
+            if ($request->hasFile('anexos')) {
                 foreach ($request->file('anexos') as $idCampo => $file) {
                     /** @var UploadedFile $file */
                     $filename = md5(random_bytes(5)) . '.' . $file->getClientOriginalExtension();

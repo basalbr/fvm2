@@ -62,6 +62,12 @@ class UserHasUnreadMessages extends Notification implements ShouldQueue
         if ($this->mensagem->referencia == 'decimo_terceiro') {
             $this->url = route('showRecalculoToUser', [$this->mensagem->id_referencia]);
         }
+        if ($this->mensagem->referencia == 'recalculo') {
+            $this->url = route('showRecalculoToUser', [$this->mensagem->id_referencia]);
+        }
+        if ($this->mensagem->referencia == 'reuniao') {
+            $this->url = route('showReuniaoToUser', [$this->mensagem->id_referencia]);
+        }
     }
 
     /**
@@ -147,10 +153,13 @@ class UserHasUnreadMessages extends Notification implements ShouldQueue
             return 'no imposto de renda de '.$this->mensagem->parent->nome;
         }
         if ($this->mensagem->referencia == 'decimo_terceiro') {
-            return 'ao décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
+            return 'no décimo terceiro da empresa ' . $this->mensagem->parent->empresa->nome_fantasia;
         }
         if ($this->mensagem->referencia == 'recalculo') {
-            return 'ao recálculo ' . $this->mensagem->parent->tipo->descricao;
+            return 'no recálculo ' . $this->mensagem->parent->tipo->descricao;
+        }
+        if ($this->mensagem->referencia == 'reuniao') {
+            return 'na reunião ' . $this->mensagem->parent->assunto;
         }
         return 'em um processo';
     }

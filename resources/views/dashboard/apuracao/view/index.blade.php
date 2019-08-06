@@ -140,7 +140,7 @@
                     @if($apuracao->status == 'Concluído')
                         @include('dashboard.components.chat.box', ['model'=>$apuracao])
                     @else
-                        @include('dashboard.components.chat.box', ['model'=>$apuracao, 'lockUpload'=>true])
+                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
                     @endif
                 </div>
                 <div class="clearfix"></div>
