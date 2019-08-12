@@ -99,4 +99,29 @@ class AdminController extends Controller
         return $months;
     }
 
+    public function getBalanceHistoryOfCompany($idEmpresa)
+    {
+        $initialDate = (new Carbon('first day of 12 months ago'))->format('Y-m');
+        DB::enableQueryLog();
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $companyData = [];
+        $balancetes = $empresa->balancetes()->where('exercicio', '!=', null)->orderBy('exercicio', 'desc')->get()->reverse();
+        if ($balancetes) {
+            $receitasData = [];
+            $despesasData = [];
+            $resultData = [];
+            foreach ($balancetes as $balancete) {
+                $receitasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->receitas - 0), 'name' => 'Receitas', 'dataLabels' => ['format' => '{y}C', 'color'=>'#3CBC3C']];
+                $despesasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->despesas - 0), 'color' => '#FF5050', 'name' => 'Despesas', 'dataLabels' => ['format' => '{y}D', 'color'=>'#FF5050']];
+//                    $resultData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->receitas > $balancete->despesas ? $balancete->receitas - $balancete->despesas : $balancete->despesas - $balancete->receitas), 'name' => 'Resultado Final', 'type' => 'line'];
+            }
+            $companyData[] = ['data' => $receitasData, 'name' => $empresa->razao_social, 'type' => 'area', 'wdataLabels'=>['enabled'=>true, 'style'=>['fontWeight'=>'normal']]];
+            $companyData[] = ['data' => $despesasData, 'name' => $empresa->razao_social, 'linkedTo' => ':previous', 'type' => 'area', 'color'=>'#ff0000', 'dataLabels'=>['enabled'=>true, 'style'=>['fontWeight'=>'normal']]];
+//                $companyData[] = ['data' => $resultData, 'name' => $empresa->razao_social, 'linkedTo' => ':previous', 'type' => 'line'];
+
+
+        }
+        return response()->json($companyData);
+    }
+
 }

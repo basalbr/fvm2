@@ -357,6 +357,7 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
 Route::group(['prefix' => 'admin/analytics', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('users/registered', ['as' => 'getRegisteredUsersHistory', 'uses' => 'AdminController@getRegisteredUsersHistory']);
     Route::get('history/new', ['as' => 'getHistorySeries', 'uses' => 'AdminController@getHistorySeries']);
+    Route::get('history/balance/{idEmpresa}', ['as' => 'getBalanceHistoryOfCompany', 'uses' => 'AdminController@getBalanceHistoryOfCompany']);
 
 });
 
