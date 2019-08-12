@@ -243,6 +243,10 @@ body {
     text-decoration: none;
 }
 
+#left-menu ul li a.highlight{
+    background-color: #CDDC39; color: #fff
+}
+
 #content {
     position: absolute;
     z-index: 2;

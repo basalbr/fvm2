@@ -155,7 +155,7 @@ class OrdemPagamento extends Model
     public function getMulta(): float
     {
         // Se for multável a ordem de pagamento por atraso e está atrasada
-        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento < Carbon::now() && $this->isPending()) {
+        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento->format('Y-m-d') < Carbon::now()->format('Y-m-d') && $this->isPending()) {
             return $this->valor * ($this->multa / 100);
         }
         return 0.0;
@@ -163,7 +163,7 @@ class OrdemPagamento extends Model
 
     public function getJuros(): float
     {
-        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento < Carbon::now() && $this->isPending()) {
+        if (in_array($this->referencia, $this->cobrarMultaJuros) && $this->vencimento->format('Y-m-d') < Carbon::now()->format('Y-m-d') && $this->isPending()) {
             return Carbon::now()->diffInMonths($this->vencimento) <= 1 ? $this->valor * ($this->juros / 100) : Carbon::now()->diffInMonths($this->vencimento) * ($this->valor * ($this->juros / 100));
         }
         return 0.0;

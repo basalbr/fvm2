@@ -1,3 +1,10 @@
+@if(Route::current()->getPrefix() != '/dashboard/reunioes')
+<script type="text/javascript">
+            setInterval(function () {
+                $('.fa.fa-calendar-o').parent().toggleClass('shake')
+            }, 3000)
+    </script>
+@endif
 <div id="left-menu">
     <div class="profile">
         <a href="{{route('editPerfil')}}">
@@ -10,13 +17,18 @@
     </div>
     <ul>
         <li>
-            <a class="{{Route::currentRouteNamed('dashboard') ? 'active' : ''}}" href="{{route('dashboard')}}"><span
+            <a class="{{Route::currentRouteNamed('dashboard') ? 'active' : ''}}"
+               href="{{route('dashboard')}}"><span
                         class="fa fa-home"></span> Início <i class="fa fa-angle-right"></i></a>
         </li>
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/reunioes' ? 'active':'animated shake highlight'}}"
+               href="{{route('listReunioesToUser')}}"><span class="fa fa-calendar-o"></span> Reuniões (Novo)<i
+                        class="fa fa-angle-right"></i></a></li>
         <li>
             <a class="{{Route::current()->uri != 'dashboard/apuracao/calendario' && Route::current()->getPrefix() == '/dashboard/apuracao' ? 'active':''}}"
                href="{{route('listApuracoesToUser')}}"><span class="fa fa-calendar-check-o"></span> Apurações/Envio de
-                Notas {!!Auth::user()->hasApuracoesPendentes() ? '<span class="badge">'.Auth::user()->qtdApuracoesPendentes().'</span>':''!!}<i class="fa fa-angle-right"></i></a></li>
+                Notas {!!Auth::user()->hasApuracoesPendentes() ? '<span class="badge">'.Auth::user()->qtdApuracoesPendentes().'</span>':''!!}
+                <i class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/atendimento' ? 'active':''}}"
                href="{{route('listAtendimentosToUser')}}"><span class="fa fa-comments"></span> Atendimento <i
                         class="fa fa-angle-right"></i></a></li>
@@ -28,7 +40,8 @@
                         class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/documentos-contabeis' ? 'active':''}}"
                href="{{route('listDocumentosContabeisToUser')}}"><span class="fa fa-files-o"></span> Documentos
-                contábeis {!!Auth::user()->hasDocumentosContabeisPendentes() ? '<span class="badge">'.Auth::user()->qtdDocumentosContabeisPendentes().'</span>':''!!}<i class="fa fa-angle-right"></i></a></li>
+                contábeis {!!Auth::user()->hasDocumentosContabeisPendentes() ? '<span class="badge">'.Auth::user()->qtdDocumentosContabeisPendentes().'</span>':''!!}
+                <i class="fa fa-angle-right"></i></a></li>
         <li>
             <a href=""><span class="fa fa-building"></span> Empresas <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
@@ -62,15 +75,17 @@
             </ul>
         </li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"
-               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-paw"></span> Imposto de Renda <i class="fa fa-angle-right"></i></a></li>
+               href="{{route('listImpostoRendaToUser')}}"><span class="fa fa-paw"></span> Imposto de Renda <i
+                        class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/pagamentos' ? 'active':''}}"
-               href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span> Pagamentos {!!Auth::user()->hasPagamentosPendentes() ? '<span class="badge">'.Auth::user()->qtdPagamentosPendentes().'</span>':''!!}<i
+               href="{{route('listOrdensPagamentoToUser')}}"><span class="fa fa-credit-card"></span>
+                Pagamentos {!!Auth::user()->hasPagamentosPendentes() ? '<span class="badge">'.Auth::user()->qtdPagamentosPendentes().'</span>':''!!}
+                <i
                         class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/recalculos' ? 'active':''}}"
-               href="{{route('listRecalculosToUser')}}"><span class="fa fa-repeat"></span> Recálculos <i class="fa fa-angle-right"></i></a></li>
-        <li><a class="{{Route::current()->getPrefix() == '/dashboard/reunioes' ? 'active':''}}"
-               href="{{route('listReunioesToUser')}}"><span class="fa fa-calendar-o"></span> Reuniões (Novo)<i
+               href="{{route('listRecalculosToUser')}}"><span class="fa fa-repeat"></span> Recálculos <i
                         class="fa fa-angle-right"></i></a></li>
+
         <li>
             <a href=""><span class="fa fa-file-text"></span> Relatórios <i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">

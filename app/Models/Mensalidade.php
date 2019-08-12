@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\OrdemPagamentoCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -54,11 +55,13 @@ class Mensalidade extends Model
             $dataVencimento = $this->created_at->format('d');
             $pagamento = $this->pagamentos()->orderBy('created_at', 'desc')->first();
             if (!$pagamento instanceof OrdemPagamento) {
-                return false;
+                $ultimoPagamento = Carbon::now()->subMonth(1)->format('Y-m');
+                $vencimento = date('Y-m-10');
+            } else {
+                $ultimoPagamento = $pagamento->created_at->format('Y-m');
+                $date = strtotime("+1 month", strtotime($ultimoPagamento . '-' . $dataVencimento));
+                $vencimento = date('Y-m-d', strtotime("+5 days", $date));
             }
-            $ultimoPagamento = $pagamento->created_at->format('Y-m');
-            $date = strtotime("+1 month", strtotime($ultimoPagamento . '-' . $dataVencimento));
-            $vencimento = date('Y-m-d', strtotime("+5 days", $date));
             if ((string)date('Y-m') != $ultimoPagamento) {
                 if ($this->empresa->status == 'Aprovado' && !$this->empresa->trashed()) {
                     $pagamento = new OrdemPagamento();
@@ -89,7 +92,7 @@ class Mensalidade extends Model
 
     public function pagamentos()
     {
-        return $this->hasMany(OrdemPagamento::class, 'id_referencia')->where('referencia',$this->getTable());
+        return $this->hasMany(OrdemPagamento::class, 'id_referencia')->where('referencia', $this->getTable());
     }
 
     public function empresa()
@@ -102,9 +105,10 @@ class Mensalidade extends Model
         return 'R$' . number_format($this->valor, 2, ',', '.');
     }
 
-    public function delete(){
-        if($this->pagamentos->count()){
-            foreach ($this->pagamentos as $pagamento){
+    public function delete()
+    {
+        if ($this->pagamentos->count()) {
+            foreach ($this->pagamentos as $pagamento) {
                 $pagamento->delete();
             }
         }
