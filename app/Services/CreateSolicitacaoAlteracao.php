@@ -29,7 +29,7 @@ class CreateSolicitacaoAlteracao
             $request->merge(['id_empresa'=>$idEmpresa, 'status'=>'pendente']);
             /** @var Alteracao $alteracao */
             $alteracao = Auth::user()->alteracoes()->create($request->all());
-            if (count($request->get('campos'))) {
+            if ($request->has('campos')) {
                 foreach ($request->get('campos') as $idCampo => $campo) {
                     if($campo){
                         $informacao = ['id_alteracao_campo' => $idCampo, 'id_alteracao' => $alteracao->id, 'valor' => $campo];
@@ -38,7 +38,7 @@ class CreateSolicitacaoAlteracao
                 }
             }
 
-            if (count($request->get('tipos'))) {
+            if ($request->has('tipos')) {
                 foreach ($request->get('tipos') as $idTipo) {
                     $alteracao->tipos()->create(['id_tipo_alteracao' => $idTipo]);
                 }

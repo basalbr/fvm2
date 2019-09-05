@@ -18,6 +18,7 @@ use App\Models\Uf;
 use App\Services\ActivateEmpresa;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
+use App\Services\DeactivateEmpresa;
 use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
@@ -39,6 +40,18 @@ class EmpresaController extends Controller
         if ($empresa->status != 'Aprovado') {
             if (ActivateEmpresa::handle($empresa)) {
                 return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'Empresa ativada com sucesso.');
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function desativar($idEmpresa)
+    {
+
+        $empresa = Empresa::find($idEmpresa);
+        if ($empresa->status != 'cancelado') {
+            if (DeactivateEmpresa::handle($empresa)) {
+                return redirect()->route('showEmpresaToAdmin',$idEmpresa)->with('successAlert', 'Empresa desativada com sucesso.');
             }
         }
         return redirect()->back();

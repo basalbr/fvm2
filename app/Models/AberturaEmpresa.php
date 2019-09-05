@@ -59,6 +59,7 @@ class AberturaEmpresa extends Model
     const CANCELADO = 'cancelado';
     const ATENCAO = 'atencao';
     const CONCLUIDO = 'concluido';
+
     /**
      * The database table used by the model.
      *
@@ -108,7 +109,7 @@ class AberturaEmpresa extends Model
         'viabilidade_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
         'dbe_em_analise' => 'O DBE está em análise pela Receita Federal',
         'dbe_aguardando_usuario' => 'Precisamos de mais informações para o DBE',
-        'requerimento_aguardando_protocolo' => 'Estamos aguardando sua confirmação de protocolo junto à JUCESC',
+        'requerimento_aguardando_protocolo' => 'Estamos aguardando sua assinatura digital do processo junto à JUCESC',
         'requerimento_em_analise' => 'O requerimento está em análise na JUCESC',
         'requerimento_aguardando_usuario' => 'Precisamos de mais informações para darmos continuidade',
         'inscricao_estadual_aguardando_protocolo' => 'Estamos aguardando sua confirmação de protocolo junto à SEF',
@@ -172,7 +173,6 @@ class AberturaEmpresa extends Model
 
     public function getNomeEtapa()
     {
-
         if(strpos($this->status, 'pendente')===0){
             return 'Pendente';
         }elseif(strpos($this->status, 'concluido')===0){
@@ -311,6 +311,9 @@ class AberturaEmpresa extends Model
         return $this->belongsTo(EnquadramentoEmpresa::class, 'id_enquadramento_empresa');
     }
 
+    /**
+     * @return integer
+     */
     public function getQtdeMensagensNaoLidas()
     {
         return $this->mensagens()->where('lida', '=', 0)->where('id_usuario', '=', $this->usuario->id)->count();

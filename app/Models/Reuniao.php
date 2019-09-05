@@ -66,6 +66,7 @@ class Reuniao extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
+
     public function horario()
     {
         return $this->belongsTo(ReuniaoHorario::class, 'id_reuniao_horario');

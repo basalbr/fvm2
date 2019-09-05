@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{$empresa->cnpj}}</td>
                             <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->razao_social}} ({{$empresa->nome_fantasia}})</a>
-                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count() > 0)
+                            @if($empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->where('vencimento', '<', Carbon\Carbon::now())->count() > 0)
                             <div class="label label-danger">Essa empresa possui {{$empresa->getMensalidadeAtual()->pagamentos()->where('status', 'Pendente')->count()}} mensalidade(s) em atraso</div>
                             @endif</td>
                             <td>

@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('top-title')
-    Recálculos
+    Reuniões
 @stop
 @section('content')
     <div class="clearfix"></div>

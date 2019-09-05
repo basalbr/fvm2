@@ -16,8 +16,7 @@
                 agora mesmo</a>
         @endif
 
-        <a href="#como-funciona" class="btn btn-lg btn-warning transparent page-scroll hidden-xs">Conheça mais sobre
-            nós</a>
+        <a href="#como-funciona" class="btn btn-lg btn-warning transparent page-scroll hidden-xs">Conheça nossos serviços</a>
         <div class="clearfix"></div>
 
         <a href="" data-toggle="modal" data-target="#modal-register"

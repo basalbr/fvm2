@@ -262,6 +262,7 @@ Route::group(['namespace' => 'Dashboard'], function () {
 
 Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('daily', ['uses' => 'CronController@dailyCron']);
+    Route::get('nfs', ['uses' => 'CronController@nfs']);
     Route::get('payments', ['uses' => 'CronController@verifyPendingPayments']);
     Route::get('unread', ['uses' => 'CronController@notifyUnreadMessages']);
     Route::get('sem-movimento', ['uses' => 'CronController@changeApuracaoToSemMovimento']);
@@ -346,6 +347,7 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
 
     Route::post('activate/scheduled/{id}', ['as' => 'scheduleEmpresaActivation', 'uses' => 'EmpresaController@ativacaoProgramada']);
     Route::get('activate/{idEmpresa}', ['as' => 'activateEmpresa', 'uses' => 'EmpresaController@ativar']);
+    Route::get('deactivate/{idEmpresa}', ['as' => 'deactivateEmpresa', 'uses' => 'EmpresaController@desativar']);
     Route::get('activate/cancel/{idEmpresa}', ['as' => 'unscheduleEmpresaActivation', 'uses' => 'EmpresaController@cancelarAtivacao']);
     Route::get('{idEmpresa}/funcionarios/view/{idFuncionario}', ['as' => 'showFuncionarioToAdmin', 'uses' => 'FuncionarioController@view']);
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToAdmin', 'uses' => 'FuncionarioDocumentoController@index']);

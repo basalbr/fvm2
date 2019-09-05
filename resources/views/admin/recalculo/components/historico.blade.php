@@ -36,3 +36,5 @@
     </tbody>
 </table>
 <div class="clearfix"></div>
+{{ $recalculosConcluidos->appends(request()->query())->links() }}
+<div class="clearfix"></div>

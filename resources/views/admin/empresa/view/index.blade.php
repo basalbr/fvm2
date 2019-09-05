@@ -5,6 +5,12 @@
     <span class="hidden-xs">({{$empresa->razao_social}})</span>
 @stop
 @section('content')
+    @if($empresa->status == 'Cancelado')
+        <div class="col-xs-12">
+            <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">Essa empresa se encontra desativada.</p>
+        </div>
+        <div class="clearfix"></div>
+    @endif
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -36,12 +42,14 @@
                 Documentos enviados</a>
         </li>
         <li role="presentation">
-            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i class="fa fa-calendar-check-o"></i>
+            <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i
+                        class="fa fa-calendar-check-o"></i>
                 Apurações <span
                         class="badge message-badge">{{$empresa->apuracoes->count()}}</span></a>
         </li>
         <li role="presentation">
-            <a href="#documentos_contabeis" aria-controls="documentos_contabeis" role="tab" data-toggle="tab"><i class="fa fa-file-text"></i>
+            <a href="#documentos_contabeis" aria-controls="documentos_contabeis" role="tab" data-toggle="tab"><i
+                        class="fa fa-file-text"></i>
                 Documentos Contábeis <span
                         class="badge message-badge">{{$empresa->processosDocumentosContabeis->count()}}</span></a>
         </li>
@@ -50,12 +58,13 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
+
         <div role="tabpanel" class="tab-pane active" id="principal">
             @include('admin.empresa.view.components.principal')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="messages">
-                @include('admin.components.chat.box', ['model'=>$empresa])
+            @include('admin.components.chat.box', ['model'=>$empresa])
         </div>
         <div role="tabpanel" class="tab-pane" id="empresa">
             @include('admin.empresa.view.components.info_empresa')
@@ -108,7 +117,12 @@
             @endif
             @if($empresa->status != 'Aprovado' && $empresa->ativacao_programada)
                 <a href="" class="btn btn-success open-modal" data-modal="#modal-cancelar-ativacao"><i
-                            class="fa-clock-o fa"></i> Ativação agendada para {{$empresa->ativacao_programada->format('d/m/Y')}}</a>
+                            class="fa-clock-o fa"></i> Ativação agendada
+                    para {{$empresa->ativacao_programada->format('d/m/Y')}}</a>
+            @endif
+            @if($empresa->status != 'Cancelado')
+                <a href="" class="btn btn-danger open-modal" data-modal="#modal-cancelar-empresa"><i
+                            class="fa-times fa"></i> Desativar</a>
             @endif
         </div>
     </div>
@@ -119,6 +133,7 @@
     @parent
     @include('admin.components.socios.view', ['socios' => $empresa->socios])
     @include('admin.empresa.view.modals.agendar-ativacao')
+    @include('admin.empresa.view.modals.cancelar-empresa')
     @if($empresa->status != 'Aprovado' && $empresa->ativacao_programada)
         @include('admin.empresa.view.modals.cancelar-ativacao')
     @endif

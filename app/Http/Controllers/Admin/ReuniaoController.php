@@ -22,16 +22,16 @@ class ReuniaoController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function view($idRecalculo)
+    public function view($idReuniao)
     {
-        /* @var Recalculo $recalculo */
-        $recalculo = Recalculo::find($idRecalculo);
+        /* @var Reuniao $reuniao */
+        $reuniao = Reuniao::find($idReuniao);
         $qtdeDocumentos = Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
             ->where('anexo.referencia', 'mensagem')
             ->where('mensagem.referencia', 'recalculo')
-            ->where('mensagem.id_referencia', $idRecalculo)
+            ->where('mensagem.id_referencia', $idReuniao)
             ->count();
-        return view('admin.recalculo.view.index', compact('recalculo', 'qtdeDocumentos'));
+        return view('admin.reuniao.view.index', compact('reuniao', 'qtdeDocumentos'));
     }
 
     public function index(Request $request)

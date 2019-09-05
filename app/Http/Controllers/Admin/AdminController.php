@@ -49,27 +49,27 @@ class AdminController extends Controller
         $initialDate = (new Carbon('first day of 6 months ago'))->format('Y-m');
 //        return $initialDate;
         DB::enableQueryLog();
-        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $usuariosData = [];
-        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $empresasData = [];
-        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=',$initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
         $aberturasData = [];
 //        $alteracoes = Alteracao::groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at)"))->orderBy('created_at', 'desc')->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
 //        $alteracoesData = [];
         foreach (array_reverse($usuarios) as $usuario) {
-            $usuariosData[] = [Carbon::createFromFormat('Y-n-d', $usuario['ano'] . '-' . $usuario['mes'] . '-01')->format('U') * 1000, (int) $usuario['qtde']];
+            $usuariosData[] = [Carbon::createFromFormat('Y-n-d', $usuario['ano'] . '-' . $usuario['mes'] . '-01')->format('U') * 1000, (int)$usuario['qtde']];
         }
         foreach (array_reverse($empresas) as $empresa) {
-            $empresasData[] = [Carbon::createFromFormat('Y-n-d', $empresa['ano'] . '-' . $empresa['mes'] . '-01')->format('U') * 1000, (int) $empresa['qtde']];
+            $empresasData[] = [Carbon::createFromFormat('Y-n-d', $empresa['ano'] . '-' . $empresa['mes'] . '-01')->format('U') * 1000, (int)$empresa['qtde']];
         }
         foreach (array_reverse($aberturas) as $abertura) {
-            $aberturasData[] = [Carbon::createFromFormat('Y-n-d', $abertura['ano'] . '-' . $abertura['mes'] . '-01')->format('U') * 1000, (int) $abertura['qtde']];
+            $aberturasData[] = [Carbon::createFromFormat('Y-n-d', $abertura['ano'] . '-' . $abertura['mes'] . '-01')->format('U') * 1000, (int)$abertura['qtde']];
         }
 //        foreach (array_reverse($alteracoes) as $alteracao) {
 //            $alteracoesData[] = [Carbon::createFromFormat('Y-n-d', $abertura['ano'] . '-' . $alteracao['mes'] . '-01')->format('U') * 1000, $alteracao['qtde']];
 //        }
-        return response()->json([['name'=>'Novos usuários', 'data'=>$usuariosData], ['name'=>'Novas aberturas de empresa', 'data'=>$aberturasData], ['name'=>'Novas empresas', 'data'=>$empresasData]]);
+        return response()->json([['name' => 'Novos usuários', 'data' => $usuariosData], ['name' => 'Novas aberturas de empresa', 'data' => $aberturasData], ['name' => 'Novas empresas', 'data' => $empresasData]]);
     }
 
     public function getNewEmpresasHistory($months)
@@ -109,14 +109,14 @@ class AdminController extends Controller
         if ($balancetes) {
             $receitasData = [];
             $despesasData = [];
-            $resultData = [];
+//            $resultData = [];
             foreach ($balancetes as $balancete) {
-                $receitasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->receitas - 0), 'name' => 'Receitas', 'dataLabels' => ['format' => '{y}C', 'color'=>'#3CBC3C']];
-                $despesasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->despesas - 0), 'color' => '#FF5050', 'name' => 'Despesas', 'dataLabels' => ['format' => '{y}D', 'color'=>'#FF5050']];
+                $receitasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->receitas - 0), 'name' => 'Receitas', 'dataLabels' => ['format' => '{y}C', 'color' => '#3CBC3C']];
+                $despesasData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->despesas - 0), 'color' => '#FF5050', 'name' => 'Despesas', 'dataLabels' => ['format' => '{y}D', 'color' => '#FF5050']];
 //                    $resultData[] = ['x' => $balancete->exercicio->format('U') * 1000, 'y' => ($balancete->receitas > $balancete->despesas ? $balancete->receitas - $balancete->despesas : $balancete->despesas - $balancete->receitas), 'name' => 'Resultado Final', 'type' => 'line'];
             }
-            $companyData[] = ['data' => $receitasData, 'name' => $empresa->razao_social, 'type' => 'area', 'wdataLabels'=>['enabled'=>true, 'style'=>['fontWeight'=>'normal']]];
-            $companyData[] = ['data' => $despesasData, 'name' => $empresa->razao_social, 'linkedTo' => ':previous', 'type' => 'area', 'color'=>'#ff0000', 'dataLabels'=>['enabled'=>true, 'style'=>['fontWeight'=>'normal']]];
+            $companyData[] = ['data' => $receitasData, 'name' => $empresa->razao_social, 'type' => 'area', 'wdataLabels' => ['enabled' => true, 'style' => ['fontWeight' => 'normal']]];
+            $companyData[] = ['data' => $despesasData, 'name' => $empresa->razao_social, 'linkedTo' => ':previous', 'type' => 'area', 'color' => '#ff0000', 'dataLabels' => ['enabled' => true, 'style' => ['fontWeight' => 'normal']]];
 //                $companyData[] = ['data' => $resultData, 'name' => $empresa->razao_social, 'linkedTo' => ':previous', 'type' => 'line'];
 
 

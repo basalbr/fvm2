@@ -18,7 +18,7 @@
                 <td><a href="{{route('showUsuarioToAdmin', $reuniao->id_usuario)}}">{{ $reuniao->usuario->nome }}</a></td>
                 <td>{!! $reuniao->getLabelStatus() !!} {!! $reuniao->pagamento->isPending() ? '<span class="label label-warning">Pagamento pendente</span>' : ''!!}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{route('showReuniaoToUser', $reuniao->id)}}"
+                    <a class="btn btn-primary" href="{{route('showReuniaoToAdmin', $reuniao->id)}}"
                        title="Visualizar">
                         <i class="fa fa-search"></i> Visualizar
                     </a>

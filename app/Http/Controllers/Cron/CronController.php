@@ -52,6 +52,72 @@ class CronController extends Controller
         $this->notifyUnreadMessages();
     }
 
+    private function mb_str_pad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT)
+    {
+        $diff = strlen($input) - mb_strlen($input);
+        return str_pad($input, $pad_length + $diff, $pad_string, $pad_type);
+    }
+
+    public function nfs()
+    {
+        $start = new Carbon('first day of last month');
+        $end = new Carbon('last day of last month');
+        $pagamentos = OrdemPagamento::where('referencia', 'mensalidade')->where('valor','>',0)->where('status', 'Paga')->whereBetween('vencimento', [$start, $end])->get();
+        $rps = '1002' . $this->mb_str_pad('121537', 15, '0', 0) . date('Ymd') . date('Ymd') . chr(13) . chr(10);
+        $valorTotal = 0.0;
+        $qtdNotas = 0;
+        foreach ($pagamentos as $pagamento) {
+            /*@var OrdemPagamento $pagamento*/
+            $valorTotal += $pagamento->valor;
+            $qtdNotas++;
+            $rps .= '20     ' . self::mb_str_pad($pagamento->id, 15, '0', 0)
+                . date('Ymd') . 'T'
+                . self::mb_str_pad(preg_replace('/\D/', '', number_format($pagamento->valor, 2)), 15, '0', 0)
+                . self::mb_str_pad('0', 15, '0', 0)
+                . self::mb_str_pad('1719', 8, '0', 0)
+                . self::mb_str_pad('200', 5, '0', 0)
+                . '0'
+                . '2'
+                . self::mb_str_pad(preg_replace('/\D/', '', $pagamento->parent->empresa->cnpj), 14, '0', 0)
+                . self::mb_str_pad('', 15, '0', 0)
+                . self::mb_str_pad('', 15, '0', 0)
+                . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->razao_social)), 115, ' ')
+                . self::mb_str_pad(trim('RUA'), 3, ' ')
+                . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->endereco)), 100, ' ')
+                . self::mb_str_pad(trim($pagamento->parent->empresa->numero), 10, ' ')
+                . self::mb_str_pad(trim($pagamento->parent->empresa->complemento), 60, ' ')
+                . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->bairro)), 72, ' ')
+                . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->cidade)), 50, ' ')
+                . self::mb_str_pad(trim($pagamento->parent->empresa->uf->sigla), 2, ' ')
+                . self::mb_str_pad(preg_replace('/\D/', '', $pagamento->parent->empresa->cep), 8, ' ')
+                . self::mb_str_pad(trim($pagamento->parent->empresa->usuario->email), 80, ' ')
+                . self::mb_str_pad('0', 15, ' ')
+                . self::mb_str_pad('0', 15, ' ')
+                . self::mb_str_pad('0', 15, ' ')
+                . self::mb_str_pad('0', 15, ' ')
+                . self::mb_str_pad('0', 15, ' ')
+                . utf8_decode('Serviços prestados entre ' . $start->format('d/m/Y') . ' e ' . $end->format('d/m/Y'))
+                . chr(13) . chr(10);
+        }
+        $rps .= '9' . $this->mb_str_pad($qtdNotas, 7, '0', 0)
+            . $this->mb_str_pad(preg_replace('/\D/', '', number_format($valorTotal, 2)), 15, '0', 0)
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . $this->mb_str_pad('0', 15, ' ')
+            . chr(13) . chr(10);
+//    dd($valorTotal);
+        return response($rps)->withHeaders([
+            'Content-Type' => 'text/plain',
+            'Cache-Control' => 'no-store, no-cache',
+            'Content-Disposition' => 'attachment; filename="logs.txt',
+        ]);
+        echo $rps;
+    }
+
     /**
      * Altera as apuracoes para sem movimento
      */
@@ -232,7 +298,7 @@ class CronController extends Controller
                 /* @var Empresa $empresa */
 
                 if ($empresa->getMensalidadeAtual()->valor < Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual())) {
-                    echo 'Empresa '.$empresa->id.' - '.$empresa->getMensalidadeAtual()->valor.' - '.Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual()).'<br />';
+                    echo 'Empresa ' . $empresa->id . ' - ' . $empresa->getMensalidadeAtual()->valor . ' - ' . Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual()) . '<br />';
                     $mensalidadeAtual = $empresa->getMensalidadeAtual();
                     $mensalidadeAtual->valor = Mensalidade::calculateMonthlyPayment($empresa->getMensalidadeAtual());
                     $mensalidadeAtual->save();
