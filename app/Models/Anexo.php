@@ -30,6 +30,11 @@ class Anexo extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_referencia', 'referencia','descricao','arquivo'];
+    protected $fillable = ['id_referencia', 'referencia', 'descricao', 'arquivo'];
+
+    public function getLinK()
+    {
+        return '<a download class="download" href="' . asset(public_path() . 'storage/anexos/' . $this->referencia . '/' . $this->id_referencia . '/' . $this->arquivo) . '" title="Clique para fazer download do arquivo">Download</a>';
+    }
 
 }

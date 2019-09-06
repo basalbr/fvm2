@@ -12,7 +12,9 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "pagseguro/pagseguro-php-sdk": "^3.0",
-        "twbs/bootstrap": "^3.3"
+        "twbs/bootstrap": "^3.3",
+        "chumper/zipper": "1.0.x",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -110,6 +110,7 @@ body {
     display: inline-table;
     font-size: 14px;
     top: 0;
+    z-index: 2;
 }
 
 #top-menu-items li {
@@ -251,7 +252,7 @@ body {
     position: absolute;
     z-index: 2;
     left: 260px;
-    top: 95px;
+    top: 50px;
     overflow: auto;
     right: 10px;
     bottom: 0;
@@ -267,6 +268,11 @@ div.mce-fullscreen {
 @media (max-width: 1200px ) {
     #content {
         left: 0px;
+        top: 83px!important;
+    }
+
+    #top-title {
+        top: 50px!important;
     }
 
     div.mce-fullscreen {
@@ -395,6 +401,15 @@ a.shortcut h3.text-center {
     margin-right: 0;
     color: rgba(98, 98, 98, 0.7);
     font-size: 14px;
+    min-width: 70px;
+    border-color: transparent;
+}
+
+.nav-tabs-mini > li > a {
+    padding: 10px 16px;
+    margin-right: 0;
+    color: rgba(98, 98, 98, 0.7);
+    font-size: 13px;
     min-width: 70px;
     border-color: transparent;
 }
@@ -1706,6 +1721,10 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     margin-bottom: 60px;
 }
 
+.navigation-space-tabless {
+    margin-bottom: 48px;
+}
+
 #top-title {
     border-top: 1px solid #21252d;
     border-left: 1px solid #21252d;
@@ -1726,7 +1745,7 @@ body.basic-calendar .chute-center .fc-toolbar .fc-center h2 {
     padding: 10px;
     left: 250px;
     color: #fff;
-    top: 50px;
+    top: 3px;
     right: 0;
     z-index: 1;
     font-size: 16px

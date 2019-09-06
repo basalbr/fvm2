@@ -402,6 +402,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('view/{idApuracao}/upload/guia', ['uses' => 'ApuracaoController@uploadGuia']);
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
+    Route::get('view/{idApuracao}/download-zip', ['as' => 'downloadZipApuracao', 'uses' => 'ApuracaoController@downloadZip']);
 });
 
 //Admin - Imposto de Renda

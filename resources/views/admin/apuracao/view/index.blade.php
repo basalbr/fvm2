@@ -100,53 +100,150 @@
 @stop
 
 @section('top-title')
-    <a href="{{route('listApuracoesToAdmin')}}">Apurações</a> <i class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
+    <a href="{{route('listApuracoesToAdmin')}}">Apurações</a> <i
+            class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
 @stop
 
 @section('content')
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
-                        class="fa fa-info-circle"></i>
-                Informações</a>
-        </li>
-        <li role="presentation">
-            <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
-                Mensagens <span
-                        class="badge">{{$apuracao->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
-        </li>
-        <li role="presentation">
-            <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
-                Documentos enviados <span class="badge">{{$qtdeDocumentos}}</span></a>
-        </li>
-        @if($apuracao->guia)
-            <li class="animated bounceInDown highlight">
-                <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
-                   download><i class="fa fa-download"></i> Guia</a>
-            </li>
-        @endif
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-            @include('admin.apuracao.view.components.informacoes')
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="messages">
-            <div class="col-sm-12">
-                @include('admin.components.chat.box', ['model'=>$apuracao])
+
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>Informações e documentos enviados</strong></div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs nav-tabs-mini" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab">Informações</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos <span class="badge">{{$qtdeDocumentos}}</span></a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
+                        <table class="table table-striped table-hover">
+                            <tbody>
+                            <tr>
+                                <th scope="row">Empresa</th>
+                                <td>
+                                    <a href="{{route('showEmpresaToAdmin', $apuracao->empresa->id)}}">{{$apuracao->empresa->razao_social}}
+                                        ({{$apuracao->empresa->nome_fantasia}})</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Usuário</th>
+                                <td>
+                                    <a href="{{route('showUsuarioToAdmin', $apuracao->empresa->id_usuario)}}">{{$apuracao->empresa->usuario->nome}}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Imposto</th>
+                                <td>{{$apuracao->imposto->nome}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Competência</th>
+                                <td>{{$apuracao->competencia->format('m/Y')}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Código de Acesso</th>
+                                <td>{{$apuracao->empresa->codigo_acesso_simples_nacional ?: 'Não informado'}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Status</th>
+                                <td>{!! $apuracao->getLabelStatus() !!}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Qtde Notas de Serviço</th>
+                                <td>{{$apuracao->qtde_notas_servico ?: 'Não informado'}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Qtde Notas de Entrada</th>
+                                <td>{{$apuracao->qtde_notas_entrada ?: 'Não informado'}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Qtde Notas de Saída</th>
+                                <td>{{$apuracao->qtde_notas_saida ?: 'Não informado'}}</td>
+                            </tr>
+                            @if($apuracao->guia)
+                                <tr>
+                                    <th scope="row">Qtde Documentos Fiscais</th>
+                                    <td>{{$apuracao->qtde_notas_saida + $apuracao->qtde_notas_entrada + $apuracao->qtde_notas_servico }}
+                                        / {{$apuracao->empresa->getMensalidadeAtual()->qtde_documento_fiscal}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Guia da Apuração</th>
+                                    <td>
+                                        <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
+                                           download>Download</a>
+                                    </td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
+                        <table class="table table-striped table-hover">
+                            @if($qtdeDocumentos > 0)
+                                @foreach($apuracao->informacoes as $informacao)
+                                    @if($informacao->tipo->tipo == 'anexo')
+                                        <tr>
+                                            <th>{{$informacao->tipo->tipo->nome}}</th>
+                                            <td>
+                                                {!! $informacao->getLink() !!}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                @foreach($apuracao->anexos as $anexo)
+                                    <tr>
+                                        <th>{{$anexo->descricao}}</th>
+                                        <td>
+                                            {!! $anexo->getLink() !!}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @foreach($apuracao->mensagens as $message)
+                                    @if($message->anexo)
+                                        <th>{{$message->anexo->descricao}}</th>
+                                        <td>
+                                            {!! $message->anexo->getLink() !!}
+                                        </td>
+                                    @endif
+                                @endforeach
+                                <tr><td colspan="2" class="text-center"><a href="{{route('downloadZipApuracao', $apuracao->id)}}" target="_blank">Baixar todos os arquivos em ZIP</a></td></tr>
+                            @else
+                                <tr>
+                                    <td class="text-center">Nenhum documento enviado</td>
+                                </tr>
+                            @endif
+                            <tbody>
+                        </table>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
             </div>
-            <div class="clearfix"></div>
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
-            @include('admin.apuracao.view.components.documentos')
-        </div>
-        <div class="clearfix"></div>
-        <div class="navigation-space"></div>
-        <div class="navigation-options animated slideInUp">
-            <a class="btn btn-default" href="{{URL::previous()}}"><i
-                        class="fa fa-angle-left"></i>
-                Voltar</a>
-        </div>
-        <div class="clearfix"></div>
     </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><strong>Mensagens</strong></div>
+            <div class="panel-body" id="messages">
+                @include('admin.components.chat.box2', ['model'=>$apuracao])</div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="navigation-space-tabless"></div>
+    <div class="navigation-options animated slideInUp">
+        <a class="btn btn-default" href="{{URL::previous()}}"><i
+                    class="fa fa-angle-left"></i>
+            Voltar</a>
+        <button type="button" data-toggle="modal" data-target="#modal-realizar-acao" class="btn btn-primary"><i
+                    class="fa fa-cogs"></i> Alterar Status / Enviar Guia
+        </button>
+    </div>
+@stop
+@section('modals')
+    @parent
+    @include('admin.apuracao.view.modals.realizar-acao')
 @stop

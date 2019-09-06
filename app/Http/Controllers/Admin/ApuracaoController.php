@@ -16,6 +16,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class ApuracaoController extends Controller
 {
@@ -131,6 +133,41 @@ class ApuracaoController extends Controller
             $query->orderBy('apuracao.competencia', 'desc');
         }
         return $query;
+    }
+
+    public function downloadZip($apuracaoId)
+    {
+
+        $apuracao = Apuracao::findOrFail($apuracaoId);
+        $files = array();
+        # create new zip object
+        $zip = new ZipArchive();
+        # create a temp file & open it
+        $tmp_file = tempnam('.', '');
+        $zip->open($tmp_file, ZipArchive::CREATE);
+        foreach ($apuracao->informacoes as $informacao) {
+            if ($informacao->tipo->tipo == 'anexo') {
+                $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $informacao->toAnexo()->referencia . '/' . $informacao->toAnexo()->id_referencia . '/' . $informacao->toAnexo()->arquivo));
+                $zip->addFromString($informacao->tipo->nome, $download_file);
+            }
+        }
+
+        foreach ($apuracao->anexos as $anexo) {
+            $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $anexo->referencia . '/' . $anexo->id_referencia . '/' . $anexo->arquivo));
+            $zip->addFromString($anexo->descricao.'.'.pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+        }
+        foreach ($apuracao->mensagens as $message) {
+            if ($message->anexo) {
+                $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
+                $zip->addFromString($message->anexo->descricao.'.'.pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            }
+        }
+        $zip->close();
+        # send the file to the browser as a download
+        header('Content-disposition: attachment; filename="my file.zip"');
+        header('Content-type: application/zip');
+        readfile($tmp_file);
+        unlink($tmp_file);
     }
 
 }
