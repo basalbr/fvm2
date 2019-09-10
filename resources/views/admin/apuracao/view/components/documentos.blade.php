@@ -1,24 +1,42 @@
-<div id="anexos">
-    <div class="list">
+<table class="table table-striped table-hover">
+    @if($qtdeDocumentos > 0)
         @foreach($apuracao->informacoes as $informacao)
             @if($informacao->tipo->tipo == 'anexo')
-                <div class="col-sm-4">
-                    @include('admin.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
-                </div>
+                <tr>
+                    <th>{{$informacao->tipo->tipo->nome}}</th>
+                    <td>
+                        {!! $informacao->getLink() !!}
+                    </td>
+                </tr>
             @endif
         @endforeach
         @foreach($apuracao->anexos as $anexo)
-            <div class="col-sm-4">
-                @include('admin.components.anexo.withDownload', ['anexo'=>$anexo])
-            </div>
+            <tr>
+                <th>{{$anexo->descricao}}</th>
+                <td>
+                    {!! $anexo->getLink() !!}
+                </td>
+            </tr>
         @endforeach
         @foreach($apuracao->mensagens as $message)
             @if($message->anexo)
-                <div class="col-sm-4">
-                    @include('admin.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                </div>
+                <tr>
+                    <th>{{$message->anexo->descricao}}</th>
+                    <td>
+                        {!! $message->anexo->getLink() !!}
+                    </td>
+                </tr>
             @endif
         @endforeach
-    </div>
-    <div class="clearfix"></div>
-</div>
+        <tr>
+            <td colspan="2" class="text-center"><a href="{{route('downloadZipApuracao', $apuracao->id)}}"
+                                                   target="_blank">Baixar todos os arquivos em ZIP</a></td>
+        </tr>
+    @else
+        <tr>
+            <td class="text-center">Nenhum documento enviado</td>
+        </tr>
+    @endif
+    <tbody>
+</table>
+<div class="clearfix"></div>

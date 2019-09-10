@@ -121,7 +121,7 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
 
     public function getNomeAttribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function demissoes()
@@ -171,7 +171,7 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
 
     public function setNomeAttribute($nome)
     {
-        $this->attributes['nome'] = ucwords($nome);
+        $this->attributes['nome'] = mb_convert_case(strtolower($nome), MB_CASE_TITLE);
     }
 
     public function getFirstName()

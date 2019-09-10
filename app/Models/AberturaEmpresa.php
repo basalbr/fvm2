@@ -233,17 +233,17 @@ class AberturaEmpresa extends Model
 
     public function getNomeEmpresarial1Attribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getNomeEmpresarial2Attribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getNomeEmpresarial3Attribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     /**

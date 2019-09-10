@@ -110,116 +110,32 @@
         <div class="panel panel-primary">
             <div class="panel-heading"><strong>Informações e documentos enviados</strong></div>
             <div class="panel-body">
+                @if($apuracao->guia)
+                    <div class="col-xs-12">
+                        <p class="alert alert-info visible-lg visible-sm visible-xs visible-md animated shake">Guia
+                            já disponibilizada, <a
+                                    href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
+                                    download>clique aqui para baixar</a>.</p>
+                    </div>
+                    <div class="clearfix"></div>
+                @endif
                 <ul class="nav nav-tabs nav-tabs-mini" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab">Informações</a>
                     </li>
                     <li role="presentation">
-                        <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos <span class="badge">{{$qtdeDocumentos}}</span></a>
+                        <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos <span
+                                    class="badge">{{$qtdeDocumentos}}</span></a>
                     </li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
-                        <table class="table table-striped table-hover">
-                            <tbody>
-                            <tr>
-                                <th scope="row">Empresa</th>
-                                <td>
-                                    <a href="{{route('showEmpresaToAdmin', $apuracao->empresa->id)}}">{{$apuracao->empresa->razao_social}}
-                                        ({{$apuracao->empresa->nome_fantasia}})</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Usuário</th>
-                                <td>
-                                    <a href="{{route('showUsuarioToAdmin', $apuracao->empresa->id_usuario)}}">{{$apuracao->empresa->usuario->nome}}</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Imposto</th>
-                                <td>{{$apuracao->imposto->nome}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Competência</th>
-                                <td>{{$apuracao->competencia->format('m/Y')}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Código de Acesso</th>
-                                <td>{{$apuracao->empresa->codigo_acesso_simples_nacional ?: 'Não informado'}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Status</th>
-                                <td>{!! $apuracao->getLabelStatus() !!}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Qtde Notas de Serviço</th>
-                                <td>{{$apuracao->qtde_notas_servico ?: 'Não informado'}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Qtde Notas de Entrada</th>
-                                <td>{{$apuracao->qtde_notas_entrada ?: 'Não informado'}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Qtde Notas de Saída</th>
-                                <td>{{$apuracao->qtde_notas_saida ?: 'Não informado'}}</td>
-                            </tr>
-                            @if($apuracao->guia)
-                                <tr>
-                                    <th scope="row">Qtde Documentos Fiscais</th>
-                                    <td>{{$apuracao->qtde_notas_saida + $apuracao->qtde_notas_entrada + $apuracao->qtde_notas_servico }}
-                                        / {{$apuracao->empresa->getMensalidadeAtual()->qtde_documento_fiscal}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Guia da Apuração</th>
-                                    <td>
-                                        <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
-                                           download>Download</a>
-                                    </td>
-                                </tr>
-                            @endif
-                            </tbody>
-                        </table>
-                        <div class="clearfix"></div>
+                        @include('admin.apuracao.view.components.informacoes')
                     </div>
                     <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
-                        <table class="table table-striped table-hover">
-                            @if($qtdeDocumentos > 0)
-                                @foreach($apuracao->informacoes as $informacao)
-                                    @if($informacao->tipo->tipo == 'anexo')
-                                        <tr>
-                                            <th>{{$informacao->tipo->tipo->nome}}</th>
-                                            <td>
-                                                {!! $informacao->getLink() !!}
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                                @foreach($apuracao->anexos as $anexo)
-                                    <tr>
-                                        <th>{{$anexo->descricao}}</th>
-                                        <td>
-                                            {!! $anexo->getLink() !!}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                @foreach($apuracao->mensagens as $message)
-                                    @if($message->anexo)
-                                        <th>{{$message->anexo->descricao}}</th>
-                                        <td>
-                                            {!! $message->anexo->getLink() !!}
-                                        </td>
-                                    @endif
-                                @endforeach
-                                <tr><td colspan="2" class="text-center"><a href="{{route('downloadZipApuracao', $apuracao->id)}}" target="_blank">Baixar todos os arquivos em ZIP</a></td></tr>
-                            @else
-                                <tr>
-                                    <td class="text-center">Nenhum documento enviado</td>
-                                </tr>
-                            @endif
-                            <tbody>
-                        </table>
-                        <div class="clearfix"></div>
+                        @include('admin.apuracao.view.components.documentos')
                     </div>
                 </div>
             </div>

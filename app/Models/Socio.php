@@ -71,19 +71,19 @@ class Socio extends Model {
     }
 
     public function getNomeAttribute($attr){
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getNomePaiAttribute($attr){
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getNomeMaeAttribute($attr){
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getNacionalidadeAttribute($attr){
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function empresa() {

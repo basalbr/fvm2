@@ -130,7 +130,7 @@ class ApuracaoController extends Controller
                     $query->orderBy('apuracao.competencia');
             }
         } else {
-            $query->orderBy('apuracao.competencia', 'desc');
+            $query->orderBy('apuracao.competencia', 'desc')->orderBy('status', 'desc');
         }
         return $query;
     }
@@ -143,7 +143,7 @@ class ApuracaoController extends Controller
         # create new zip object
         $zip = new ZipArchive();
         # create a temp file & open it
-        $tmp_file = tempnam('.', '');
+        $tmp_file = @tempnam('.', '');
         $zip->open($tmp_file, ZipArchive::CREATE);
         foreach ($apuracao->informacoes as $informacao) {
             if ($informacao->tipo->tipo == 'anexo') {
@@ -159,12 +159,12 @@ class ApuracaoController extends Controller
         foreach ($apuracao->mensagens as $message) {
             if ($message->anexo) {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
-                $zip->addFromString($message->anexo->descricao.'.'.pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+                $zip->addFromString($message->anexo->descricao, $download_file);
             }
         }
         $zip->close();
         # send the file to the browser as a download
-        header('Content-disposition: attachment; filename="my file.zip"');
+        header('Content-disposition: attachment; filename="documentos.zip"');
         header('Content-type: application/zip');
         readfile($tmp_file);
         unlink($tmp_file);

@@ -41,7 +41,8 @@
     <div class="tab-content">
         @if($aberturaEmpresa->ordemPagamento->isPending())
             <div class="col-xs-12">
-                <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">O pagamento desse
+                <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">O pagamento
+                    desse
                     processo ainda está pendente.</p>
             </div>
         @endif
@@ -108,9 +109,18 @@
         <div class="navigation-options animated slideInUp">
             <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
             @if(!in_array($aberturaEmpresa->status, ['cancelado', 'concluido']))
-                <a href="{{route('createEmpresaFromAberturaEmpresa', $aberturaEmpresa->id)}}" class="btn btn-success"><i
-                            class="fa fa-check"></i>
-                    Transformar em empresa</a>
+                @if(\App\Models\Empresa::where('cnpj', $aberturaEmpresa->cnpj)->count()<=0)
+                    <button type="button" data-toggle="modal" data-target="#modal-transformar-abertura-empresa"
+                            class="btn btn-primary"><i class="fa fa-building"></i> Transformar em empresa
+                    </button>
+                @endif
+                <button type="button" data-toggle="modal" data-target="#modal-concluir-abertura-empresa"
+                        class="btn btn-success"><i class="fa fa-check"></i> Concluir
+                </button>
+
+                <button type="button" data-toggle="modal" data-target="#modal-cancelar-abertura-empresa"
+                        class="btn btn-danger"><i class="fa fa-times"></i> Cancelar
+                </button>
             @endif
         </div>
     </div>
@@ -119,4 +129,7 @@
 @section('modals')
     @parent
     @include('admin.components.socios.view', ['socios' => $aberturaEmpresa->socios])
+    @include('admin.abertura_empresa.view.modals.cancelar-abertura-empresa')
+    @include('admin.abertura_empresa.view.modals.transformar-abertura-empresa')
+    @include('admin.abertura_empresa.view.modals.concluir-abertura-empresa')
 @stop

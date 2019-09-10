@@ -85,7 +85,7 @@ class AberturaEmpresaController extends Controller
     {
         $aberturaEmpresa = AberturaEmpresa::findOrFail($id);
         if (CreateEmpresaFromAberturaEmpresa::handle($aberturaEmpresa)) {
-            return redirect()->route('listEmpresaToAdmin')->with('successAlert', 'A empresa foi criada com sucesso e o processo de abertura de empresa foi encerrado.');
+            return redirect()->route('showAberturaEmpresaToAdmin',$id)->with('successAlert', 'A empresa foi criada com sucesso!');
         }
         return redirect()->back()->withErrors(['Ocorreu um erro inesperado']);
     }

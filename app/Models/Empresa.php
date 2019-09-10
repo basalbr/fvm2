@@ -66,7 +66,11 @@ class Empresa extends Model
         }
         try {
             DB::beginTransaction();
-            $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
+            if(strtolower($this->tipoTributacao->descricao) == 'MEI'){
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto','4')->get();
+            }else{
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
+            }
             $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
             $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
             if ($apuracoes) {
@@ -159,12 +163,12 @@ class Empresa extends Model
 
     public function getNomeFantasiaAttribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getRazaoSocialAttribute($attr)
     {
-        return ucwords(strtolower($attr));
+        return mb_convert_case(strtolower($attr), MB_CASE_TITLE);
     }
 
     public function getStatusAttribute($status)

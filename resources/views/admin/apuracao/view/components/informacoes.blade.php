@@ -1,114 +1,67 @@
-<div class="list">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Empresa</label>
-            <div class="form-control"><a href="{{route('showEmpresaToAdmin', $apuracao->empresa->id)}}">{{$apuracao->empresa->nome_fantasia}}</a></div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Usuário</label>
-            <div class="form-control"><a href="{{route('showUsuarioToAdmin', $apuracao->empresa->usuario->id)}}">{{$apuracao->empresa->usuario->nome}}</a></div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Imposto</label>
-            <div class="form-control">{{$apuracao->imposto->nome}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Status da apuração</label>
-            <div class="form-control">{{$apuracao->status}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Competência</label>
-            <div class="form-control">{{$apuracao->competencia->format('m/Y')}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Vencimento</label>
-            <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Serviço</label>
-            <div class="form-control">{{$apuracao->qtde_notas_servico}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Entrada</label>
-            <div class="form-control">{{$apuracao->qtde_notas_entrada}}</div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Saída</label>
-            <div class="form-control">{{$apuracao->qtde_notas_saida}}</div>
-        </div>
-    </div>
-</div>
+<table class="table table-striped table-hover">
+    <tbody>
+    <tr>
+        <th scope="row">Empresa</th>
+        <td>
+            <a href="{{route('showEmpresaToAdmin', $apuracao->empresa->id)}}">{{$apuracao->empresa->razao_social}}
+                ({{$apuracao->empresa->nome_fantasia}})</a></td>
+    </tr>
+    <tr>
+        <th scope="row">Usuário</th>
+        <td>
+            <a href="{{route('showUsuarioToAdmin', $apuracao->empresa->id_usuario)}}">{{$apuracao->empresa->usuario->nome}}</a>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">Imposto</th>
+        <td>{{$apuracao->imposto->nome}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Competência</th>
+        <td>{{$apuracao->competencia->format('m/Y')}}</td>
+    </tr>
+    <tr>
+        <th scope="row">CNPJ</th>
+        <td>{{preg_replace('/[^0-9]/','',$apuracao->empresa->cnpj)}}</td>
+    </tr>
+    <tr>
+        <th scope="row">CPF</th>
+        <td>{{preg_replace('/[^0-9]/','',$apuracao->empresa->getSocioPrincipal()->cpf)}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Código de Acesso</th>
+        <td>{!! $apuracao->empresa->codigo_acesso_simples_nacional ?: "<span class='animated shake infinite label label-danger'>Não informado</span>" !!}</td>
+    </tr>
+    <tr>
+        <th scope="row">Status</th>
+        <td>{!! $apuracao->getLabelStatus() !!}</td>
+    </tr>
+    <tr>
+        <th scope="row">Qtde Notas de Serviço</th>
+        <td>{{$apuracao->qtde_notas_servico ?: 'Não informado'}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Qtde Notas de Entrada</th>
+        <td>{{$apuracao->qtde_notas_entrada ?: 'Não informado'}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Qtde Notas de Saída</th>
+        <td>{{$apuracao->qtde_notas_saida ?: 'Não informado'}}</td>
+    </tr>
+    @if($apuracao->guia)
+        <tr>
+            <th scope="row">Qtde Documentos Fiscais</th>
+            <td>{{$apuracao->qtde_notas_saida + $apuracao->qtde_notas_entrada + $apuracao->qtde_notas_servico }}
+                / {{$apuracao->empresa->getMensalidadeAtual()->qtde_documento_fiscal}}</td>
+        </tr>
+        <tr>
+            <th>Guia da Apuração</th>
+            <td>
+                <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
+                   download>Download</a>
+            </td>
+        </tr>
+    @endif
+    </tbody>
+</table>
 <div class="clearfix"></div>
-<hr>
-<div class="col-sm-12">
-    <h3>Status e envio de guia</h3>
-</div>
-<form id="form-principal" method="POST" action="" enctype="multipart/form-data">
-    {!! csrf_field() !!}
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label>Status da apuração</label>
-            <select name="status" class="form-control">
-                <option {{$apuracao->status == 'Atenção' ? 'selected' : ''}} value="atencao">Atenção
-                </option>
-                <option {{$apuracao->status == 'Cancelado' ? 'selected' : ''}} value="cancelado">Cancelado
-                </option>
-                <option {{$apuracao->status == 'Concluído' ? 'selected' : ''}} value="concluido">Concluído
-                </option>
-                <option {{$apuracao->status == 'Novo' ? 'selected' : ''}} value="novo">Novo</option>
-                <option {{$apuracao->status == 'Sem Movimento' ? 'selected' : ''}} value="sem_movimento">Sem
-                    Movimento
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="form-control">
-                <button class="btn btn-primary upload-file"><i class="fa fa-upload"></i>
-                    Anexar guia
-                </button>
-            </div>
-            <input data-validation-url="{{route('validateGuia')}}"
-                   data-upload-url="{{route('sendAnexoToTemp')}}" class="hidden upload-informacao-extra"
-                   type='file' value=""/>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Serviço</label>
-            <input type="text" name="qtde_notas_servico" class="form-control number-mask" placeholder="0" />
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Entrada</label>
-            <input type="text" name="qtde_notas_entrada"  class="form-control number-mask" placeholder="0" />
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label>Notas de Saída</label>
-            <input type="text" name="qtde_notas_saida" class="form-control number-mask" placeholder="0" />
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <button class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>
-    </div>
-</form>

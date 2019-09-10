@@ -79,19 +79,19 @@ class Apuracao extends Model
 
     public function getLabelStatus(){
         if(strpos($this->getOriginal('status'), 'informacoes_enviadas')===0){
-            return '<span class="label label-warning">Aguardando apuração</span>';
+            return '<span class="label label-warning fadeIn infinite animated">Aguardando apuração</span>';
         }elseif(strpos($this->getOriginal('status'), 'concluido')===0 || strpos($this->status, 'concluído')===0 ){
-            return '<span class="label label-success">Concluído</span>';
+            return '<span class="label label-success flash animated">Concluído</span>';
         }elseif(strpos($this->getOriginal('status'), 'cancelado')===0){
-            return '<span class="label label-danger">Cancelado</span>';
+            return '<span class="label label-danger fadeIn infinite animated">Cancelado</span>';
         }elseif(strpos($this->getOriginal('status'), 'em_analise')===0){
-            return '<span class="label label-info">Em análise</span>';
+            return '<span class="label label-info fadeIn infinite animated">Em análise</span>';
         }elseif(strpos($this->getOriginal('status'), 'novo')===0){
             return '<span class="label label-info">Novo</span>';
         }elseif(strpos($this->getOriginal('status'), 'atencao')===0){
-            return '<span class="label label-warning">Aguardando usuário</span>';
+            return '<span class="label label-warning fadeIn infinite animated">Aguardando usuário</span>';
         }elseif(strpos($this->getOriginal('status'), 'sem_movimento')===0){
-            return '<span class="label label-success">Sem movimento</span>';
+            return '<span class="label label-success flash animated">Sem movimento</span>';
         }
         return '<span class="label label-info">Novo</span>';
     }

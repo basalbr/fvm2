@@ -32,9 +32,6 @@ class CreateEmpresaFromAberturaEmpresa
     {
         DB::beginTransaction();
         try {
-            $aberturaEmpresa->status = 'concluido';
-            $aberturaEmpresa->save();
-
             /* @var $empresa Empresa */
             $empresa = Empresa::create($aberturaEmpresa->toArray());
 
