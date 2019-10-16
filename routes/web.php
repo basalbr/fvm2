@@ -225,6 +225,7 @@ Route::group(['prefix' => 'dashboard/documentos-contabeis', 'namespace' => 'Dash
     Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToUser', 'uses' => 'DocumentoContabilController@view']);
     Route::get('view/{idProcesso}/sem-movimento', ['as' => 'flagDocumentosContabeisAsSemMovimento', 'uses' => 'DocumentoContabilController@semMovimento']);
     Route::post('view/{idProcesso}', ['uses' => 'DocumentoContabilController@update']);
+    Route::get('remove/{idProcesso}/{idAnexo}', ['as'=>'removeDocumentoContabil', 'uses' => 'DocumentoContabilController@remove']);
 });
 
 //Dashboard - Agendar reunião
@@ -358,6 +359,7 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
 //Admin - Analytics
 Route::group(['prefix' => 'admin/analytics', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('users/registered', ['as' => 'getRegisteredUsersHistory', 'uses' => 'AdminController@getRegisteredUsersHistory']);
+    Route::get('history/payments', ['as' => 'getPaymentHistory', 'uses' => 'AdminController@getPaymentHistory']);
     Route::get('history/new', ['as' => 'getHistorySeries', 'uses' => 'AdminController@getHistorySeries']);
     Route::get('history/balance/{idEmpresa}', ['as' => 'getBalanceHistoryOfCompany', 'uses' => 'AdminController@getBalanceHistoryOfCompany']);
 
@@ -452,6 +454,7 @@ Route::group(['prefix' => 'admin/documentos-contabeis', 'namespace' => 'Admin', 
     Route::get('', ['as' => 'listDocumentosContabeisToAdmin', 'uses' => 'DocumentoContabilController@index']);
     Route::get('view/{idProcesso}', ['as' => 'showDocumentoContabilToAdmin', 'uses' => 'DocumentoContabilController@view']);
     Route::get('view/{idProcesso}/contabilizar', ['as' => 'contabilizarDocumentoContabil', 'uses' => 'DocumentoContabilController@contabilizar']);
+    Route::get('view/{idProcesso}/download-zip', ['as' => 'downloadZipDocumentosContabeis', 'uses' => 'DocumentoContabilController@downloadZip']);
 });
 
 //Admin - Chamados

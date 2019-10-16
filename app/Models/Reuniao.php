@@ -56,6 +56,10 @@ class Reuniao extends Model
         return strtolower($status);
     }
 
+public function getStatus(){
+return $this->status_processo[$this->status];
+}
+
     public function anotacoes()
     {
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());

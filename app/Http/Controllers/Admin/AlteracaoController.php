@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Alteracao;
+use App\Models\Mensagem;
 use App\Services\CancelAlteracao;
 use App\Services\ChangeAlteracaoStatus;
 use App\Services\FinishAlteracao;
@@ -54,7 +55,16 @@ class AlteracaoController extends Controller
     public function view($idAlteracao)
     {
         $alteracao = Alteracao::findOrFail($idAlteracao);
-        return view('admin.alteracao.view.index', compact('alteracao', 'idAlteracao'));
+        $qtdeDocumentos = $alteracao->informacoes()
+            ->join('alteracao_campo', 'alteracao_campo.id', 'alteracao_informacao.id_alteracao_campo')
+            ->where('alteracao_campo.tipo', 'file')
+            ->count();
+        $qtdeDocumentos += Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
+            ->where('anexo.referencia', 'mensagem')
+            ->where('mensagem.referencia', 'apuracao')
+            ->where('mensagem.id_referencia', $idAlteracao)
+            ->count();
+        return view('admin.alteracao.view.index', compact('alteracao', 'idAlteracao', 'qtdeDocumentos'));
     }
 
     /**

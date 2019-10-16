@@ -7,7 +7,8 @@
 @section('content')
     @if($empresa->status == 'Cancelado')
         <div class="col-xs-12">
-            <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">Essa empresa se encontra desativada.</p>
+            <p class="alert alert-danger visible-lg visible-sm visible-xs visible-md animated shake">Essa empresa se
+                encontra desativada.</p>
         </div>
         <div class="clearfix"></div>
     @endif
@@ -45,13 +46,13 @@
             <a href="#apuracoes" aria-controls="apuracoes" role="tab" data-toggle="tab"><i
                         class="fa fa-calendar-check-o"></i>
                 Apurações <span
-                        class="badge message-badge">{{$empresa->apuracoes->count()}}</span></a>
+                        class="badge">{{$empresa->apuracoes->count()}}</span></a>
         </li>
         <li role="presentation">
             <a href="#documentos_contabeis" aria-controls="documentos_contabeis" role="tab" data-toggle="tab"><i
                         class="fa fa-file-text"></i>
                 Documentos Contábeis <span
-                        class="badge message-badge">{{$empresa->processosDocumentosContabeis->count()}}</span></a>
+                        class="badge">{{$empresa->processosDocumentosContabeis->count()}}</span></a>
         </li>
 
     </ul>
@@ -103,6 +104,17 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+            </div>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="apuracoes">
+            <div class="col-sm-12">
+                @include('admin.empresa.view.components.apuracoes')
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="documentos_contabeis">
+            <div class="col-sm-12">
+                @include('admin.empresa.view.components.documentos_contabeis')
             </div>
         </div>
         <div class="clearfix"></div>

@@ -47,8 +47,9 @@ class NewApuracao extends Notification implements ShouldQueue
         return (new MailMessage)
             ->greeting('Olá ' . $this->apuracao->empresa->usuario->nome.'!')
             ->line('Você tem uma nova apuração de ' . $this->apuracao->imposto->nome . ' com vencimento no dia '.$this->apuracao->vencimento->format('d/m/Y'))
+            ->line('Você precisa nos enviar seus documentos fiscais até dia 15 caso contrário a apuração será enviada como sem movimento. Depois desse prazo será necessário solicitar recálculo para realizarmos a apuração.')
             ->line('Para visualizar essa apuração, clique no botão abaixo:')
-            ->action('Visualizar Apuração', $this->url)
+            ->action('Visualizar', $this->url)
             ->salutation('A equipe WEBContabilidade agradece sua preferência :)')
             ->subject('Você tem uma nova apuração ('.$this->apuracao->imposto->nome.')')
             ->from('site@webcontabilidade.com', 'WEBContabilidade');

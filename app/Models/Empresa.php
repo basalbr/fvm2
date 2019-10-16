@@ -66,9 +66,9 @@ class Empresa extends Model
         }
         try {
             DB::beginTransaction();
-            if(strtolower($this->tipoTributacao->descricao) == 'MEI'){
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto','4')->get();
-            }else{
+            if (strtolower($this->tipoTributacao->descricao) == 'MEI') {
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', '4')->get();
+            } else {
                 $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
             }
             $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
@@ -259,7 +259,7 @@ class Empresa extends Model
             'id_empresa',
             'id_referencia',
             'id'
-        )->where('referencia','mensalidade')->whereNotIn('ordem_pagamento.status',['Paga', 'Cancelada']);
+        )->where('referencia', 'mensalidade')->whereNotIn('ordem_pagamento.status', ['Paga', 'Cancelada']);
     }
 
     public function delete()
@@ -298,13 +298,13 @@ class Empresa extends Model
                 $mensalidade->delete();
             }
         }
-        if($this->processosFolha->count()){
-            foreach($this->processosFolha as $folha){
+        if ($this->processosFolha->count()) {
+            foreach ($this->processosFolha as $folha) {
                 $folha->delete();
             }
         }
-        if($this->decimosTerceiro()->count()){
-            foreach($this->processosFolha as $folha){
+        if ($this->decimosTerceiro()->count()) {
+            foreach ($this->processosFolha as $folha) {
                 $folha->delete();
             }
         }
@@ -325,7 +325,7 @@ class Empresa extends Model
             if ($this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
                 return false;
             }
-            $processo = new ProcessoDocumentoContabil(['id_empresa'=>$this->id, 'periodo'=>$periodo, 'status'=>'pendente']);
+            $processo = new ProcessoDocumentoContabil(['id_empresa' => $this->id, 'periodo' => $periodo, 'status' => 'pendente']);
             $processo->save();
             /** @var ProcessoDocumentoContabil $processo */
 //            $processo = $this->processosDocumentosContabeis()->create([
@@ -347,6 +347,16 @@ class Empresa extends Model
             return $this->mensagens()->where('from_admin', 1)->where('lida', 0)->count();
         }
         return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();
+    }
+
+    public function hasFolha($competencia)
+    {
+        return $this->processosFolha()->where('competencia', $competencia)->count() > 0 ? true : false;
+    }
+
+    public function hasSimplesNacional($competencia)
+    {
+        return $this->apuracoes()->where('competencia', $competencia)->where('id_imposto',1)->count() > 0 ? true : false;
     }
 
 }

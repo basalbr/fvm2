@@ -172,6 +172,7 @@ class AjaxController extends Controller
         $this->validate($request, $rules, [], $niceNames);
         if ($anexo = UploadFile::handle($request)) {
             return response()->json([
+                'id' => $anexo->id,
                 'file' => $anexo->arquivo,
                 'filepath' => asset(public_path() . 'storage/anexos/' . $request->get('referencia') . '/' . $request->get('id_referencia') . '/' . $anexo->arquivo),
                 'date' => $anexo->created_at->format('d/m/Y'),

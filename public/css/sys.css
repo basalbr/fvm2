@@ -1993,3 +1993,17 @@ body {
     box-shadow: none;
     color:#fff;
 }
+
+.btn.btn-upload{
+    height: 80px;
+    width: 180px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 5px;
+}
+.btn.btn-upload i{
+    display: block;
+    font-size: 18px;
+    line-height: 30px;
+}

@@ -45,6 +45,24 @@ class ProcessoDocumentoContabil extends Model
                 break;
         }
     }
+    public function getLabelStatus(){
+        if(strpos($this->getOriginal('status'), 'documentos_enviados')===0){
+            return '<span class="label label-warning fadeIn infinite animated">Aguardando contabilização</span>';
+        }elseif(strpos($this->getOriginal('status'), 'concluido')===0 || strpos($this->status, 'concluído')===0 ){
+            return '<span class="label label-success flash animated">Concluído</span>';
+        }elseif(strpos($this->getOriginal('status'), 'sem_movimento')===0){
+            return '<span class="label label-danger fadeIn infinite animated">Sem Movimento</span>';
+        }elseif(strpos($this->getOriginal('status'), 'em_analise')===0){
+            return '<span class="label label-info fadeIn infinite animated">Em análise</span>';
+        }elseif(strpos($this->getOriginal('status'), 'novo')===0){
+            return '<span class="label label-info">Novo</span>';
+        }elseif(strpos($this->getOriginal('status'), 'atencao')===0){
+            return '<span class="label label-warning fadeIn infinite animated">Aguardando usuário</span>';
+        }elseif(strpos($this->getOriginal('status'), 'sem_movimento')===0){
+            return '<span class="label label-success flash animated">Sem movimento</span>';
+        }
+        return '<span class="label label-info">Novo</span>';
+    }
 
     public function anotacoes()
     {
@@ -67,7 +85,7 @@ class ProcessoDocumentoContabil extends Model
     }
 
     public function isPending(){
-        return $this->isPendingDocs() && $this->status !== 'sem_movimento' && $this->status !== 'concluido';
+        return !in_array($this->status, ['sem_movimento', 'documentos_enviados', 'concluido']);
     }
 
     public function anexos()

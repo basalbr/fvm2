@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Mensagem;
 use App\Models\Recalculo;
 use App\Models\Reuniao;
-use App\Services\UpdateRecalculo;
+use App\Services\UpdateReuniao;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -60,10 +60,10 @@ class ReuniaoController extends Controller
         $this->validate($request, $rules, [], $niceNames);
     }
 
-    public function update(Request $request, $idRecalculo)
+    public function update(Request $request, $idReuniao)
     {
-        if (UpdateRecalculo::handle($request, $idRecalculo)) {
-            return redirect()->route('showRecalculoToAdmin', [$idRecalculo])->with('successAlert', 'RecÃ¡lculo atualizado com sucesso.');
+        if (UpdateReuniao::handle($request, $idReuniao)) {
+            return redirect()->route('showReuniaoToAdmin', [$idReuniao])->with('successAlert', 'Reunião atualizada com sucesso.');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }

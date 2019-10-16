@@ -9,16 +9,19 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Empresa;
+use App\Models\Mensagem;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\TipoDocumentoContabil;
 use App\Services\FlagDocumentosContabeisAsSemMovimento;
 use App\Services\SendDocumentosContabeis;
+use http\Env\Response;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DocumentoContabilController extends Controller
 {
@@ -57,18 +60,28 @@ class DocumentoContabilController extends Controller
           ->select('processo_documento_contabil.*')
           ->first();
       $tiposDocumentos = TipoDocumentoContabil::orderBy('descricao', 'desc')->get();
-      return view('dashboard.documentos_contabeis.view.index', compact('processo', 'tiposDocumentos'));
+      $qtdeDocumentos = $processo->anexos()->count();
+      return view('dashboard.documentos_contabeis.view.index', compact('processo', 'tiposDocumentos', 'qtdeDocumentos'));
   }
 
-  public function update(Request $request, $idProcesso){
-      $rules = ['anexos'=>'required|array'];
-      $niceNames = ['Documentos'];
-      $this->validate($request, $rules, [], $niceNames);
-      if (SendDocumentosContabeis::handle($request, $idProcesso)) {
+  public function update($idProcesso){
+      if (SendDocumentosContabeis::handle($idProcesso)) {
           return redirect()->route('listDocumentosContabeisToUser')->with('successAlert', 'Seus documentos foram enviados com sucesso, em breve iremos contabilizá-los ;)');
       }
       return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
   }
+
+    public function remove($idProcesso, $idAnexo){
+        try{
+            $processo = Auth::user()->documentosContabeis()->findOrFail($idProcesso);
+            $anexo = $processo->anexos()->findOrFail($idAnexo);
+            $anexo->delete();
+            return response()->json(['status'=>'true']);
+        }catch(\Error $e){
+            Log::critical($e);
+            return response()->setStatusCode(404)->json(['status'=>'false']);
+        }
+    }
 
     public function semMovimento($idProcesso){
         if (FlagDocumentosContabeisAsSemMovimento::handle($idProcesso)) {

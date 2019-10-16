@@ -35,7 +35,7 @@
     <div class="col-sm-6">
         <div class="form-group">
             <label for="">Funcionários</label>
-            <div class="form-control">Possui {{$empresa->funcionarios->count()}} com limite
+            <div class="form-control">Possui {{$empresa->funcionarios()->where('status', 'ativo')->count()}} com limite
                 de {{$empresa->getMensalidadeAtual()->qtde_funcionario}}</div>
         </div>
     </div>

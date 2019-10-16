@@ -34,7 +34,7 @@ class UploadFile
                 'descricao' => $request->get('descricao'),
                 'arquivo' => $filename,
                 'id_referencia' => $request->get('id_referencia'),
-                'referencia' => $request->get('referencia')
+                'referencia' => $request->get('referencia'),
             ]);
             //Enviar e-mail avisando q tem uma nova mensagem
 

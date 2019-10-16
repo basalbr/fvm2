@@ -46,14 +46,14 @@ class AdminController extends Controller
 
     public function getRegisteredUsersHistory()
     {
-        $initialDate = (new Carbon('first day of 6 months ago'))->format('Y-m');
+        $initialDate = (new Carbon('first day of 12 months ago'))->format('Y-m');
 //        return $initialDate;
         DB::enableQueryLog();
-        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $usuarios = Usuario::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
         $usuariosData = [];
-        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $empresas = Empresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
         $empresasData = [];
-        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(7)->get()->toArray();
+        $aberturas = AberturaEmpresa::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
         $aberturasData = [];
 //        $alteracoes = Alteracao::groupBy(DB::Raw('YEAR(created_at)'), DB::Raw("MONTH(created_at)"))->orderBy('created_at', 'desc')->select(DB::Raw("COUNT(*) as qtde, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(6)->get()->toArray();
 //        $alteracoesData = [];
@@ -70,6 +70,44 @@ class AdminController extends Controller
 //            $alteracoesData[] = [Carbon::createFromFormat('Y-n-d', $abertura['ano'] . '-' . $alteracao['mes'] . '-01')->format('U') * 1000, $alteracao['qtde']];
 //        }
         return response()->json([['name' => 'Novos usuários', 'data' => $usuariosData], ['name' => 'Novas aberturas de empresa', 'data' => $aberturasData], ['name' => 'Novas empresas', 'data' => $empresasData]]);
+    }
+
+    public function getPaymentHistory()
+    {
+        $initialDate = (new Carbon('first day of 12 months ago'))->format('Y-m');
+        DB::enableQueryLog();
+        $pagamentosAbertos = OrdemPagamento::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $pagamentosAbertosData = [];
+        $pagamentosPagos = OrdemPagamento::where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $pagamentosPagosData = [];
+        $mensalidades = OrdemPagamento::where('status','Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->where('referencia', 'mensalidade')->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $mensalidadesData = [];
+        $aberturas = OrdemPagamento::where('referencia', 'abertura_empresa')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $aberturasData = [];
+        $alteracoes = OrdemPagamento::where('referencia', 'alteracao')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $alteracoesData = [];
+        foreach (array_reverse($pagamentosAbertos) as $pagamento) {
+            $pagamentosAbertosData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];
+        }
+        foreach (array_reverse($pagamentosPagos) as $pagamento) {
+            $pagamentosPagosData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];
+        }
+        foreach (array_reverse($aberturas) as $pagamento) {
+            $aberturasData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];
+        }
+        foreach (array_reverse($mensalidades) as $pagamento) {
+            $mensalidadesData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];
+        }
+        foreach (array_reverse($alteracoes) as $pagamento) {
+            $alteracoesData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];
+        }
+        return response()->json([
+            ['name' => 'Cobranças abertas', 'data' => $pagamentosAbertosData, 'color' => '#E0E0E0'],
+            ['name' => 'Cobranças pagas', 'data' => $pagamentosPagosData, 'color' => '#42a5f5'],
+            ['name' => 'Mensalidades pagas', 'data' => $mensalidadesData, 'color'=>'#ffa500', 'grouping'=>true],
+            ['name' => 'Aberturas pagas', 'data' => $aberturasData, 'grouping'=>true],
+            ['name' => 'Alteracoes pagas', 'data' => $alteracoesData, 'grouping'=>true],
+        ]);
     }
 
     public function getNewEmpresasHistory($months)

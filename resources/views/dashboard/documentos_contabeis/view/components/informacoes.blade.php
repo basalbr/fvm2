@@ -14,6 +14,9 @@
         <th scope="row">Status</th>
         <td>{!! $processo->getLabelStatus() !!}</td>
     </tr>
+    @if($qtdeDocumentos > 0)
+        @include('dashboard.documentos_contabeis.view.components.documentos')
+    @endif
     </tbody>
 </table>
 <div class="clearfix"></div>

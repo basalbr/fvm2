@@ -85,7 +85,7 @@ class CronController extends Controller
                 . self::mb_str_pad(trim('RUA'), 3, ' ')
                 . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->endereco)), 100, ' ')
                 . self::mb_str_pad(trim($pagamento->parent->empresa->numero), 10, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->complemento), 60, ' ')
+                . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->complemento)), 60, ' ')
                 . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->bairro)), 72, ' ')
                 . self::mb_str_pad(trim(utf8_decode($pagamento->parent->empresa->cidade)), 50, ' ')
                 . self::mb_str_pad(trim($pagamento->parent->empresa->uf->sigla), 2, ' ')

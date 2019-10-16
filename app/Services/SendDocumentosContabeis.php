@@ -27,32 +27,14 @@ use Illuminate\Support\Facades\Storage;
 class SendDocumentosContabeis
 {
 
-    public static function handle(Request $request, $idProcesso)
+    public static function handle($idProcesso)
     {
         DB::beginTransaction();
         try {
-            /** @var ProcessoDocumentoContabil $processo */
-            $processo = ProcessoDocumentoContabil::join('empresa', 'processo_documento_contabil.id_empresa', '=', 'empresa.id')
-                ->where('empresa.id_usuario', '=', Auth::user()->id)
-                ->where('processo_documento_contabil.id', '=', $idProcesso)
-                ->select('processo_documento_contabil.*')
-                ->first();
-            if (count($request->get('anexos'))) {
-                foreach ($request->get('anexos') as $arquivo) {
-                    Anexo::create([
-                        'id_referencia' => $processo->id,
-                        'referencia' => $processo->getTable(),
-                        'arquivo' => $arquivo['arquivo'],
-                        'descricao' => $arquivo['descricao']
-                    ]);
-                    if (Storage::exists('temp/' . $arquivo['arquivo'])) {
-                        Storage::move('temp/' . $arquivo['arquivo'], 'public/anexos/' . $processo->getTable() . '/' . $processo->id . '/' . $arquivo['arquivo']);
-                    }
-                }
-            }
+            /* @var $processo ProcessoDocumentoContabil */
+            $processo = Auth::user()->documentosContabeis()->findOrFail($idProcesso);
             $processo->status = 'documentos_enviados';
             $processo->save();
-            //Notifica admins que existe um novo funcionario cadastrado
 //            Usuario::notifyAdmins(new DocumentosContabeisSent($processo));
             DB::commit();
 

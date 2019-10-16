@@ -137,7 +137,7 @@ class ApuracaoController extends Controller
 
     public function downloadZip($apuracaoId)
     {
-
+        $cont = 0;
         $apuracao = Apuracao::findOrFail($apuracaoId);
         $files = array();
         # create new zip object
@@ -148,18 +148,21 @@ class ApuracaoController extends Controller
         foreach ($apuracao->informacoes as $informacao) {
             if ($informacao->tipo->tipo == 'anexo') {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $informacao->toAnexo()->referencia . '/' . $informacao->toAnexo()->id_referencia . '/' . $informacao->toAnexo()->arquivo));
-                $zip->addFromString($informacao->tipo->nome, $download_file);
+                $zip->addFromString($cont . $informacao->tipo->nome, $download_file);
+                $cont++;
             }
         }
 
         foreach ($apuracao->anexos as $anexo) {
             $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $anexo->referencia . '/' . $anexo->id_referencia . '/' . $anexo->arquivo));
-            $zip->addFromString($anexo->descricao.'.'.pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            $zip->addFromString($cont . $anexo->descricao . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            $cont++;
         }
         foreach ($apuracao->mensagens as $message) {
             if ($message->anexo) {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
-                $zip->addFromString($message->anexo->descricao, $download_file);
+                $zip->addFromString($cont . $message->anexo->descricao, $download_file);
+                $cont++;
             }
         }
         $zip->close();
