@@ -82,6 +82,11 @@
                             $(this).hasClass('btn-danger') ? removeDocRequest($(this)) : requestDoc($(this));
                         });
 
+                        $('#send-emails').on('click', function (e) {
+                            e.preventDefault();
+                            sendEmail($(this));
+                        });
+
                         function removeDocRequest(elem) {
                             elem.removeClass('btn-danger').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Cancelando...').prop('disabled', true);
                             $.get({
@@ -105,6 +110,19 @@
                             }).fail(function (jqXHR) {
                                 elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
                                 showModalAlert('Ocorreu um erro ao solicitar o documento, informe o Junior.');
+                            });
+                        }
+
+                        function sendEmail(elem) {
+                            elem.removeClass('btn-primary').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Enviando e-mail...').prop('disabled', true);
+                            $.get({
+                                url: elem.data('url')
+                            }).done(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
+                                showModalSuccess('E-mail enviado com sucesso');
+                            }).fail(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
+                                showModalAlert('Ocorreu um erro ao enviar o e-mail, informe o Junior.');
                             });
                         }
                     });
@@ -146,7 +164,7 @@
                     </tbody>
                 </table>
                 <div class="clearfix"></div>
-                <button class="btn btn-primary"><i class="fa fa-envelope"></i> Enviar e-mail informando pendências
+                <button class="btn btn-primary" id="send-emails" data-url="{{route('warnUserPendingDocsInEmpresa', $empresa->id)}}"><i class="fa fa-envelope"></i> Enviar e-mail informando pendências
                 </button>
             </div>
             <div class="clearfix"></div>

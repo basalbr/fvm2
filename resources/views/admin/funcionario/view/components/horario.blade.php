@@ -15,7 +15,7 @@
 
     <div class="form-group no-border">
         <label class="checkbox checkbox-styled radio-success">
-            <input type="checkbox" value="1" name="contrato[banco_horas]" id="banco_horas"><span></span> Possui banco de horas
+            <input type="checkbox" value="1" name="contrato[banco_horas]" id="banco_horas" {{$contrato->banco_horas ? 'checked="checked"' : ''}}><span></span> Possui banco de horas
         </label>
         <div class="clearfix"></div>
     </div>
