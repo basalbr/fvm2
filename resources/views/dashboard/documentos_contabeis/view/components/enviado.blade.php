@@ -12,6 +12,11 @@
     <div class="panel panel-primary">
         <div class="panel-heading"><strong>Mensagens</strong></div>
         <div class="panel-body" id="messages">
-            @include('dashboard.components.chat.box2', ['model'=>$processo, 'lock_anexo'=>true])</div>
+            @if(in_array($processo->status, ['sem_movimento', 'concluido']))
+                @include('dashboard.components.chat.box2', ['model'=>$processo, 'lock_anexo'=>true])
+            @else
+                @include('dashboard.components.chat.box2', ['model'=>$processo, 'lock_anexo'=>false])
+            @endif
+        </div>
     </div>
 </div>

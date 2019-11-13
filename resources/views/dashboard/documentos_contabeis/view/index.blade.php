@@ -58,7 +58,7 @@
             var form = new FormData;
             form.append('arquivo', elem[0].files[0]);
             form.append('descricao', elem.data('name'));
-            form.append('id_referencia', '1');
+            form.append('id_referencia', $('#referencia_id').val());
             form.append('referencia', 'processo_documento_contabil');
             $.post({
                 url: elem.data('upload-url'),
@@ -136,6 +136,7 @@
                         class="fa fa-remove"></i> Sem movimento nesse período</a>
         @endif
     </div>
+    <input type="hidden" id="referencia_id" value="{{$processo->id}}"/>
 @stop
 
 

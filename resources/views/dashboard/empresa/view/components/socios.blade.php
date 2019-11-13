@@ -9,41 +9,17 @@
         });
     </script>
 @stop
-
-<div class="col-xs-12">
-    <h3>Sócios</h3>
-    <hr>
-</div>
-<div class="col-xs-12">
-    <table class="table table-hover table-striped">
-        <thead>
+<table class="table table-striped table-hover">
+    <tbody>
+    @foreach($empresa->socios as $socio)
         <tr>
-            <th>Nome</th>
-            <th>Sócio principal?</th>
-            <th>Opções</th>
+            <th scope="row">Nome</th>
+            <td><a href="" class="show-socio"
+                   data-id="{{$socio->id}}">{{$socio->nome}}{!! $socio->isPrincipal() ? ' <strong>(Sócio Principal)</strong>' : '' !!}</a>
+            </td>
         </tr>
-
-        </thead>
-        <tbody id="list-socios">
-        @if(count($empresa->socios))
-            @foreach($empresa->socios as $socio)
-                <tr>
-                    <td>{{$socio->nome}}</td>
-                    <td>{{$socio->isPrincipal()}}</td>
-                    <td>
-                        <button class="btn btn-primary show-socio" data-id="{{$socio->id}}"><i class="fa fa-search"></i>
-                            Detalhes
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-        @else
-            <tr>
-                <td colspan="3" class="none">Nenhum sócio cadastrado</td>
-            </tr>
-        @endif
-        </tbody>
-    </table>
-</div>
-
-
+    @endforeach
+    </tbody>
+</table>
+<div><strong><small>Clique no nome do sócio para ver os detalhes</small></strong></div>
+<div class="clearfix"></div>

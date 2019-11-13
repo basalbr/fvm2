@@ -44,7 +44,7 @@
                 Quais empresas vocês atendem?
             </h2>
             <p class="text-center">
-                Atendemos empresas optantes pelo Simples Nacional situadas em qualquer cidade de Santa Catarina, caso tenha dúvidas se atendemos sua empresa, converse com um atendente ou <a class="page-scroll" href="contato">envie-nos uma mensagem
+                Atendemos empresas optantes pelo Simples Nacional, caso tenha dúvidas se atendemos sua empresa, converse com um atendente ou <a class="page-scroll" href="contato">envie-nos uma mensagem
             </p>
             <div class="text-center">
                 <a href="#mensalidade" class="page-scroll btn btn-warning">Veja nossos planos</a>

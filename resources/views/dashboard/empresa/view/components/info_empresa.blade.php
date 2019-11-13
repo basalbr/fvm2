@@ -1,76 +1,49 @@
-<div class="col-xs-12">
-    <h3>Informações da empresa</h3>
-    <hr>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Nome fantasia</label>
-        <div class="form-control">{{$empresa->nome_fantasia}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Razão social</label>
-        <div class="form-control">{{$empresa->razao_social}}</div>
-    </div>
-</div>
-<div class="col-xs-4">
-    <div class="form-group">
-        <label for="">CNPJ</label>
-        <div class="form-control">{{$empresa->cnpj}}</div>
-    </div>
-</div>
-<div class="col-xs-4">
-    <div class="form-group">
-        <label for="">Inscrição estadual</label>
-        <div class="form-control">{{$empresa->inscricao_estadual}}</div>
-    </div>
-</div>
-<div class="col-xs-4">
-    <div class="form-group">
-        <label for="">Inscrição municipal</label>
-        <div class="form-control">{{$empresa->inscricao_municipal}}</div>
-    </div>
-</div>
-<div class="col-xs-12">
-    <div class="form-group">
-        <label for="">Natureza jurídica</label>
-        <div class="form-control">{{$empresa->naturezaJuridica->descricao}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Enquadramento da empresa</label>
-        <div class="form-control">{{$empresa->enquadramentoEmpresa->descricao}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Tipo de tributação</label>
-        <div class="form-control">{{$empresa->tipoTributacao->descricao}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Código de acesso ao Simples Nacional</label>
-        <div class="form-control">{{$empresa->codigo_acesso_simples_nacional}}</div>
-    </div>
-</div>
-<div class="col-xs-6">
-    <div class="form-group">
-        <label for="">Número de registro do CRC do contador atual</label>
-        <div class="form-control">{{$empresa->crc}}</div>
-    </div>
-</div>
-<div class="col-xs-4">
-    <div class="form-group">
-        <label for="">Funcionários</label>
-        <div class="form-control">{{$empresa->getMensalidadeAtual()->qtde_funcionario}}</div>
-    </div>
-</div>
-<div class="col-xs-8">
-    <div class="form-group">
-        <label for="">Quantidade de documentos fiscais recebidos e emitidos mensalmente</label>
-        <div class="form-control">{{$empresa->getMensalidadeAtual()->qtde_documento_fiscal}}</div>
-    </div>
-</div>
+<table class="table table-striped table-hover">
+    <tbody>
+    <tr>
+        <th scope="row">Status</th>
+        <td>{!! $empresa->getLabelStatus() !!}</td>
+    </tr>
+    <tr>
+        <th scope="row">CNPJ</th>
+        <td>{{$empresa->cnpj}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Razão Social</th>
+        <td>{{$empresa->razao_social}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Nome Fantasia</th>
+        <td>{{$empresa->nome_fantasia}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Sócio Principal</th>
+        <td>{{$empresa->getSocioPrincipal()->nome}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Endereço</th>
+        <td>{{$empresa->getEnderecoCompleto()}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Natureza Jurídica</th>
+        <td>{{$empresa->naturezaJuridica->descricao}}</td>
+    </tr>
+    <tr>
+        <th scope="row">Tributação</th>
+        <td>{{$empresa->tipoTributacao->descricao}}</td>
+    </tr>
+    @if($empresa->inscricao_municipal)
+        <tr>
+            <th scope="row">Inscrição Municipal</th>
+            <td>{{$empresa->inscricao_municipal}}</td>
+        </tr>
+    @endif
+    @if($empresa->inscricao_estadual)
+        <tr>
+            <th scope="row">Inscrição Estadual</th>
+            <td>{{$empresa->inscricao_estadual}}</td>
+        </tr>
+    @endif
+    </tbody>
+</table>
+<div class="clearfix"></div>

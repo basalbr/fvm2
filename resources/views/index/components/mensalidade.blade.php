@@ -32,6 +32,9 @@
                     <input type='text' class='form-control money-mask' id='contabilidade' data-mask-placeholder='0'
                            value="499,99"/>
                 </div>
+                <div class='form-group'>
+                    <strong>Em seu plano já está incluso a contabilização dos documentos contábeis.</strong>
+                </div>
 
                 <div class="clearfix"></div>
                 <div class="text-center">

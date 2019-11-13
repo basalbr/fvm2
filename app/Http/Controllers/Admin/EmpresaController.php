@@ -15,6 +15,7 @@ use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
+use App\Notifications\PendingDocsInMigration;
 use App\Services\ActivateEmpresa;
 use App\Services\CreateEmpresa;
 use App\Services\CreateEmpresaFromAberturaEmpresa;
@@ -55,6 +56,20 @@ class EmpresaController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function toggleRequestDoc($idEmpresa, $doc){
+        /* @var $empresa Empresa */
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $empresa->$doc == true ? $empresa->$doc = false : $empresa->$doc = true;
+        $empresa->save();
+        return response()->json(['status'=>true]);
+    }
+
+    public function warnUserPendingDocs($idEmpresa){
+        /* @var Empresa $empresa */
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $empresa->usuario->notify(new PendingDocsInMigration($empresa));
     }
 
     public function cnaes($id)

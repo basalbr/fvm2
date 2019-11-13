@@ -54,7 +54,7 @@
 
     </div>
     <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-        @include('dashboard.components.chat.box', ['model'=>$processo, 'lockUpload'=>true])
+        @include('dashboard.components.chat.box', ['model'=>$processo])
         <div class="clearfix"></div>
     </div>
 </div>

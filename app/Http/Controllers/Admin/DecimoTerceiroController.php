@@ -33,7 +33,7 @@ class DecimoTerceiroController extends Controller
     {
         $empresas = Empresa::whereHas('funcionarios', function ($q) {
             $q->where('status', 'ativo');
-        })->orderBy('razao_social')->get();
+        })->where('status', 'aprovado')->orderBy('razao_social')->get();
         return view('admin.decimo_terceiro.new.index', compact('empresas'));
     }
 

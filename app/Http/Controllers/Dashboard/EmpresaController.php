@@ -50,9 +50,11 @@ class EmpresaController extends Controller
 
     public function view($id)
     {
-        $empresa = Empresa::find($id);
-        $this->authorize('view', $empresa);
-        return view('dashboard.empresa.view.index', compact("empresa"));
+        /* @var $empresa Empresa*/
+        $empresa = Auth::user()->empresas()->findOrFail($id);
+        $qtdeDocumentos = $empresa->anexos()->count();
+        $qtdeDocumentos += $empresa->mensagens()->whereHas('anexo')->count();
+        return view('dashboard.empresa.view.index', compact("empresa", 'qtdeDocumentos'));
     }
 
     /**

@@ -58,6 +58,14 @@ class OrdemPagamento extends Model
         return $status == 'Cancelada' ? 'Pendente' : $status;
     }
 
+    public function getVencimentoAttribute($date){
+        $date = Carbon::parse($date);
+        while($date->isWeekend()){
+            $date->addDay();
+        }
+        return $date;
+    }
+
     public function getBotaoPagamento()
     {
 

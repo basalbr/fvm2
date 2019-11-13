@@ -522,6 +522,19 @@ a.shortcut h3.text-center {
     border-color: #7CB342;
 }
 
+.alert-success{
+    color: #fff!important;
+}
+
+.alert-success a{
+    font-weight: bold;
+    color: #fff!important;
+}
+
+.alert-success a:hover, .alert-success a:focus, .alert-success a:visited{
+    color: #fff!important;
+}
+
 .btn-primary {
     background-color: #42A5F5;
     border-color: #1E88E5;

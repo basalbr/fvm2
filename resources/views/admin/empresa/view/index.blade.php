@@ -24,6 +24,11 @@
                         class="badge message-badge">{{$empresa->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
         </li>
         <li role="presentation">
+            <a href="#solicitar_documentos" aria-controls="solicitar_documentos" role="tab" data-toggle="tab"><i
+                        class="fa fa-briefcase"></i>
+                Solicitar Documentos</a>
+        </li>
+        <li role="presentation">
             <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
                 Informações</a>
         </li>
@@ -66,6 +71,85 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="messages">
             @include('admin.components.chat.box', ['model'=>$empresa])
+        </div>
+        <div role="tabpanel" class="tab-pane" id="solicitar_documentos">
+            @section('js')
+                @parent
+                <script type="text/javascript">
+                    $(function () {
+                        $('.request-doc').on('click', function (e) {
+                            e.preventDefault();
+                            $(this).hasClass('btn-danger') ? removeDocRequest($(this)) : requestDoc($(this));
+                        });
+
+                        function removeDocRequest(elem) {
+                            elem.removeClass('btn-danger').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Cancelando...').prop('disabled', true);
+                            $.get({
+                                url: elem.data('url')
+                            }).done(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
+                                showModalSuccess('Solicitação cancelada');
+                            }).fail(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
+                                showModalAlert('Ocorreu um erro ao cancelar a solicitação, informe o Junior.');
+                            });
+                        }
+
+                        function requestDoc(elem) {
+                            elem.removeClass('btn-success').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Solicitando...').prop('disabled', true);
+                            $.get({
+                                url: elem.data('url')
+                            }).done(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
+                                showModalSuccess('Documento solicitado ao usuário');
+                            }).fail(function (jqXHR) {
+                                elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
+                                showModalAlert('Ocorreu um erro ao solicitar o documento, informe o Junior.');
+                            });
+                        }
+                    });
+                </script>
+            @stop
+            <div class="col-sm-12">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                    <tr>
+                        <th>Contrato Social/Requerimento de Empresário</th>
+                        <td>
+                            @include('admin.empresa.view.components.request-doc', ['doc'=>'need_ato_constitutivo'])
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Alterações Contratuais</th>
+                        <td>
+                            @include('admin.empresa.view.components.request-doc', ['doc'=>'need_alteracao'])
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Última SEFIP/GFIP transmitida</th>
+                        <td>
+                            @include('admin.empresa.view.components.request-doc', ['doc'=>'need_gfip'])
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Ficha de registro de contribuintes e funcionários</th>
+                        <td>
+                            @include('admin.empresa.view.components.request-doc', ['doc'=>'need_ficha_funcionario'])
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Balancete</th>
+                        <td>
+                            @include('admin.empresa.view.components.request-doc', ['doc'=>'need_balancete'])
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix"></div>
+                <button class="btn btn-primary"><i class="fa fa-envelope"></i> Enviar e-mail informando pendências
+                </button>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane" id="empresa">
             @include('admin.empresa.view.components.info_empresa')

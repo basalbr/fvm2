@@ -34,7 +34,9 @@ class PagseguroController extends Controller
     public function notifications()
     {
         header("access-control-allow-origin: https://www.pagseguro.uol.com.br");
-        
+        try {
+
+
             if (Xhr::hasPost()) {
                 $nomeStatus = [
                     1 => 'Aguardando pagamento',
@@ -53,8 +55,8 @@ class PagseguroController extends Controller
                 $transactionId = $response->getCode();
                 $status = $nomeStatus[$response->getStatus()];
 
-                $ordemPagamento = OrdemPagamento::find($ordemPagamentoId);
-                if($ordemPagamento->status == 'Paga' || $ordemPagamento->status == 'Disponível'){
+                $ordemPagamento = OrdemPagamento::findOrFail($ordemPagamentoId);
+                if ($ordemPagamento->status == 'Paga' || $ordemPagamento->status == 'Disponível') {
                     return true;
                 }
                 $ordemPagamento->status = $status;
@@ -73,7 +75,11 @@ class PagseguroController extends Controller
             } else {
                 throw new \InvalidArgumentException($_POST);
             }
-        
+        } catch (Exception $e) {
+            Log::critical('Erro notificacao pagseguro:'. $e);
+            Log::critical(var_dump($_POST));
+            return response()->setStatusCode(500)->json(['status'=>'Ocorreu um erro, verifique o log']);
+        }
     }
 
 

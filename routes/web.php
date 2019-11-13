@@ -344,6 +344,7 @@ Route::group(['prefix' => 'admin/decimo-terceiro', 'namespace' => 'Admin', 'midd
 Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listEmpresaToAdmin', 'uses' => 'EmpresaController@index']);
     Route::get('view/{id}', ['as' => 'showEmpresaToAdmin', 'uses' => 'EmpresaController@view']);
+    Route::get('view/{id}/toggle-request/{doc}', ['as' => 'toggleRequestDocEmpresa', 'uses' => 'EmpresaController@toggleRequestDoc']);
     Route::get('cnaes/{id}', ['as' => 'getCnaesSemFormatacao', 'uses' => 'EmpresaController@cnaes']);
 
     Route::post('activate/scheduled/{id}', ['as' => 'scheduleEmpresaActivation', 'uses' => 'EmpresaController@ativacaoProgramada']);

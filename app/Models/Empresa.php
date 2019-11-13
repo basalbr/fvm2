@@ -57,7 +57,48 @@ class Empresa extends Model
         'senha_certificado_digital',
     ];
 
+    protected static $documentos_migracao = [
+        'need_ato_constitutivo' => 'Contrato Social/Requerimento de Empresário',
+        'need_alteracao' => 'Alterações Contratuais',
+        'need_gfip' => 'Última SEFIP/GFIP transmitida',
+        'need_ficha_funcionario' => 'Ficha de registro de contribuintes e funcionários',
+        'need_balancete' => 'Balancete'
+    ];
+
     protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'cancelado' => 'Cancelado'];
+
+    public function hasDocumento($doc){
+        return self::$documentos_migracao[$doc] && $this->anexos()->where('descricao', self::$documentos_migracao[$doc])->count() > 0 ? true : false;
+
+    }
+
+    public function getDocumento($doc){
+        return $this->anexos()->where('descricao', self::$documentos_migracao[$doc])->first();
+    }
+
+    public function hasPendencias()
+    {
+        foreach (self::$documentos_migracao as $documento => $anexo) {
+            if ($this->$documento && $this->anexos()->where('descricao', $anexo)->count() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getPendencias(){
+        $pendencias = [];
+        foreach (self::$documentos_migracao as $documento => $anexo) {
+            if ($this->$documento && $this->anexos()->where('descricao', $anexo)->count() == 0) {
+                $pendencias[] = $anexo;
+            }
+        }
+        return $pendencias;
+    }
+
+    public function isPendente($doc){
+        return in_array($doc, $this->getPendencias());
+    }
 
     public function abrirApuracoes()
     {
@@ -319,24 +360,17 @@ class Empresa extends Model
 
     public function abrirProcessosDocumentosContabeis()
     {
-        DB::beginTransaction();
-        try {
-            $periodo = date('Y-m-01', strtotime(date('Y-m') . " -1 month"));
-            if ($this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
-                return false;
-            }
-            $processo = new ProcessoDocumentoContabil(['id_empresa' => $this->id, 'periodo' => $periodo, 'status' => 'pendente']);
-            $processo->save();
-            /** @var ProcessoDocumentoContabil $processo */
+        $periodo = date('Y-m-01', strtotime(date('Y-m') . " -1 month"));
+        if ($this->processosDocumentosContabeis()->where('periodo', '=', $periodo)->count()) {
+            return false;
+        }
+        $processo = new ProcessoDocumentoContabil(['id_empresa' => $this->id, 'periodo' => $periodo, 'status' => 'pendente']);
+        $processo->save();
+        /** @var ProcessoDocumentoContabil $processo */
 //            $processo = $this->processosDocumentosContabeis()->create([
 //                'periodo' => $periodo, 'status' => 'pendente'
 //            ]);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::critical($e);
-            return false;
-        }
+        DB::commit();
         $this->usuario->notify(new NewProcessoDocumentosContabeis($processo));
         return true;
     }
@@ -356,7 +390,29 @@ class Empresa extends Model
 
     public function hasSimplesNacional($competencia)
     {
-        return $this->apuracoes()->where('competencia', $competencia)->where('id_imposto',1)->count() > 0 ? true : false;
+        return $this->apuracoes()->where('competencia', $competencia)->where('id_imposto', 1)->count() > 0 ? true : false;
+    }
+
+    public function anexos()
+    {
+        return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function getEnderecoCompleto()
+    {
+        return $this->endereco . ($this->numero ? ', ' . $this->numero : '') . ($this->complemento ? ', ' . $this->complemento : '') . ', ' . $this->bairro . ', ' . $this->cidade . '/' . $this->uf->sigla . ', ' . $this->cep;
+    }
+
+    public function getLabelStatus()
+    {
+        if (strpos($this->getOriginal('status'), 'em_analise') === 0) {
+            return '<span class="label label-warning fadeIn infinite animated">Em análise</span>';
+        } elseif (strpos($this->getOriginal('status'), 'aprovado') === 0) {
+            return '<span class="label label-success flash animated">Aprovada</span>';
+        } elseif (strpos($this->getOriginal('status'), 'cancelado') === 0) {
+            return '<span class="label label-danger fadeIn infinite animated">Cancelada</span>';
+        }
+        return '<span class="label label-info">Novo</span>';
     }
 
 }
