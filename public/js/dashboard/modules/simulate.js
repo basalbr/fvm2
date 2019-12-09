@@ -1,6 +1,6 @@
 var qtdeFuncionarios, qtdeProLabores, qtdeDocsContabeis, qtdeDocsFiscais, minPrice, maxPrice,
     maxDocsFiscais, maxDocsContabeis, maxProLabores, planos, isComercio, isIndustria, isServico,
-    valorAberturaServico, valorAberturaComercio, valorAberturaIndustria, valorAbertura;
+    valorAberturaServico, valorAberturaComercio, valorAberturaIndustria, valorAbertura, sn_lp;
 
 $(function () {
     //Busca no banco de dados as opcoes de pagamento
@@ -25,6 +25,9 @@ $(function () {
     });
 
     $('[name*="qtde_funcionario"], [name*="qtde_pro_labores"],[name*="qtde_documento_contabil"],[name*="qtde_documento_fiscal"]').on('blur, focus, keyup', function () {
+        gatherDataAndSimulate();
+    });
+    $('[name*="id_tipo_tributacao"]').on('blur, focus, keyup, change', function () {
         gatherDataAndSimulate();
     });
 });
@@ -58,6 +61,8 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
             minPrice = parseFloat(planos[i].valor);
         }
     }
+    $('#regime_lp').prop('checked') == true || parseInt($('[name="id_tipo_tributacao"] :selected').val()) == 3 ? sn_lp = 200 : sn_lp = 0;
+    minPrice += sn_lp;
     if (isComercio || isIndustria) {
         $('.abertura-price').text('R$' + parseFloat(valorAbertura + valorAberturaComercio).toFixed(2).replace(".", ","));
     }else{

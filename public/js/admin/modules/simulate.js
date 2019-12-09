@@ -1,5 +1,5 @@
 var qtdeFuncionarios, qtdeProLabores, qtdeDocsContabeis, qtdeDocsFiscais, minPrice, maxPrice,
-    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos;
+    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos, sn_lp;
 
 $(function () {
     //Busca no banco de dados as opcoes de pagamento
@@ -15,6 +15,9 @@ $(function () {
     });
 
     $('[name*="qtde_funcionario"], [name*="qtde_pro_labores"],[name*="qtde_documento_contabil"],[name*="qtde_documento_fiscal"]').on('blur, focus, keyup', function () {
+        gatherDataAndSimulate();
+    });
+    $('[name*="id_tipo_tributacao"]').on('blur, focus, keyup, change', function () {
         gatherDataAndSimulate();
     });
 });
@@ -47,6 +50,8 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
 
         }
     }
+    $('#regime_lp').prop('checked') == true || parseInt($('[name="id_tipo_tributacao"] :selected').val()) == 3 ? sn_lp = 200 : sn_lp = 0;
+    minPrice += sn_lp;
     minPrice = parseFloat(minPrice + acrescimoFuncionarios).toFixed(2);
     minPrice = minPrice.replace(".", ",");
     $('#mensalidade').text('R$' + minPrice);

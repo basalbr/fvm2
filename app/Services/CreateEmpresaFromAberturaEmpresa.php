@@ -50,7 +50,7 @@ class CreateEmpresaFromAberturaEmpresa
             //cadastra mensalidade
             $qtde_documento_fiscal = $aberturaEmpresa->qtde_documento_fiscal;
             $qtde_funcionario = $aberturaEmpresa->qtde_funcionario;
-            $valor = Mensalidade::calculateMonthlyPayment(compact('qtde_documento_fiscal', 'qtde_funcionario'));
+            $valor = Mensalidade::calculateMonthlyPayment(compact('qtde_documento_fiscal', 'qtde_funcionario'), $empresa->id_tipo_tributacao);
             $id_usuario = $empresa->id_usuario;
             $status = 'Aprovado';
             $mensalidade = $empresa->mensalidades()->create(compact('valor', 'qtde_funcionario', 'qtde_documento_fiscal', 'id_usuario','status'));

@@ -1608,13 +1608,19 @@ form .alert[role=alert] {
     position: absolute;
     left: 0px;
     background-color: #ffffff;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #01579B;
 }
 
 .checkbox label:before {
     top: 1.4px;
     border-radius: 3px;
     transition: border 0.2s linear 0s, color 0.2s linear 0s;
+}
+
+.radio label{
+    font-family: Arial, sans-serif!important;
+    font-size: 14px!important;
+    font-weight: bold!important;
 }
 
 .checkbox.checkbox-circle label:before {

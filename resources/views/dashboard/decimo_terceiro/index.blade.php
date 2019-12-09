@@ -9,7 +9,7 @@
             <div class="col-xs-12">
                 <p>{{Auth::user()->nome}}, nesse local é onde ficará disponibilizado os documentos relacionados ao décimo terceiro de suas empresas.</p>
             </div>
-            @include('admin.decimo_terceiro.components.todo')
+            @include('dashboard.decimo_terceiro.components.todo')
         </div>
         <div class="clearfix"></div>
     </div>

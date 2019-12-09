@@ -33,7 +33,21 @@
                            value="499,99"/>
                 </div>
                 <div class='form-group'>
+                    <label for="contabilidade">Qual o regime de tributação da sua empresa?</label>
+                    <div class="radio check-primary checkbox-circle">
+                        <input type="radio" checked="checked" value="1" name="regime" id="regime_sn">
+                        <label for="regime_sn"> Simples Nacional</label>
+                    </div>
+                    <div class="radio check-primary checkbox-circle">
+                        <input type="radio" value="2" name="regime" id="regime_lp">
+                        <label for="regime_lp"> Lucro Presumido</label>
+                    </div>
+                </div>
+                <div class='form-group'>
                     <strong>Em seu plano já está incluso a contabilização dos documentos contábeis.</strong>
+                </div>
+                <div class='form-group'>
+                    <strong>Lucro presumido somente para empresas de serviços</strong>
                 </div>
 
                 <div class="clearfix"></div>

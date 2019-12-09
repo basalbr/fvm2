@@ -105,12 +105,10 @@ class Empresa extends Model
         if ($this->status !== 'Aprovado') {
             return false;
         }
-        try {
-            DB::beginTransaction();
-            if (strtolower($this->tipoTributacao->descricao) == 'MEI') {
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', '4')->get();
+            if (strtolower($this->tipoTributacao->descricao) == 'mei') {
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', 4)->get();
             } else {
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->get();
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto','!=', 4)->get();
             }
             $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
             $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
@@ -136,11 +134,6 @@ class Empresa extends Model
                 }
             }
             return true;
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::critical($e);
-            return false;
-        }
     }
 
     public function setAtivacaoProgramadaAttribute($value)

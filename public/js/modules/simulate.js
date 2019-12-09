@@ -1,5 +1,5 @@
 var qtdeFuncionarios, qtdeProLabores, qtdeDocsContabeis, qtdeDocsFiscais, minPrice, maxPrice,
-    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos;
+    maxDocsFiscais, maxDocsContabeis, maxProLabores, planos, sn_lp;
 
 $(function () {
     //Busca no banco de dados as opcoes de pagamento
@@ -11,10 +11,12 @@ $(function () {
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
     });
-
     $('[name*="qtde_funcionario"]').val(0);
     $('[name*="qtde_documento_fiscal"]').val(10);
     $('#contabilidade').val('499,99')
+    $('[name="regime"]').on('change', function(){
+        gatherDataAndSimulate();
+    });
     $('#contabilidade, [name*="qtde_funcionario"], [name*="qtde_pro_labores"],[name*="qtde_documento_contabil"],[name*="qtde_documento_fiscal"]').on('blur, focus, keyup', function () {
         gatherDataAndSimulate();
     });
@@ -31,6 +33,7 @@ function gatherDataAndSimulate() {
 function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
     var acrescimoFuncionarios = 0;
     minPrice = maxPrice;
+    $('#regime_lp').prop('checked') == true ? sn_lp = 200 : sn_lp = 0;
 
     if (qtdeDocFiscais > maxDocsFiscais) {
         $('[name*="qtde_documento_fiscal"]').val(maxDocsFiscais);
@@ -46,6 +49,7 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
             minPrice = parseFloat(planos[i].valor);
         }
     }
+    minPrice += sn_lp;
     minPrice = parseFloat(minPrice + acrescimoFuncionarios).toFixed(2);
     var contabilidade = $('#contabilidade').val().replace(".", "");
     contabilidade = parseFloat(contabilidade.replace(",", "."));

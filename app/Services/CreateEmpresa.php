@@ -38,7 +38,7 @@ class CreateEmpresa
 
             //Cadastra Mensalidade
             $data['mensalidade']['id_usuario'] = $empresa->usuario->id;
-            $data['mensalidade']['valor'] = Mensalidade::calculateMonthlyPayment($data['mensalidade']);
+            $data['mensalidade']['valor'] = Mensalidade::calculateMonthlyPayment($data['mensalidade'], $empresa->id_tipo_tributacao);
             $empresa->mensalidades()->create($data['mensalidade']);
             //Notifica admins que existe uma nova  empresa
             Usuario::notifyAdmins(new NewEmpresa($empresa));

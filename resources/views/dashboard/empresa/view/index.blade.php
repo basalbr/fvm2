@@ -119,7 +119,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading"><strong>Mensagens</strong></div>
             <div class="panel-body" id="messages">
-                @include('admin.components.chat.box2', ['model'=>$empresa])</div>
+                @include('dashboard.components.chat.box2', ['model'=>$empresa, 'lock_anexo'=>false])</div>
         </div>
     </div>
     <div class="navigation-space"></div>
