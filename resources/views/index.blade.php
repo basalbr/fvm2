@@ -46,11 +46,14 @@
 
         @include('index.components.banner-principal')
     </section>
+    <section id="como-funciona" class="section">
+        @include('index.components.como-funciona')
+    </section>
     <section id="imposto-renda" class="section">
         @include('index.components.imposto-renda')
     </section>
     <section id="como-funciona" class="section">
-        @include('index.components.como-funciona')
+        @include('index.components.abertura-empresa')
     </section>
 
     <section id="mensalidade" class="section">

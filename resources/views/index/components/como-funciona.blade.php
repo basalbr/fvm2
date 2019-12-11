@@ -41,10 +41,10 @@
                 <span class="fa fa-building fa-destaque fa-4x"></span>
             </div>
             <h2 class="text-center">
-                Quais empresas vocês atendem?
+                Quais empresas atendemos?
             </h2>
             <p class="text-center">
-                Atendemos empresas optantes pelo Simples Nacional, caso tenha dúvidas se atendemos sua empresa, converse com um atendente ou <a class="page-scroll" href="contato">envie-nos uma mensagem
+                Atendemos empresas de optantes pelo <strong>Simples Nacional</strong> (Comércio/Indústria/Serviços) e do <strong>Lucro Presumido</strong> (Serviços), caso tenha dúvidas converse com um atendente ou <a class="page-scroll" href="contato">envie-nos uma mensagem</a>
             </p>
             <div class="text-center">
                 <a href="#mensalidade" class="page-scroll btn btn-warning">Veja nossos planos</a>

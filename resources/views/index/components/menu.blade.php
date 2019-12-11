@@ -1,7 +1,8 @@
 <div id="nav-menu-brand"><img src="{{url(public_path('images/logo.png'))}}"/></div>
-<ul id="nav-menu-items" class="hidden-xs">
-    <li><a class='page-scroll' href="#imposto-renda">Imposto de Renda</a></li>
+<ul id="nav-menu-items">
     <li><a class='page-scroll' href="#como-funciona">Como funciona</a></li>
+    <li><a class='page-scroll' href="#imposto-renda">Imposto de Renda</a></li>
+    <li><a class='page-scroll' href="#abertura-empresa">Abertura/Alteração</a></li>
     <li><a class='page-scroll' href="#mensalidade">Mensalidade</a></li>
     <li><a class='page-scroll' href="#noticias">Novidades</a></li>
     <li><a class='page-scroll' href="#duvidas">Dúvidas</a></li>

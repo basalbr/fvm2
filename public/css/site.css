@@ -985,6 +985,12 @@ button, a, p {
     background: #00C853;
 }
 
+@media (max-width: 1230px ) {
+    #nav-menu-items{
+        display: none;
+    }
+}
+
 @media (max-width: 900px ) {
     .banner-content {
         top: calc(50% - 140px);
@@ -1183,6 +1189,19 @@ button, a, p {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+#imposto-renda-section h1 {
+    color: #fff;
+}
+
+#imposto-renda-section .card{
+    background: rgba(255,255,255, 0.85);
+}
+
+#imposto-renda-section .fa-destaque{
+    color: #bb8c4f!important;
+    border-color: #bb8c4f!important;
 }
 
 #mensalidade h1 {
