@@ -83,12 +83,12 @@ class Mensalidade extends Model
 
     public static function calculateMonthlyPayment($data, $tipoTributacao)
     {
-        $tipoTributacao = 3 ? $tipoTributacao = 200 : 0;
+        $tipoTributacao == 3 ? $tipoTributacao = 200 : $tipoTributacao = 0;
         $plano = Plano::where('total_documento_fiscal', '>=', $data['qtde_documento_fiscal'])
             ->orderBy('valor', 'asc')
             ->select('valor')
             ->first();
-        return $plano->valor + (Config::getFuncionarioIncrementalPrice() * $data['qtde_funcionario'] + $tipoTributacao);
+        return $plano->valor + (Config::getFuncionarioIncrementalPrice() * $data['qtde_funcionario']) + $tipoTributacao;
     }
 
     public function pagamentos()

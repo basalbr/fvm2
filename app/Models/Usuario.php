@@ -287,6 +287,14 @@ class Usuario extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->documentosContabeis()->whereIn('processo_documento_contabil.status',['pendente', 'novo'])->count();
     }
 
+    public function hasPontosPendentes(){
+        return $this->pontos()->whereIn('ponto.status',['pendente', 'novo'])->count() > 0 ? true : false;
+    }
+
+    public function qtdPontosPendentes(){
+        return $this->pontos()->whereIn('ponto.status',['pendente', 'novo'])->count();
+    }
+
     public function hasPagamentosPendentes(){
         return $this->ordensPagamento()->whereNotIn('ordem_pagamento.status',['Paga', 'Disponível'])->count() > 0 ? true : false;
     }

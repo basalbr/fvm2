@@ -59,4 +59,9 @@ class Mensagem extends Model
 
     }
 
+    public function getMensagemAttribute($msg){
+        $pattern = '@(http(s)?://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+        return preg_replace($pattern, '<a href="http$2://$3" target="_blank">$0</a>', $msg);
+    }
+
 }

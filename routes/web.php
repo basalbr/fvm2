@@ -149,7 +149,7 @@ Route::group(['prefix' => 'dashboard/funcionarios', 'namespace' => 'Dashboard', 
 Route::group(['prefix' => 'dashboard/pontos', 'namespace' => 'Dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'listPontosToUser', 'uses' => 'PontoController@index']);
     Route::get('view/{idPonto}', ['as' => 'showPontoToUser', 'uses' => 'PontoController@view']);
-    Route::get('send/{idPonto}', ['as' => 'sendPontos', 'uses' => 'PontoController@send']);
+    Route::post('view/{idPonto}', ['as' => 'sendPontos', 'uses' => 'PontoController@store']);
 });
 
 //Dashboard - Recálculo

@@ -122,7 +122,7 @@
         @include('dashboard.documentos_contabeis.view.components.pendente')
     @else
         @include('dashboard.documentos_contabeis.view.components.enviado')
-        @endif
+    @endif
     <div class="clearfix"></div>
     <div class="navigation-space"></div>
     <div class="navigation-options">

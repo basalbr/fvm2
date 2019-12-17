@@ -38,6 +38,11 @@ class Ponto extends Model
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function informacoes()
+    {
+        return $this->hasMany(PontoInformacao::class, 'id_ponto');
+    }
+
     public function getStatus()
     {
         return $this->statusNiceNames[$this->status];
@@ -70,6 +75,16 @@ class Ponto extends Model
 
     public function getProcesso(){
         return ProcessoFolha::where('id_empresa', $this->empresa->id)->where('competencia', $this->periodo)->first();
+    }
+    public function getLabelStatus(){
+        if(strpos($this->getOriginal('status'), 'informacoes_enviadas')===0){
+            return '<span class="label label-info fadeIn infinite">Em processamento</span>';
+        }elseif(strpos($this->getOriginal('status'), 'concluido')===0 || strpos($this->status, 'concluído')===0 ){
+            return '<span class="label label-success flash animated">Concluído</span>';
+        }elseif(strpos($this->getOriginal('status'), 'pendente')===0){
+            return '<span class="label label-warning fadeIn infinite animated">Pendente</span>';
+        }
+        return '<span class="label label-warning fadeIn infinite animated">Pendente</span>';
     }
 
 }

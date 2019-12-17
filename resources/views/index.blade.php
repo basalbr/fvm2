@@ -52,7 +52,7 @@
     <section id="imposto-renda" class="section">
         @include('index.components.imposto-renda')
     </section>
-    <section id="como-funciona" class="section">
+    <section id="abertura-alteracao" class="section">
         @include('index.components.abertura-empresa')
     </section>
 

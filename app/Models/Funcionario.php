@@ -289,5 +289,8 @@ class Funcionario extends Model
         return $this->hasMany(Anexo::class, 'id_referencia')->where('referencia', '=', $this->getTable());
     }
 
+    public function getInformacaoByPonto($idPonto){
+        return $this->hasMany(PontoInformacao::class, 'id_funcionario')->where('id_ponto', $idPonto);
+    }
 
 }

@@ -8,11 +8,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Empresa;
 use App\Services\SendPontos;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,10 +33,10 @@ class PontoController extends Controller
         return view('dashboard.ponto.index', compact('pontosPendentes', 'pontosConcluidos'));
     }
 
-    public function send($idPonto)
+    public function store($idPonto, Request $request)
     {
-        if (SendPontos::handle($idPonto)) {
-            return redirect()->route('showPontoToUser', [$idPonto])->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
+        if (SendPontos::handle($idPonto, $request)) {
+            return redirect()->route('listPontosToUser')->with('successAlert', 'Nós recebemos suas informações e em breve realizaremos a apuração. Obrigado :)');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }

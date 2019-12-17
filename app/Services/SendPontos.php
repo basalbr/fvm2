@@ -8,10 +8,10 @@
 
 namespace App\Services;
 
-use App\Models\ContratoTrabalho;
 use App\Models\Ponto;
 use App\Models\Usuario;
 use App\Notifications\PontosSent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,9 +20,11 @@ class SendPontos
 {
     /**
      * @param int $id
+     * @param Request $request
      * @return bool
+     * @throws \Exception
      */
-    public static function handle($id)
+    public static function handle($id, $request)
     {
         DB::beginTransaction();
         try {
@@ -30,6 +32,13 @@ class SendPontos
             /* @var Ponto $ponto */
             $ponto->status = 'informacoes_enviadas';
             $ponto->save();
+            foreach ($request->get("informacao") as $id_funcionario => $informacao) {
+                foreach ($informacao as $nome => $descricao) {
+                    if ($descricao) {
+                        $ponto->informacoes()->create(['id_funcionario' => $id_funcionario, 'nome' => $nome, 'descricao' => $descricao]);
+                    }
+                }
+            }
             //Notifica admins que existe um novo funcionario cadastrado
             Usuario::notifyAdmins(new PontosSent($ponto));
             DB::commit();
@@ -39,6 +48,7 @@ class SendPontos
             DB::rollback();
             return false;
         }
+
         return true;
     }
 }

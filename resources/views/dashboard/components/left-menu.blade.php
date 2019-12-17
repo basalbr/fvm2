@@ -21,7 +21,7 @@
                href="{{route('dashboard')}}"><span
                         class="fa fa-home"></span> Início <i class="fa fa-angle-right"></i></a>
         </li>
-        <li><a class="{{Route::current()->getPrefix() == '/dashboard/reunioes' ? 'active':'animated shake highlight'}}"
+        <li><a class="{{Route::current()->getPrefix() == '/dashboard/reunioes' ? 'active': ''}}"
                href="{{route('listReunioesToUser')}}"><span class="fa fa-calendar-o"></span> Reuniões (Novo)<i
                         class="fa fa-angle-right"></i></a></li>
         <li>
@@ -58,7 +58,7 @@
         </li>
 
         <li>
-            <a href=""><span class="fa fa-users"></span> Gestão de Pessoas <i class="fa fa-angle-down"></i></a>
+            <a href=""><span class="fa fa-users"></span> Gestão de Pessoas {!!Auth::user()->hasPontosPendentes() ? '<span class="badge">'.Auth::user()->hasPontosPendentes().'</span>':''!!}<i class="fa fa-angle-down"></i></a>
             <ul class="left-menu-list animated fadeInLeft">
                 <li><a class="{{Route::current()->getPrefix() == '/dashboard/processamento-folha' ? 'active':''}}"
                        href="{{route('listProcessoFolhaToUser')}}">Apurações/Folha <i class="fa fa-angle-right"></i></a>
@@ -71,7 +71,7 @@
                        href="{{route('listDecimoTerceiroToUser')}}">Décimo Terceiro <i
                                 class="fa fa-angle-right"></i></a></li>
                 <li><a class="{{Route::current()->getPrefix() == '/dashboard/pontos' ? 'active':''}}"
-                       href="{{route('listPontosToUser')}}">Registro de Ponto <i class="fa fa-angle-right"></i></a></li>
+                       href="{{route('listPontosToUser')}}">Envio de Ponto {!!Auth::user()->hasPontosPendentes() ? '<span class="badge">'.Auth::user()->hasPontosPendentes().'</span>':''!!}<i class="fa fa-angle-right"></i></a></li>
             </ul>
         </li>
         <li><a class="{{Route::current()->getPrefix() == '/dashboard/imposto-renda' ? 'active':''}}"

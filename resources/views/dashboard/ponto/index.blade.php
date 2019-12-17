@@ -18,72 +18,79 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="pendentes">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Período</th>
-                    <th>Vencimento</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @if($pontosPendentes->count())
-                    @foreach($pontosPendentes as $ponto)
-                        <tr>
-                            <td>{{$ponto->empresa->nome_fantasia}}</td>
-                            <td>{{$ponto->periodo->format('m/Y')}}</td>
-                            <td>04/{{$ponto->created_at->format('m/Y')}}</td>
-                            <td>{{$ponto->getStatus()}}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{{route('showPontoToUser', $ponto->id)}}" title="Visualizar">
-                                    <i class="fa fa-search"></i> Visualizar
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
+            <div class="col-sm-12">
+                <p class="alert alert-info" style="display: block"><strong>Abaixo estão as pendências de envio de registro de ponto</strong>, basta clicar em Visualizar para enviar os registros do período.</p>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-hovered table-striped">
+                    <thead>
                     <tr>
-                        <td colspan="5">Nenhuma solicitação de envio de registro de ponto</td>
+                        <th>Empresa</th>
+                        <th>Período</th>
+                        <th>Status</th>
+                        <th></th>
                     </tr>
-                @endif
-                </tbody>
-            </table>
-        </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="historico">
-            <table class="table table-hovered table-striped">
-                <thead>
-                <tr>
-                    <th>Empresa</th>
-                    <th>Período</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
 
-                @if($pontosConcluidos->count())
-                    @foreach($pontosConcluidos as $ponto)
+                    @if($pontosPendentes->count())
+                        @foreach($pontosPendentes as $ponto)
+                            <tr>
+                                <td>{{$ponto->empresa->nome_fantasia}}</td>
+                                <td>{{$ponto->periodo->format('m/Y')}}</td>
+                                <td>{!! $ponto->getLabelStatus()!!}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{route('showPontoToUser', $ponto->id)}}"
+                                       title="Visualizar">
+                                        <i class="fa fa-search"></i> Visualizar
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{$ponto->empresa->nome_fantasia}}</td>
-                            <td>{{$ponto->periodo->format('m/Y')}}</td>
-                            <td>{{$ponto->getStatus()}}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{{route('showPontoToUser', $ponto->id)}}" title="Visualizar">
-                                    <i class="fa fa-search"></i> Visualizar
-                                </a>
-                            </td>
+                            <td colspan="5">Nenhuma solicitação de envio de registro de ponto</td>
                         </tr>
-                    @endforeach
-                @else
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="historico">
+                <div class="col-sm-12">
+                <table class="table table-hovered table-striped">
+                    <thead>
                     <tr>
-                        <td colspan="4">Nenhum encontrado</td>
+                        <th>Empresa</th>
+                        <th>Período</th>
+                        <th>Status</th>
+                        <th></th>
                     </tr>
-                @endif
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+
+                    @if($pontosConcluidos->count())
+                        @foreach($pontosConcluidos as $ponto)
+                            <tr>
+                                <td>{{$ponto->empresa->nome_fantasia}}</td>
+                                <td>{{$ponto->periodo->format('m/Y')}}</td>
+                                <td>{{$ponto->getStatus()}}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{{route('showPontoToUser', $ponto->id)}}"
+                                       title="Visualizar">
+                                        <i class="fa fa-search"></i> Visualizar
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="4">Nenhum encontrado</td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
