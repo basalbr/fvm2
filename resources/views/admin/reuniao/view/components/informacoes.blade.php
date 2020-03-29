@@ -1,3 +1,5 @@
+<p class="alert-info alert" style="display: block">Abaixo estão todas as informações dessa solicitação.</p>
+<div class="clearfix"></div>
 <div class="col-sm-6">
     <div class="form-group">
         <label>Usuário</label>
@@ -6,7 +8,7 @@
         </div>
     </div>
 </div>
-<p class="alert-info alert" style="display: block">Abaixo estão todas as informações dessa solicitação.</p>
+
 <div class="col-sm-6">
     <div class="form-group">
         <label>Data</label>

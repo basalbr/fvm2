@@ -263,7 +263,7 @@ Route::group(['namespace' => 'Dashboard'], function () {
 
 Route::group(['namespace' => 'Cron', 'prefix' => 'cron'], function () {
     Route::get('daily', ['uses' => 'CronController@dailyCron']);
-    Route::get('nfs', ['uses' => 'CronController@nfs']);
+    Route::get('nfs', ['uses' => 'CronController@nfs2']);
     Route::get('payments', ['uses' => 'CronController@verifyPendingPayments']);
     Route::get('unread', ['uses' => 'CronController@notifyUnreadMessages']);
     Route::get('sem-movimento', ['uses' => 'CronController@changeApuracaoToSemMovimento']);
@@ -538,4 +538,5 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 //Pagseguro
 Route::group(['namespace' => 'Pagseguro'], function () {
     Route::post('notifications', ['as' => 'pagseguroNotification', 'uses' => 'PagseguroController@notifications']);
+    Route::get('verificar-pagamentos', ['uses' => 'PagseguroController@checkPayments']);
 });

@@ -127,6 +127,10 @@
                         <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos <span
                                     class="badge">{{$qtdeDocumentos}}</span></a>
                     </li>
+                    <li role="presentation">
+                        <a href="#observacoes" aria-controls="observacoes" role="tab" data-toggle="tab">Observações <span
+                                    class="badge">{{$qtdeObservacoes}}</span></a>
+                    </li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -136,6 +140,9 @@
                     </div>
                     <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
                         @include('admin.apuracao.view.components.documentos')
+                    </div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="observacoes">
+                        @include('admin.apuracao.view.components.observacoes')
                     </div>
                 </div>
             </div>

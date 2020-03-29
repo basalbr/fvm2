@@ -63,7 +63,7 @@ class ReuniaoController extends Controller
     public function update(Request $request, $idReuniao)
     {
         if (UpdateReuniao::handle($request, $idReuniao)) {
-            return redirect()->route('showReuniaoToAdmin', [$idReuniao])->with('successAlert', 'Reunião atualizada com sucesso.');
+            return redirect()->route('showReuniaoToAdmin', [$idReuniao])->with('successAlert', 'Reuniï¿½o atualizada com sucesso.');
         }
         return redirect()->back()->withInput()->withErrors(['Ocorreu um erro inesperado']);
     }
@@ -109,10 +109,10 @@ class ReuniaoController extends Controller
                     $query->orderBy('usuario.nome', 'desc');
                     break;
                 default:
-                    $query->orderBy('reuniao.data', 'asc');
+                    $query->orderBy('reuniao.data', 'desc');
             }
         } else {
-            $query->orderBy('reuniao.data', 'asc');
+            $query->orderBy('reuniao.data', 'desc');
         }
         return $query;
     }

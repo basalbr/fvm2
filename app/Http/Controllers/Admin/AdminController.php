@@ -12,7 +12,9 @@ use App\Models\AberturaEmpresa;
 use App\Models\Alteracao;
 use App\Models\AlteracaoContratual;
 use App\Models\Apuracao;
+use App\Models\Chamado;
 use App\Models\Empresa;
+use App\Models\ImpostoRenda;
 use App\Models\OrdemPagamento;
 use App\Models\ProcessoDocumentoContabil;
 use App\Models\Usuario;
@@ -24,24 +26,39 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
+        $notificacoes = \Auth::user()->notifications();
+        $notificacoes = $this->filterNotifications($notificacoes, $request);
+        $notificacoes = $notificacoes->paginate(10);
         $pagamentosPendentes = OrdemPagamento::where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->count();
         $alteracoesPendentes = Alteracao::join('ordem_pagamento', 'ordem_pagamento.id_referencia', '=', 'alteracao.id')
-            ->where('alteracao.status', 'Pendente')
+            ->whereNotIn('alteracao.status', ['concluido', 'cancelado'])
             ->where('ordem_pagamento.referencia', '=', (new Alteracao)->getTable())
             ->whereIn('ordem_pagamento.status', ['Disponível', 'Paga'])
             ->count();
-        $apuracoesPendentes = Apuracao::whereNotIn('apuracao.status', ['concluido', 'sem_movimento'])
+        $aberturasPendentes = AberturaEmpresa::join('ordem_pagamento', 'ordem_pagamento.id_referencia', '=', 'abertura_empresa.id')
+            ->whereNotIn('abertura_empresa.status', ['concluido', 'cancelado'])
+            ->where('ordem_pagamento.referencia', '=', (new AberturaEmpresa)->getTable())
+            ->whereIn('ordem_pagamento.status', ['Disponível', 'Paga'])
+            ->count();
+        $irsPendentes = ImpostoRenda::join('ordem_pagamento', 'ordem_pagamento.id_referencia', '=', 'imposto_renda.id')
+            ->whereNotIn('imposto_renda.status', ['concluido', 'cancelado'])
+            ->where('ordem_pagamento.referencia', '=', (new ImpostoRenda)->getTable())
+            ->whereIn('ordem_pagamento.status', ['Disponível', 'Paga'])
+            ->count();
+        $apuracoesPendentes = Apuracao::whereNotIn('apuracao.status', ['concluido', 'sem_movimento', 'cancelado'])
             ->count();
         $processosPendentes = ProcessoDocumentoContabil::where('processo_documento_contabil.status', '!=', 'concluido')
             ->where('processo_documento_contabil.status', '!=', 'sem_movimento')->count();
-        return view('admin.index', compact('pagamentosPendentes', 'apuracoesPendentes', 'processosPendentes', 'alteracoesPendentes'));
+        $chamadosPendentes = Chamado::whereNotIn('status', ['concluido'])->count();
+        return view('admin.index', compact('chamadosPendentes','irsPendentes','aberturasPendentes','pagamentosPendentes', 'apuracoesPendentes', 'processosPendentes', 'alteracoesPendentes', 'notificacoes'));
     }
 
     public function getRegisteredUsersHistory()
@@ -160,6 +177,26 @@ class AdminController extends Controller
 
         }
         return response()->json($companyData);
+    }
+
+    /**
+     * @param $query
+     * @param $request
+     * @return mixed
+     */
+    public function filterNotifications($query, $request)
+    {
+        if($request->get('read')){
+            switch ($request->get('read')) {
+                case 'unread':
+                    $query->where('read_at', null);
+                    break;
+                case 'read':
+                    $query->where('read_at','!=', null);
+                    break;
+            }
+        }
+        return $query;
     }
 
 }

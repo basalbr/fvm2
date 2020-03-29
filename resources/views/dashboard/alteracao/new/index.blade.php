@@ -88,7 +88,7 @@
                 <input type="hidden" name="tipos[]" value="{{$tipoAlteracao->id}}">
                 <p class="alert-info alert" style="display: block"><strong>{{$tipoAlteracao->descricao}}</strong></p>
                 <div class="clearfix"></div>
-                @foreach($tipoAlteracao->campos as $campo)
+                @foreach($tipoAlteracao->getCamposAtivos() as $campo)
                     @if($campo->tipo == 'string')
                         <div class="col-sm-12">
                             <div class='form-group'>

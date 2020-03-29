@@ -68,79 +68,173 @@
         })
 
     </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#table-notifications a').on('click', function () {
+                var text = $(this).text();
+                $(this).remove('strong');
+                $(this).text(text);
+            });
+            $('#form-notification-filter a').on('click', function (e) {
+                e.preventDefault();
+                $("#form-notification-filter [name='read']").val($(this).data('value'));
+                $("#form-notification-filter").submit();
+            })
+        })
+    </script>
 @stop
 @section('content')
-    <h3 class="text-center">Olá {{Auth::user()->nome}}, o que você precisa?</h3>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Notificações</div>
+            <div class="panel-body">
+                <form id="form-notification-filter" method="GET">
+                    {!! csrf_field() !!}
+                    <input type="hidden" name="read" value="all"/>
 
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#alertas" aria-controls="alertas" role="tab" data-toggle="tab"><i
-                        class="fa fa-bell"></i>Alertas</a>
-        </li>
-        @if(in_array(Auth::user()->id,[1, 57]))
-            <li role="presentation">
-                <a href="#graficos" aria-controls="graficos" role="tab" data-toggle="tab"><i
-                            class="fa fa-area-chart"></i>Gráficos</a>
-            </li>
-        @endif
-    </ul>
-    <div class="tab-content">
-        <div role="tabpanel" class="active tab-pane animated fadeIn" id="alertas">
-            @if(($pagamentosPendentes + $apuracoesPendentes + $processosPendentes) > 0)
-                <div class="col-sm-6">
-                    <h3 class="text-center animated shake">Atenção</h3>
-                    @if($alteracoesPendentes)
-                        <div class="col-sm-12">
-                            <a href="{{route('listSolicitacoesAlteracaoToAdmin')}}" class="alerta animated shake">
-                                Existem {{$alteracoesPendentes}} alterações já pagas em aberto
-                            </a>
-                        </div>
-                    @endif
-                    @if($pagamentosPendentes)
-                        <div class="col-sm-12">
-                            <a href="{{route('listOrdensPagamentoToAdmin')}}" class="alerta animated shake">
-                                Existem {{$pagamentosPendentes}} pagamentos em aberto
-                            </a>
-                        </div>
-                    @endif
-                    @if($apuracoesPendentes)
-                        <div class="col-sm-12">
-                            <a href="{{route('listApuracoesToAdmin')}}" class="alerta animated shake">
-                                Possuímos {{$apuracoesPendentes}} apurações pendentes
-                            </a>
-                        </div>
-                    @endif
-                    @if($processosPendentes)
-                        <div class="col-sm-12">
-                            <a href="{{route('listDocumentosContabeisToAdmin')}}" class="alerta animated shake">
-                                Existem {{$processosPendentes}} solicitações de documentos contábeis em aberto
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            @endif
-            @if(Auth::user()->unreadNotifications->count())
-                <div class="col-sm-6">
-                    <h3 class="text-center">Notificações</h3>
-                    @foreach(Auth::user()->unreadNotifications()->limit(10)->get() as $notification)
-                        <div class="col-sm-12">
-                            <a href="{{route('lerNotificacao', [$notification->id])}}" class="notification">
-                                {{$notification->data['mensagem']}}
-                            </a>
-                        </div>
+                    <a class="btn btn-link"
+                       style="{{ !request()->has('read') || request()->get('read') == 'all' ? 'font-weight: bold' : ''}}"
+                       data-value="all">Todas</a>
+                    <a class="btn btn-link"
+                       style="{{ request()->has('read') && request()->get('read') == 'read' ? 'font-weight: bold' : ''}}"
+                       data-value="read">Lidas</a>
+                    <a class="btn btn-link"
+                       style="{{ request()->has('read') && request()->get('read') == 'unread' ? 'font-weight: bold' : ''}}"
+                       data-value="unread">Não lidas</a>
+                </form>
+                <table class="table table-striped table-hover" id="table-notifications">
+                    <tbody>
+                    @foreach($notificacoes as $notificacao)
+                        <tr>
+                            <td><a class="linkless" href="{{route('lerNotificacao', [$notificacao->id])}}"
+                                   target="_blank">
+                                    <em>{{$notificacao->created_at->format('d/m/Y')}}
+                                        - {{$notificacao->created_at->format('H:i:s')}}</em>
+                                    <br/>
+                                    {!! $notificacao->read_at ? $notificacao->data['mensagem'] : "<strong>".$notificacao->data['mensagem']."</strong>"!!}
+                                </a>
+                            </td>
+                        </tr>
                     @endforeach
-                </div>
-            @endif
-        </div>
-        <div role="tabpanel" class="tab-pane" id="graficos">
-                <div id="registered-users-history" style="width: 100%" data-url="{{route('getRegisteredUsersHistory')}}"></div>
-                <div class="clearfix"></div>
-
-                <div id="payment-history" data-url="{{route('getPaymentHistory')}}"></div>
-                <div class="clearfix"></div>
-            <div class="clearfix"></div>
-
+                    </tbody>
+                </table>
+                {{ $notificacoes->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Pendências</div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listSolicitacoesAlteracaoToAdmin')}}">
+                                <p class="text-primary" style="font-size: 36px"><i class="fa fa-edit"></i></p>
+                                <p class="text-primary"><span
+                                            style="font-size: 20px; font-weight: bold">{{$alteracoesPendentes}}</span>
+                                    alterações pendentes</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listApuracoesToAdmin')}}">
+                                <p class="text-info" style="font-size: 36px"><i class="fa fa-calendar-o"></i></p>
+                                <p class="text-info"><span
+                                            style="font-size: 20px; font-weight: bold">{{$apuracoesPendentes}}</span>
+                                    apurações pendentes</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listAberturaEmpresaToAdmin')}}">
+                                <p class="text-success" style="font-size: 36px"><i class="fa fa-child"></i></p>
+                                <p class="text-success"><span
+                                            style="font-size: 20px; font-weight: bold">{{$aberturasPendentes}}</span>
+                                    empresas para abrir</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listDocumentosContabeisToAdmin')}}">
+                                <p class="text-warning" style="font-size: 36px"><i class="fa fa-copy"></i></p>
+                                <p class="text-warning"><span
+                                            style="font-size: 20px; font-weight: bold">{{$processosPendentes}}</span>
+                                    balancetes para gerar</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @if(in_array(Auth::user()->id,[1, 57]))
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listOrdensPagamentoToAdmin')}}">
+                                <p class="text-danger" style="font-size: 36px"><i class="fa fa-credit-card"></i></p>
+                                <p class="text-danger"><span
+                                            style="font-size: 20px; font-weight: bold">{{$pagamentosPendentes}}</span>
+                                    pagamentos em aberto</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listImpostoRendaToAdmin')}}">
+                                <p class="text-primary" style="font-size: 36px"><i class="fa fa-paw"></i></p>
+                                <p class="text-primary"><span
+                                            style="font-size: 20px; font-weight: bold">{{$irsPendentes}}</span>
+                                    IRPFs para declarar</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listAtendimentosToAdmin')}}">
+                                <p class="text-warning" style="font-size: 36px"><i class="fa fa-comments"></i></p>
+                                <p class="text-warning"><span
+                                            style="font-size: 20px; font-weight: bold">{{$chamadosPendentes}}</span>
+                                    chamados para resolver</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(in_array(Auth::user()->id,[1, 57]))
+        <div class="col-sm-6">
+            <div class="panel panel-primary" id="graficos">
+                <div class="panel-heading">Usuários/Aberturas/Migrações</div>
+                <div class="panel-body">
+                    <div id="payment-history" data-url="{{route('getPaymentHistory')}}"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-primary" id="graficos">
+                <div class="panel-heading">Pagamentos</div>
+                <div class="panel-body">
+                    <div id="registered-users-history" style="width: 100%"
+                         data-url="{{route('getRegisteredUsersHistory')}}"></div>
+                </div>
+            </div>
+        </div>
+    @endif
+    <div class="clearfix"></div>
+
 
 @stop

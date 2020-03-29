@@ -42,7 +42,7 @@ class UsuarioController extends Controller
         if (!$request->has('tab') || $request->get('tab') == 'usuarios') {
             $usuarios = $this->filterForm($usuarios, $request);
         }
-        $usuarios = $usuarios->select('usuario.*')->get();
+        $usuarios = $usuarios->select('usuario.*')->paginate(10);
 
         return view('admin.usuarios.index', compact("usuarios"));
     }

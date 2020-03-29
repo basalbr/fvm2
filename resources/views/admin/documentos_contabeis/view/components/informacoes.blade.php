@@ -3,7 +3,7 @@
     <tr>
         <th scope="row">Empresa</th>
         <td>
-            <a href="{{route('showEmpresaToUser', $processo->empresa->id)}}">{{$processo->empresa->razao_social}}
+            <a href="{{route('showEmpresaToAdmin', $processo->empresa->id)}}">{{$processo->empresa->razao_social}}
                 ({{$processo->empresa->nome_fantasia}})</a></td>
     </tr>
     <tr>

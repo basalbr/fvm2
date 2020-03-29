@@ -178,7 +178,7 @@ class MessageSent extends Notification implements ShouldQueue
             return 'à apuração de ' . $this->mensagem->parent->imposto->nome . ' (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'alteracao') {
-            return 'à solicitação de alteração (' . $this->mensagem->parent->tipo->descricao . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
+            return 'à solicitação de alteração (' . $this->mensagem->parent->tipo->getDescricao() . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;
         }
         if ($this->mensagem->referencia == 'processo_folha') {
             return 'à apuração de folha de pagamento (' . $this->mensagem->parent->competencia->format('m/Y') . ') da empresa ' . $this->mensagem->parent->empresa->razao_social;

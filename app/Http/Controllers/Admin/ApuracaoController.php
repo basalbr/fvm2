@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Anotacao;
 use App\Models\Apuracao;
 use App\Models\Mensagem;
 use App\Services\UpdateApuracao;
@@ -16,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class ApuracaoController extends Controller
@@ -37,7 +37,9 @@ class ApuracaoController extends Controller
             ->where('mensagem.id_referencia', $idApuracao)
             ->count();
         $qtdeDocumentos += $apuracao->anexos()->count();
-        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos'));
+        $observacoes = Anotacao::where('referencia', 'observacao_apuracao')->where('id_referencia', $apuracao->id_empresa)->get();
+        $qtdeObservacoes = count($observacoes);
+        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos','observacoes', 'qtdeObservacoes'));
     }
 
     public function index(Request $request)
@@ -155,13 +157,13 @@ class ApuracaoController extends Controller
 
         foreach ($apuracao->anexos as $anexo) {
             $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $anexo->referencia . '/' . $anexo->id_referencia . '/' . $anexo->arquivo));
-            $zip->addFromString($cont . $anexo->descricao . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            $zip->addFromString($cont . str_replace('/', ' ',$anexo->descricao) . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
             $cont++;
         }
         foreach ($apuracao->mensagens as $message) {
             if ($message->anexo) {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
-                $zip->addFromString($cont . $message->anexo->descricao, $download_file);
+                $zip->addFromString($cont . str_replace('/', ' ',$message->anexo->descricao), $download_file);
                 $cont++;
             }
         }

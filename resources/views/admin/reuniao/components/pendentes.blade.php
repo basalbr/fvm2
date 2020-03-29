@@ -14,7 +14,7 @@
         @foreach($reunioesPendentes as $reuniao)
             <tr>
                 <td>{{$reuniao->data->format('d/m/Y')}} {{$reuniao->horario->hora_inicial}} - {{$reuniao->horario->hora_final}} (<strong>{{$reuniao->quantoFalta()}}</strong>)</td>
-                <td>{!! $reuniao->assunto !!}</td>
+                <td>{!! str_limit($reuniao->assunto, 30) !!}</td>
                 <td><a href="{{route('showUsuarioToAdmin', $reuniao->id_usuario)}}">{{ $reuniao->usuario->nome }}</a></td>
                 <td>{!! $reuniao->getLabelStatus() !!} {!! $reuniao->pagamento->isPending() ? '<span class="label label-warning">Pagamento pendente</span>' : ''!!}</td>
                 <td>

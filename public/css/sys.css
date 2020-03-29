@@ -244,8 +244,9 @@ body {
     text-decoration: none;
 }
 
-#left-menu ul li a.highlight{
-    background-color: #CDDC39; color: #fff
+#left-menu ul li a.highlight {
+    background-color: #CDDC39;
+    color: #fff
 }
 
 #content {
@@ -268,11 +269,11 @@ div.mce-fullscreen {
 @media (max-width: 1200px ) {
     #content {
         left: 0px;
-        top: 83px!important;
+        top: 83px !important;
     }
 
     #top-title {
-        top: 50px!important;
+        top: 50px !important;
     }
 
     div.mce-fullscreen {
@@ -522,17 +523,17 @@ a.shortcut h3.text-center {
     border-color: #7CB342;
 }
 
-.alert-success{
-    color: #fff!important;
+.alert-success {
+    color: #fff !important;
 }
 
-.alert-success a{
+.alert-success a {
     font-weight: bold;
-    color: #fff!important;
+    color: #fff !important;
 }
 
-.alert-success a:hover, .alert-success a:focus, .alert-success a:visited{
-    color: #fff!important;
+.alert-success a:hover, .alert-success a:focus, .alert-success a:visited {
+    color: #fff !important;
 }
 
 .btn-primary {
@@ -1949,15 +1950,15 @@ body {
 }
 
 .panel-primary .panel-body {
-    border-left: 1px solid rgba(30,136,229, 0.2);
+    border-left: 1px solid rgba(30, 136, 229, 0.2);
 }
 
 .panel-success .panel-body {
-    border-left: 1px solid rgba(139,195,74, 0.2);
+    border-left: 1px solid rgba(139, 195, 74, 0.2);
 }
 
 .panel-danger .panel-body {
-    border-left: 1px solid rgba(255,138,128, 0.2);
+    border-left: 1px solid rgba(255, 138, 128, 0.2);
 }
 
 .btn {
@@ -1980,34 +1981,35 @@ body {
     cursor: pointer;
 }
 
-#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active, #modal-nova-solicitacao .tipo-alteracao:active, #modal-nova-solicitacao .tipo-alteracao:focus{
+#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active, #modal-nova-solicitacao .tipo-alteracao:active, #modal-nova-solicitacao .tipo-alteracao:focus {
     text-decoration: none;
 }
 
-#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active{
+#modal-nova-solicitacao .tipo-alteracao:hover, #modal-nova-solicitacao .tipo-alteracao.active {
     background-color: #1E88E5 !important;
     border-color: #1976D2 !important;
     box-shadow: none !important;
     color: #fff;
     transition: all ease-in 0.1s;
 }
-.panel-heading{
+
+.panel-heading {
     padding: 10px 8px;
 }
 
-.copy-to-clipboard{
+.copy-to-clipboard {
     border: 0px;
     padding: 0px 0px 0px 3px;
 }
 
-#modal-agendar-reuniao .btn-default:active, #modal-agendar-reuniao .btn-default.active, #modal-agendar-reuniao .btn-default:focus{
+#modal-agendar-reuniao .btn-default:active, #modal-agendar-reuniao .btn-default.active, #modal-agendar-reuniao .btn-default:focus {
     background-color: #42A5F5;
     border-color: #1E88E5;
     box-shadow: none;
-    color:#fff;
+    color: #fff;
 }
 
-.btn.btn-upload{
+.btn.btn-upload {
     height: 80px;
     width: 180px;
     text-transform: uppercase;
@@ -2015,8 +2017,16 @@ body {
     font-size: 12px;
     border-radius: 5px;
 }
-.btn.btn-upload i{
+
+.btn.btn-upload i {
     display: block;
     font-size: 18px;
     line-height: 30px;
+}
+
+a.linkless {
+    color: #000;
+}
+a.linkless:hover, a.linkless:active, a.linkless:focus {
+    text-decoration: none;
 }

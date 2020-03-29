@@ -130,6 +130,7 @@ return $this->status_processo[$this->status];
     }
 
     public function quantoFalta(){
+        if ($this->data < Carbon::now()){return 'Expirou';}
         $qtde = $this->data->diffInDays(Carbon::now());
         return $qtde > 1 ? 'Em '.$qtde.' dias' : 'Em '.$qtde.' dia';
     }

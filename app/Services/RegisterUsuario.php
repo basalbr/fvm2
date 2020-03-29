@@ -31,7 +31,7 @@ class RegisterUsuario
             $usuario = Usuario::create($data);
 
             //Notifica os admins que um novo usuário foi criado
-            Usuario::notifyAdmins(new NewUsuario($usuario));
+//            Usuario::notifyAdmins(new NewUsuario($usuario));
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

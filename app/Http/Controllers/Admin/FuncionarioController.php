@@ -120,6 +120,7 @@ class FuncionarioController extends Controller
     public function filterForm($query, $request)
     {
         $query->join('empresa', 'empresa.id', '=', 'funcionario.id_empresa')->join('usuario', 'usuario.id', '=', 'empresa.id_usuario');
+        $query->where('empresa.status','!=', 'cancelado');
         if ($request->get('busca')) {
             $query->where(function ($q) use ($request) {
                 $q->where('usuario.nome', 'LIKE', '%' . $request->get('busca') . '%')

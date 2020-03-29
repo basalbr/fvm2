@@ -41,16 +41,6 @@ class AtendimentoController extends Controller
     public function index()
     {
         $chamados = Chamado::orderBy('updated_at', 'desc')->paginate(10);
-        //Buscar somente empresas que possuem mensagens não lidas
-        $empresas = Empresa::whereExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('mensagem')
-                ->whereRaw('mensagem.id_referencia = empresa.id')
-                ->where('mensagem.referencia', '=', 'empresa')
-                ->where('mensagem.lida', '=', 0)
-                ->where('deleted_at', '=', null)->limit(1);
-        })->paginate(10);
-
 
         return view('admin.atendimento.index', compact('chamados'));
     }

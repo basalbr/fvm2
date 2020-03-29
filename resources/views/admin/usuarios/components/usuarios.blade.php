@@ -38,3 +38,5 @@
     </tbody>
 </table>
 <div class="clearfix"></div>
+{{ $usuarios->appends(request()->query())->links() }}
+<div class="clearfix"></div>

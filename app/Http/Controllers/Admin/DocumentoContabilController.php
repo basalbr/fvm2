@@ -70,13 +70,13 @@ class DocumentoContabilController extends Controller
 
         foreach ($apuracao->anexos as $anexo) {
             $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $anexo->referencia . '/' . $anexo->id_referencia . '/' . $anexo->arquivo));
-            $zip->addFromString($cont . $anexo->descricao . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            $zip->addFromString($cont . str_replace('/', ' ', $anexo->descricao) . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
             $cont++;
         }
         foreach ($apuracao->mensagens as $message) {
             if ($message->anexo) {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
-                $zip->addFromString($cont . $message->anexo->descricao, $download_file);
+                $zip->addFromString($cont . str_replace('/', ' ',$message->anexo->descricao), $download_file);
                 $cont++;
             }
         }

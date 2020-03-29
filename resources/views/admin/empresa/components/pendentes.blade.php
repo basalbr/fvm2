@@ -5,6 +5,7 @@
         <th>Usuário</th>
         <th>Empresa</th>
         <th>CNPJ</th>
+        <th>Data de ativação</th>
         <th></th>
     </tr>
     </thead>
@@ -17,6 +18,7 @@
                 <td><a href="{{route('showUsuarioToAdmin', $empresa->id)}}">{{$empresa->usuario->nome}}</a></td>
                 <td><a href="{{route('showEmpresaToAdmin', $empresa->id)}}">{{$empresa->nome_fantasia}} ({{$empresa->razao_social}})</a></td>
                 <td>{{$empresa->cnpj}}</td>
+                <td>{{$empresa->ativacao_programada ? $empresa->ativacao_programada->format('d/m/Y') : 'Não está programado'}}</td>
                 <td>
                     <a href="{{route('showEmpresaToAdmin', $empresa->id)}}" class="btn btn-primary"><i
                                 class="fa fa-search"></i></a>
