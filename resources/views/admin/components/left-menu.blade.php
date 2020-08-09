@@ -83,6 +83,12 @@
         <li><a class="{{Route::current()->getPrefix() == '/admin/recalculos' ? 'active':''}}"
                href="{{route('listRecalculosToAdmin')}}"><span class="fa fa-repeat"></span> Recálculos <i
                         class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/admin/reunioes' ? 'active':''}}"
+               href="{{route('listReunioesToAdmin')}}"><span class="fa fa-calendar-o"></span> Reuniões <i
+                        class="fa fa-angle-right"></i></a></li>
+        <li><a class="{{Route::current()->getPrefix() == '/admin/tarefas' ? 'active':''}}"
+               href="{{route('listTarefasToAdmin')}}"><span class="fa fa-tasks"></span> Tarefas <i
+                        class="fa fa-angle-right"></i></a></li>
         <li><a class="{{Route::current()->getPrefix() == '/admin/usuarios' ? 'active':''}}"
                href="{{route('listUsuariosToAdmin')}}"><span class="fa fa-user-circle"></span> Usuários <i
                         class="fa fa-angle-right"></i></a></li>

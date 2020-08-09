@@ -16,8 +16,9 @@
 </div>
 <div class="col-xs-4">
     <div class="form-group">
-        <label for="">CNPJ</label>
-        <div class="form-control">{{$empresa->cnpj}}</div>
+        <label for="">CNPJ <a target="_blank" href="http://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp?cnpj={{$empresa->cnpj}}}"><i class="fa fa-external-link"></i></a></label>
+        <div class="form-control">{{$empresa->cnpj}}
+            <button class="btn-link btn-xs copy-to-clipboard"><i class="fa fa-clipboard"></i></button></div>
     </div>
 </div>
 <div class="col-xs-4">

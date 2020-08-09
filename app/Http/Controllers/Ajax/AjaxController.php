@@ -137,6 +137,7 @@ class AjaxController extends Controller
 
     public function updateMessages(Request $request)
     {
+
         $referenceId = $request->get('id_referencia');
         $reference = $request->get('referencia');
         $lastMessageId = $request->get('id_ultima_mensagem') ? $request->get('id_ultima_mensagem') : 0;

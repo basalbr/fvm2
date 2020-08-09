@@ -1,24 +1,18 @@
 <table class="table table-striped table-hover">
     @if($qtdeDocumentos > 0)
-        @foreach($apuracao->informacoes as $informacao)
-            @if($informacao->tipo->tipo == 'anexo')
+        @foreach($alteracao->informacoes as $informacao)
+            @if($informacao->campo->tipo == 'file')
                 <tr>
-                    <th>{{$informacao->tipo->tipo->nome}}</th>
+                    <th>{{$informacao->campo->nome}}</th>
                     <td>
-                        {!! $informacao->getLink() !!}
+                        <a download
+                           href="{{asset(public_path().'storage/alteracao/'. $alteracao->id .'/'. $informacao->valor)}}"
+                           title="Clique para fazer download do arquivo">Download</a>
                     </td>
                 </tr>
             @endif
         @endforeach
-        @foreach($apuracao->anexos as $anexo)
-            <tr>
-                <th>{{$anexo->descricao}}</th>
-                <td>
-                    {!! $anexo->getLink() !!}
-                </td>
-            </tr>
-        @endforeach
-        @foreach($apuracao->mensagens as $message)
+        @foreach($alteracao->mensagens as $message)
             @if($message->anexo)
                 <tr>
                     <th>{{$message->anexo->descricao}}</th>
@@ -29,7 +23,7 @@
             @endif
         @endforeach
         <tr>
-            <td colspan="2" class="text-center"><a href="{{route('downloadZipApuracao', $apuracao->id)}}"
+            <td colspan="2" class="text-center"><a href="{{route('downloadZipApuracao', $alteracao->id)}}"
                                                    target="_blank">Baixar todos os arquivos em ZIP</a></td>
         </tr>
     @else

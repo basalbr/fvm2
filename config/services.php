@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('mg.webcontabilidade.com'),
+        'secret' => env('key-a6c505d33b0f693f57f6d7862b0de5db'),
     ],
 
     'ses' => [

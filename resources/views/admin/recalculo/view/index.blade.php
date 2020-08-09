@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$recalculo])
+@include('admin.components.tarefas.shortcut')
 @section('top-title')
     <a href="{{route('listRecalculosToAdmin')}}">Recálculos</a> <i class="fa fa-angle-right"></i> {{$recalculo->tipo->descricao}}
 @stop

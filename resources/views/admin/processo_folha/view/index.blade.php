@@ -14,7 +14,7 @@
                 Informações</a>
         </li>
         <li role="presentation">
-            <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
+            <a href="#messages" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
                         class="badge">{{$processo->mensagens()->where('lida','=',0)->where('from_admin','=',0)->count()}}</span></a>
         </li>
@@ -77,7 +77,7 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="messages">
                 @include('admin.components.chat.box', ['model'=>$processo])
             <div class="clearfix"></div>
         </div>

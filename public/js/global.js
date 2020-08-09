@@ -6,16 +6,24 @@ function showFormValidationError(form, errors) {
     alertDiv.on('animationend', function () {
         $(this).removeClass('animated shake')
     });
-    alertDiv.empty()
+    alertDiv.empty();
     form.find('.form-group.alert-warning').removeClass('alert-warning');
-    for (var i in errors) {
-        if (typeof errors[i] === Array) {
-            alertDiv.append('<p>' + errors[i][0] + '</p>');
-        } else {
-            alertDiv.append('<p>' + errors[i] + '</p>');
+    if (errors.errors !== undefined) {
+        for (var i in errors.errors) {
+            alertDiv.append('<p>' + errors.errors[i][0] + '</p>');
+            form.find('[name="' + i + '"]').not('[type="hidden"]').parent().addClass('alert-warning');
         }
-        form.find('[name="' + i + '"]').not('[type="hidden"]').parent().addClass('alert-warning');
+    } else {
+        for (var i in errors) {
+            if (typeof errors[i] === Array) {
+                alertDiv.append('<p>' + errors[i][0] + '</p>');
+            } else {
+                alertDiv.append('<p>' + errors[i] + '</p>');
+            }
+            form.find('[name="' + i + '"]').not('[type="hidden"]').parent().addClass('alert-warning');
+        }
     }
+
     alertDiv.show().addClass('animated shake');
     $('.modal, html, body, #content').animate({
         scrollTop: alertDiv.offset().top - 50

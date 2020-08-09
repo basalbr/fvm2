@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$processo])
+@include('admin.components.tarefas.shortcut')
 @section('top-title')
     <a href="{{route('listDocumentosContabeisToAdmin')}}">Documentos Contábeis</a> <i
             class="fa fa-angle-right"></i> {{$processo->empresa->razao_social}} ({{$processo->empresa->nome_fantasia}}) - {{$processo->periodo->format('m/Y')}}

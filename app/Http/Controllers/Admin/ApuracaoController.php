@@ -10,7 +10,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Anotacao;
 use App\Models\Apuracao;
+use App\Models\Empresa;
+use App\Models\FaixaSimplesNacional;
+use App\Models\ImpostoFaixaSimplesNacional;
 use App\Models\Mensagem;
+use App\Models\Tributacao;
+use App\Models\TributacaoIsencao;
 use App\Services\UpdateApuracao;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -39,7 +44,7 @@ class ApuracaoController extends Controller
         $qtdeDocumentos += $apuracao->anexos()->count();
         $observacoes = Anotacao::where('referencia', 'observacao_apuracao')->where('id_referencia', $apuracao->id_empresa)->get();
         $qtdeObservacoes = count($observacoes);
-        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos','observacoes', 'qtdeObservacoes'));
+        return view('admin.apuracao.view.index', compact('apuracao', 'qtdeDocumentos', 'observacoes', 'qtdeObservacoes'));
     }
 
     public function index(Request $request)
@@ -157,13 +162,13 @@ class ApuracaoController extends Controller
 
         foreach ($apuracao->anexos as $anexo) {
             $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $anexo->referencia . '/' . $anexo->id_referencia . '/' . $anexo->arquivo));
-            $zip->addFromString($cont . str_replace('/', ' ',$anexo->descricao) . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
+            $zip->addFromString($cont . str_replace('/', ' ', $anexo->descricao) . '.' . pathinfo($anexo->arquivo, PATHINFO_EXTENSION), $download_file);
             $cont++;
         }
         foreach ($apuracao->mensagens as $message) {
             if ($message->anexo) {
                 $download_file = file_get_contents(asset(public_path() . 'storage/anexos/' . $message->anexo->referencia . '/' . $message->anexo->id_referencia . '/' . $message->anexo->arquivo));
-                $zip->addFromString($cont . str_replace('/', ' ',$message->anexo->descricao), $download_file);
+                $zip->addFromString($cont . str_replace('/', ' ', $message->anexo->descricao), $download_file);
                 $cont++;
             }
         }
@@ -173,6 +178,44 @@ class ApuracaoController extends Controller
         header('Content-type: application/zip');
         readfile($tmp_file);
         unlink($tmp_file);
+    }
+
+    public function calculateSimplesNacional(Request $request)
+    {
+        $impostoParaPagar = 0;
+        foreach ($request->get('tributacoes') as $tributacao) {
+            $tributo = Tributacao::findOrFail($tributacao['id_tributacao']);
+            if ($tributo->mercado == 'interno') {
+                $rbu12mInterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'interno');
+                $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
+                    ->where('de', '<=', $rbu12mInterno)->where('ate', '>=', $rbu12mInterno)->first();
+                if($faixaSimplesNacional->de == 0){
+                    $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
+                }else{
+                    $aliquotaEfetiva = (($rbu12mInterno * $faixaSimplesNacional->aliquota) - $faixaSimplesNacional->deducao) / $rbu12mInterno;
+                }
+            } else {
+                $rbu12mExterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'externo');
+                $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
+                    ->where('de', '<=', $rbu12mExterno)->where('ate', '>=', $rbu12mExterno)->first();
+                if($faixaSimplesNacional->de == 0){
+                    $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
+                }else{
+                    $aliquotaEfetiva = (($rbu12mExterno * $faixaSimplesNacional->aliquota) - $faixaSimplesNacional->deducao) / $rbu12mExterno;
+                }
+            }
+            $impostosFaixaSimplesNacional = ImpostoFaixaSimplesNacional::where('id_faixa_simples_nacional', $faixaSimplesNacional->id)->get(['id'])->toArray();
+            $isencoes = 0;
+            foreach(TributacaoIsencao::where('id_tributacao', $tributo->id)->whereIn('id_imposto_faixa_simples_nacional', $impostosFaixaSimplesNacional)->get() as $tributacaoIsentacao){
+                $isencoes+=$tributacaoIsentacao->imposto->valor;
+            }
+            if($isencoes>0){
+                $aliquotaEfetiva -= $aliquotaEfetiva * ($isencoes/100);
+            }
+
+            $impostoParaPagar += ($tributacao['valor'] * $aliquotaEfetiva)/100;
+        }
+        return response()->json(number_format($impostoParaPagar, 2, ',', '.'))->setStatusCode(200);
     }
 
 }

@@ -1,8 +1,64 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$empresa])
+@include('admin.components.tarefas.shortcut')
 @section('top-title')
     <a href="{{route('listEmpresaToAdmin')}}">Empresas</a> <i class="fa fa-angle-right"></i> {{$empresa->nome_fantasia}}
     <span class="hidden-xs">({{$empresa->razao_social}})</span>
+@stop
+@section('js')
+    @parent
+    <script type="text/javascript">
+        $(function () {
+            $('.request-doc').on('click', function (e) {
+                e.preventDefault();
+                $(this).hasClass('btn-danger') ? removeDocRequest($(this)) : requestDoc($(this));
+            });
+
+            $('#send-emails').on('click', function (e) {
+                e.preventDefault();
+                sendEmail($(this));
+            });
+
+            function removeDocRequest(elem) {
+                elem.removeClass('btn-danger').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Cancelando...').prop('disabled', true);
+                $.get({
+                    url: elem.data('url')
+                }).done(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
+                    showModalSuccess('Solicitação cancelada');
+                }).fail(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
+                    showModalAlert('Ocorreu um erro ao cancelar a solicitação, informe o Junior.');
+                });
+            }
+
+            function requestDoc(elem) {
+                elem.removeClass('btn-success').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Solicitando...').prop('disabled', true);
+                $.get({
+                    url: elem.data('url')
+                }).done(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
+                    showModalSuccess('Documento solicitado ao usuário');
+                }).fail(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
+                    showModalAlert('Ocorreu um erro ao solicitar o documento, informe o Junior.');
+                });
+            }
+
+            function sendEmail(elem) {
+                elem.removeClass('btn-primary').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Enviando e-mail...').prop('disabled', true);
+                $.get({
+                    url: elem.data('url')
+                }).done(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
+                    showModalSuccess('E-mail enviado com sucesso');
+                }).fail(function (jqXHR) {
+                    elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
+                    showModalAlert('Ocorreu um erro ao enviar o e-mail, informe o Junior.');
+                });
+            }
+        });
+    </script>
 @stop
 @section('content')
     @if($empresa->status == 'Cancelado')
@@ -14,7 +70,7 @@
     @endif
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
+        <li role="presentation" class="{{!request()->query('tab') || request()->query('tab') == 'principal' ? 'active' : ''}}">
             <a href="#principal" aria-controls="principal" role="tab" data-toggle="tab"><i class="fa fa-home"></i>
                 Principal</a>
         </li>
@@ -43,6 +99,16 @@
             <a href="#cnae" aria-controls="cnae" role="tab" data-toggle="tab"><i class="fa fa-list"></i>
                 CNAEs</a>
         </li>
+        @if(in_array(Auth::user()->id, [1, 57]) )
+        <li role="presentation" class="{{request()->query('tab') == 'tributacao' ? 'active' : ''}}">
+            <a href="#tributacao" aria-controls="tributacao" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i>
+                Tributação</a>
+        </li>
+        @endif
+        <li role="presentation" class="{{request()->query('tab') == 'historico_faturamento' ? 'active' : ''}}">
+            <a href="#historico_faturamento" aria-controls="historico_faturamento" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i>
+                Hist. Faturamento</a>
+        </li>
         <li role="presentation">
             <a href="#docs" aria-controls="docs" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
                 Documentos enviados</a>
@@ -65,7 +131,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
 
-        <div role="tabpanel" class="tab-pane active" id="principal">
+        <div role="tabpanel" class="tab-pane {{!request()->query('tab') || request()->query('tab') == 'principal' ? 'active' : ''}}" id="principal">
             @include('admin.empresa.view.components.principal')
             <div class="clearfix"></div>
         </div>
@@ -73,61 +139,7 @@
             @include('admin.components.chat.box', ['model'=>$empresa])
         </div>
         <div role="tabpanel" class="tab-pane" id="solicitar_documentos">
-            @section('js')
-                @parent
-                <script type="text/javascript">
-                    $(function () {
-                        $('.request-doc').on('click', function (e) {
-                            e.preventDefault();
-                            $(this).hasClass('btn-danger') ? removeDocRequest($(this)) : requestDoc($(this));
-                        });
 
-                        $('#send-emails').on('click', function (e) {
-                            e.preventDefault();
-                            sendEmail($(this));
-                        });
-
-                        function removeDocRequest(elem) {
-                            elem.removeClass('btn-danger').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Cancelando...').prop('disabled', true);
-                            $.get({
-                                url: elem.data('url')
-                            }).done(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
-                                showModalSuccess('Solicitação cancelada');
-                            }).fail(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
-                                showModalAlert('Ocorreu um erro ao cancelar a solicitação, informe o Junior.');
-                            });
-                        }
-
-                        function requestDoc(elem) {
-                            elem.removeClass('btn-success').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Solicitando...').prop('disabled', true);
-                            $.get({
-                                url: elem.data('url')
-                            }).done(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-danger').html('<i class="fa fa-remove"></i> Cancelar solicitação').prop('disabled', false);
-                                showModalSuccess('Documento solicitado ao usuário');
-                            }).fail(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-success').html('<i class="fa fa-check"></i> Solicitar').prop('disabled', false);
-                                showModalAlert('Ocorreu um erro ao solicitar o documento, informe o Junior.');
-                            });
-                        }
-
-                        function sendEmail(elem) {
-                            elem.removeClass('btn-primary').addClass('btn-default disabled').html('<i class="fa fa-hourglass-half"></i> Enviando e-mail...').prop('disabled', true);
-                            $.get({
-                                url: elem.data('url')
-                            }).done(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
-                                showModalSuccess('E-mail enviado com sucesso');
-                            }).fail(function (jqXHR) {
-                                elem.removeClass('btn-default disabled').addClass('btn-primary').html('<i class="fa fa-envelope"></i> Enviar e-mail informando pendências').prop('disabled', false);
-                                showModalAlert('Ocorreu um erro ao enviar o e-mail, informe o Junior.');
-                            });
-                        }
-                    });
-                </script>
-            @stop
             <div class="col-sm-12">
                 <table class="table table-striped table-hover">
                     <tbody>
@@ -183,6 +195,14 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="cnae">
             @include('admin.empresa.view.components.cnae')
+            <div class="clearfix"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane {{request()->query('tab') == 'tributacao' ? 'active' : ''}}" id="tributacao">
+            @include('admin.empresa.view.components.tributacao')
+            <div class="clearfix"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane {{request()->query('tab') == 'historico_faturamento' ? 'active' : ''}}" id="historico_faturamento">
+            @include('admin.empresa.view.components.historico_faturamento')
             <div class="clearfix"></div>
         </div>
         <div role="tabpanel" class="tab-pane animated fadeIn" id="docs">

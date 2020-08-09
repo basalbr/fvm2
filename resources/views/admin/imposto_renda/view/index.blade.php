@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-
+@include('admin.components.tarefas.shortcut')
 @section('js')
     @parent
     <script type="text/javascript">

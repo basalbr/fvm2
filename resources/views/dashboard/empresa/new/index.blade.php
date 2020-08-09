@@ -6,6 +6,7 @@
         $(function () {
             $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
                 e.preventDefault();
+                $(this).addClass('disabled').prop('disabled', true);
                 validateFormPrincipal();
             });
         });
@@ -48,6 +49,7 @@
                         $('#form-principal').submit();
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
+                        $('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false);
                         if (jqXHR.status === 422) {
                             //noinspection JSUnresolvedVariable
                             showFormValidationError($('#form-principal'), jqXHR.responseJSON);

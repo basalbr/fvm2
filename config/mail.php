@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'log'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'site@webcontabilidade.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@webcontabilidade.com'),
         'name' => env('MAIL_FROM_NAME', 'WEBContabilidade'),
     ],
 
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+    'encryption' => env('MAIL_ENCRYPTION', null),
 
     /*
     |--------------------------------------------------------------------------

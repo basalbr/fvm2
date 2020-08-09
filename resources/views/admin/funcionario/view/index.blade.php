@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$empresa])
+@include('admin.components.tarefas.shortcut')
 @section('js')
     @parent
     <script type="text/javascript"

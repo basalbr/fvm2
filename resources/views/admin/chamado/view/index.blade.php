@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$chamado])
+@include('admin.components.tarefas.shortcut')
 @section('top-title')
     <a href="{{route('listAtendimentosToAdmin')}}">Atendimento</a> <i class="fa fa-angle-right"></i> <a
             href="{{route('showChamadoToAdmin', $chamado->id)}}">Chamado ({{$chamado->tipoChamado->descricao}})</a>

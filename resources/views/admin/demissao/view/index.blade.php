@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @include('admin.components.annotation-menu', ['model'=>$demissao])
+@include('admin.components.tarefas.shortcut')
 @section('top-title')
     <a href="{{route('listDemissaoToAdmin')}}">Demissões</a> <i class="fa fa-angle-right"></i> <a
             href="{{route('showEmpresaToAdmin', $demissao->funcionario->empresa->id)}}">{{$demissao->funcionario->empresa->nome_fantasia}}</a>
@@ -14,7 +15,7 @@
                 Principal</a>
         </li>
         <li role="presentation">
-            <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
+            <a href="#messages" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
                 Mensagens <span
                         class="badge">{{$demissao->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
         </li>
@@ -93,18 +94,17 @@
                 @include('admin.components.uploader.default', ['idReferencia'=>$demissao->id, 'referencia'=>$demissao->getTable(), 'anexos'=>$demissao->anexos])
             @endif
         </div>
-        <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="messages">
             @include('admin.components.chat.box', ['model'=>$demissao])
         </div>
-        <div class="clearfix"></div>
-        <div class="navigation-space"></div>
-        <div class="navigation-options animated slideInUp">
-            <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-            @if($demissao->status == 'pendente')
-                <a href="{{route('finishDemissao', $demissao->id)}}" class="btn btn-primary"><i class="fa fa-check"></i>
-                    Concluir Demissão</a>
-            @endif
-        </div>
     </div>
-
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options animated slideInUp">
+        <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
+        @if($demissao->status == 'pendente')
+            <a href="{{route('finishDemissao', $demissao->id)}}" class="btn btn-primary"><i class="fa fa-check"></i>
+                Concluir Demissão</a>
+        @endif
+    </div>
 @stop

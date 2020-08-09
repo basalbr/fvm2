@@ -68,6 +68,7 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'auth'], function () {
 
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => ['auth', 'checkPayment']], function () {
     Route::get('', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
+    Route::post('', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
 
 });
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => ['auth']], function () {
@@ -308,6 +309,19 @@ Route::group(['prefix' => 'admin/balancete', 'namespace' => 'Admin', 'middleware
     Route::post('validate', ['as' => 'validateBalancete', 'uses' => 'BalanceteController@validateBalancete']);
 });
 
+//Admin - Tarefas
+Route::group(['prefix' => 'admin/tarefas', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+    Route::get('', ['as' => 'listTarefasToAdmin', 'uses' => 'TarefaController@index']);
+    Route::get('view/{id}', ['as' => 'showTarefaToAdmin', 'uses' => 'TarefaController@view']);
+    Route::get('new', ['as' => 'newTarefa', 'uses' => 'TarefaController@new']);
+    Route::post('new', ['uses' => 'TarefaController@store']);
+    Route::post('validate', ['as' => 'validateTarefa', 'uses' => 'TarefaController@validateTarefa']);
+    Route::get('start/{id}', ['as' => 'iniciarTarefa', 'uses' => 'TarefaController@start']);
+    Route::get('finish/{id}', ['as' => 'concluirTarefa', 'uses' => 'TarefaController@finish']);
+    Route::get('reopen/{id}', ['as' => 'reabrirTarefa', 'uses' => 'TarefaController@reopen']);
+    Route::get('cancel/{id}', ['as' => 'cancelarTarefa', 'uses' => 'TarefaController@cancel']);
+});
+
 //Admin - Abertura de Empresa
 Route::group(['prefix' => 'admin/abertura-empresa', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
     Route::get('', ['as' => 'listAberturaEmpresaToAdmin', 'uses' => 'AberturaEmpresaController@index']);
@@ -356,6 +370,12 @@ Route::group(['prefix' => 'admin/empresas', 'namespace' => 'Admin', 'middleware'
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['as' => 'listDocumentosFuncionarioToAdmin', 'uses' => 'FuncionarioDocumentoController@index']);
     Route::post('{idEmpresa}/funcionarios/{idFuncionario}/documentos', ['uses' => 'FuncionarioDocumentoController@store']);
     Route::get('{idEmpresa}/funcionarios/{idFuncionario}/ativar', ['as' => 'activateFuncionario', 'uses' => 'FuncionarioController@activate']);
+
+    Route::post('{idEmpresa}/historico-faturamento', ['as'=>'saveHistoricoFaturamento', 'uses' => 'HistoricoFaturamentoController@store']);
+    Route::post('{idEmpresa}/adicionar-tributacao', ['as'=>'addTributacaoToEmpresa', 'uses' => 'TributacaoController@store']);
+    Route::post('{idEmpresa}/tributacao/{idTributacao}/atualizar', ['as'=>'updateTributacaoFromEmpresa', 'uses' => 'TributacaoController@update']);
+    Route::get('{idEmpresa}/tributacao/{idTributacao}/remover', ['as'=>'removeTributacaoFromEmpresa', 'uses' => 'TributacaoController@delete']);
+
 });
 
 //Admin - Analytics
@@ -407,6 +427,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('view/{idApuracao}/upload/guia', ['uses' => 'ApuracaoController@uploadGuia']);
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
     Route::get('view/{idApuracao}/download-zip', ['as' => 'downloadZipApuracao', 'uses' => 'ApuracaoController@downloadZip']);
+    Route::post('calculate/simples-nacional', ['as' => 'calculateApuracaoSimplesNacional', 'uses' => 'ApuracaoController@calculateSimplesNacional']);
 });
 
 //Admin - Imposto de Renda

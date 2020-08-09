@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Models\Mensagem;
+use App\Models\TarefaUsuario;
 use App\Models\Usuario;
 use App\Notifications\MessageSent;
 use App\Validation\MensagemValidation;
@@ -33,10 +34,24 @@ class SendMessage
             $lastMessageId = $message->id;
             if (isset($data['from_admin']) && $data['from_admin']) {
                 if (self::shouldNotify($data, $lastMessageId, 1)) {
-                    if ($message->parent->usuario) {
-                        $message->parent->usuario->notify(new MessageSent($message, false));
-                    } elseif ($message->parent->empresa) {
-                        $message->parent->empresa->usuario->notify(new MessageSent($message, false));
+                    //Caso seja uma tarefa
+                    if ($data['referencia'] == 'tarefa') {
+                        $tarefa_criador = TarefaUsuario::where('id_tarefa', $data['id_referencia'])->where('funcao', 'criador')->first();
+                        $tarefa_responsavel = TarefaUsuario::where('id_tarefa', $data['id_referencia'])->where('funcao', 'responsavel')->first();
+                        if (Auth::user()->id == $tarefa_criador->id) {
+                            $responsavel = Usuario::findOrFail($tarefa_responsavel->id_usuario);
+                            $responsavel->notify(new MessageSent($message, true));
+                        } else {
+                            $criador = Usuario::findOrFail($tarefa_criador->id_usuario);
+                            $criador->notify(new MessageSent($message, true));
+                        }
+                        //Caso não seja uma tarefa
+                    } else {
+                        if ($message->parent->usuario) {
+                            $message->parent->usuario->notify(new MessageSent($message, false));
+                        } elseif ($message->parent->empresa) {
+                            $message->parent->empresa->usuario->notify(new MessageSent($message, false));
+                        }
                     }
                 }
             } else {
@@ -59,7 +74,7 @@ class SendMessage
             ->where('from_admin', $admin)
             ->where('referencia', $data['referencia'])
             ->count();
-        if($totalMessages <= 1){
+        if ($totalMessages <= 1) {
             return true;
         }
         $lastMessage = Mensagem::where('id_referencia', $data['id_referencia'])

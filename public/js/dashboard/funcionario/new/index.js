@@ -1,6 +1,7 @@
 $(function () {
     $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
         e.preventDefault();
+        $(this).addClass('disabled').prop('disabled', true);
         validateFormPrincipal();
     });
     $('[name="contrato[qtde_dias_experiencia]"], [name="contrato[qtde_dias_prorrogacao_experiencia]"]').on('keyup', function () {
@@ -131,6 +132,7 @@ function validateFormPrincipal() {
     }).done(function (data, textStatus, jqXHR) {
         $('#form-principal').submit();
     }).fail(function (jqXHR, textStatus, errorThrown) {
+        $('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false);
         if (jqXHR.status === 422) {
             //noinspection JSUnresolvedVariable
             showFormValidationError($('#form-principal'), jqXHR.responseJSON);

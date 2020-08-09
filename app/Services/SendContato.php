@@ -9,8 +9,6 @@
 namespace App\Services;
 
 use App\Mail\NewContatoFromSite;
-use App\Models\Usuario;
-use App\Notifications\MessageFromSite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;

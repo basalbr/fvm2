@@ -69,6 +69,9 @@ class MessageSent extends Notification implements ShouldQueue
             if ($this->mensagem->referencia == 'reuniao') {
                 $this->url = route('showReuniaoToAdmin', [$this->mensagem->id_referencia]);
             }
+            if ($this->mensagem->referencia == 'tarefa') {
+                $this->url = route('showTarefaToAdmin', [$this->mensagem->id_referencia]);
+            }
         } elseif (!$admin) {
             if ($this->mensagem->referencia == 'chamado') {
                 $this->url = route('viewChamado', [$this->mensagem->id_referencia]);
@@ -128,6 +131,9 @@ class MessageSent extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
+        if($notifiable->admin === 1 && $notifiable->id !== 1){
+            return ['database'];
+        }
         return ['mail', 'database'];
     }
 
@@ -209,6 +215,9 @@ class MessageSent extends Notification implements ShouldQueue
         }
         if ($this->mensagem->referencia == 'reuniao') {
             return 'à reunião sobre"' . $this->mensagem->parent->assunto.'"';
+        }
+        if ($this->mensagem->referencia == 'tarefa') {
+            return 'à tarefa ' . $this->mensagem->parent->assunto;
         }
         return 'à um processo';
     }

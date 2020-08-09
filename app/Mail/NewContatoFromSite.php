@@ -35,7 +35,7 @@ class NewContatoFromSite extends Mailable implements ShouldQueue
     public function build()
     {
         return $this
-            ->from($this->email, $this->name)
+            ->from('contato@webcontabilidade.com', $this->name)
             ->replyTo($this->email, $this->name)
             ->subject('Novo contato do site')
             ->markdown('emails.contato', ['name' => $this->name, 'mensagem' => $this->message]);

@@ -67,6 +67,7 @@ class CronController extends Controller
         $valorTotal = 0.0;
         $qtdNotas = 0;
         foreach ($pagamentos as $pagamento) {
+            $empresa = $pagamento->parent->empresa()->withTrashed()->first();
             /*@var OrdemPagamento $pagamento*/
             $valorTotal += $pagamento->valor;
             $qtdNotas++;
@@ -78,18 +79,18 @@ class CronController extends Controller
                 . self::mb_str_pad('200', 5, '0', 0)
                 . '0'
                 . '2'
-                . self::mb_str_pad(preg_replace('/\D/', '', $pagamento->parent->empresa->cnpj), 14, '0', 0)
+                . self::mb_str_pad(preg_replace('/\D/', '', $empresa->cnpj), 14, '0', 0)
                 . self::mb_str_pad('', 15, '0', 0)
                 . self::mb_str_pad('', 15, '0', 0)
-                . self::mb_str_pad(trim($pagamento->parent->empresa->razao_social), 115, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->endereco), 103, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->numero), 10, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->complemento), 60, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->bairro), 72, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->cidade), 50, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->uf->sigla), 2, ' ')
-                . self::mb_str_pad(preg_replace('/\D/', '', $pagamento->parent->empresa->cep), 8, ' ')
-                . self::mb_str_pad(trim($pagamento->parent->empresa->usuario->email), 80, ' ')
+                . self::mb_str_pad(trim($empresa->razao_social), 115, ' ')
+                . self::mb_str_pad(trim($empresa->endereco), 103, ' ')
+                . self::mb_str_pad(trim($empresa->numero), 10, ' ')
+                . self::mb_str_pad(trim($empresa->complemento), 60, ' ')
+                . self::mb_str_pad(trim($empresa->bairro), 72, ' ')
+                . self::mb_str_pad(trim($empresa->cidade), 50, ' ')
+                . self::mb_str_pad(trim($empresa->uf->sigla), 2, ' ')
+                . self::mb_str_pad(preg_replace('/\D/', '', $empresa->cep), 8, ' ')
+                . self::mb_str_pad(trim($empresa->usuario->email), 80, ' ')
                 . self::mb_str_pad('0', 15, ' ')
                 . self::mb_str_pad('0', 15, ' ')
                 . self::mb_str_pad('0', 15, ' ')
@@ -127,16 +128,18 @@ class CronController extends Controller
         $valorTotal = 0.0;
         $qtdNotas = 0;
         foreach ($pagamentos as $pagamento) {
-            /*@var OrdemPagamento $pagamento*/
-            $valorTotal += $pagamento->valor;
-            $qtdNotas++;
-            $rps .= '1|' . $pagamento->id . '|E|1|' . date('Y-m-d') . '|1||||' . date('Y-m-d') . '|' . number_format($pagamento->valor, 2)
-                . '||||||||||2.0000|||2||17.19|8211300|17.19||' . 'Serviços prestados entre ' . $start->format('d/m/Y') . ' e ' . $end->format('d/m/Y') . '|4202404||1|||2|'
-                . preg_replace('/\D/', '', $pagamento->parent->empresa->cnpj) . '|||' . trim($pagamento->parent->empresa->razao_social) . '|' . trim($pagamento->parent->empresa->endereco) . '|'
-                . trim($pagamento->parent->empresa->numero) . '|' . trim($pagamento->parent->empresa->complemento) . '|' . trim($pagamento->parent->empresa->bairro) . '|'
-                . $this->getMunicipio(trim($pagamento->parent->empresa->cidade)) . '|' . trim($pagamento->parent->empresa->uf->sigla) . '||' . preg_replace('/\D/', '', $pagamento->parent->empresa->cep) . '|'
-                . '|' . trim($pagamento->parent->empresa->usuario->email) . '||||||||6|1|2|'
-                . chr(13) . chr(10);
+            if($pagamento->parent !== null) {
+                /*@var OrdemPagamento $pagamento*/
+                $valorTotal += $pagamento->valor;
+                $qtdNotas++;
+                $rps .= '1|' . $pagamento->id . '|E|1|' . date('Y-m-d') . '|1||||' . date('Y-m-d') . '|' . number_format($pagamento->valor, 2)
+                    . '||||||||||2.0000|||2||17.19|8211300|17.19||' . 'Serviços prestados entre ' . $start->format('d/m/Y') . ' e ' . $end->format('d/m/Y') . '|4202404||1|||2|'
+                    . preg_replace('/\D/', '', $pagamento->parent->empresa->cnpj) . '|||' . trim($pagamento->parent->empresa->razao_social) . '|' . trim($pagamento->parent->empresa->endereco) . '|'
+                    . trim($pagamento->parent->empresa->numero) . '|' . trim($pagamento->parent->empresa->complemento) . '|' . trim($pagamento->parent->empresa->bairro) . '|'
+                    . $this->getMunicipio(trim($pagamento->parent->empresa->cidade)) . '|' . trim($pagamento->parent->empresa->uf->sigla) . '||' . preg_replace('/\D/', '', $pagamento->parent->empresa->cep) . '|'
+                    . '|' . trim($pagamento->parent->empresa->usuario->email) . '||||||||6|1|2|'
+                    . chr(13) . chr(10);
+            }
         }
         return response($rps)->withHeaders([
             'Content-Type' => 'text/plain',
@@ -202,14 +205,14 @@ class CronController extends Controller
                 }
             } else {
                 Log::info('mensagens não enviadas pois é final de semana');
-                return false;
+                return response()->json('false');
             }
         } catch (\Exception $e) {
             Log::critical($mensagem->id);
             Log::critical($e);
         }
         Log::info('mensagens não lidas enviadas com sucesso');
-        return true;
+        return response()->json('true');
     }
 
     // For the current date

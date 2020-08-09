@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Notifications\NewApuracao;
 use App\Notifications\NewProcessoDocumentosContabeis;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /* @property Usuario usuario */
 class Empresa extends Model
@@ -17,7 +17,7 @@ class Empresa extends Model
 
     use SoftDeletes;
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'ativacao_programada'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'ativacao_programada', 'data_abertura'];
 
     /**
      * The database table used by the model.
@@ -55,6 +55,7 @@ class Empresa extends Model
         'id_enquadramento_empresa',
         'certificado_digital',
         'senha_certificado_digital',
+        'data_abertura'
     ];
 
     protected static $documentos_migracao = [
@@ -107,8 +108,10 @@ class Empresa extends Model
         }
             if (strtolower($this->tipoTributacao->descricao) == 'mei') {
                 $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', 4)->get();
-            } else {
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto','!=', 4)->get();
+            } else if(strtolower($this->tipoTributacao->descricao) == 'lucro_presumido') {
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto',[2,3,5,6])->get();
+            } else{
+                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto',[1,2,3])->get();
             }
             $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
             $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
@@ -145,6 +148,20 @@ class Empresa extends Model
         }
     }
 
+    public function setDataAberturaAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['data_abertura'] = Carbon::createFromFormat('d/m/Y', $value);
+        } else {
+            $this->attributes['data_abertura'] = null;
+        }
+    }
+
+    public function getUltimosDozeMeses(){
+
+        return CarbonPeriod::create(Carbon::now()->subMonths($this->data_abertura->diffInMonths(Carbon::now()) > 12 ? 13 : $this->data_abertura->diffInMonths(Carbon::now())), '1 month', Carbon::now()->subMonths(2));
+    }
+
     public function getMensalidadeAtual(): Mensalidade
     {
         return $this->mensalidades()->orderBy('created_at', 'desc')->first();
@@ -158,6 +175,16 @@ class Empresa extends Model
     public function anotacoes()
     {
         return $this->hasMany(Anotacao::class, 'id_referencia')->where('referencia', '=', $this->getTable());
+    }
+
+    public function faturamentos()
+    {
+        return $this->hasMany(HistoricoFaturamento::class, 'id_empresa');
+    }
+
+    public function tributacoes()
+    {
+        return $this->hasMany(Tributacao::class, 'id_empresa');
     }
 
     public function alteracoes()
@@ -406,6 +433,16 @@ class Empresa extends Model
             return '<span class="label label-danger fadeIn infinite animated">Cancelada</span>';
         }
         return '<span class="label label-info">Novo</span>';
+    }
+
+    public function getReceitaBrutaUltimosDozeMesesSN($competencia, $mercado){
+        if(Carbon::now()->diffInMonths($this->data_abertura)>=12){
+            return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
+        }else{
+            $faturamentos = $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->get();
+            return number_format(($faturamentos->sum('valor') / $faturamentos->count()) * 12, 2);
+        }
+        return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
     }
 
 }

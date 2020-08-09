@@ -17,6 +17,7 @@ use App\Models\Empresa;
 use App\Models\ImpostoRenda;
 use App\Models\OrdemPagamento;
 use App\Models\ProcessoDocumentoContabil;
+use App\Models\Tarefa;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -38,6 +39,15 @@ class AdminController extends Controller
         $notificacoes = $this->filterNotifications($notificacoes, $request);
         $notificacoes = $notificacoes->paginate(10);
         $pagamentosPendentes = OrdemPagamento::where('status', '!=', 'Paga')->where('status', '!=', 'Disponível')->count();
+        $tarefas = Tarefa::join('tarefa_usuario', 'tarefa.id', 'tarefa_usuario.id_tarefa')
+            ->where('tarefa_usuario.id_usuario', \Auth::user()->id)
+            ->where('tarefa_usuario.funcao', 'responsavel')
+            ->whereNotIn('tarefa.status', ['concluido', 'cancelado'])
+            ->orderBy('tarefa.expectativa_conclusao_em', 'asc')
+            ->orderBy('tarefa.created_at', 'asc')
+            ->select('tarefa.*')
+            ->limit(10)
+            ->get();
         $alteracoesPendentes = Alteracao::join('ordem_pagamento', 'ordem_pagamento.id_referencia', '=', 'alteracao.id')
             ->whereNotIn('alteracao.status', ['concluido', 'cancelado'])
             ->where('ordem_pagamento.referencia', '=', (new Alteracao)->getTable())
@@ -57,8 +67,13 @@ class AdminController extends Controller
             ->count();
         $processosPendentes = ProcessoDocumentoContabil::where('processo_documento_contabil.status', '!=', 'concluido')
             ->where('processo_documento_contabil.status', '!=', 'sem_movimento')->count();
+        $tarefasPendentes = Tarefa::join('tarefa_usuario', 'tarefa.id', 'tarefa_usuario.id_tarefa')
+            ->where('tarefa_usuario.id_usuario', \Auth::user()->id)
+            ->where('tarefa_usuario.funcao', 'responsavel')
+            ->whereNotIn('tarefa.status', ['concluido', 'cancelado'])
+            ->count();
         $chamadosPendentes = Chamado::whereNotIn('status', ['concluido'])->count();
-        return view('admin.index', compact('chamadosPendentes','irsPendentes','aberturasPendentes','pagamentosPendentes', 'apuracoesPendentes', 'processosPendentes', 'alteracoesPendentes', 'notificacoes'));
+        return view('admin.index', compact('tarefas','tarefasPendentes', 'chamadosPendentes','irsPendentes','aberturasPendentes','pagamentosPendentes', 'apuracoesPendentes', 'processosPendentes', 'alteracoesPendentes', 'notificacoes'));
     }
 
     public function getRegisteredUsersHistory()
@@ -93,15 +108,15 @@ class AdminController extends Controller
     {
         $initialDate = (new Carbon('first day of 12 months ago'))->format('Y-m');
         DB::enableQueryLog();
-        $pagamentosAbertos = OrdemPagamento::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $pagamentosAbertos = OrdemPagamento::where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->withTrashed()->limit(12)->get()->toArray();
         $pagamentosAbertosData = [];
-        $pagamentosPagos = OrdemPagamento::where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $pagamentosPagos = OrdemPagamento::where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->withTrashed()->limit(12)->get()->toArray();
         $pagamentosPagosData = [];
-        $mensalidades = OrdemPagamento::where('status','Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->where('referencia', 'mensalidade')->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $mensalidades = OrdemPagamento::where('status','Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC"), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->where('referencia', 'mensalidade')->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->withTrashed()->limit(12)->get()->toArray();
         $mensalidadesData = [];
-        $aberturas = OrdemPagamento::where('referencia', 'abertura_empresa')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $aberturas = OrdemPagamento::where('referencia', 'abertura_empresa')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->withTrashed()->limit(12)->get()->toArray();
         $aberturasData = [];
-        $alteracoes = OrdemPagamento::where('referencia', 'alteracao')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->limit(12)->get()->toArray();
+        $alteracoes = OrdemPagamento::where('referencia', 'alteracao')->where('status', 'Paga')->where(DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"), '>=', $initialDate)->groupBy(DB::Raw('YEAR(created_at) DESC'), DB::Raw("MONTH(created_at) DESC "), DB::Raw("DATE_FORMAT(created_at,'%Y-%m')"))->select(DB::Raw("SUM(valor) as valor, MONTH(created_at) as mes, YEAR(created_at) as ano"))->withTrashed()->limit(12)->get()->toArray();
         $alteracoesData = [];
         foreach (array_reverse($pagamentosAbertos) as $pagamento) {
             $pagamentosAbertosData[] = [Carbon::createFromFormat('Y-n-d', $pagamento['ano'] . '-' . $pagamento['mes'] . '-01')->format('U') * 1000, (float)$pagamento['valor']];

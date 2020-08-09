@@ -13,6 +13,7 @@ use App\Models\Empresa;
 use App\Models\EnquadramentoEmpresa;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
+use App\Models\TabelaSimplesNacional;
 use App\Models\TipoTributacao;
 use App\Models\Uf;
 use App\Notifications\PendingDocsInMigration;
@@ -24,6 +25,7 @@ use App\Services\SendMessageToAdmin;
 use App\Validation\EmpresaValidation;
 use App\Validation\MensagemValidation;
 use App\Validation\SocioValidation;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -52,21 +54,23 @@ class EmpresaController extends Controller
         $empresa = Empresa::find($idEmpresa);
         if ($empresa->status != 'cancelado') {
             if (DeactivateEmpresa::handle($empresa)) {
-                return redirect()->route('showEmpresaToAdmin',$idEmpresa)->with('successAlert', 'Empresa desativada com sucesso.');
+                return redirect()->route('showEmpresaToAdmin', $idEmpresa)->with('successAlert', 'Empresa desativada com sucesso.');
             }
         }
         return redirect()->back();
     }
 
-    public function toggleRequestDoc($idEmpresa, $doc){
+    public function toggleRequestDoc($idEmpresa, $doc)
+    {
         /* @var $empresa Empresa */
         $empresa = Empresa::findOrFail($idEmpresa);
         $empresa->$doc == true ? $empresa->$doc = false : $empresa->$doc = true;
         $empresa->save();
-        return response()->json(['status'=>true]);
+        return response()->json(['status' => true]);
     }
 
-    public function warnUserPendingDocs($idEmpresa){
+    public function warnUserPendingDocs($idEmpresa)
+    {
         /* @var Empresa $empresa */
         $empresa = Empresa::findOrFail($idEmpresa);
         $empresa->usuario->notify(new PendingDocsInMigration($empresa));
@@ -128,7 +132,25 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::find($id);
         $this->authorize('view', $empresa);
-        return view('admin.empresa.view.index', compact("empresa"));
+        $historico_faturamento_interno = [];
+        $historico_faturamento_externo = [];
+        foreach ($empresa->faturamentos()->where('mercado', 'interno')->get(['competencia', 'valor'])->toArray() as $faturamento) {
+            $historico_faturamento_interno[Carbon::createFromFormat('Y-m-d H:i:s', $faturamento['competencia'])->format('Y-m-d')] = $faturamento['valor'];
+        }
+        foreach ($empresa->faturamentos()->where('mercado', 'externo')->get(['competencia', 'valor'])->toArray() as $faturamento) {
+            $historico_faturamento_externo[Carbon::createFromFormat('Y-m-d H:i:s', $faturamento['competencia'])->format('Y-m-d')] = $faturamento['valor'];
+        }
+        $tabelasSN = TabelaSimplesNacional::all();
+        $tributacoes = $empresa->tributacoes;
+        $impostosIndex = [1 => 'IRPJ',
+            2 => 'CSLL',
+            3 => 'Cofins',
+            4 => 'PIS/Pasep',
+            5 => 'CPP',
+            6 => 'ICMS',
+            7 => 'IPI',
+            8 => 'ISS'];
+        return view('admin.empresa.view.index', compact('impostosIndex',"empresa", 'historico_faturamento_interno', 'historico_faturamento_externo', 'tabelasSN', 'tributacoes'));
     }
 
     /**

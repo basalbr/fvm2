@@ -32,6 +32,9 @@ class NewDemissaoRequest extends Notification
      */
     public function via($notifiable)
     {
+        if($notifiable->admin === 1 && $notifiable->id !== 1){
+            return ['database'];
+        }
         return ['mail','database'];
     }
 

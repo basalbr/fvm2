@@ -124,8 +124,44 @@
     </div>
     <div class="col-sm-6">
         <div class="panel panel-primary">
+            <div class="panel-heading">Tarefas</div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                    @foreach($tarefas as $tarefa)
+                        <tr>
+                            <td><a href="{{route('showUsuarioToAdmin', $tarefa->criador()->id)}}">{{$tarefa->criador()->nome}}</a></td>
+                            <td>{{$tarefa->assunto}}{!! $tarefa->getWarnings() ? '<br />'.$tarefa->getWarnings() : '' !!}</td>
+                            <td>Concluir até <strong>{{$tarefa->expectativa_conclusao_em->format('d/m/Y à\s H:i')}}</strong></td>
+                            <td>{!! $tarefa->getLabelStatus() !!}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{route('showTarefaToAdmin', $tarefa->id)}}" title="Visualizar">
+                                    <i class="fa fa-search"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <a class="btn btn-primary" href="{{route('listTarefasToAdmin')}}">Clique para acessar suas tarefas <i class="fa fa-external-link"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-primary">
             <div class="panel-heading">Pendências</div>
             <div class="panel-body">
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <a class="linkless" href="{{route('listTarefasToAdmin')}}">
+                                <p class="text-warning" style="font-size: 36px"><i class="fa fa-tasks"></i></p>
+                                <p class="text-warning"><span
+                                            style="font-size: 20px; font-weight: bold">{{$tarefasPendentes}}</span>
+                                    tarefas pendentes</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-body">

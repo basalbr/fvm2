@@ -124,6 +124,7 @@ class AberturaEmpresa extends Model
         'concluido' => 'Esse processo está concluído',
         'cancelado' => 'Esse processo foi cancelado',
         'pendente' => 'Nossa equipe recebeu seu pedido',
+        'em_analise' => 'Estamos analisando seu pedido',
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];

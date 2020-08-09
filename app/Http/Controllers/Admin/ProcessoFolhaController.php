@@ -56,7 +56,7 @@ class ProcessoFolhaController extends Controller
             ->whereDoesntHave('processosFolha', function ($q) {
                 $q->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date('Y'));
             })
-            ->orderBy('nome_fantasia', 'asc')
+            ->orderBy('razao_social', 'asc')
             ->get();
         $historicoFolha = ProcessoFolha::orderBy('created_at', 'desc')->get();
         return view('admin.processo_folha.index', compact('empresasPendentes', 'historicoFolha'));

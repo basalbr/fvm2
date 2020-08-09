@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+@include('admin.components.tarefas.shortcut')
 
 @section('top-title')
     <a href="{{route('listBalancetesToAdmin')}}">Balancetes</a> <i class="fa fa-angle-right"></i> <a
