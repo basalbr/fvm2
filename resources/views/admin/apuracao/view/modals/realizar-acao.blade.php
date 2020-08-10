@@ -45,7 +45,9 @@
             $.post($('#form-principal').data('url-validacao'), toPost)
                 .done(function (jqXHR) {
                     $('#valor-validacao').val(jqXHR);
-                    if ($('#valor-validacao').val() == $('#resultado-apuracao-sistema').val()) {
+                    valor_validacao = parseFloat($('#valor-validacao').val().replace(".", "").replace(",", "."));
+                    resultado_apuracao = parseFloat($('#resultado-apuracao-sistema').val().replace(".", "").replace(",", "."));
+                    if ((valor_validacao - resultado_apuracao) <= 0.05 && (valor_validacao - resultado_apuracao) >= -0.05) {
                         $('#valor-validacao').parent().addClass('list-group-item-success').removeClass('list-group-item-danger');
                         $('#form-principal .btn-success').prop('disabled', false);
                     } else {

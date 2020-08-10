@@ -192,7 +192,7 @@ class ApuracaoController extends Controller
                 if($faixaSimplesNacional->de == 0){
                     $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
                 }else{
-                    $aliquotaEfetiva = (($rbu12mInterno * $faixaSimplesNacional->aliquota) - $faixaSimplesNacional->deducao) / $rbu12mInterno;
+                    $aliquotaEfetiva = ((($rbu12mInterno * ($faixaSimplesNacional->aliquota/100)) - $faixaSimplesNacional->deducao) / $rbu12mInterno)*100;
                 }
             } else {
                 $rbu12mExterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'externo');
@@ -201,7 +201,7 @@ class ApuracaoController extends Controller
                 if($faixaSimplesNacional->de == 0){
                     $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
                 }else{
-                    $aliquotaEfetiva = (($rbu12mExterno * $faixaSimplesNacional->aliquota) - $faixaSimplesNacional->deducao) / $rbu12mExterno;
+                    $aliquotaEfetiva = ((($rbu12mExterno * ($faixaSimplesNacional->aliquota/100)) - $faixaSimplesNacional->deducao) / $rbu12mExterno)*100;
                 }
             }
             $impostosFaixaSimplesNacional = ImpostoFaixaSimplesNacional::where('id_faixa_simples_nacional', $faixaSimplesNacional->id)->get(['id'])->toArray();

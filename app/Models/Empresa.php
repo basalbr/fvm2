@@ -440,7 +440,8 @@ class Empresa extends Model
             return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
         }else{
             $faturamentos = $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->get();
-            return number_format(($faturamentos->sum('valor') / $faturamentos->count()) * 12, 2);
+            $faturamento = $faturamentos->sum('valor') < 1 ? 1 : $faturamentos->sum('valor');
+            return number_format(($faturamento / $faturamentos->count()) * 12, 2);
         }
         return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
     }
