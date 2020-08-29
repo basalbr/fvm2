@@ -54,8 +54,7 @@ function searchCnaeByDescription(description) {
                     var cnaeAddButton = $('<button>').addClass('btn btn-success add-cnae').attr({'data-code': data[i].codigo, 'data-description':data[i].descricao}).text(' Adicionar').prepend($('<i>').addClass('fa fa-plus'));
                     var cnaeButtons = $('<td>');
                     cnaeButtons.append(cnaeAddButton);
-                    cnaeTr.append($('<td>').text(data[i].codigo));
-                    cnaeTr.append($('<td>').text(data[i].descricao));
+                    cnaeTr.append($('<td>').text(data[i].codigo+' - '+data[i].descricao));
                     cnaeTr.append($('<td>').append(cnaeButtons));
                     $('#modal-cnae').find('.list').append(cnaeTr);
                 }

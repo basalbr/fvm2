@@ -34,15 +34,35 @@
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
                         <input type="checkbox" value="1" name="contrato" id="contrato_chk" required>
-                        <label for="contrato_chk"> Eu aceito os termos do contrato (<span id="contrato">ver contrato</span>)</label>
+                        <label for="contrato_chk"> Eu aceito os termos do contrato</label>
+
                     </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="goog_report_conversion('{{route('registerUser')}}')" class="btn btn-complete"><span
-                                class="fa fa-check-square-o"></span> Cadastrar
-                    </button>
-                    <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Fechar
-                    </button>
+                    <div class="hidden-xs">
+                        <a href="#" data-toggle="modal" data-target="#modal-contrato" class="btn btn-info"><strong><i class="fa fa-file-o"></i> Ler contrato</strong></a>
+                        <button type="button" onclick="goog_report_conversion('{{route('registerUser')}}')"
+                                class="btn btn-complete"><span
+                                    class="fa fa-check-square-o"></span> Cadastrar
+                        </button>
+                        <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Fechar
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-sm-12 visible-xs text-center btn-block">
+                        <a href="#" data-toggle="modal" data-target="#modal-contrato" class="btn btn-info"><strong><i class="fa fa-file-o"></i> Ler contrato</strong></a>
+                        <div class="clearfix"></div>
+                        <br />
+                        <button type="button" onclick="goog_report_conversion('{{route('registerUser')}}')"
+                                class="btn btn-complete"><span
+                                    class="fa fa-check-square-o"></span> Cadastrar
+                        </button>
+                        <button class="btn btn-default" data-dismiss="modal"><span class="fa fa-remove"></span> Fechar
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
+
                 </div>
             </form>
         </div>
