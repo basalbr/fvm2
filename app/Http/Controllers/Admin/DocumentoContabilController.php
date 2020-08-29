@@ -25,11 +25,11 @@ class DocumentoContabilController extends Controller
     public function index()
     {
         $processosPendentes = ProcessoDocumentoContabil::query();
-        $processosPendentes->whereNotIn('processo_documento_contabil.status', ['concluido', 'sem_movimento']);
+        $processosPendentes->whereNotIn('processo_documento_contabil.status', ['concluido'])->orderBy('status', 'desc')->orderBy('created_at', 'desc');
         $processosPendentes = $processosPendentes->select('processo_documento_contabil.*')->paginate(10);
 
         $processosConcluidos = ProcessoDocumentoContabil::query();
-        $processosConcluidos->whereIn('processo_documento_contabil.status', ['concluido', 'sem_movimento']);
+        $processosConcluidos->whereIn('processo_documento_contabil.status', ['concluido']);
         $processosConcluidos = $processosConcluidos->select('processo_documento_contabil.*')->paginate(10);
 
         return view('admin.documentos_contabeis.index', compact('processosPendentes', 'processosConcluidos'));

@@ -95,7 +95,6 @@ class FuncionarioController extends Controller
         $dow = Config::getDaysOfWeek();
 
         return compact(
-            'empresa',
             'sexos',
             'grausInstrucao',
             'estadosCivis',

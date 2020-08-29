@@ -1,6 +1,7 @@
 var reference, referenceId, lastMessageId, uploadFileUrl, updateAjax = null, readAjax = null, preventSend = false;
 
 $(function () {
+
     reference = $('.messages').data('reference');
     referenceId = $('.messages').data('reference-id');
     uploadFileUrl = $('.messages').data('upload-url');
@@ -59,6 +60,7 @@ $(function () {
     });
     setInterval(updateChat, 5000);
     setInterval(readMessages, 5000);
+
 });
 
 function resizeElementHeight(element) {
@@ -76,6 +78,9 @@ function resizeElementHeight(element) {
 }
 
 function readMessages(bypass) {
+    if(!document.hasFocus()){
+        return false;
+    }
     if (preventSend) {
         return false;
     }
@@ -186,6 +191,9 @@ function uploadMessengerFile(formData, target) {
 }
 
 function updateChat() {
+    if(!document.hasFocus()){
+        return false;
+    }
     if (preventSend) {
         return false;
     }

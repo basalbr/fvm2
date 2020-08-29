@@ -41,7 +41,7 @@
     <div class="navigation-space"></div>
     <div class="navigation-options animated slideInUp">
         <a class="btn btn-default" href="{{URL::previous()}}"><i class="fa fa-angle-left"></i> Voltar</a>
-        @if(in_array($processo->status, ['documentos_enviados', 'novo', 'pendente']))
+        @if(in_array($processo->status, ['documentos_enviados', 'novo', 'pendente', 'sem_movimento']))
             <a class="btn btn-success" href="{{route('contabilizarDocumentoContabil', [$processo->id])}}"><i
                         class="fa fa-check"></i> Contabilizar</a>
         @endif

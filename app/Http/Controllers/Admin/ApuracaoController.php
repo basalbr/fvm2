@@ -12,8 +12,10 @@ use App\Models\Anotacao;
 use App\Models\Apuracao;
 use App\Models\Empresa;
 use App\Models\FaixaSimplesNacional;
+use App\Models\HistoricoFaturamento;
 use App\Models\ImpostoFaixaSimplesNacional;
 use App\Models\Mensagem;
+use App\Models\RegistroAtividade;
 use App\Models\Tributacao;
 use App\Models\TributacaoIsencao;
 use App\Services\UpdateApuracao;
@@ -22,6 +24,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use ZipArchive;
 
 class ApuracaoController extends Controller
@@ -189,33 +192,50 @@ class ApuracaoController extends Controller
                 $rbu12mInterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'interno');
                 $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
                     ->where('de', '<=', $rbu12mInterno)->where('ate', '>=', $rbu12mInterno)->first();
-                if($faixaSimplesNacional->de == 0){
+                if ($faixaSimplesNacional->de == 0) {
                     $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
-                }else{
-                    $aliquotaEfetiva = ((($rbu12mInterno * ($faixaSimplesNacional->aliquota/100)) - $faixaSimplesNacional->deducao) / $rbu12mInterno)*100;
+                } else {
+                    $aliquotaEfetiva = ((($rbu12mInterno * ($faixaSimplesNacional->aliquota / 100)) - $faixaSimplesNacional->deducao) / $rbu12mInterno) * 100;
                 }
             } else {
                 $rbu12mExterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'externo');
                 $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
                     ->where('de', '<=', $rbu12mExterno)->where('ate', '>=', $rbu12mExterno)->first();
-                if($faixaSimplesNacional->de == 0){
+                if ($faixaSimplesNacional->de == 0) {
                     $aliquotaEfetiva = $faixaSimplesNacional->aliquota;
-                }else{
-                    $aliquotaEfetiva = ((($rbu12mExterno * ($faixaSimplesNacional->aliquota/100)) - $faixaSimplesNacional->deducao) / $rbu12mExterno)*100;
+                } else {
+                    $aliquotaEfetiva = ((($rbu12mExterno * ($faixaSimplesNacional->aliquota / 100)) - $faixaSimplesNacional->deducao) / $rbu12mExterno) * 100;
                 }
             }
+
             $impostosFaixaSimplesNacional = ImpostoFaixaSimplesNacional::where('id_faixa_simples_nacional', $faixaSimplesNacional->id)->get(['id'])->toArray();
             $isencoes = 0;
-            foreach(TributacaoIsencao::where('id_tributacao', $tributo->id)->whereIn('id_imposto_faixa_simples_nacional', $impostosFaixaSimplesNacional)->get() as $tributacaoIsentacao){
-                $isencoes+=$tributacaoIsentacao->imposto->valor;
+            foreach (TributacaoIsencao::where('id_tributacao', $tributo->id)->whereIn('id_imposto_faixa_simples_nacional', $impostosFaixaSimplesNacional)->get() as $tributacaoIsentacao) {
+                $isencoes += $tributacaoIsentacao->imposto->valor;
             }
-            if($isencoes>0){
-                $aliquotaEfetiva -= $aliquotaEfetiva * ($isencoes/100);
+            if ($isencoes > 0) {
+                $aliquotaEfetiva -= $aliquotaEfetiva * ($isencoes / 100);
             }
 
-            $impostoParaPagar += ($tributacao['valor'] * $aliquotaEfetiva)/100;
+            $impostoParaPagar += ($tributacao['valor'] * $aliquotaEfetiva) / 100;
         }
         return response()->json(number_format($impostoParaPagar, 2, ',', '.'))->setStatusCode(200);
+    }
+
+    public function semMovimento($idApuracao)
+    {
+        $apuracao = Apuracao::findOrFail($idApuracao);
+        HistoricoFaturamento::create(['id_empresa' => $apuracao->id_empresa, 'competencia' => $apuracao->competencia, 'mercado' => 'interno', 'valor' => 0]);
+        HistoricoFaturamento::create(['id_empresa' => $apuracao->id_empresa, 'competencia' => $apuracao->competencia, 'mercado' => 'externo', 'valor' => 0]);
+        $apuracao->status = 'sem_movimento';
+        $apuracao->save();
+        RegistroAtividade::create([
+            'id_usuario' => Auth::user()->id,
+            'id_referencia' => $apuracao->id,
+            'referencia' => 'apuracao',
+            'mensagem' => Auth::user()->nome . ' informou como sem movimento'
+        ]);
+        return redirect()->route('showApuracaoToAdmin', [$idApuracao])->with('successAlert', 'Apuração atualizada com sucesso.');
     }
 
 }

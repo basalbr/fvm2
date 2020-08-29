@@ -73,6 +73,9 @@ function resizeElementHeight(element) {
 }
 
 function readMessages(bypass) {
+    if(!document.hasFocus()){
+        return false;
+    }
     if(preventSend){
         return false;
     }
@@ -180,6 +183,9 @@ function uploadMessengerFile(formData, target) {
     });
 }
 function updateChat() {
+    if(!document.hasFocus()){
+        return false;
+    }
     if(preventSend){
         return false;
     }

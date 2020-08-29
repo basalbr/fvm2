@@ -159,7 +159,7 @@ class Empresa extends Model
 
     public function getUltimosDozeMeses(){
 
-        return CarbonPeriod::create(Carbon::now()->subMonths($this->data_abertura->diffInMonths(Carbon::now()) > 12 ? 13 : $this->data_abertura->diffInMonths(Carbon::now())), '1 month', Carbon::now()->subMonths(2));
+        return CarbonPeriod::create(Carbon::now()->subMonths($this->data_abertura->diffInMonths(Carbon::now()) > 12 ? 13 : Carbon::parse($this->data_abertura->format('Y-m').'-01')->diffInMonths(Carbon::now())), '1 month', Carbon::now()->subMonths(2));
     }
 
     public function getMensalidadeAtual(): Mensalidade
@@ -441,7 +441,7 @@ class Empresa extends Model
         }else{
             $faturamentos = $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->get();
             $faturamento = $faturamentos->sum('valor') < 1 ? 1 : $faturamentos->sum('valor');
-            return number_format(($faturamento / $faturamentos->count()) * 12, 2);
+            return number_format(($faturamento / ($faturamentos->count() ? $faturamentos->count() : 1)) * 12, 2, '.', '');
         }
         return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
     }

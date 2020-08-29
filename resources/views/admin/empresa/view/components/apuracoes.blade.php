@@ -12,7 +12,7 @@
     <tbody>
 
     @if($empresa->apuracoes->count())
-        @foreach($empresa->apuracoes as $apuracao)
+        @foreach($empresa->apuracoes()->orderBy('competencia', 'desc')->get() as $apuracao)
 
             <tr>
                 <td>{{$apuracao->competencia->format('m/Y')}}</td>

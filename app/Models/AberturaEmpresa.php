@@ -143,7 +143,7 @@ class AberturaEmpresa extends Model
 
     public function getDescricaoEtapa()
     {
-        return $this->status_processo[$this->status];
+        return $this->status_processo[mb_strtolower($this->status)];
     }
 
     public function getEtapa()

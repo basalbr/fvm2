@@ -50,30 +50,32 @@ class UpdateApuracao
                 'referencia' => 'apuracao',
                 'mensagem' => Auth::user()->nome . ' informou o status ' . $request->get('status')
             ]);
-            RegistroAtividade::create([
-                'id_usuario' => Auth::user()->id,
-                'id_referencia' => $apuracao->id,
-                'referencia' => 'apuracao',
-                'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $request->get('faturamento_interno') . ' para o mercado interno e ' . $request->get('faturamento_externo') . ' para o mercado externo'
-            ]);
-            if ($request->has('tributo_interno')) {
-                foreach ($request->get('tributo_interno') as $descricao => $valor) {
-                    RegistroAtividade::create([
-                        'id_usuario' => Auth::user()->id,
-                        'id_referencia' => $apuracao->id,
-                        'referencia' => 'apuracao',
-                        'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $valor . ' em ' . $descricao . ' (mercado interno).'
-                    ]);
+            if ($apuracao->imposto->id == 1) {
+                RegistroAtividade::create([
+                    'id_usuario' => Auth::user()->id,
+                    'id_referencia' => $apuracao->id,
+                    'referencia' => 'apuracao',
+                    'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $request->get('faturamento_interno') . ' para o mercado interno e ' . $request->get('faturamento_externo') . ' para o mercado externo'
+                ]);
+                if ($request->has('tributo_interno')) {
+                    foreach ($request->get('tributo_interno') as $descricao => $valor) {
+                        RegistroAtividade::create([
+                            'id_usuario' => Auth::user()->id,
+                            'id_referencia' => $apuracao->id,
+                            'referencia' => 'apuracao',
+                            'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $valor . ' em ' . $descricao . ' (mercado interno).'
+                        ]);
+                    }
                 }
-            }
-            if ($request->has('tributo_externo')) {
-                foreach ($request->get('tributo_externo') as $descricao => $valor) {
-                    RegistroAtividade::create([
-                        'id_usuario' => Auth::user()->id,
-                        'id_referencia' => $apuracao->id,
-                        'referencia' => 'apuracao',
-                        'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $valor . ' em ' . $descricao . ' (mercado externo).'
-                    ]);
+                if ($request->has('tributo_externo')) {
+                    foreach ($request->get('tributo_externo') as $descricao => $valor) {
+                        RegistroAtividade::create([
+                            'id_usuario' => Auth::user()->id,
+                            'id_referencia' => $apuracao->id,
+                            'referencia' => 'apuracao',
+                            'mensagem' => Auth::user()->nome . ' informou o faturamento de ' . $valor . ' em ' . $descricao . ' (mercado externo).'
+                        ]);
+                    }
                 }
             }
             DB::commit();

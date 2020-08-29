@@ -206,6 +206,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer">
+                    <a href="{{route('apuracaoSemMovimentacaoAdmin', $apuracao->id)}}" class="btn btn-primary"><i class="fa fa-minus-circle"></i> Sem movimento</a>
                     <button class="btn btn-success" disabled="disabled"><i class="fa fa-check"></i> Concluir</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
                         Fechar

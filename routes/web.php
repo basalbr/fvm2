@@ -428,6 +428,7 @@ Route::group(['prefix' => 'admin/apuracao', 'namespace' => 'Admin', 'middleware'
     Route::post('validate/guia', ['as' => 'validateGuia', 'uses' => 'ApuracaoController@validateGuia']);
     Route::get('view/{idApuracao}/download-zip', ['as' => 'downloadZipApuracao', 'uses' => 'ApuracaoController@downloadZip']);
     Route::post('calculate/simples-nacional', ['as' => 'calculateApuracaoSimplesNacional', 'uses' => 'ApuracaoController@calculateSimplesNacional']);
+    Route::get('sem-movimento/{id}', ['as' => 'apuracaoSemMovimentacaoAdmin', 'uses' => 'ApuracaoController@semMovimento']);
 });
 
 //Admin - Imposto de Renda

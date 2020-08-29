@@ -23,9 +23,11 @@
             }
             if (countSocios > 1) {
                 showFormValidationError($('#form-principal'), ['A empresa deve possuir somente um sócio principal. Você cadastrou ' + countSocios]);
+                $('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false);
                 return false
             }
             showFormValidationError($('#form-principal'), ['É necessário ter um sócio principal cadastrado.']);
+            $('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false);
             return false;
         }
 
@@ -37,6 +39,7 @@
                 }
             }
             showFormValidationError($('#form-principal'), ['É necessário adicionar ao menos um CNAE.']);
+            $('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false);
             return false;
 
         }
