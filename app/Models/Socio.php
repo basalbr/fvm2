@@ -105,5 +105,9 @@ class Socio extends Model {
         return $this->principal ? 'Sim': 'Não';
     }
 
+    public function getEnderecoCompleto()
+    {
+        return $this->endereco . ($this->numero ? ', ' . $this->numero : '') . ($this->complemento ? ', ' . $this->complemento : '') . ', ' . $this->bairro . ', ' . $this->cidade . '/' . $this->uf->sigla . ', ' . $this->cep;
+    }
 
 }

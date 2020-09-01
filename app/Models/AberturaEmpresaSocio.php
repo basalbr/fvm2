@@ -143,5 +143,8 @@ class AberturaEmpresaSocio extends Model
     {
         return number_format($this->pro_labore, 2, ',', '.');
     }
-
+    public function getEnderecoCompleto()
+    {
+        return $this->endereco . ($this->numero ? ', ' . $this->numero : '') . ($this->complemento ? ', ' . $this->complemento : '') . ', ' . $this->bairro . ', ' . $this->cidade . '/' . $this->uf->sigla . ', ' . $this->cep;
+    }
 }
