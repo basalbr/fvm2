@@ -21,7 +21,7 @@
         <div class="clearfix"></div>
     @endif
     <div class="col-xs-12 hidden-xs">
-        <div class="form-group">
+        <div class="form-group" style="background-color: rgba(255,255,255,0.8)">
             <label for="">Andamento do Processo</label>
             <div class="form-control">
                 @include('dashboard.abertura_empresa.view.components.etapas')

@@ -56,7 +56,7 @@
             <th scope="row">Atividades</th>
             <td>
                 @foreach($aberturaEmpresa->cnaes as $cnae)
-                    {{$cnae->cnae->codigo}}
+                    <strong>{{$cnae->cnae->codigo}}</strong>
                     - {{$cnae->cnae->descricao}} {!! $aberturaEmpresa->cnaes->last() ? '<br />' : '' !!}
                 @endforeach
             </td>
