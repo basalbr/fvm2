@@ -5,18 +5,20 @@
             <div class="thumb">
                 <img src="{{$message->usuario->foto ? asset(public_path().'storage/usuarios/'.$message->usuario->id.'/'.$message->usuario->foto) : asset(public_path().'images/thumb.jpg')}}"/>
             </div>
-            <div class="name">{{$message->usuario->nome}}<span class="time"> - Enviado em {{$message->created_at->format('d/m/y à\s H:i')}}</span>
+            <div class="name"><span class="hidden-xs">{{$message->usuario->nome}}</span><span class="visible-xs">{{Auth::user()->id == $message->id_usuario ? 'Eu' : $message->usuario->nome}}</span><span class="time hidden-xs"> - Enviado em {{$message->created_at->format('d/m/y à\s H:i')}}</span><span class="time visible-xs"> - {{$message->created_at->format('d/m/y à\s H:i')}}</span>
             </div>
             <div class="clearfix"></div>
             <div class="text">
-                <p>{!!nl2br($message->mensagem)!!}
-                    @if($message->anexo)
+                @if($message->anexo)
+                    <p>
                         <a download
                            href="{{asset(public_path().'storage/anexos/'. $message->anexo->referencia . '/'.$message->anexo->id_referencia . '/' . $message->anexo->arquivo)}}">
-                            {{$message->anexo->descricao}}
+                            <span class="hidden-xs"><i class="fa fa-download"></i> {{$message->anexo->descricao}}</span><span class="visible-xs"><i class="fa fa-download"></i> {{str_limit($message->anexo->descricao, 18, '...')}}</span>
                         </a>
-                    @endif
                 </p>
+                @else
+                    <p>{!!nl2br($message->mensagem)!!}</p>
+                @endif
             </div>
         </div>
         @else

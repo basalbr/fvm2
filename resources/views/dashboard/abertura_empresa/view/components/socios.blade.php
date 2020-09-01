@@ -9,41 +9,27 @@
         });
     </script>
 @stop
-
-<div class="col-xs-12">
-    <h3>Sócios</h3>
-    <hr>
+<div class="alert alert-info visible-xs" style="display: block">
+    <p><strong>Abaixo os sócios cadastrados nesse processo.</strong> Para alterar os dados dos sócios nos envie uma mensagem.</p>
 </div>
-<div class="col-xs-12">
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Sócio principal?</th>
-            <th>Opções</th>
-        </tr>
-
-        </thead>
-        <tbody id="list-socios">
-        @if(count($aberturaEmpresa->socios))
-            @foreach($aberturaEmpresa->socios as $socio)
-                <tr>
-                    <td>{{$socio->nome}}</td>
-                    <td>{{$socio->isPrincipal()}}</td>
-                    <td>
-                        <button class="btn btn-primary show-socio" data-id="{{$socio->id}}"><i class="fa fa-search"></i>
-                            Detalhes
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
-        @else
+<table class="table table-hover table-striped">
+    <tbody id="list-socios">
+    @if(count($aberturaEmpresa->socios))
+        @foreach($aberturaEmpresa->socios as $socio)
             <tr>
-                <td colspan="3" class="none">Nenhum sócio cadastrado</td>
+                <td>{{$socio->nome}}{!! $socio->isPrincipal() ? '<br /><span class="label label-success">Sócio principal</span>' : '' !!}</td>
+                <td>
+                    <button class="btn btn-primary show-socio" data-id="{{$socio->id}}"><i
+                                class="fa fa-search"></i><span class="hidden-xs"> Detalhes</span></button>
+                </td>
             </tr>
-        @endif
-        </tbody>
-    </table>
-</div>
+        @endforeach
+    @else
+        <tr>
+            <td colspan="3" class="none">Nenhum sócio cadastrado</td>
+        </tr>
+    @endif
+    </tbody>
+</table>
 
 

@@ -8,7 +8,12 @@ $(function () {
     // organizar mensagens no chat assim que carregar a pagina
     $('.messages').scrollTop($('.messages')[0].scrollHeight);
     resizeElementHeight($('#messages .messages'));
-    $('#message').on('keypress', function (e) {
+    $('.ver-mensagens').on('click', function(e){
+        e.preventDefault();
+        document.getElementById('messages').scrollIntoView({block: "center", behavior: "smooth"})
+    })
+    $('#message').on('keypress, keyup', function (e) {
+        autoGrow(document.getElementById('message'));
         if (e.keyCode == 13) {
             e.preventDefault();
             var content = this.value;
@@ -31,6 +36,13 @@ $(function () {
     $(window).resize(function () {
         resizeElementHeight($('#messages .messages'))
     });
+
+    function autoGrow(element) {
+        if (element.scrollHeight <= 60) {
+            element.style.height = "32px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+    }
 
     $('#send-message').on('click', function (e) {
         e.preventDefault();
@@ -76,7 +88,7 @@ function resizeElementHeight(element) {
 }
 
 function readMessages(bypass) {
-    if(!document.hasFocus()){
+    if (!document.hasFocus()) {
         return false;
     }
     if (preventSend) {
@@ -189,7 +201,7 @@ function uploadMessengerFile(formData, target) {
 }
 
 function updateChat() {
-    if(!document.hasFocus()){
+    if (!document.hasFocus()) {
         return false;
     }
     if (preventSend) {

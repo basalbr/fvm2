@@ -19,16 +19,16 @@
                         <div><strong>Solicitado em:</strong> {{$aberturaEmpresa->created_at->format('d/m/Y')}}</div>
                     </div>
                     <div class="panel-footer">
-                        @if($aberturaEmpresa->ordemPagamento->isPending())
-                            <a target="_blank" href="{{$aberturaEmpresa->ordemPagamento->getBotaoPagamento()}}"
-                               class="btn btn-success"><i class="fa fa-credit-card"></i>
-                                Pagar {{$aberturaEmpresa->ordemPagamento->formattedValue()}}</a>
-                        @endif
                         <a class="btn btn-primary {{$aberturaEmpresa->getQtdMensagensNaoLidas() > 0 ? 'animated shake' : ''}}"
                            href="{{route('showAberturaEmpresaToUser', [$aberturaEmpresa->id])}}"
                            title="Visualizar"><i class="fa fa-search"></i>
                             Ver detalhes {!! $aberturaEmpresa->getQtdMensagensNaoLidas() > 0 ? ' <span class="label label-primary">Existem '.$aberturaEmpresa->getQtdMensagensNaoLidas().' mensagens não lidas</span>' : ''!!}
                         </a>
+                        @if($aberturaEmpresa->ordemPagamento->isPending())
+                            <a target="_blank" href="{{$aberturaEmpresa->ordemPagamento->getBotaoPagamento()}}"
+                               class="btn btn-success"><i class="fa fa-credit-card"></i>
+                                Pagar {{$aberturaEmpresa->ordemPagamento->formattedValue()}}</a>
+                        @endif
                     </div>
                 </div>
             </div>

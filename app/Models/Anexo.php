@@ -36,5 +36,9 @@ class Anexo extends Model
     {
         return '<a download class="download" href="' . asset(public_path() . 'storage/anexos/' . $this->referencia . '/' . $this->id_referencia . '/' . $this->arquivo) . '" title="Clique para fazer download do arquivo">Download</a>';
     }
+    public function getHref()
+    {
+        return asset(public_path() . 'storage/anexos/' . $this->referencia . '/' . $this->id_referencia . '/' . $this->arquivo);
+    }
 
 }

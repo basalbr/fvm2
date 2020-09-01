@@ -360,4 +360,9 @@ class AberturaEmpresa extends Model
         return $this->mensagens()->where('from_admin', 0)->where('lida', 0)->count();
     }
 
+    public function getEnderecoCompleto()
+    {
+        return $this->endereco . ($this->numero ? ', ' . $this->numero : '') . ($this->complemento ? ', ' . $this->complemento : '') . ', ' . $this->bairro . ', ' . $this->cidade . '/' . $this->uf->sigla . ', ' . $this->cep;
+    }
+
 }

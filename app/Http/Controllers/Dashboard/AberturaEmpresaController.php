@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\AberturaEmpresa;
 use App\Models\EnquadramentoEmpresa;
+use App\Models\Mensagem;
 use App\Models\NaturezaJuridica;
 use App\Models\RegimeCasamento;
 use App\Models\TipoTributacao;
@@ -52,7 +53,12 @@ class AberturaEmpresaController extends Controller
     {
         $step = 1;
         $aberturaEmpresa = Auth::user()->aberturasEmpresa()->findOrFail($id);
-        return view('dashboard.abertura_empresa.view.index', compact("aberturaEmpresa", 'step'));
+        $qtdeDocumentos = Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
+            ->where('anexo.referencia', 'mensagem')
+            ->where('mensagem.referencia', 'abertura_empresa')
+            ->where('mensagem.id_referencia', $id)
+            ->count();
+        return view('dashboard.abertura_empresa.view.index', compact("aberturaEmpresa", 'step', 'qtdeDocumentos'));
     }
 
     /**

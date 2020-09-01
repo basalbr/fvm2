@@ -61,7 +61,7 @@ class AlteracaoController extends Controller
             ->count();
         $qtdeDocumentos += Mensagem::join('anexo', 'anexo.id_referencia', 'mensagem.id')
             ->where('anexo.referencia', 'mensagem')
-            ->where('mensagem.referencia', 'apuracao')
+            ->where('mensagem.referencia', 'alteracao')
             ->where('mensagem.id_referencia', $idAlteracao)
             ->count();
         return view('admin.alteracao.view.index', compact('alteracao', 'idAlteracao', 'qtdeDocumentos'));

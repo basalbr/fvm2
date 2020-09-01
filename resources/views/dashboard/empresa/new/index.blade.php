@@ -9,6 +9,18 @@
                 $(this).addClass('disabled').prop('disabled', true);
                 validateFormPrincipal();
             });
+            $('[name="razao_social"]').on('change', function () {
+                $('#razao_social_contrato').text(($(this).val()));
+            })
+            $('[name="cnpj"]').on('change', function () {
+                $('#cnpj_contrato').text(($(this).val()));
+            })
+            $('[name="mensalidade[qtde_funcionario]"]').on('change', function () {
+                $('.funcionarios_contrato').text(($(this).val()));
+            })
+            $('[name="mensalidade[qtde_documento_fiscal]"]').on('change', function () {
+                $('.docs_fiscais_contrato').text(($(this).val()));
+            })
         });
 
         function checkSocioPrincipal() {
@@ -77,23 +89,24 @@
     <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i>
-                    Informações da empresa</a>
+                <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i><span
+                            class="tab-text"> Info.</span></a>
             </li>
             <li role="presentation">
                 <a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab"><i
-                            class="fa fa-address-card"></i> Endereço</a>
+                            class="fa fa-address-card"></i><span class="tab-text"> Endereço</span></a>
             </li>
             <li role="presentation">
-                <a href="#socios" aria-controls="socios" role="tab" data-toggle="tab"><i class="fa fa-users"></i> Sócios</a>
+                <a href="#socios" aria-controls="socios" role="tab" data-toggle="tab"><i class="fa fa-users"></i><span
+                            class="tab-text"> Sócios</span></a>
             </li>
             <li role="presentation">
-                <a href="#cnae" aria-controls="cnae" role="tab" data-toggle="tab"><i class="fa fa-list"></i>
-                    CNAEs</a>
+                <a href="#cnae" aria-controls="cnae" role="tab" data-toggle="tab"><i class="fa fa-list"></i><span
+                            class="tab-text"> CNAEs</span></a>
             </li>
             <li role="presentation">
-                <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i class="fa fa-calculator"></i>
-                    Resumo</a>
+                <a href="#resumo" aria-controls="resumo" role="tab" data-toggle="tab"><i
+                            class="fa fa-calculator"></i><span class="tab-text"> Resumo</span></a>
             </li>
         </ul>
 

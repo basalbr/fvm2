@@ -3,7 +3,6 @@
     <script type="text/javascript" src="{{url(public_path().'js/dashboard/modules/messages2.js')}}"></script>
 @stop
 
-<div class="col-xs-12">
     <div class="messages"
          data-read-messages-url="{{route('readMessagesAjax')}}"
          data-reference="{{$model->getTable()}}"
@@ -18,7 +17,7 @@
             <textarea class="form-control" id="message"
                       placeholder="Digite sua mensagem..."></textarea>
             <div class="btn-block text-right">
-                <small>Pressione Shift+Enter para criar uma nova linha</small>
+                <small class="hidden-xs">Pressione Shift+Enter para criar uma nova linha</small>
                 @if(!$lock_anexo)
                 <button class="btn-primary btn" id="send-file"><i class="fa fa-paperclip"></i></button>
                 @endif
@@ -27,4 +26,3 @@
         </div>
         <input type="file" id="file" class="hidden"/>
     </form>
-</div>

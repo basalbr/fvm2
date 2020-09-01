@@ -70,5 +70,5 @@ function simulateMonthlyPayment(qtdeFuncionarios, qtdeDocFiscais) {
     }
     minPrice = parseFloat(minPrice + acrescimoFuncionarios).toFixed(2);
     minPrice = minPrice.replace(".", ",");
-    $('#mensalidade').text('R$' + minPrice);
+    $('#mensalidade, .mensalidade_contrato').text('R$' + minPrice);
 }

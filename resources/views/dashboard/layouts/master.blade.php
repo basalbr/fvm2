@@ -13,6 +13,18 @@
         @if(\Illuminate\Support\Facades\App::environment('production'))
             <script type="text/javascript" src="{{url(public_path().'js/ga.js')}}"></script>
         @endif
+        <script type="text/javascript">
+            $(function(){
+                adjustContent();
+            });
+
+            function adjustContent(){
+                var topTitleHeight = document.getElementById('top-title').offsetHeight;
+                var toAdd = topTitleHeight - 43;
+                var contentTopValue = parseInt($('#content').css('top').replace('px', ''));
+                $('#content').css('top', (contentTopValue + toAdd) +'px');
+            }
+        </script>
     @show
 </head>
 <body>
@@ -27,6 +39,44 @@
     @include('dashboard.modals.alert')
     @include('dashboard.modals.success')
     @include('dashboard.modals.esocial')
+    <div class="modal animated fadeIn" id="modal-termos-abertura" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Termos e condições para o serviço de abertura de empresa</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-12">
+                        @include('dashboard.contratos.abertura')
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal animated fadeIn" id="modal-contrato-contabilidade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Contrato de prestação de serviços contábeis</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-12">
+                        @include('dashboard.contratos.mensalidade')
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @show
 @if(Auth::user()->empresas->count() > 0)
     <script type="text/javascript">
@@ -40,6 +90,7 @@
                 setAlvaraCookie();
                 $('.alert-alvara').hide();
             })
+
         });
 
         function setAlvaraCookie() {

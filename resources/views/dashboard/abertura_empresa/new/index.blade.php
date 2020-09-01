@@ -7,6 +7,18 @@
     <script type="text/javascript">
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
+            $('[name="nome_empresarial1"]').on('change', function () {
+                $('#razao_social_contrato').text(($(this).val()));
+            })
+            $('[name="cnpj"]').on('change', function () {
+                $('#cnpj_contrato').text(($(this).val()));
+            })
+            $('[name="mensalidade[qtde_funcionario]"]').on('change', function () {
+                $('.funcionarios_contrato').text(($(this).val()));
+            })
+            $('[name="mensalidade[qtde_documento_fiscal]"]').on('change', function () {
+                $('.docs_fiscais_contrato').text(($(this).val()));
+            })
         });
     </script>
 @stop
@@ -24,7 +36,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#empresa" aria-controls="empresa" role="tab" data-toggle="tab"><i class="fa fa-info"></i><span
-                            class="tab-text"> Informações</span></a>
+                            class="tab-text"> Info.</span></a>
             </li>
             <li role="presentation">
                 <a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab"><i
