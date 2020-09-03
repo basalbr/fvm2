@@ -1,7 +1,7 @@
 <p><strong>CONTRATO DE PRESTA&Ccedil;&Atilde;O DE SERVI&Ccedil;OS CONT&Aacute;BEIS</strong></p>
 <p><strong>CONTRATADA:</strong> WEBCONT SERVICOS ADMINISTRATIVOS LTDA, inscrita no CNPJ 28.398.863/0001-88.<br/>
-    <strong>CONTRATANTE:</strong> <span id="razao_social_contrato"></span>, inscrita no CNPJ <span
-            id="cnpj_contrato">xxxxxxxxxxxxx</span>.</p>
+    <strong>CONTRATANTE:</strong> <span id="razao_social_contrato">{{isset($contrato_razao_social) ? $contrato_razao_social : 'Razão social'}}</span>, inscrita no CNPJ <span
+            id="cnpj_contrato">{{isset($contrato_cnpj) ? $contrato_cnpj : 'xx.xxx.xxx/xxxx-xx'}}</span>.</p>
 <p><strong>1 - DO OBJETO</strong></p>
 <p>O objeto do presente consiste na prestação pela CONTRATADA à CONTRATANTE, dos seguintes servi&ccedil;os
     profissionais:</p>
@@ -77,14 +77,14 @@
 <p>4.1 - Obriga-se a CONTRATANTE a fornecer &agrave; CONTRATADA todos os dados, documentos e informa&ccedil;&otilde;es
     que se fa&ccedil;am necess&aacute;rios ao bom desempenho dos servi&ccedil;os ora contratados, em tempo h&aacute;bil,
     nenhuma responsabilidade cabendo &agrave; segunda acaso recebidos intempestivamente.</p>
-<p><strong>4.2 - Os honorários ficam estabelecidos em <span class="mensalidade_contrato"> </span>, que corresponde
+<p><strong>4.2 - Os honorários ficam estabelecidos em <span class="mensalidade_contrato">{{isset($contrato_mensalidade) ? $contrato_mensalidade : 'R$69,90'}}</span>, que corresponde
         no
-        envio máximo de <span class="docs_fiscais_contrato"></span> documento(s) fiscal(is) emitido(s)/recebido(s) e
+        envio máximo de <span class="docs_fiscais_contrato">{{isset($contrato_docs_fiscais) ? $contrato_docs_fiscais : '10'}}</span> documento(s) fiscal(is) emitido(s)/recebido(s) e
         o
-        acompanhamento de <span class="funcionarios_contrato"></span> funcionário(s).</strong></p>
+        acompanhamento de <span class="funcionarios_contrato">{{isset($contrato_funcionarios) ? $contrato_funcionarios : '0'}}</span> funcionário(s).</strong></p>
 <p>4.2.1 - Caso o presente envolva a recupera&ccedil;&atilde;o de servi&ccedil;os n&atilde;o realizados - atrasados
     - a mensalidade adicional ser&aacute; integralmente devida desde o primeiro m&ecirc;s de atualiza&ccedil;&atilde;o.</p>
-<p>4.2.2 - Os honor&aacute;rios pagos ap&oacute;s a data aven&ccedil;ada no item 4.2. acarretar&atilde;o aa
+<p>4.2.2 - Os honor&aacute;rios pagos ap&oacute;s a data aven&ccedil;ada no item 4.2. acarretar&atilde;o à
     CONTRATANTE o acr&eacute;scimo de multa de 2% (dois por cento), sem preju&iacute;zo de juros morat&oacute;rios
     de 1% (um por cento) ao m&ecirc;s ou fra&ccedil;&atilde;o, acrescidos de corre&ccedil;&atilde;o monet&aacute;ria
     equivalente ao IGP-M.</p>

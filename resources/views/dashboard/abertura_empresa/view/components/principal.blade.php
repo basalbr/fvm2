@@ -1,4 +1,4 @@
-<div class="alert alert-info visible-xs" style="display: block">
+<div class="alert alert-info" style="display: block">
     <p><strong>Abaixo os dados empresariais que nos foram informados.</strong> Para alterar os dados nos envie uma mensagem.</p>
 </div>
 <table class="table table-striped table-hover">

@@ -24,10 +24,12 @@ $(function () {
     $('.back').on('click', function (e) {
         e.preventDefault();
         $('.nav-tabs li.active').prev().find('a').tab('show');
+        $('.nav-tabs li.active')[0].scrollIntoView({block: "nearest", behavior: "smooth"})
     });
     $('.next').on('click', function (e) {
         e.preventDefault();
         $('.nav-tabs li.active').next().find('a').tab('show');
+        $('.nav-tabs li.active')[0].scrollIntoView({block: "nearest", behavior: "smooth"})
     });
     $('#open-left-menu').on('click', function (e) {
         e.preventDefault()

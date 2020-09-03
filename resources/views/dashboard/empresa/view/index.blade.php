@@ -1,6 +1,7 @@
 @extends('dashboard.layouts.master')
 @section('top-title')
-    <a href="{{route('listEmpresaToUser')}}">{{$empresa->status != 'aprovado' ? 'Migração' : 'Empresas'}}</a> <i class="fa fa-angle-right"></i> {{$empresa->razao_social}}
+    <a href="{{route('listEmpresaToUser')}}">{{$empresa->status != 'aprovado' ? 'Migração' : 'Empresas'}}</a> <i
+            class="fa fa-angle-right"></i> {{$empresa->razao_social}}
     <span class="hidden-xs">({{$empresa->nome_fantasia}})</span>
 @stop
 @section('js')
@@ -71,50 +72,42 @@
                     @include('dashboard.empresa.view.components.pendencias')
                 </div>
             </div>
+            <div class="clearfix"></div>
         @endif
-        <div class="panel panel-primary">
-            <div class="panel-heading"><strong>Informações e documentos enviados</strong></div>
-            <div class="panel-body">
-                <ul class="nav nav-tabs nav-tabs-mini" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#identificacao" aria-controls="identificacao" role="tab"
-                           data-toggle="tab">Identificação</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#mensalidade" aria-controls="mensalidade" role="tab" data-toggle="tab">Mensalidade</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#atividades" aria-controls="atividades" role="tab" data-toggle="tab">Atividades</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#socios" aria-controls="socios" role="tab" data-toggle="tab">Sócios</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab">Documentos <span
-                                    class="badge">{{$qtdeDocumentos}}</span></a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active animated fadeIn" id="identificacao">
-                        @include('dashboard.empresa.view.components.info_empresa')
-                    </div>
-                    <div role="tabpanel" class="tab-pane animated fadeIn" id="atividades">
-                        @include('dashboard.empresa.view.components.cnae')
-                    </div>
-                    <div role="tabpanel" class="tab-pane animated fadeIn" id="mensalidade">
-                        @include('dashboard.empresa.view.components.mensalidade')
-                    </div>
-                    <div role="tabpanel" class="tab-pane animated fadeIn" id="socios">
-                        @include('dashboard.empresa.view.components.socios')
-                    </div>
-                    <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
-                        @include('dashboard.empresa.view.components.docs')
-                    </div>
-                </div>
+        <ul class="nav nav-tabs nav-tabs-mini" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#identificacao" aria-controls="identificacao" role="tab"
+                   data-toggle="tab"><i class="fa fa-info"></i><span class="tab-text"> Resumo</span></a>
+            </li>
+            <li role="presentation">
+                <a href="#mensalidade" aria-controls="mensalidade" role="tab" data-toggle="tab"><i class="fa fa-money"></i><span class="tab-text"> Contrato</span></a>
+            </li>
+            <li role="presentation">
+                <a href="#socios" aria-controls="socios" role="tab" data-toggle="tab"><i class="fa fa-users"></i><span
+                            class="tab-text"> Sócios</span></a>
+            </li>
+            <li role="presentation">
+                <a href="#documentos" aria-controls="documentos" role="tab" data-toggle="tab"><i class="fa fa-paperclip"></i><span class="tab-text"> Anexos <span
+                                class="badge">{{$qtdeDocumentos}}</span></span></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active animated fadeIn" id="identificacao">
+                @include('dashboard.empresa.view.components.info_empresa')
+            </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="mensalidade">
+                @include('dashboard.empresa.view.components.mensalidade')
+            </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="socios">
+                @include('dashboard.empresa.view.components.socios')
+            </div>
+            <div role="tabpanel" class="tab-pane animated fadeIn" id="documentos">
+                @include('dashboard.empresa.view.components.docs')
             </div>
         </div>
         <div class="clearfix"></div>
     </div>
+
     <div class="col-sm-6">
         <div class="panel panel-primary">
             <div class="panel-heading"><strong>Mensagens</strong></div>
@@ -124,9 +117,10 @@
     </div>
     <div class="navigation-space"></div>
     <div class="navigation-options">
+        <button class="btn btn-info ver-mensagens visible-xs" type="button" style="float:left">Ver mensagens </button>
         <a href="{{URL::previous()}}" class="btn btn-default"><i class="fa fa-angle-left"></i> Voltar</a>
     </div>
-    <input type="hidden" value="{{$empresa->id}}" id="referencia_id" />
+    <input type="hidden" value="{{$empresa->id}}" id="referencia_id"/>
 @stop
 @section('modals')
     @parent

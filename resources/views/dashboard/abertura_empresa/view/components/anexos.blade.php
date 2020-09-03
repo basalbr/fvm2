@@ -1,4 +1,4 @@
-<div class="alert alert-info visible-xs" style="display: block">
+<div class="alert alert-info" style="display: block">
     <p><strong>Abaixo os arquivos tramitados nesse processo.</strong> Para realizar o download dos arquivos basta clicar no nome do arquivo</p>
 </div>
 <div class="clearfix"></div>

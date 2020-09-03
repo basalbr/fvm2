@@ -9,7 +9,7 @@
         });
     </script>
 @stop
-<div class="alert alert-info visible-xs" style="display: block">
+<div class="alert alert-info" style="display: block">
     <p><strong>Abaixo os sócios cadastrados nesse processo.</strong> Para alterar os dados dos sócios nos envie uma mensagem.</p>
 </div>
 <table class="table table-hover table-striped">

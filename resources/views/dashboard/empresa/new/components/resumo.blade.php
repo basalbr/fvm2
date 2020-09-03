@@ -5,8 +5,11 @@
             clique aqui para abrir um chamado</a>, dessa forma vamos poder te ajudar.</p>
 </div>
 <div class="col-md-6">
+    <a class="btn btn-info" type="button" data-toggle="modal" data-target="#modal-contrato-contabilidade"><i class="fa fa-file-o"></i> Contrato de
+        prestação de serviços contábeis
+    </a>
     <div class="clearfix"></div>
-   @include('dashboard.contratos.mensalidade')
+    <br />
 <br />
 </div>
 <div class="col-md-6 summary">
@@ -21,7 +24,7 @@
 </div>
 <div class="col-xs-12 text-right">
     <hr>
-    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar - CNAEs</button>
+    <button class="btn btn-default back"><i class="fa fa-angle-left"></i> Voltar<span class="hidden-xs"> - CNAEs</span></button>
     <button type="submit" class="btn btn-success"><span class="fa fa-check"></span> De acordo (Finalizar)
     </button>
 </div>

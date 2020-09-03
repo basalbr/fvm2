@@ -9,17 +9,25 @@
         });
     </script>
 @stop
-<table class="table table-striped table-hover">
-    <tbody>
-    @foreach($empresa->socios as $socio)
+<div class="alert alert-info" style="display: block">
+    <p><strong>Abaixo os sócios cadastrados nesse processo.</strong> Para alterar os dados dos sócios nos envie uma mensagem.</p>
+</div>
+<table class="table table-hover table-striped">
+    <tbody id="list-socios">
+    @if(count($empresa->socios))
+        @foreach($empresa->socios as $socio)
+            <tr>
+                <td>{{$socio->nome}}{!! $socio->isPrincipal() ? '<br /><span class="label label-success">Sócio principal</span>' : '' !!}</td>
+                <td>
+                    <button class="btn btn-primary show-socio" data-id="{{$socio->id}}"><i
+                                class="fa fa-search"></i><span class="hidden-xs"> Detalhes</span></button>
+                </td>
+            </tr>
+        @endforeach
+    @else
         <tr>
-            <th scope="row">Nome</th>
-            <td><a href="" class="show-socio"
-                   data-id="{{$socio->id}}">{{$socio->nome}}{!! $socio->isPrincipal() ? ' <strong>(Sócio Principal)</strong>' : '' !!}</a>
-            </td>
+            <td colspan="3" class="none">Nenhum sócio cadastrado</td>
         </tr>
-    @endforeach
+    @endif
     </tbody>
 </table>
-<div><strong><small>Clique no nome do sócio para ver os detalhes</small></strong></div>
-<div class="clearfix"></div>

@@ -54,7 +54,12 @@ class EmpresaController extends Controller
         $empresa = Auth::user()->empresas()->findOrFail($id);
         $qtdeDocumentos = $empresa->anexos()->count();
         $qtdeDocumentos += $empresa->mensagens()->whereHas('anexo')->count();
-        return view('dashboard.empresa.view.index', compact("empresa", 'qtdeDocumentos'));
+        $contrato_razao_social = $empresa->razao_social;
+        $contrato_cnpj = $empresa->cnpj;
+        $contrato_mensalidade = $empresa->getMensalidadeAtual()->getValor();
+        $contrato_docs_fiscais = $empresa->getMensalidadeAtual()->qtde_documento_fiscal;
+        $contrato_funcionarios = $empresa->getMensalidadeAtual()->qtde_funcionario;
+        return view('dashboard.empresa.view.index', compact("empresa", 'qtdeDocumentos', 'contrato_cnpj', 'contrato_razao_social', 'contrato_docs_fiscais', 'contrato_funcionarios', 'contrato_mensalidade'));
     }
 
     /**

@@ -1,3 +1,6 @@
+<div class="alert alert-info" style="display: block">
+    <p><strong>Abaixo os dados da sua empresa.</strong> Se precisar alterar alguma informação nos avise nas mensagens.</p>
+</div>
 <table class="table table-striped table-hover">
     <tbody>
     <tr>
@@ -42,6 +45,17 @@
         <tr>
             <th scope="row">Inscrição Estadual</th>
             <td>{{$empresa->inscricao_estadual}}</td>
+        </tr>
+    @endif
+    @if(count($empresa->cnaes))
+        <tr>
+            <th scope="row">Atividades</th>
+            <td>
+                @foreach($empresa->cnaes as $cnae)
+                    <strong>{{$cnae->cnae->codigo}}</strong>
+                    - {{$cnae->cnae->descricao}} {!! $empresa->cnaes->last() ? '<br />' : '' !!}
+                @endforeach
+            </td>
         </tr>
     @endif
     </tbody>
