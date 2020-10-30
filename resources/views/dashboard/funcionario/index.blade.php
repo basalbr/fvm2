@@ -10,6 +10,14 @@
         })
     </script>
 @stop
+@section('video-ajuda')
+    <li><a id="btn-ajuda" data-placement="bottom" title="Precisa de ajuda? Veja nosso vídeo explicativo sobre essa página!" href="" data-toggle="modal" data-target="#modal-video-ajuda"><span class="fa fa-youtube-play"></span>
+            Ajuda</a></li>
+@stop
+@section('modal-video-ajuda-titulo', 'Como cadastrar seus funcionários')
+@section('modal-video-ajuda-embed')
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/nx-3tn75fq8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+@stop
 @section('top-title')
     Funcionários
 @stop
@@ -97,4 +105,5 @@
             </div>
         </div>
     </div>
+    @include('dashboard.modals.video-ajuda')
 @stop

@@ -218,6 +218,7 @@ Route::group(['prefix' => 'dashboard/apuracao', 'namespace' => 'Dashboard', 'mid
     Route::post('view/{idApuracao}', ['uses' => 'ApuracaoController@update']);
     Route::post('validate/anexo', ['as' => 'validateApuracaoAnexo', 'uses' => 'ApuracaoController@validateAnexo']);
     Route::get('sem-movimento/{id}', ['as' => 'apuracaoSemMovimentacaoUser', 'uses' => 'ApuracaoController@semMovimento']);
+    Route::get('remove/{idApuracao}/{idAnexo}', ['as'=>'removeDocumentoApuracao', 'uses' => 'ApuracaoController@remove']);
 });
 
 //Dashboard - Documentos contábeis

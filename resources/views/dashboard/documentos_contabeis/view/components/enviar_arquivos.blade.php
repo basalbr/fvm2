@@ -44,16 +44,6 @@
         </tr>
     @endif
     <tr>
-        <th>Notas de aquisição de serviços<br/><small>Enviar todas as notas fiscais recebidas de serviços prestados por
-                terceiros</small></th>
-        @include('dashboard.documentos_contabeis.view.components.opcoes', ['descricao'=>'Notas de aquisição de serviços'])
-    </tr>
-    <tr>
-        <th>Notas fiscais de compra<br/><small>Enviar as Notas Fiscais de Compra em formato PDF e
-                XML dentro de um arquivo ZIP</small></th>
-        @include('dashboard.documentos_contabeis.view.components.opcoes', ['descricao'=>'Notas fiscais de compra'])
-    </tr>
-    <tr>
         <th>Aluguel/Água/Luz/Telefone/Internet<br/><small>Enviar os comprovante de pagamento em um arquivo ZIP</small>
         </th>
         @include('dashboard.documentos_contabeis.view.components.opcoes', ['descricao'=>'Aluguel/Água/Luz/Telefone/Internet'])

@@ -44,6 +44,17 @@
                     </div>
                 </div>
                 <div class='form-group'>
+                    <label for="contabilidade">Qual o regime de tributação da sua empresa?</label>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input type="checkbox" value="1" name="whats">
+                        <label for="whats"> Atendimento pelo Whatsapp e Chat (Solicite informações diretamente pelo whatsapp) - R$39,90 - R$159,90</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input type="checkbox" value="2" name="reunioes">
+                        <label for="reunioes"> Reuniões por vídeo (1 reunião por mês de 45 minutos com um especialista) - R$89,90 - R$299,90</label>
+                    </div>
+                </div>
+                <div class='form-group'>
                     <strong>Em seu plano já está incluso a contabilização dos documentos contábeis.</strong>
                 </div>
                 <div class='form-group'>

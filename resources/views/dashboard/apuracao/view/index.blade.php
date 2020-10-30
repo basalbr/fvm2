@@ -3,42 +3,113 @@
 @section('js')
     @parent
     <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+        var anexoKey = 0;
 
-            $('#form-principal').find('.btn-success[type="submit"]').on('click', function (e) {
+        $(function () {
+
+            $('tr').on('click', '.btn-primary', function (e) {
+                e.preventDefault();
+                $(this).parent().find('input').click();
+            });
+
+            $('tr input').on('change', function () {
+                if (validateAnexo($(this))) {
+                    sendAnexo($(this));
+                }
+            });
+
+            $('tr').on('click', '.btn-danger', function (e) {
+                e.preventDefault();
+                removeAnexo($(this));
+            });
+
+            $('#form-anexo').on('submit', function (e) {
+                e.preventDefault();
+                validateFormAnexo();
+            });
+            $('#modal-remover-arquivo .btn-danger').on('click', function () {
+                removeAnexo();
+            });
+
+            $('#update').on('click', function (e) {
                 e.preventDefault();
                 validateFormPrincipal();
             });
+
         });
 
-        function validateFormPrincipal() {
-            $('.nav-tabs a[href="#informacoes"]').tab('show');
-            $('.modal, html, body, #content').animate({
-                scrollTop: $('#file-upload-form').offset().top - 50
-            }, 500);
-            $('#form-principal').find('.btn-success[type="submit"]').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass"></i> Validando dados, aguarde...');
-            if($('#list-files tr').length < 2){
-                $('#form-principal').find('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-check"></i> Finalizar');
-                showModalAlert('Precisamos que você nos envie suas notas fiscais.<br />Caso não tenha havido movimentação nesse período, clique em "Sem movimento".<br />Se tiver dúvidas de como proceder, entre em contato conosco.');
+        function validateAnexo(elem) {
+            if (elem.val() !== '' &&
+                elem.val() &&
+                elem.val() !== undefined) {
+                if ((elem[0].files[0].size / 1024) > 10240) {
+                    showModalAlert('O arquivo não pode ser maior que 10MB.');
+                    return false;
+                }
+                return true;
+            } else {
+                showModalAlert('É necessário escolher um arquivo para envio.');
                 return false;
             }
-            var formData = $('#form-principal').serializeArray();
-            $.post($('#form-principal').data('validation-url'), formData)
-                .done(function () {
-                    $('#form-principal').find('.btn-success[type="submit"]').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass"></i> Salvando informações, aguarde...');
-                    $('#form-principal').submit();
-                })
-                .fail(function (jqXHR) {
-                    if (jqXHR.status === 422) {
-                        //noinspection JSUnresolvedVariable
-                        showFormValidationError($('#form-principal'), jqXHR.responseJSON);
-                    } else {
-                        showFormValidationError($('#form-principal'));
-                    }
-                    $('#form-principal').find('.btn-success[type="submit"]').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-check"></i> Finalizar');
-                });
         }
+
+        function sendAnexo(elem) {
+            elem.parent().find('.btn-primary').addClass('disabled').prop('disabled', true).html('<i class="fa fa-hourglass-1"></i> Enviando, aguarde...');
+            var form = new FormData;
+            form.append('arquivo', elem[0].files[0]);
+            form.append('descricao', elem.data('name'));
+            form.append('id_referencia', $('#referencia_id').val());
+            form.append('referencia', 'apuracao');
+            $.post({
+                url: elem.data('upload-url'),
+                data: form,
+                contentType: false,
+                processData: false
+            }).done(function (data) {
+                elem.parent().find('.btn-primary, .btn-default').remove();
+                elem.parent().prepend('<a class="btn btn-success" href="' + data.filepath + '" download target="_blank"><i class="fa fa-download"></i> Download</a>');
+                var url = '{{ route("removeDocumentoApuracao", [$apuracao->id, ":id"]) }}';
+                url = url.replace(':id', data.id);
+                elem.parent().append('<button class="btn btn-danger" data-url="' + url + '"><i class="fa fa-trash"></i> Remover arquivo</button>');
+                showModalSuccess('Arquivo enviado com sucesso');
+            }).fail(function (jqXHR) {
+                elem.parent().find('.btn-primary').removeClass('disabled').prop('disabled', false).html('<i class="fa fa-upload"></i> Enviar arquivo');
+                if (jqXHR.status === 422) {
+                    //noinspection JSUnresolvedVariable
+                    showFormValidationError(form, jqXHR.responseJSON);
+                } else {
+                    showFormValidationError(form);
+                }
+            });
+        }
+
+        function validateFormPrincipal() {
+            if ($('tr').find('.btn-success').length < 1) {
+                showModalAlert('É necessário anexar pelo menos um documento. Caso não tenha documentos para enviar, clique em "Sem movimento nesse período"');
+                return false;
+            }
+            $('#form-principal').submit();
+        }
+
+        function showRemoveAnexoModal(descricao, id) {
+            $('#modal-remover-arquivo .nome-arquivo').text(descricao);
+            $('#modal-remover-arquivo .btn-danger').attr('data-url', anexo.parent().find('[name*="[arquivo]"]').val());
+            $('#modal-remover-arquivo').modal('show');
+        }
+
+        function removeAnexo(elem) {
+            $.get({
+                url: elem.data('url')
+            }).done(function (jqXHR) {
+                elem.parent().find('a').remove();
+                elem.parent().append('<button class="btn btn-primary"><i class="fa fa-upload"></i> Enviar arquivo</button>');
+                elem.remove();
+                showModalSuccess('Arquivo apagado com sucesso');
+            }).fail(function (jqXHR) {
+                showModalAlert('Ocorreu um erro ao tentar remover o arquivo, por favor abra um chamado e nos informe do problema para que possamos corrigir.');
+            });
+        }
+
     </script>
 @stop
 @section('top-title')
@@ -46,153 +117,47 @@
             class="fa fa-angle-right"></i> {{$apuracao->imposto->nome}} - {{$apuracao->competencia->format('m/Y')}}
 @stop
 @section('content')
-
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#informacoes" aria-controls="informacoes" role="tab" data-toggle="tab"><i
-                        class="fa fa-info-circle"></i>
-                Informações/Enviar documentos</a>
-        </li>
-        <li role="presentation">
-            <a href="#mensagens" aria-controls="mensagens" role="tab" data-toggle="tab"><i class="fa fa-comments"></i>
-                Mensagens <span
-                        class="badge">{{$apuracao->mensagens()->where('lida','=',0)->where('from_admin','=',1)->count()}}</span></a>
-        </li>
-        <li role="presentation">
-            <a href="#anexos" aria-controls="anexos" role="tab" data-toggle="tab"><i class="fa fa-files-o"></i>
-                Documentos enviados</a>
-        </li>
-        @if($apuracao->guia)
-            <li class="animated bounceInDown highlight">
-                <a href="{{asset(public_path().'storage/anexos/'. $apuracao->getTable() . '/'.$apuracao->id . '/' . $apuracao->guia)}}"
-                   download><i class="fa fa-download"></i> Guia</a>
-            </li>
+    @if($apuracao->isPendingInfo())
+        @include('dashboard.apuracao.view.components.pendente')
+    @else
+        @include('dashboard.apuracao.view.components.enviado')
+    @endif
+    <div class="clearfix"></div>
+    <div class="navigation-space"></div>
+    <div class="navigation-options">
+        <a class="btn btn-default" href="{{URL::previous()}}"><i
+                    class="fa fa-angle-left"></i>
+            Voltar</a>
+        @if($apuracao->isPendingInfo())
+            <button class="btn btn-success" type="button" id="update"><i class="fa fa-check"></i> Concluir
+            </button>
+            <a class="btn btn-danger" href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"><i
+                        class="fa fa-remove"></i> Sem movimento nesse período</a>
         @endif
-    </ul>
-    <!-- Tab panes -->
-    <form method="POST" action="" id="form-principal" enctype="multipart/form-data">
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active animated fadeIn" id="informacoes">
+    </div>
+    <input type="hidden" id="referencia_id" value="{{$apuracao->id}}"/>
+@stop
 
-                <div class="list">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Empresa</label>
-                            <div class="form-control">{{$apuracao->empresa->nome_fantasia}}</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Imposto</label>
-                            <div class="form-control">{{$apuracao->imposto->nome}}</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Status da apuração</label>
-                            <div class="form-control">{{$apuracao->status}}</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Competência</label>
-                            <div class="form-control">{{$apuracao->competencia->format('m/Y')}}</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Vencimento</label>
-                            <div class="form-control">{{$apuracao->vencimento->format('d/m/Y')}}</div>
-                        </div>
-                    </div>
+
+@section('modals')
+    @parent
+    <div class="modal animated fadeInDown" id="modal-remover-arquivo" tabindex="-1" role="dialog">
+        <div class="modal-dialog  modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Remover arquivo</h3>
                 </div>
-                <div class="clearfix"></div>
-                @if($apuracao->isPendingInfo())
-                    <div class="col-sm-12">
-
-                        {{ csrf_field() }}
-
-                        <h3>Envio de documentos</h3>
-                        <div class="col-xs-12">
-                            <p>É necessário enviar algumas informações adicionais para que possamos dar
-                                continuidade no processo de apuração.<br/>
-                                Clique em <strong>finalizar</strong> após enviar todos os arquivos. Após finalizar o
-                                envio, não será possível enviar novos documentos.<br/>
-                                Se não houve movimentação, clique no botão <strong>sem movimento</strong>.
-                            </p>
-                        </div>
-                        <div class="col-xs-12">
-                            <p>Por favor nos envie os seguintes documentos:</p>
-
-                            <ul>
-                                @foreach($apuracao->imposto->informacoesExtras as $informacoesExtra)
-                                    <li>{{$informacoesExtra->nome}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @include('dashboard.components.uploader.default', ['idReferencia'=>$apuracao->id, 'referencia'=>'apuracao', 'anexos'=>$apuracao->anexos])
-                        <div class="clearfix"></div>
-                    </div>
-                @endif
-            </div>
-            <div role="tabpanel" class="tab-pane animated fadeIn" id="mensagens">
-                <div class="col-sm-12">
-                    @if($apuracao->status == 'Concluído')
-                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
-                    @else
-                        @include('dashboard.components.chat.box', ['model'=>$apuracao])
-                    @endif
+                <div class="modal-body">
+                    <p>Deseja remover o arquivo <span class="nome-arquivo"></span></p>
+                    @include('dashboard.components.form-alert')
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div role="tabpanel" class="tab-pane animated fadeIn" id="anexos">
-
-                <div id="anexos">
-                    <br/>
-                    <div class="col-sm-12">
-                        <p>Aqui estão os arquivos relacionados à esse processo.</p>
-                    </div>
-                    <div class="list">
-                        @foreach($apuracao->informacoes as $informacao)
-                            @if($informacao->tipo->tipo == 'anexo')
-                                <div class="col-sm-4">
-                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$informacao->toAnexo()])
-                                </div>
-                            @endif
-                        @endforeach
-                        @foreach($apuracao->anexos as $anexo)
-                            <div class="col-sm-4">
-                                @include('dashboard.components.anexo.withDownload', ['anexo'=>$anexo])
-                            </div>
-                        @endforeach
-                        @foreach($apuracao->mensagens as $message)
-                            @if($message->anexo)
-                                <div class="col-sm-4">
-                                    @include('dashboard.components.anexo.withDownload', ['anexo'=>$message->anexo])
-                                </div>
-                            @endif
-                        @endforeach
-
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="navigation-space"></div>
-            <div class="navigation-options">
-                <div class="col-sm-12">
-                    <a class="btn btn-default" href="{{URL::previous()}}"><i
-                                class="fa fa-angle-left"></i>
-                        Voltar</a>
-                    @if($apuracao->isPendingInfo())
-                        <a href="{{route('apuracaoSemMovimentacaoUser', [$apuracao->id])}}"
-                           class="btn btn-danger"><i class="fa fa-remove"></i> Sem movimento
-                        </a>
-                        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Finalizar
-                        </button>
-                    @endif
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-arquivo="" data-remove-url="{{route('removeAnexoFromTemp')}}"><i
+                                class="fa fa-remove"></i> Sim, desejo remover
+                    </button>
+                    <button class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Fechar</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 @stop

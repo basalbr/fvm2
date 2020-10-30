@@ -68,12 +68,14 @@ class Empresa extends Model
 
     protected static $status = ['em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'cancelado' => 'Cancelado'];
 
-    public function hasDocumento($doc){
+    public function hasDocumento($doc)
+    {
         return self::$documentos_migracao[$doc] && $this->anexos()->where('descricao', self::$documentos_migracao[$doc])->count() > 0 ? true : false;
 
     }
 
-    public function getDocumento($doc){
+    public function getDocumento($doc)
+    {
         return $this->anexos()->where('descricao', self::$documentos_migracao[$doc])->first();
     }
 
@@ -87,7 +89,8 @@ class Empresa extends Model
         return false;
     }
 
-    public function getPendencias(){
+    public function getPendencias()
+    {
         $pendencias = [];
         foreach (self::$documentos_migracao as $documento => $anexo) {
             if ($this->$documento && $this->anexos()->where('descricao', $anexo)->count() == 0) {
@@ -97,7 +100,8 @@ class Empresa extends Model
         return $pendencias;
     }
 
-    public function isPendente($doc){
+    public function isPendente($doc)
+    {
         return in_array($doc, $this->getPendencias());
     }
 
@@ -106,37 +110,37 @@ class Empresa extends Model
         if ($this->status !== 'Aprovado') {
             return false;
         }
-            if (strtolower($this->tipoTributacao->descricao) == 'mei') {
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', 4)->get();
-            } else if(strtolower($this->tipoTributacao->descricao) == 'lucro_presumido') {
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto',[2,3,5,6])->get();
-            } else{
-                $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto',[1,2,3])->get();
-            }
-            $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
-            $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
-            if ($apuracoes) {
-                return false;
-            }
-            if (count($impostosMes)) {
+        if (strtolower($this->tipoTributacao->descricao) == 'mei') {
+            $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->where('id_imposto', 4)->get();
+        } else if (strtolower($this->tipoTributacao->descricao) == 'lucro_presumido') {
+            $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto', [2, 3, 5, 6])->get();
+        } else {
+            $impostosMes = ImpostoMes::where('mes', '=', (date('n') - 1))->whereIn('id_imposto', [1])->get();
+        }
+        $competencia = date('Y-m-d', strtotime(date('Y-m') . " -1 month"));
+        $apuracoes = $this->apuracoes()->where('competencia', '=', $competencia)->count();
+        if ($apuracoes) {
+            return false;
+        }
+        if (count($impostosMes)) {
 
-                foreach ($impostosMes as $impostoMes) {
+            foreach ($impostosMes as $impostoMes) {
 
-                    /* @var Imposto $imposto */
-                    $imposto = $impostoMes->imposto;
+                /* @var Imposto $imposto */
+                $imposto = $impostoMes->imposto;
 
-                    /* @var Apuracao $apuracao */
-                    $apuracao = $this->apuracoes()->create([
-                        'competencia' => $competencia,
-                        'id_imposto' => $imposto->id,
-                        'vencimento' => $imposto->corrigeData(date('Y') . '-' . date('m') . '-' . $imposto->vencimento, 'Y-m-d'),
-                        'status' => 'novo'
-                    ]);
-                    $this->usuario->notify(new NewApuracao($apuracao));
-                    DB::commit();
-                }
+                /* @var Apuracao $apuracao */
+                $apuracao = $this->apuracoes()->create([
+                    'competencia' => $competencia,
+                    'id_imposto' => $imposto->id,
+                    'vencimento' => $imposto->corrigeData(date('Y') . '-' . date('m') . '-' . $imposto->vencimento, 'Y-m-d'),
+                    'status' => 'novo'
+                ]);
+                $this->usuario->notify(new NewApuracao($apuracao));
+                DB::commit();
             }
-            return true;
+        }
+        return true;
     }
 
     public function setAtivacaoProgramadaAttribute($value)
@@ -157,9 +161,10 @@ class Empresa extends Model
         }
     }
 
-    public function getUltimosDozeMeses(){
+    public function getUltimosDozeMeses()
+    {
 
-        return CarbonPeriod::create(Carbon::now()->subMonths($this->data_abertura->diffInMonths(Carbon::now()) > 12 ? 13 : Carbon::parse($this->data_abertura->format('Y-m').'-01')->diffInMonths(Carbon::now())), '1 month', Carbon::now()->subMonths(2));
+        return CarbonPeriod::create(Carbon::now()->subMonths($this->data_abertura->diffInMonths(Carbon::now()) > 12 ? 13 : Carbon::parse($this->data_abertura->format('Y-m') . '-01')->diffInMonths(Carbon::now())), '1 month', Carbon::now()->subMonths(2));
     }
 
     public function getMensalidadeAtual(): Mensalidade
@@ -435,15 +440,19 @@ class Empresa extends Model
         return '<span class="label label-info">Novo</span>';
     }
 
-    public function getReceitaBrutaUltimosDozeMesesSN($competencia, $mercado){
-        if(Carbon::now()->diffInMonths($this->data_abertura)>=12){
-            return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
-        }else{
-            $faturamentos = $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->get();
+    public function getReceitaBrutaUltimosDozeMesesSN($competencia, $mercado)
+    {
+        $competenciaMin = Carbon::createFromFormat('Y-m-01', $competencia->format('Y-m-d'))->subMonths(13);
+        if (Carbon::now()->diffInMonths($this->data_abertura->format('Y-m') . '-01') >= 13) {
+            return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->where('competencia', '>=', $competenciaMin)->sum('valor');
+        } else {
+            $faturamentos = $this->faturamentos()->where('mercado', $mercado)->where('competencia', '>=', $competenciaMin)->limit(12)->get();
             $faturamento = $faturamentos->sum('valor') < 1 ? 1 : $faturamentos->sum('valor');
+            if ($faturamentos->sum('valor') == 0) {
+                return number_format(1, 2, '.', '');
+            }
             return number_format(($faturamento / ($faturamentos->count() ? $faturamentos->count() : 1)) * 12, 2, '.', '');
         }
-        return $this->faturamentos()->where('mercado', $mercado)->where('competencia', '<', $competencia)->orderBy('competencia', 'desc')->limit(12)->sum('valor');
     }
 
 }

@@ -2,6 +2,14 @@
 @section('top-title')
     Atendimento
 @stop
+@section('video-ajuda')
+    <li><a id="btn-ajuda" data-placement="bottom" title="Precisa de ajuda? Veja nosso vídeo explicativo sobre essa página!" href="" data-toggle="modal" data-target="#modal-video-ajuda"><span class="fa fa-youtube-play"></span>
+            Ajuda</a></li>
+@stop
+@section('modal-video-ajuda-titulo', 'Como abrir um chamado')
+@section('modal-video-ajuda-embed')
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/hXi6UWT9T2U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+@stop
 @section('content')
     @if($chamados->count())
         <div class="col-xs-12">
@@ -96,4 +104,8 @@
         <a href="{{route('newChamado')}}" class="btn btn-primary"><i class="fa fa-envelope-open"></i> Quero abrir um
             novo chamado</a>
     </div>
+@stop
+@section('modals')
+    @parent
+    @include('dashboard.modals.video-ajuda')
 @stop

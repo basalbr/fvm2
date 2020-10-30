@@ -46,6 +46,8 @@ class SendInformacaoApuracao
             }
 //            Usuario::notifyAdmins(new NewInfoInApuracao($apuracao));
             $apuracao->status = 'informacoes_enviadas';
+            $apuracao->has_retencao_saida = $request->has('has_retencao_saida') ? 1 : 0;
+            $apuracao->has_retencao_entrada = $request->has('has_retencao_entrada') ? 1 : 0;
             $apuracao->save();
             DB::commit();
 

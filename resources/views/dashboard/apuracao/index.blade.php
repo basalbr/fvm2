@@ -19,12 +19,12 @@
     <div class="tab-content">
 
         <div role="tabpanel" class="tab-pane active animated fadeIn" id="pendentes">
-            <p>{{Auth::user()->nome}}, abaixo estão as apurações pendentes de envio de notas fiscais emitidas e recebidas.<br />Para enviar as notas fiscais clique em visualizar.</p>
+            <p class="alert alert-info" style="display: block"><strong>Abaixo estão as apurações pendentes</strong> de envio de notas fiscais emitidas e recebidas.<br />Para enviar as notas fiscais clique no botão de visualizar (ícone de lupa).</p>
             <table class="table table-hovered table-striped">
                 <thead>
                 <tr>
                     <th>Empresa</th>
-                    <th>Imposto</th>
+                    <th>Tributação</th>
                     <th>Competência</th>
                     <th>Vencimento</th>
                     <th>Status</th>
@@ -37,11 +37,11 @@
                 @if($apuracoesPendentes->count())
                     @foreach($apuracoesPendentes as $apuracao)
                         <tr>
-                            <td>{{$apuracao->empresa->nome_fantasia}}</td>
+                            <td>{{$apuracao->empresa->razao_social}}</td>
                             <td>{{$apuracao->imposto->nome}}</td>
                             <td>{{$apuracao->competencia->format('m/Y')}}</td>
                             <td>{{$apuracao->vencimento->format('d/m/Y')}}</td>
-                            <td>{{$apuracao->status}}</td>
+                            <td>{!! $apuracao->getLabelStatus()  !!}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{route('showApuracaoToUser', $apuracao->id)}}" title="Visualizar">
                                     <i class="fa fa-search"></i>
@@ -63,7 +63,7 @@
                 <thead>
                 <tr>
                     <th>Empresa</th>
-                    <th>Imposto</th>
+                    <th>Tributação</th>
                     <th>Competência</th>
                     <th>Vencimento</th>
                     <th>Status</th>

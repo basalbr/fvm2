@@ -2,6 +2,14 @@
 @section('top-title')
     Registros de Ponto
 @stop
+@section('video-ajuda')
+    <li><a id="btn-ajuda" data-placement="bottom" title="Precisa de ajuda? Veja nosso vídeo explicativo sobre essa página!" href="" data-toggle="modal" data-target="#modal-video-ajuda"><span class="fa fa-youtube-play"></span>
+            Ajuda</a></li>
+@stop
+@section('modal-video-ajuda-titulo', 'Como enviar os registros de ponto')
+@section('modal-video-ajuda-embed')
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/qojyyPl5Znk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+@stop
 @section('content')
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -96,4 +104,8 @@
     </div>
     <div class="clearfix"></div>
 
+@stop
+@section('modals')
+    @parent
+    @include('dashboard.modals.video-ajuda')
 @stop

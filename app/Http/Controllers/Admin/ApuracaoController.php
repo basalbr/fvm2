@@ -19,6 +19,7 @@ use App\Models\RegistroAtividade;
 use App\Models\Tributacao;
 use App\Models\TributacaoIsencao;
 use App\Services\UpdateApuracao;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -189,7 +190,7 @@ class ApuracaoController extends Controller
         foreach ($request->get('tributacoes') as $tributacao) {
             $tributo = Tributacao::findOrFail($tributacao['id_tributacao']);
             if ($tributo->mercado == 'interno') {
-                $rbu12mInterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'interno');
+                $rbu12mInterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN(Carbon::createFromFormat('Y-m-d H:i:s', $request->get('competencia')), 'interno');
                 $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
                     ->where('de', '<=', $rbu12mInterno)->where('ate', '>=', $rbu12mInterno)->first();
                 if ($faixaSimplesNacional->de == 0) {
@@ -198,7 +199,7 @@ class ApuracaoController extends Controller
                     $aliquotaEfetiva = ((($rbu12mInterno * ($faixaSimplesNacional->aliquota / 100)) - $faixaSimplesNacional->deducao) / $rbu12mInterno) * 100;
                 }
             } else {
-                $rbu12mExterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN($request->get('competencia'), 'externo');
+                $rbu12mExterno = $tributo->empresa->getReceitaBrutaUltimosDozeMesesSN(Carbon::createFromFormat('Y-m-d H:i:s', $request->get('competencia')), 'externo');
                 $faixaSimplesNacional = FaixaSimplesNacional::where('id_tabela_simples_nacional', $tributo->id_tabela_simples_nacional)
                     ->where('de', '<=', $rbu12mExterno)->where('ate', '>=', $rbu12mExterno)->first();
                 if ($faixaSimplesNacional->de == 0) {

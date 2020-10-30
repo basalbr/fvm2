@@ -41,6 +41,11 @@
                         class="fa fa-file-text"></i>Documentos Contábeis
                 <span class="badge">{{$usuario->documentosContabeis->count()}}</span></a>
         </li>
+        <li role="presentation">
+            <a href="#recalculos" aria-controls="recalculos" role="tab" data-toggle="tab"><i
+                        class="fa fa-file-text"></i>Recálculos
+                <span class="badge">{{$usuario->recalculos->count()}}</span></a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -68,6 +73,9 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="documentos_contabeis">
             @include('admin.usuarios.view.components.documentos_contabeis', ['documentos_contabeis'=>$usuario->documentosContabeis()->orderBy('periodo','desc')->get()])
+        </div>
+        <div role="tabpanel" class="tab-pane" id="recalculos">
+            @include('admin.usuarios.view.components.recalculos')
         </div>
         <div class="clearfix"></div>
         <div class="navigation-space"></div>

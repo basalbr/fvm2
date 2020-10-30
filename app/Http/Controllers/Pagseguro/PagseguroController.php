@@ -80,7 +80,7 @@ class PagseguroController extends Controller
         } catch (Exception $e) {
             Log::critical('Erro notificacao pagseguro:'. $e);
             Log::critical(var_dump($_POST));
-            return response()->setStatusCode(500)->json(['status'=>'Ocorreu um erro, verifique o log']);
+            return response('Ocorreu um erro, verifique o log', 500);
         }
     }
 

@@ -1,4 +1,12 @@
 <table class="table table-striped table-hover">
+    <tr>
+        <th>Retenção em saídas</th>
+        <td>{{$apuracao->has_retencao_saida ? 'Sim' : 'Não'}}</td>
+    </tr>
+    <tr>
+        <th>Retenção em entradas</th>
+        <td>{{$apuracao->has_retencao_entrada ? 'Sim' : 'Não'}}</td>
+    </tr>
     @if($qtdeDocumentos > 0)
         @foreach($apuracao->informacoes as $informacao)
             @if($informacao->tipo->tipo == 'anexo')

@@ -2,6 +2,14 @@
 @section('top-title')
     Abertura de empresa
 @stop
+@section('video-ajuda')
+    <li><a id="btn-ajuda" data-placement="bottom" title="Precisa de ajuda? Veja nosso vídeo explicativo sobre essa página!" href="" data-toggle="modal" data-target="#modal-video-ajuda"><span class="fa fa-youtube-play"></span>
+            Ajuda</a></li>
+@stop
+@section('modal-video-ajuda-titulo', 'Como solicitar a abertura de empresa')
+@section('modal-video-ajuda-embed')
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/XHdGp5zHg64" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+@stop
 @section('content')
     @if(count($aberturaEmpresas))
         @foreach($aberturaEmpresas as $aberturaEmpresa)
@@ -54,6 +62,7 @@
     </div>
 @stop
 @section('modals')
+    @parent
     <div class="modal animated fadeIn" id="modal-abertura-empresa" tabindex="-1" role="dialog" style="z-index: 99999">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
@@ -93,5 +102,5 @@
             </div>
         </div>
     </div>
-
+@include('dashboard.modals.video-ajuda')
 @stop

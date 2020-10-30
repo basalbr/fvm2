@@ -4,21 +4,19 @@
         $(function () {
             $('.receita-interno').on('change', function () {
                 var receita_interno;
-                $('.receita-interno, #receita_total_interno, #devolucao-interno').each(function () {
+                $('.receita-interno').each(function () {
                     valor_formatado = parseFloat($(this).val().replace(".", "").replace(",", "."));
                     isNaN(valor_formatado) ? receita_interno = receita_interno + 0 : receita_interno = receita_interno + valor_formatado;
                 }, receita_interno = 0)
-                // receita_interno -= $('#devolucao-interno').val() ? parseFloat($('#devolucao-interno').val().replace(".", "").replace(",", ".")) : 0;
                 $('#receita_total_interno').val(receita_interno.toFixed(2).replace(".", ","))
                 validaApuracao()
             });
-            $('.receita-externo, #receita_total_externo, #devolucao-externo').on('change', function () {
+            $('.receita-externo').on('change', function () {
                 var receita_externo;
                 $('.receita-externo').each(function () {
                     valor_formatado = parseFloat($(this).val().replace(".", "").replace(",", "."));
                     isNaN(valor_formatado) ? receita_externo = receita_externo + 0 : receita_externo = receita_externo + valor_formatado;
                 }, receita_externo = 0)
-                // receita_externo -= $('#devolucao-externo').val() ? parseFloat($('#devolucao-externo').val().replace(".", "").replace(",", ".")) : 0;
                 $('#receita_total_externo').val(receita_externo.toFixed(2).replace(".", ","))
                 validaApuracao();
             });

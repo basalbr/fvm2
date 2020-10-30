@@ -17,6 +17,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ApuracaoController extends Controller
 {
@@ -82,7 +83,8 @@ class ApuracaoController extends Controller
             ->where('apuracao.id', '=', $idApuracao)
             ->select('apuracao.*')
             ->first();
-        return view('dashboard.apuracao.view.index', compact('apuracao'));
+        $qtdeDocumentos = $apuracao->anexos()->count();
+        return view('dashboard.apuracao.view.index', compact('apuracao', 'qtdeDocumentos'));
     }
 
     public function validateAnexo(Request $request)
@@ -90,6 +92,18 @@ class ApuracaoController extends Controller
         $rules = ['arquivo' => 'required|file|max:10240|mimes:zip'];
         $niceNames = ['arquivo' => 'Arquivo'];
         $this->validate($request, $rules, [], $niceNames);
+    }
+
+    public function remove($idProcesso, $idAnexo){
+        try{
+            $processo = Auth::user()->apuracoes()->findOrFail($idProcesso);
+            $anexo = $processo->anexos()->findOrFail($idAnexo);
+            $anexo->delete();
+            return response()->json(['status'=>'true']);
+        }catch(\Error $e){
+            Log::critical($e);
+            return response()->setStatusCode(404)->json(['status'=>'false']);
+        }
     }
 
 }

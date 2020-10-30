@@ -45,12 +45,12 @@
         <p><strong>WEBContabilidade é um escritório administrativo que fica em Blumenau/SC, mas atende online diversas
                 cidades no Brasil inteiro. Conosco você tem disponível sua contabilidade online, gerencia folha de
                 pagamentos, impostos e relatórios gerenciais. Conforme determinação legal, as atividades contábeis são
-                prestadas unicamente pela empresa Silmara Batista Baseggio através de seus colaboradores apaixonados por
+                prestadas unicamente pela empresa I9 Contabilidade e Gestão Empresarial LTDA através de seus colaboradores apaixonados por
                 contabilidade. A WEBContabilidade é empresa parceira que viabiliza o software inteligente, realiza
                 inovações tecnológicas possibilitando sempre a melhor plataforma contábil online e presta os serviços
-                administrativos necessários para facilitar sua contabilidade. A WEBContabilidade e a Silmara Batista
-                Baseggio atuam em parceria e atendem a todas as exigências legais.</strong></p>
-        <p><strong>Silmara Batista Baseggio, escritório contábil, Conselho Regional de Contabilidade:
+                administrativos necessários para facilitar sua contabilidade. A WEBContabilidade e a I9 Contabilidade e Gestão Empresarial LTDA
+                atuam em parceria e atendem a todas as exigências legais.</strong></p>
+        <p><strong>I9 Contabilidade e Gestão Empresarial LTDA, escritório contábil, Conselho Regional de Contabilidade:
                 SC-009123/O</strong></p>
         <p><strong>Silmara Batista Baseggio, contadora responsável, Conselho Regional de Contabilidade:
                 SC-032380/O-5</strong></p>
